@@ -349,7 +349,7 @@ interface BigDecimal : Comparable<BigDecimal> {
    * @since  9
    */
   @JsName("sqrt")
-  fun sqrt(mc: MathContext = MathContext()): BigDecimal
+  fun sqrt(mc: MathContext = MathContext()): BigDecimal?
 
   /**
    * Returns a [BigDecimal] whose value is

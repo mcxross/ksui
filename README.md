@@ -7,3 +7,21 @@ KSui is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypt
 - [What's included](#whats-included)
 - [Features](#features)
 - [Contribution](#contribution)
+
+## Quick Start
+
+##### Installation
+
+```kotlin
+implementation("xyz.mcxross.ksui:ksui:$ksui_version")
+```
+
+##### RPC
+```kotlin
+// Configure Client, DSL Style
+val suiRpcClient = createSuiRpcClient {
+    setEndPoint(EndPoint.DEVNET)
+  }
+// Invoke remote procedure, command-query style
+  suiRpcClient.getValidators().list
+```

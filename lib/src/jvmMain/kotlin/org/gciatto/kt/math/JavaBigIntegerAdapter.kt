@@ -64,9 +64,9 @@ internal class JavaBigIntegerAdapter(val value: JavaBigInteger) : BigInteger {
 
   override fun pow(exponent: Int): BigInteger = adapt { value.pow(exponent) }
 
-  override fun sqrt(): BigInteger = adapt { value.sqrt() }
+  override fun sqrt(): BigInteger? = null
 
-  override fun sqrtAndRemainder(): Array<out BigInteger> = adaptAll { value.sqrtAndRemainder() }
+  override fun sqrtAndRemainder(): Array<out BigInteger>? = null
 
   override fun gcd(other: BigInteger): BigInteger = adapt(other) { value.gcd(it) }
 

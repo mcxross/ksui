@@ -146,7 +146,7 @@ internal actual object BigIntegers {
 
   actual val one: BigInteger = JavaBigInteger.ONE.toKotlin()
 
-  actual val two: BigInteger = JavaBigInteger.TWO.toKotlin()
+  actual val two: BigInteger? = null
 
   actual val ten: BigInteger = JavaBigInteger.TEN.toKotlin()
 
