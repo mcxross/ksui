@@ -208,7 +208,7 @@ interface BigInteger : Comparable<BigInteger> {
    * @since  9
    */
   @JsName("sqrt")
-  fun sqrt(): BigInteger
+  fun sqrt(): BigInteger?
 
   /**
    * Returns an array of two BigIntegers containing the integer square root
@@ -226,7 +226,7 @@ interface BigInteger : Comparable<BigInteger> {
    * @since  9
    */
   @JsName("sqrtAndRemainder")
-  fun sqrtAndRemainder(): Array<out BigInteger>
+  fun sqrtAndRemainder(): Array<out BigInteger>?
 
   /**
    * Returns a BigInteger whose value is the greatest common divisor of
@@ -720,7 +720,7 @@ interface BigInteger : Comparable<BigInteger> {
      */
     @JvmField
     @JsName("TWO")
-    val TWO: BigInteger = BigIntegers.two
+    val TWO: BigInteger? = null
 
     /**
      * The BigInteger constant -1.  (Not exported.)

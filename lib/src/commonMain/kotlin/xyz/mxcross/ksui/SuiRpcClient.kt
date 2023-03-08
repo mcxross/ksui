@@ -1,22 +1,20 @@
 package xyz.mxcross.ksui
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
 import org.gciatto.kt.math.BigInteger
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
-class SuiRpcClient
-private constructor(
-  private val endpoint: EndPoint = EndPoint.DEVNET,
-  private val httpClient: HttpClient = HttpClient(CIO)
-) {
+class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
+
+  private val json = Json { ignoreUnknownKeys = true }
 
   /**
    * Calls a Sui RPC method with the given name and parameters.
@@ -26,19 +24,17 @@ private constructor(
    * @return The result of the Sui RPC method, or null if there was an error.
    */
   private suspend fun call(method: String, vararg params: Any): HttpResponse {
-    val requestBody =
-      mapOf(
-        "jsonrpc" to "2.0",
-        "id" to 1,
-        "method" to method,
-        "params" to params.toList(),
-      )
-
+    val requestBody = buildJsonObject {
+      put("jsonrpc", "2.0")
+      put("id", 1)
+      put("method", method)
+      putJsonArray("params") { params.toList() }
+    }
     val response: HttpResponse =
-      httpClient.post {
-        url("endpoint")
+      configContainer.httpClient.post {
+        url("https://fullnode.devnet.sui.io:443")
         contentType(ContentType.Application.Json)
-        setBody(requestBody)
+        setBody(requestBody.toString())
       }
 
     return response
@@ -177,8 +173,9 @@ private constructor(
     )
   suspend fun getTransactionsInRange(start: Long, end: Long): List<TransactionDigest> =
     Json.decodeFromString(serializer(), call("sui_getTransactionsInRange", start, end).bodyAsText())
-  suspend fun getValidators(): List<ValidatorMetadata> =
-    Json.decodeFromString(serializer(), call("sui_getValidators").bodyAsText())
+  suspend fun getValidators(): Validators =
+    json.decodeFromString(serializer(), call("sui_getValidators").bodyAsText())
+
   suspend fun mergeCoins(
     signer: SuiAddress,
     primaryCoin: ObjectID,
@@ -233,20 +230,10 @@ private constructor(
   suspend fun transferObject() {}
   suspend fun transferSui() {}
   suspend fun tryGetPastObject() {}
-
-  /** A builder class for creating instances of [SuiRpcClient]. */
-  class Builder(private var endpoint: EndPoint) {
-
-    private var httpClient = HttpClient(CIO)
-
-    /** Sets the [HttpClient] to use for making HTTP requests. */
-    fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
-
-    /** Builds a new instance of [SuiRpcClient]. */
-    fun build() = SuiRpcClient(endpoint, httpClient)
-  }
 }
 
-fun SuiRpcClient.createClient(suiRpcClient: SuiRpcClient, block: SuiRpcClient): SuiRpcClient {
-  return suiRpcClient
+fun createSuiRpcClient(builderAction: Config.() -> Unit): SuiRpcClient {
+  val suiRpcClient = Config()
+  suiRpcClient.builderAction()
+  return suiRpcClient.build()
 }

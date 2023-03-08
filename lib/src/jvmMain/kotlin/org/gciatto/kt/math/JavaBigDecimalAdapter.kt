@@ -95,9 +95,7 @@ class JavaBigDecimalAdapter(val value: JavaBigDecimal) : BigDecimal {
   ): Pair<BigDecimal, BigDecimal> =
     value.divideAndRemainder(divisor.toJava(), mc.toJava()).toKotlinPair()
 
-  override fun sqrt(mc: MathContext): BigDecimal = adapt {
-    value.sqrt(mc.toJava())
-  }
+  override fun sqrt(mc: MathContext): BigDecimal? = null
 
   override fun pow(n: Int): BigDecimal = adapt {
     value.pow(n)
