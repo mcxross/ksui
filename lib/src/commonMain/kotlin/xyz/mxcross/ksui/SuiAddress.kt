@@ -1,3 +1,5 @@
 package xyz.mxcross.ksui
 
-data class SuiAddress()
+import kotlinx.serialization.Serializable
+
+@Serializable data class SuiAddress(val pubKey: String)

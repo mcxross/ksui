@@ -1,3 +1,6 @@
 package xyz.mxcross.ksui
 
-data class SuiTBlsSignRandomnessObjectResponse()
+import kotlinx.serialization.Serializable
+import org.gciatto.kt.math.BigInteger
+
+@Serializable data class SuiTBlsSignRandomnessObjectResponse(val signature: BigInteger)

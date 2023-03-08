@@ -1,3 +1,11 @@
 package xyz.mxcross.ksui
 
-data class Balance()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Balance(
+  val coinType: String,
+  val coinObjectCount: Int,
+  val totalBalance: Long,
+  val lockedBalance: Balance?
+)

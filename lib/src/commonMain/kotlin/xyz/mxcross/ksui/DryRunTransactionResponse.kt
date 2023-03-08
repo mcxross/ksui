@@ -1,3 +1,6 @@
 package xyz.mxcross.ksui
 
-data class DryRunTransactionResponse()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class DryRunTransactionResponse(val effects: TransactionEffects, val events: List<Event>)

@@ -1,3 +1,5 @@
 package xyz.mxcross.ksui
 
-data class SuiPastObjectResponse()
+import kotlinx.serialization.Serializable
+
+@Serializable data class SuiPastObjectResponse(val status: String, val details: Details)

@@ -1,3 +1,5 @@
 package xyz.mxcross.ksui
 
-data class Supply()
+import kotlinx.serialization.Serializable
+
+@Serializable data class Supply(val value: Long)

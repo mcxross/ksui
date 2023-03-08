@@ -2,6 +2,7 @@ val ktor_version: String by project
 
 plugins {
     kotlin("multiplatform") version "1.8.0"
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 group = "xyz.mcxross.ksui"
@@ -43,6 +44,8 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
         val commonTest by getting {
