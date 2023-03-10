@@ -9,7 +9,7 @@ KSui is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypt
 - [Contribution](#contribution)
 
 ## Features
-
+- Implements all functions
 - Pub/Sub and Req/Res
 - Crypto wrappers
 - Client Configurable
