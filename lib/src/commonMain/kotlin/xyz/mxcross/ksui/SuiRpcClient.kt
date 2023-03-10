@@ -3,8 +3,8 @@ package xyz.mxcross.ksui
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
@@ -14,7 +14,10 @@ import org.gciatto.kt.math.BigInteger
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
 class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
 
-  private val json = Json { ignoreUnknownKeys = true }
+  private val json = Json {
+    ignoreUnknownKeys = true
+    prettyPrint = true
+  }
 
   /**
    * Calls a Sui RPC method with the given name and parameters.
@@ -28,7 +31,7 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
       put("jsonrpc", "2.0")
       put("id", 1)
       put("method", method)
-      putJsonArray("params") { params.toList() }
+      putJsonArray("params") { for (element in params) add(element.toString()) }
     }
     val response: HttpResponse =
       configContainer.httpClient.post {
@@ -115,11 +118,50 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
     )
 
   suspend fun executeTransactionSerializedSig() {}
-  suspend fun getAllBalances() {}
-  suspend fun getAllCoins() {}
-  suspend fun getBalance(owner: SuiAddress, coinType: String): Balance {
-    return Json.decodeFromString(serializer(), call("sui_getBalance", owner, coinType).bodyAsText())
+
+  /**
+   * Return the total coin balance for all coin type, owned by the address owner.
+   *
+   * @param owner's Sui address.
+   * @return [Balance]
+   */
+  suspend fun getAllBalances(owner: SuiAddress): Balance {
+    val result =
+      json.decodeFromString<BalanceResult>(
+        serializer(),
+        call("sui_getBalance", owner.pubKey).bodyAsText()
+      )
+    return Balance(
+      result.value.coinType,
+      result.value.coinObjectCount,
+      result.value.totalBalance,
+      result.value.lockedBalance
+    )
   }
+
+  suspend fun getAllCoins() {}
+
+  /**
+   * Return the total coin balance for one coin type, owned by the address owner.
+   *
+   * @param owner's Sui address.
+   * @param coinType names for the coin. Defaults to "0x2::sui::SUI"
+   * @return [Balance]
+   */
+  suspend fun getBalance(owner: SuiAddress, coinType: String = "0x2::sui::SUI"): Balance {
+    val result =
+      json.decodeFromString<BalanceResult>(
+        serializer(),
+        call("sui_getBalance", *listOf(owner.pubKey, coinType).toTypedArray()).bodyAsText()
+      )
+    return Balance(
+      result.value.coinType,
+      result.value.coinObjectCount,
+      result.value.totalBalance,
+      result.value.lockedBalance
+    )
+  }
+
   suspend fun getCheckpoint(id: CheckpointId): Checkpoint {
     return Json.decodeFromString(serializer(), call("sui_getCheckpoint", id).bodyAsText())
   }
@@ -132,9 +174,38 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
       call("sui_getCheckpointSummaryByDigest", digest).bodyAsText()
     )
   }
-  suspend fun getCoinMetadata() {}
+
+  /**
+   * Return metadata(e.g., symbol, decimals) for a coin
+   *
+   * @param coinType name for the coin.
+   * @return [SuiCoinMetadata]
+   */
+  suspend fun getCoinMetadata(coinType: String): SuiCoinMetadata {
+    val result =
+      json.decodeFromString<SuiCoinMetadataResult>(
+        serializer(),
+        call("sui_getCoinMetadata", *listOf(coinType).toTypedArray()).bodyAsText()
+      )
+    return SuiCoinMetadata(
+      result.value.decimals,
+      result.value.description,
+      result.value.iconUrl,
+      result.value.id,
+      result.value.name,
+      result.value.symbol
+    )
+  }
   suspend fun getCoins() {}
-  suspend fun getCommitteeInfo() {}
+  suspend fun getCommitteeInfo(epoch: Long? = null): SuiCommittee =
+    json.decodeFromString(
+      serializer(),
+      when (epoch) {
+        null -> call("sui_getCommitteeInfo").bodyAsText()
+        else -> call("sui_getCommitteeInfo", epoch).bodyAsText()
+      }
+    )
+
   suspend fun getDelegatedStakes() {}
   suspend fun getDynamicFieldObject() {}
   suspend fun getDynamicFields() {}
@@ -149,8 +220,14 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
   suspend fun getObjectsOwnedByAddress() {}
   suspend fun getReferenceGasPrice() {}
   suspend fun getSuiSystemState() {}
-  suspend fun getTotalSupply(coinType: String): Supply =
-    Json.decodeFromString(serializer(), call("sui_getTotalSupply", coinType).bodyAsText())
+  suspend fun getTotalSupply(coinType: String): Supply {
+    val supplyRaw =
+      json.decodeFromString<SupplyRaw>(
+        serializer(),
+        call("sui_getTotalSupply", coinType).bodyAsText()
+      )
+    return Supply(value = supplyRaw.valueRaw.value)
+  }
 
   suspend fun getTotalTransactionNumber(): Long =
     Json.decodeFromString(serializer(), call("sui_getTotalTransactionNumber").bodyAsText())
@@ -171,8 +248,8 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
       serializer(),
       call("sui_getTransactions", query, cursor, limit, descendingOrder).bodyAsText()
     )
-  suspend fun getTransactionsInRange(start: Long, end: Long): List<TransactionDigest> =
-    Json.decodeFromString(serializer(), call("sui_getTransactionsInRange", start, end).bodyAsText())
+  suspend fun getTransactionsInRange(start: Long, end: Long): TransactionDigests =
+    json.decodeFromString(serializer(), call("sui_getTransactionsInRange", start, end).bodyAsText())
   suspend fun getValidators(): Validators =
     json.decodeFromString(serializer(), call("sui_getValidators").bodyAsText())
 

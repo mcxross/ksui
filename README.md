@@ -18,10 +18,11 @@ implementation("xyz.mcxross.ksui:ksui:$ksui_version")
 
 ##### RPC
 ```kotlin
-// Configure Client, DSL Style
-val suiRpcClient = createSuiRpcClient {
-    setEndPoint(EndPoint.DEVNET)
-  }
-// Invoke remote procedure, command-query style
-  suiRpcClient.getValidators().list
+//Configure Client, DSL Style
+val suiRpcClient = createSuiRpcClient { setEndPoint(EndPoint.DEVNET) }
+//Invoke remote procedure, command-query style
+val balance = suiRpcClient.getBalance(SuiAddress("0x3b1db4d4ea331281835e2b450312f82fc4ab880a"))
+val coinMetadata = suiRpcClient.getCoinMetadata("0x2::sui::SUI")
 ```
+
+<img src="asset/print.png" alt="KSui output">
