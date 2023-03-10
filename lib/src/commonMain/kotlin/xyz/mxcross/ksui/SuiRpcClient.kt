@@ -210,15 +210,54 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
   suspend fun getDynamicFieldObject() {}
   suspend fun getDynamicFields() {}
   suspend fun getEvents() {}
-  suspend fun getLatestCheckpointSequenceNumber() {}
+
+  /**
+   * Return the sequence number of the latest checkpoint that has been executed
+   *
+   * @return [CheckpointSequenceNumber]
+   */
+  suspend fun getLatestCheckpointSequenceNumber(): CheckpointSequenceNumber =
+    json.decodeFromString(serializer(), call("sui_getLatestCheckpointSequenceNumber").bodyAsText())
+
   suspend fun getMoveFunctionArgTypes() {}
   suspend fun getNormalizedMoveFunction() {}
   suspend fun getNormalizedMoveModule() {}
   suspend fun getNormalizedMoveModulesByPackage() {}
   suspend fun getNormalizedMoveStruct() {}
   suspend fun getObject() {}
-  suspend fun getObjectsOwnedByAddress() {}
-  suspend fun getReferenceGasPrice() {}
+
+  /**
+   * Return the list of objects owned by an address.
+   *
+   * @param address of the owner
+   * @return List<[SuiObjectInfo]>
+   */
+  suspend fun getObjectsOwnedByAddress(address: SuiAddress): List<SuiObjectInfo> {
+    val result =
+      json.decodeFromString<SuiObjectResult>(
+        serializer(),
+        call("sui_getObjectsOwnedByAddress", *listOf(address.pubKey).toTypedArray()).bodyAsText()
+      )
+    return result.value.map {
+      SuiObjectInfo(
+        it.objectId,
+        it.version,
+        Digest(it.digest),
+        it.type,
+        it.owner,
+        Transaction(it.previousTransaction)
+      )
+    }
+  }
+
+  /**
+   * Return the reference gas price for the network.
+   *
+   * @return [GasPrice]
+   */
+  suspend fun getReferenceGasPrice(): GasPrice =
+    json.decodeFromString(serializer(), call("sui_getReferenceGasPrice").bodyAsText())
+
   suspend fun getSuiSystemState() {}
   suspend fun getTotalSupply(coinType: String): Supply {
     val supplyRaw =
@@ -229,8 +268,18 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
     return Supply(value = supplyRaw.valueRaw.value)
   }
 
+  /**
+   * Return the total number of transactions known to the server.
+   *
+   * @return [Long]
+   */
   suspend fun getTotalTransactionNumber(): Long =
-    Json.decodeFromString(serializer(), call("sui_getTotalTransactionNumber").bodyAsText())
+    json
+      .decodeFromString<TransactionNumber>(
+        serializer(),
+        call("sui_getTotalTransactionNumber").bodyAsText()
+      )
+      .value
 
   suspend fun getTransaction(digest: TransactionDigest): SuiTransactionResponse =
     Json.decodeFromString(

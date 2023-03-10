@@ -1,5 +1,6 @@
 package xyz.mxcross.ksui
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,7 +17,14 @@ data class CheckpointDigest(
 
 @Serializable
 data class CheckpointSequenceNumber(
+  @SerialName("result")
   val sequenceNumber: Long,
+)
+
+@Serializable
+data class CheckpointSequenceNumberResult(
+  @SerialName("result")
+  val value: CheckpointSequenceNumber
 )
 
 data class CheckpointContents(

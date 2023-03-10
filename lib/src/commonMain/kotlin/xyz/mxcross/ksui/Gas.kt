@@ -1,5 +1,6 @@
 package xyz.mxcross.ksui
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable data class Gas(val objectId: String, val version: Int, val digest: String)
@@ -18,3 +19,6 @@ data class GasCostSummary(
   val storageCost: Int,
   val storageRebate: Int,
 )
+
+@Serializable data class GasPrice(@SerialName("result") val cost: Long)
+
