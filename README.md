@@ -33,8 +33,9 @@ Create a new instance of the Sui RPC HTTP Client. The client can be configured w
 - `endpoint`: The Sui endpoint to connect to. Defaults to `EndPoint.DEVNET`
 - `agentName`: The name of the agent making the request. Defaults to `KSUI/0.0.1`
 - `maxRetries`: The maximum number of times to retry a request. Defaults to `5`
+- and many more. Check documentation for more details.
 
-After the client is configured, it can be used to invoke remote procedures e.g. `getBalance`.
+After the client is configured, it can be used to invoke remote procedures e.g. `getBalance`, `getCheckpoints` and `getCoins`. Check the [Sui JSON-RPC documentation](https://docs.sui.io/sui-jsonrpc) for a list of available RPCs.
 
 The client supports both DSL and command-query styles for client creation and RPC calls respectively as shown below:
 ```kotlin
