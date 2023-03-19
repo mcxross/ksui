@@ -2,6 +2,11 @@
 
 KSui is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with the Sui Devnet and Sui Full node.
 
+![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-0.29.0-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20Web%20|%20Native-blue.svg)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
+
 # Table of contents
 - [Features](#features)
 - [Quick start](#quick-start)
@@ -23,10 +28,22 @@ KSui is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypt
 implementation("xyz.mcxross.ksui:ksui:$ksui_version")
 ```
 
-##### RPC
+##### RPC HTTP Client
+Create a new instance of the Sui RPC HTTP Client. The client can be configured with the following options:
+- `endpoint`: The Sui endpoint to connect to. Defaults to `EndPoint.DEVNET`
+- `agentName`: The name of the agent making the request. Defaults to `KSUI/0.0.1`
+- `maxRetries`: The maximum number of times to retry a request. Defaults to `5`
+
+After the client is configured, it can be used to invoke remote procedures e.g. `getBalance`.
+
+The client supports both DSL and command-query styles for client creation and RPC calls respectively as shown below:
 ```kotlin
 //Configure Client, DSL Style
-val suiRpcClient = createSuiRpcClient { setEndPoint(EndPoint.DEVNET) }
+val suiRpcClient = createSuiHttpClient {
+    endpoint = EndPoint.DEVNET
+    agentName = "KSUI/0.0.1"
+    maxRetries = 10
+}
 //Invoke remote procedure, command-query style
 val balance = suiRpcClient.getBalance(SuiAddress("0x3b1db4d4ea331281835e2b450312f82fc4ab880a"))
 val coinMetadata = suiRpcClient.getCoinMetadata("0x2::sui::SUI")
