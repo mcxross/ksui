@@ -12,7 +12,7 @@ import kotlinx.serialization.serializer
 import org.gciatto.kt.math.BigInteger
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
-class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
+class SuiHttpClient constructor(private val configContainer: ConfigContainer) : SuiClient {
 
   private val json = Json {
     ignoreUnknownKeys = true
@@ -35,7 +35,20 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
     }
     val response: HttpResponse =
       configContainer.httpClient.post {
-        url("https://fullnode.devnet.sui.io:443")
+        when (configContainer.endPoint) {
+          EndPoint.CUSTOM -> {
+            url(configContainer.customUrl)
+          }
+          EndPoint.DEVNET -> {
+            url("https://fullnode.devnet.sui.io:443")
+          }
+          EndPoint.TESTNET -> {
+            url("https://fullnode.testnet.sui.io:443")
+          }
+          EndPoint.MAINNET -> {
+            url("https://fullnode.sui.io:443")
+          }
+        }
         contentType(ContentType.Application.Json)
         setBody(requestBody.toString())
       }
@@ -356,10 +369,4 @@ class SuiRpcClient constructor(private val configContainer: ConfigContainer) {
   suspend fun transferObject() {}
   suspend fun transferSui() {}
   suspend fun tryGetPastObject() {}
-}
-
-fun createSuiRpcClient(builderAction: Config.() -> Unit): SuiRpcClient {
-  val suiRpcClient = Config()
-  suiRpcClient.builderAction()
-  return suiRpcClient.build()
 }
