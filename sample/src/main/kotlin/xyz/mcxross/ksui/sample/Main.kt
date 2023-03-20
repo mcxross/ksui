@@ -1,8 +1,8 @@
 package xyz.mcxross.ksui.sample
 
-import xyz.mxcross.ksui.EndPoint
-import xyz.mxcross.ksui.SuiAddress
-import xyz.mxcross.ksui.createSuiHttpClient
+import xyz.mcxross.ksui.EndPoint
+import xyz.mcxross.ksui.SuiAddress
+import xyz.mcxross.ksui.createSuiHttpClient
 
 suspend fun main() {
   val suiRpcClient = createSuiHttpClient {
