@@ -1,8 +1,9 @@
 val ktor_version: String by project
 
 plugins {
-  kotlin("multiplatform") version "1.8.0"
-  kotlin("plugin.serialization") version "1.8.0"
+  kotlin("multiplatform") version "1.8.10"
+  kotlin("plugin.serialization") version "1.8.10"
+  id("org.jetbrains.dokka") version "1.8.10"
 }
 
 group = "xyz.mcxross.ksui"
