@@ -33,18 +33,29 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-core:$ktor_version")
-        implementation("io.ktor:ktor-client-cio:$ktor_version")
         implementation("io.ktor:ktor-client-websockets:$ktor_version")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }
-    val jvmMain by getting
+    val jvmMain by getting {
+      dependencies {
+        implementation("io.ktor:ktor-client-cio:$ktor_version")
+      }
+    }
     val jvmTest by getting
-    val jsMain by getting
+    val jsMain by getting {
+      dependencies {
+        implementation("io.ktor:ktor-client-js:$ktor_version")
+      }
+    }
     val jsTest by getting
-    val nativeMain by getting
+    val nativeMain by getting {
+      dependencies {
+        implementation("io.ktor:ktor-client-curl:$ktor_version")
+      }
+    }
     val nativeTest by getting
   }
 }
