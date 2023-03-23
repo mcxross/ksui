@@ -4,12 +4,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Effects(
-  val messageVersion: String,
   val status: Status,
   val executedEpoch: Int,
   val gasUsed: GasUsed,
+  val sharedObjects: List<SharedObject>,
   val transactionDigest: String,
-  val mutated: List<MutatedObject>,
+  val created: List<CreatedObject>,
+  val mutated: List<MutateObject>,
   val gasObject: GasObject,
-  val eventsDigest: String
+  /*val events: List<Event.EventObject>,*/
+  val dependencies: List<String>
 )

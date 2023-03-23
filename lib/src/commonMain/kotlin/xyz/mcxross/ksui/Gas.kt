@@ -8,10 +8,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GasUsed(val computationCost: Int, val storageCost: Int, val storageRebate: Int)
 
-@Serializable data class GasObject(val owner: ObjectOwner, val reference: ObjectReference)
+@Serializable data class GasObject(
+  val owner: AddressOwner,
+  val reference: ObjectReference)
 
 @Serializable
-data class GasData(val payment: List<Payment>, val owner: String, val price: Int, val budget: Int)
+data class GasData(val payment: Payment, val owner: String, val price: Int, val budget: Int)
 
 @Serializable
 data class GasCostSummary(
