@@ -9,6 +9,8 @@ data class ConfigContainer(
   val customUrl: String,
   val maxRetries: Int,
   val agentName: String,
+  val requestTimeout: Long,
+  val connectionTimeout: Long,
 )
 
 class ClientConfig {
@@ -45,6 +47,20 @@ class ClientConfig {
   var agentName: String = "KSUI/$KSUI_VERSION"
 
   /**
+   * Sets the request timeout in milliseconds.
+   *
+   * Defaults to 30 seconds
+   */
+  var requestTimeout: Long = 30_000
+
+  /**
+   * Sets the connection timeout in milliseconds.
+   *
+   * Defaults to 30 seconds
+   */
+  var connectionTimeout: Long = 30_000
+
+  /**
    * Builds a new instance of [SuiHttpClient].
    *
    * @return [SuiHttpClient]
@@ -60,11 +76,17 @@ class ClientConfig {
                 retryOnServerErrors(maxRetries = maxRetries)
                 exponentialDelay()
               }
+              install(HttpTimeout) {
+                requestTimeoutMillis = requestTimeout
+                connectTimeoutMillis = connectionTimeout
+              }
             },
             endpoint,
             customEndPointUrl,
             maxRetries,
-            agentName
+            agentName,
+            requestTimeout,
+            connectionTimeout,
           )
         )
       }

@@ -3,17 +3,22 @@ package xyz.mcxross.ksui
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.utils.io.errors.*
+import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.serializer
 import org.gciatto.kt.math.BigInteger
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
-class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
-  SuiClient {
+class SuiHttpClient constructor(private val configContainer: ConfigContainer) : SuiClient {
 
   private val json = Json {
     ignoreUnknownKeys = true
@@ -27,6 +32,12 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
    * @param params The parameters to pass to the Sui RPC method.
    * @return The result of the Sui RPC method, or null if there was an error.
    */
+  @Throws(
+    SuiException::class,
+    CancellationException::class,
+    IOException::class,
+    IllegalStateException::class,
+  )
   private suspend fun call(method: String, vararg params: Any): HttpResponse {
     val requestBody = buildJsonObject {
       put("jsonrpc", "2.0")
@@ -41,7 +52,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
             url(configContainer.customUrl)
           }
           EndPoint.DEVNET -> {
-            url("https://fullnode.devnet.sui.io:443")
+            url("https://explorer-rpc.devnet.sui.io/")
           }
           EndPoint.TESTNET -> {
             url("https://fullnode.testnet.sui.io:443")
@@ -54,7 +65,11 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
         setBody(requestBody.toString())
       }
 
-    return response
+    if (response.status.isSuccess()) {
+      return response
+    } else {
+      throw SuiException(response.status.value.toString())
+    }
   }
 
   /**
@@ -125,7 +140,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
     txBytes: BigInteger,
     signature: BigInteger,
     requestType: ExecuteTransactionRequestType
-  ): SuiTransactionResponse =
+  ): TransactionResponse =
     Json.decodeFromString(
       serializer(),
       call("sui_executeTransaction", txBytes, signature, requestType).bodyAsText(),
@@ -163,17 +178,21 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
    * @return [Balance]
    */
   suspend fun getBalance(owner: SuiAddress, coinType: String = "0x2::sui::SUI"): Balance {
-    val result =
-      json.decodeFromString<BalanceResult>(
-        serializer(),
-        call("sui_getBalance", *listOf(owner.pubKey, coinType).toTypedArray()).bodyAsText()
+    try {
+      val result =
+        json.decodeFromString<BalanceResult>(
+          serializer(),
+          call("sui_getBalance", *listOf(owner.pubKey, coinType).toTypedArray()).bodyAsText()
+        )
+      return Balance(
+        result.value.coinType,
+        result.value.coinObjectCount,
+        result.value.totalBalance,
+        result.value.lockedBalance
       )
-    return Balance(
-      result.value.coinType,
-      result.value.coinObjectCount,
-      result.value.totalBalance,
-      result.value.lockedBalance
-    )
+    } catch (e: Exception) {
+      throw e
+    }
   }
 
   suspend fun getCheckpoint(id: CheckpointId): Checkpoint {
@@ -196,19 +215,23 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
    * @return [SuiCoinMetadata]
    */
   suspend fun getCoinMetadata(coinType: String): SuiCoinMetadata {
-    val result =
-      json.decodeFromString<SuiCoinMetadataResult>(
-        serializer(),
-        call("sui_getCoinMetadata", *listOf(coinType).toTypedArray()).bodyAsText()
+    try {
+      val result =
+        json.decodeFromString<SuiCoinMetadataResult>(
+          serializer(),
+          call("sui_getCoinMetadata", *listOf(coinType).toTypedArray()).bodyAsText()
+        )
+      return SuiCoinMetadata(
+        result.value.decimals,
+        result.value.description,
+        result.value.iconUrl,
+        result.value.id,
+        result.value.name,
+        result.value.symbol
       )
-    return SuiCoinMetadata(
-      result.value.decimals,
-      result.value.description,
-      result.value.iconUrl,
-      result.value.id,
-      result.value.name,
-      result.value.symbol
-    )
+    } catch (e: Exception) {
+      throw e
+    }
   }
   suspend fun getCoins() {}
   suspend fun getCommitteeInfo(epoch: Long? = null): SuiCommittee =
@@ -295,11 +318,45 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) :
       )
       .value
 
-  suspend fun getTransaction(digest: TransactionDigest): SuiTransactionResponse =
-    Json.decodeFromString(
-      serializer(),
-      call("sui_getTransaction", digest).bodyAsText(),
-    )
+  @OptIn(ExperimentalSerializationApi::class)
+  suspend fun getTransaction(
+    digest: TransactionDigest,
+    options: TransactionResponseOptions
+  ): TransactionResponse {
+    try {
+      val module = SerializersModule {
+        polymorphic(MutateObject::class) {
+          subclass(MutateObject.MutatedObjectShared::class)
+          defaultDeserializer { MutateObject.MutatedObject.serializer() }
+        }
+        polymorphic(Event::class) {
+          subclass(Event.CoinBalanceChangeEvent::class)
+          subclass(Event.MutateObjectEvent::class)
+          subclass(Event.ObjectCreateEvent::class)
+          default { Event.MoveEvent.serializer() }
+        }
+      }
+      val json = Json {
+        ignoreUnknownKeys = true
+        prettyPrint = true
+        serializersModule = module
+      }
+      val result =
+        json.decodeFromString<TransactionResponseRaw>(
+          serializer(),
+          call("sui_getTransaction", digest.value, options).bodyAsText()
+        )
+      return TransactionResponse(
+        result.value.certificate,
+        result.value.effects,
+        result.value.timestampMs,
+        result.value.checkpoint,
+        result.value.parsedData,
+      )
+    } catch (e: Exception) {
+      throw e
+    }
+  }
 
   suspend fun getTransactions(
     query: TransactionQuery,
