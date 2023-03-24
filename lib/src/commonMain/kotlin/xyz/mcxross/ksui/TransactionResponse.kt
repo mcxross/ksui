@@ -16,14 +16,51 @@ data class TransactionResponseOptions(
 
 @Serializable
 data class Call(
-  @SerialName("package")
-  val pakage: String,
+  @SerialName("package") val pakage: String,
   val module: String,
   val function: String,
   val arguments: List<String>,
 )
 
-@Serializable data class TransactionKind(@SerialName("Call") val call: Call)
+@Serializable
+data class Transfer(
+  val recipient: String,
+  @SerialName("objectRef") val objectReference: ObjectReference
+)
+
+@Serializable
+data class PaySui(
+  val coins: List<ObjectReference>,
+  val recipients: List<String>,
+  val amounts: List<Long>,
+)
+
+@Serializable
+data class TransferSui(
+  val recipient: String,
+  val amount: Long,
+)
+
+@Serializable
+data class PayAllSui(
+  val recipient: String,
+  val coins: List<ObjectReference>,
+)
+
+@Serializable
+data class Publish(
+  @Serializable(with = DisassembledFieldSerializer::class)
+  val disassembled : Any,
+)
+
+@Serializable
+data class TransactionKind(
+  @SerialName("Call") val call: Call? = null,
+  @SerialName("TransferObject") val transferObject: Transfer? = null,
+  @SerialName("PaySui") val paySui: PaySui? = null,
+  @SerialName("TransferSui") val transferSui: TransferSui? = null,
+  @SerialName("PayAllSui") val payAllSui: PayAllSui? = null,
+)
 
 @Serializable
 data class TransactionResponse(

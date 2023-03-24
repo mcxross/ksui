@@ -7,6 +7,7 @@ import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -39,12 +40,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     IllegalStateException::class,
   )
   private suspend fun call(method: String, vararg params: Any): HttpResponse {
-    val requestBody = buildJsonObject {
-      put("jsonrpc", "2.0")
-      put("id", 1)
-      put("method", method)
-      putJsonArray("params") { for (element in params) add(element.toString()) }
-    }
     val response: HttpResponse =
       configContainer.httpClient.post {
         when (configContainer.endPoint) {
@@ -52,7 +47,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
             url(configContainer.customUrl)
           }
           EndPoint.DEVNET -> {
-            url("https://explorer-rpc.devnet.sui.io/")
+            url("https://fullnode.devnet.sui.io:443")
           }
           EndPoint.TESTNET -> {
             url("https://fullnode.testnet.sui.io:443")
@@ -62,7 +57,27 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
           }
         }
         contentType(ContentType.Application.Json)
-        setBody(requestBody.toString())
+        setBody(
+          buildJsonObject {
+              put("jsonrpc", "2.0")
+              put("id", 1)
+              put("method", method)
+              // add an array of params to the request body
+              putJsonArray("params") {
+                params.forEach {
+                  when (it) {
+                    is String -> add(it)
+                    is Int -> add(it)
+                    is Long -> add(it)
+                    is Boolean -> add(it)
+                    is JsonElement -> add(it)
+                    else -> add(json.encodeToString(serializer(), it))
+                  }
+                }
+              }
+            }
+            .toString()
+        )
       }
 
     if (response.status.isSuccess()) {
@@ -329,11 +344,9 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
           subclass(MutateObject.MutatedObjectShared::class)
           defaultDeserializer { MutateObject.MutatedObject.serializer() }
         }
+
         polymorphic(Event::class) {
-          subclass(Event.CoinBalanceChangeEvent::class)
-          subclass(Event.MutateObjectEvent::class)
-          subclass(Event.ObjectCreateEvent::class)
-          default { Event.MoveEvent.serializer() }
+          default { Event.EventEvent.serializer() }
         }
       }
       val json = Json {
@@ -344,7 +357,11 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       val result =
         json.decodeFromString<TransactionResponseRaw>(
           serializer(),
-          call("sui_getTransaction", digest.value, options).bodyAsText()
+          call(
+              "sui_getTransaction",
+              *listOf(digest.value, json.encodeToJsonElement(serializer(), options)).toTypedArray()
+            )
+            .bodyAsText()
         )
       return TransactionResponse(
         result.value.certificate,
