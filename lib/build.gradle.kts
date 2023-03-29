@@ -1,4 +1,4 @@
-val ktor_version: String by project
+val ktorVersion: String = extra["ktor_version"] as String
 
 plugins {
   kotlin("multiplatform") version "1.8.10"
@@ -18,7 +18,7 @@ kotlin {
     withJava()
     testRuns["test"].executionTask.configure { useJUnitPlatform() }
   }
-  js(BOTH) { browser { commonWebpackConfig { cssSupport { enabled.set(true) } } } }
+  js(IR) { browser { commonWebpackConfig { cssSupport { enabled.set(true) } } } }
   val hostOs = System.getProperty("os.name")
   val isMingwX64 = hostOs.startsWith("Windows")
   val nativeTarget =
@@ -32,28 +32,28 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-core:$ktor_version")
-        implementation("io.ktor:ktor-client-websockets:$ktor_version")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+        implementation("io.ktor:ktor-client-core:$ktorVersion")
+        implementation("io.ktor:ktor-client-websockets:$ktorVersion")
+        implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     val jvmMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-cio:$ktor_version")
+        implementation("io.ktor:ktor-client-cio:$ktorVersion")
       }
     }
     val jvmTest by getting
     val jsMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-js:$ktor_version")
+        implementation("io.ktor:ktor-client-js:$ktorVersion")
       }
     }
     val jsTest by getting
     val nativeMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-curl:$ktor_version")
+        implementation("io.ktor:ktor-client-curl:$ktorVersion")
       }
     }
     val nativeTest by getting
