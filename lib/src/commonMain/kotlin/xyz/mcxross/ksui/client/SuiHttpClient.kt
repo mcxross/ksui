@@ -24,7 +24,6 @@ import xyz.mcxross.ksui.model.CheckpointId
 import xyz.mcxross.ksui.model.CheckpointSequenceNumber
 import xyz.mcxross.ksui.model.DevInspectResults
 import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.Discover
 import xyz.mcxross.ksui.model.DryRunTransactionResponse
 import xyz.mcxross.ksui.model.EndPoint
 import xyz.mcxross.ksui.model.Event
@@ -65,6 +64,23 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     prettyPrint = true
   }
 
+  private fun whichUrl(endPoint: EndPoint): String {
+    return when (endPoint) {
+      EndPoint.CUSTOM -> {
+        configContainer.customUrl
+      }
+      EndPoint.DEVNET -> {
+        "https://fullnode.devnet.sui.io:443"
+      }
+      EndPoint.TESTNET -> {
+        "https://fullnode.testnet.sui.io:443"
+      }
+      EndPoint.MAINNET -> {
+        "https://fullnode.sui.io:443"
+      }
+    }
+  }
+
   /**
    * Calls a Sui RPC method with the given name and parameters.
    *
@@ -81,20 +97,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
   private suspend fun call(method: String, vararg params: Any): HttpResponse {
     val response: HttpResponse =
       configContainer.httpClient.post {
-        when (configContainer.endPoint) {
-          EndPoint.CUSTOM -> {
-            url(configContainer.customUrl)
-          }
-          EndPoint.DEVNET -> {
-            url("https://fullnode.devnet.sui.io:443")
-          }
-          EndPoint.TESTNET -> {
-            url("https://fullnode.testnet.sui.io:443")
-          }
-          EndPoint.MAINNET -> {
-            url("https://fullnode.sui.io:443")
-          }
-        }
+        url(whichUrl(configContainer.endPoint))
         contentType(ContentType.Application.Json)
         setBody(
           buildJsonObject {
@@ -126,14 +129,12 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun rpcDiscover(): Discover {
-    val response =
-      json.decodeFromString<Response<Discover>>(serializer(), call("rpc.discover").bodyAsText())
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
-    }
-  }
+  /**
+   * Pings Sui using the configured endpoint URL and HTTP client.
+   *
+   * @return `true` if the Sui is available and returns a successful response, `false` otherwise.
+   */
+  suspend fun isSuiAvailable(): Boolean = call("isSuiAvailable").status.isSuccess()
 
   /**
    * Create an unsigned batched transaction.
