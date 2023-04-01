@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui.model
+package xyz.mcxross.ksui.model.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

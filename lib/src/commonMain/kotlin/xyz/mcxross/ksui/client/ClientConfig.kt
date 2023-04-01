@@ -2,7 +2,6 @@ package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
 import io.ktor.client.plugins.*
-import xyz.mcxross.ksui.model.EndPoint
 import xyz.mcxross.ksui.model.SuiWebSocketClient
 
 data class ConfigContainer(

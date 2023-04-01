@@ -36,6 +36,7 @@ kotlin {
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        implementation("io.github.gciatto:kt-math:0.7.1-dev0i-dev01-dev01-dev01+bd98036")
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }

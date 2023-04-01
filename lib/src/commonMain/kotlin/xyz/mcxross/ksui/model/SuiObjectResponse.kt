@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Owner(@SerialName("AddressOwner") val address: SuiAddress)
+data class Owner_(@SerialName("AddressOwner") val address: SuiAddress)
 
 @Serializable data class Fields(val balance: Balance, val id: ID)
 
@@ -22,7 +22,7 @@ data class Details(
   val version: Int,
   val digest: Digest,
   val type: String,
-  val owner: Owner,
+  val owner: Owner_,
   val previousTransaction: Transaction,
   val storageRebate: Int,
   val content: Content

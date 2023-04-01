@@ -1,7 +1,9 @@
 package xyz.mcxross.ksui.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import xyz.mcxross.ksui.model.serializer.ValidatorReportRecordSerializer
 
 /**
  * Latest SUI system state object on-chain
@@ -109,5 +111,6 @@ data class SuiSystemStateSummary(
   val validatorCandidatesId: String,
   val validatorCandidatesSize: Long,
   val atRiskValidators: List<String>,
-  val validatorReportRecords: List<String>,
+  @Serializable(with = ValidatorReportRecordSerializer::class)
+  val validatorReportRecords: List<ValidatorReportRecord>,
 )
