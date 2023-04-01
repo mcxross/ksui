@@ -65,9 +65,16 @@ data class Checkpoint(
   val sequenceNumber: String,
   val digest: String,
   val networkTotalTransactions: Long,
-  val previousDigest: String,
+  val previousDigest: String = "",
   val epochRollingGasCostSummary: GasCostSummary,
   val timestampMs: Long,
   val transactions: List<String>,
   @Transient val checkpointCommitments: List<String> = emptyList(),
+)
+
+@Serializable
+data class CheckpointPage(
+  val data: List<Checkpoint>,
+  val nextCursor: String? = "",
+  val hasNextPage: Boolean = false,
 )

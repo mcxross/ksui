@@ -116,7 +116,7 @@ data class DiscoverBalance(
 )
 
 @Serializable
-data class BalanceChange(
+data class DiscoverBalanceChange(
   val type: String,
   val required: List<String>,
 )
@@ -125,7 +125,7 @@ data class BalanceChange(
 data class SchemaItem(
   @SerialName("AuthorityPublicKeyBytes") val authorityPublicKeyBytes: AuthorityPublicKeyBytes,
   @SerialName("Balance") val balance: DiscoverBalance,
-  @SerialName("BalanceChange") val balanceChange: BalanceChange,
+  @SerialName("BalanceChange") val balanceChange: DiscoverBalanceChange,
 )
 
 @Serializable

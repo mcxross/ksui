@@ -5,32 +5,26 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.serializer
 import org.gciatto.kt.math.BigInteger
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointDigest
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.CheckpointPage
 import xyz.mcxross.ksui.model.CheckpointSequenceNumber
 import xyz.mcxross.ksui.model.DevInspectResults
-import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.DryRunTransactionResponse
-import xyz.mcxross.ksui.model.EndPoint
 import xyz.mcxross.ksui.model.Event
 import xyz.mcxross.ksui.model.ExecuteTransactionRequestType
 import xyz.mcxross.ksui.model.Gas
 import xyz.mcxross.ksui.model.GasPrice
-import xyz.mcxross.ksui.model.MutateObject
 import xyz.mcxross.ksui.model.ObjectID
 import xyz.mcxross.ksui.model.RPCTransactionRequestParams
 import xyz.mcxross.ksui.model.Response
@@ -40,19 +34,14 @@ import xyz.mcxross.ksui.model.SuiCommittee
 import xyz.mcxross.ksui.model.SuiException
 import xyz.mcxross.ksui.model.SuiJsonValue
 import xyz.mcxross.ksui.model.SuiObjectInfo
-import xyz.mcxross.ksui.model.SuiObjectResult
 import xyz.mcxross.ksui.model.SuiSystemStateSummary
 import xyz.mcxross.ksui.model.SuiTransactionBuilderMode
 import xyz.mcxross.ksui.model.Supply
-import xyz.mcxross.ksui.model.Transaction
 import xyz.mcxross.ksui.model.TransactionBlockResponse
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBytes
 import xyz.mcxross.ksui.model.TransactionDigest
 import xyz.mcxross.ksui.model.TransactionDigests
-import xyz.mcxross.ksui.model.TransactionNumber
-import xyz.mcxross.ksui.model.TransactionQuery
-import xyz.mcxross.ksui.model.TransactionsPage
 import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.model.Validators
 
@@ -263,6 +252,57 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       is Response.Error -> throw SuiException(response.message)
     }
   }
+
+  /**
+   * Fetches paginated list of checkpoints.
+   *
+   * @param cursor the cursor to start fetching from
+   * @param limit the maximum number of checkpoints to fetch
+   * @param descendingOrder whether to return the checkpoints in descending order (defaults to
+   *   false)
+   * @return a [CheckpointPage] object representing the fetched checkpoints
+   * @throws [SuiException] if there is an error fetching the checkpoints
+   */
+  suspend fun getCheckpoints(
+    cursor: Int,
+    limit: Long,
+    descendingOrder: Boolean = false
+  ): CheckpointPage {
+    val response =
+      json.decodeFromString<Response<CheckpointPage>>(
+        serializer(),
+        call(
+            "sui_getCheckpoints",
+            *listOf(cursor.toString(), limit, descendingOrder).toTypedArray()
+          )
+          .bodyAsText()
+      )
+
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves a list of events associated with a given transaction digest.
+   *
+   * @param digest the transaction digest to retrieve events for
+   * @return a list of events associated with the given transaction digest
+   * @throws SuiException if an error occurs while retrieving the events
+   */
+  suspend fun getEvents(digest: TransactionDigest): List<Event> {
+    val response =
+      json.decodeFromString<Response<List<Event>>>(
+        serializer(),
+        call("sui_getEvents", digest.value).bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
   suspend fun getCheckpointContents() {}
   suspend fun getCheckpointContentsByDigest() {}
   suspend fun getCheckpointSummary() {}
@@ -334,8 +374,17 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    *
    * @return [CheckpointSequenceNumber]
    */
-  suspend fun getLatestCheckpointSequenceNumber(): CheckpointSequenceNumber =
-    json.decodeFromString(serializer(), call("sui_getLatestCheckpointSequenceNumber").bodyAsText())
+  suspend fun getLatestCheckpointSequenceNumber(): CheckpointSequenceNumber {
+    val response =
+      json.decodeFromString<Response<Long>>(
+        serializer(),
+        call("sui_getLatestCheckpointSequenceNumber").bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return CheckpointSequenceNumber(response.data)
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   suspend fun getMoveFunctionArgTypes() {}
   suspend fun getNormalizedMoveFunction() {}
@@ -350,7 +399,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    * @param address of the owner
    * @return List<[SuiObjectInfo]>
    */
-  suspend fun getObjectsOwnedByAddress(address: SuiAddress): List<SuiObjectInfo> {
+  /*suspend fun getObjectsOwnedByAddress(address: SuiAddress): List<SuiObjectInfo> {
     val result =
       json.decodeFromString<SuiObjectResult>(
         serializer(),
@@ -366,7 +415,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
         Transaction(it.previousTransaction)
       )
     }
-  }
+  }*/
 
   /**
    * Return the reference gas price for the network.
@@ -375,8 +424,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    */
   suspend fun getReferenceGasPrice(): GasPrice =
     json.decodeFromString(serializer(), call("sui_getReferenceGasPrice").bodyAsText())
-
-  suspend fun getSuiSystemState() {}
 
   /**
    * Retrieves the total supply for a specified cryptocurrency.
@@ -397,37 +444,11 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  /**
-   * Return the total number of transactions known to the server.
-   *
-   * @return [Long]
-   */
-  suspend fun getTotalTransactionNumber(): Long =
-    json
-      .decodeFromString<TransactionNumber>(
-        serializer(),
-        call("sui_getTotalTransactionNumber").bodyAsText()
-      )
-      .value
-
-  @OptIn(ExperimentalSerializationApi::class)
   suspend fun getTransactionBlock(
     digest: TransactionDigest,
     options: TransactionBlockResponseOptions
   ): TransactionBlockResponse {
-    val module = SerializersModule {
-      polymorphic(MutateObject::class) {
-        subclass(MutateObject.MutatedObjectShared::class)
-        defaultDeserializer { MutateObject.MutatedObject.serializer() }
-      }
 
-      polymorphic(Event::class) { default { Event.EventEvent.serializer() } }
-    }
-    val json = Json {
-      ignoreUnknownKeys = true
-      prettyPrint = true
-      serializersModule = module
-    }
     val response =
       json.decodeFromString<Response<TransactionBlockResponse>>(
         serializer(),
@@ -443,16 +464,23 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun getTransactions(
-    query: TransactionQuery,
-    cursor: TransactionDigest,
-    limit: Long,
-    descendingOrder: Boolean = false
-  ): TransactionsPage =
-    Json.decodeFromString(
-      serializer(),
-      call("sui_getTransactions", query, cursor, limit, descendingOrder).bodyAsText()
-    )
+  /**
+   * Return the total number of transactions known to the server.
+   *
+   * @return [Long]
+   */
+  suspend fun getTotalTransactionBlocks(): Long {
+    val response =
+      json.decodeFromString<Response<Long>>(
+        serializer(),
+        call("sui_getTotalTransactionBlocks").bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
   suspend fun getTransactionsInRange(start: Long, end: Long): TransactionDigests =
     json.decodeFromString(serializer(), call("sui_getTransactionsInRange", start, end).bodyAsText())
   suspend fun getValidators(): Validators =
