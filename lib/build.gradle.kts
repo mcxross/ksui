@@ -4,11 +4,12 @@ plugins {
   kotlin("multiplatform") version "1.8.10"
   kotlin("plugin.serialization") version "1.8.10"
   id("org.jetbrains.dokka") version "1.8.10"
+  id("maven-publish")
 }
 
 group = "xyz.mcxross.ksui"
 
-version = "0.1.0"
+version = "0.29.0-beta.1"
 
 repositories { mavenCentral() }
 
