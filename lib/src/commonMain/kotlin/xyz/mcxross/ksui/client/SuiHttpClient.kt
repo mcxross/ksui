@@ -11,7 +11,6 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
-import org.gciatto.kt.math.BigInteger
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointDigest
@@ -179,8 +178,8 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
   suspend fun devInspectTransaction(
     senderAddress: SuiAddress,
     txBytes: String,
-    gasPrice: BigInteger = BigInteger.of(0),
-    epoch: BigInteger? = null
+    gasPrice: Long,
+    epoch: Long? = null
   ): DevInspectResults =
     Json.decodeFromString(
       serializer(),
@@ -190,12 +189,12 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       }.bodyAsText(),
     )
 
-  suspend fun dryRunTransaction(txBytes: BigInteger): DryRunTransactionResponse =
+  suspend fun dryRunTransaction(txBytes: Long): DryRunTransactionResponse =
     Json.decodeFromString(serializer(), call("sui_dryRunTransaction", txBytes).bodyAsText())
 
   suspend fun executeTransaction(
-    txBytes: BigInteger,
-    signature: BigInteger,
+    txBytes: Long,
+    signature: Long,
     requestType: ExecuteTransactionRequestType
   ): TransactionBlockResponse =
     Json.decodeFromString(
