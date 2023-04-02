@@ -4,7 +4,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.errors.*
-import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
@@ -25,7 +24,11 @@ import xyz.mcxross.ksui.model.Event
 import xyz.mcxross.ksui.model.ExecuteTransactionRequestType
 import xyz.mcxross.ksui.model.Gas
 import xyz.mcxross.ksui.model.GasPrice
+import xyz.mcxross.ksui.model.MoveFunctionArgType
+import xyz.mcxross.ksui.model.MoveNormalizedFunction
+import xyz.mcxross.ksui.model.MoveNormalizedModule
 import xyz.mcxross.ksui.model.ObjectID
+import xyz.mcxross.ksui.model.ObjectResponse
 import xyz.mcxross.ksui.model.RPCTransactionRequestParams
 import xyz.mcxross.ksui.model.Response
 import xyz.mcxross.ksui.model.SuiAddress
@@ -44,6 +47,7 @@ import xyz.mcxross.ksui.model.TransactionDigest
 import xyz.mcxross.ksui.model.TransactionDigests
 import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.model.Validators
+import kotlin.coroutines.cancellation.CancellationException
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
 class SuiHttpClient constructor(private val configContainer: ConfigContainer) : SuiClient {
@@ -367,8 +371,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun getEvents() {}
-
   /**
    * Return the sequence number of the latest checkpoint that has been executed
    *
@@ -386,12 +388,105 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun getMoveFunctionArgTypes() {}
-  suspend fun getNormalizedMoveFunction() {}
-  suspend fun getNormalizedMoveModule() {}
+  /**
+   * Retrieves the argument types for a Move function from the blockchain.
+   *
+   * @param pakage the package name of the module containing the function
+   * @param module the module name containing the function
+   * @param function the name of the function to retrieve the argument types for
+   * @return a list of [MoveFunctionArgType] objects representing the argument types for the
+   *   function
+   * @throws SuiException if there is an error retrieving the argument types from the blockchain
+   */
+  suspend fun getMoveFunctionArgTypes(
+    pakage: String,
+    module: String,
+    function: String
+  ): List<MoveFunctionArgType> {
+    val response =
+      json.decodeFromString<Response<List<MoveFunctionArgType>>>(
+        serializer(),
+        call("sui_getMoveFunctionArgTypes", *listOf(pakage, module, function).toTypedArray())
+          .bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves a normalized representation of a Move function from the blockchain.
+   *
+   * @param pakage the package name of the module containing the function
+   * @param module the module name containing the function
+   * @param function the name of the function to retrieve
+   * @return a [MoveNormalizedFunction] object representing the normalized function
+   * @throws SuiException if there is an error retrieving the function from the blockchain
+   */
+  suspend fun getNormalizedMoveFunction(
+    pakage: String,
+    module: String,
+    function: String
+  ): MoveNormalizedFunction {
+    val response =
+      json.decodeFromString<Response<MoveNormalizedFunction>>(
+        serializer(),
+        call("sui_getNormalizedMoveFunction", *listOf(pakage, module, function).toTypedArray())
+          .bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves a normalized representation of a Move module from the blockchain.
+   *
+   * @param pakage the package name of the module to retrieve
+   * @param module the name of the module to retrieve
+   * @return a [MoveNormalizedModule] object representing the normalized module
+   * @throws SuiException if there is an error retrieving the module from the blockchain
+   */
+  suspend fun getNormalizedMoveModule(pakage: String, module: String): MoveNormalizedModule {
+    val response =
+      json.decodeFromString<Response<MoveNormalizedModule>>(
+        serializer(),
+        call("sui_getNormalizedMoveModule", *listOf(pakage, module).toTypedArray()).bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
   suspend fun getNormalizedMoveModulesByPackage() {}
   suspend fun getNormalizedMoveStruct() {}
-  suspend fun getObject() {}
+
+  /**
+   * Asynchronously retrieves an object with the given [objectId] using the SUI API, with the
+   * specified [options].
+   *
+   * @param objectId the ID of the object to retrieve.
+   * @param options additional options to control the object data returned.
+   * @return a suspended [ObjectResponse] containing the retrieved object data.
+   * @throws SuiException if the API request fails or returns an error response.
+   */
+  suspend fun getObject(objectId: String, options: ObjectResponse.ObjectDataOptions): ObjectResponse {
+    val response =
+      json.decodeFromString<Response<ObjectResponse>>(
+        serializer(),
+        call(
+            "sui_getObject",
+            *listOf(objectId, json.encodeToJsonElement(serializer(), options)).toTypedArray()
+          )
+          .bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   /**
    * Return the list of objects owned by an address.
@@ -422,8 +517,17 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    *
    * @return [GasPrice]
    */
-  suspend fun getReferenceGasPrice(): GasPrice =
-    json.decodeFromString(serializer(), call("sui_getReferenceGasPrice").bodyAsText())
+  suspend fun getReferenceGasPrice(): GasPrice {
+    val response =
+      json.decodeFromString<Response<Long>>(
+        serializer(),
+        call("suix_getReferenceGasPrice").bodyAsText()
+      )
+    when (response) {
+      is Response.Ok -> return GasPrice(response.data)
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   /**
    * Retrieves the total supply for a specified cryptocurrency.

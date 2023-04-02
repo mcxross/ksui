@@ -1,7 +1,10 @@
 package xyz.mcxross.ksui.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.model.serializer.ObjectResponseSerializer
 import xyz.mcxross.ksui.model.serializer.OwnerSerializer
+import xyz.mcxross.ksui.model.serializer.ResponseSerializer
 
 @Serializable class ObjectID
 
@@ -74,4 +77,52 @@ abstract class ObjectChange {
     override val previousVersion: Long,
     override val digest: String,
   ) : ObjectChange()
+}
+@Serializable(with = ObjectResponseSerializer::class)
+sealed class ObjectResponse {
+  @Serializable
+  data class ObjectDataOptions(
+    val showType: Boolean,
+    val showOwner: Boolean,
+    val showPreviousTransaction: Boolean,
+    val showDisplay: Boolean,
+    val showContent: Boolean,
+    val showBcs: Boolean,
+    val showStorageRebate: Boolean,
+  )
+
+  @Serializable
+  data class ObjectDataContent(
+    val dataType: String,
+    val type: String,
+    val hasPublicTransfer: Boolean,
+  )
+
+  @Serializable
+  data class ObjectDataBcs(
+    val dataType: String,
+    val type: String,
+    val hasPublicTransfer: Boolean,
+    val version: Long,
+    val bcsBytes: String = "",
+  )
+
+  @Serializable
+  data class ObjectData(
+    val objectId: String,
+    val version: Long,
+    val digest: String,
+    val type: String = "",
+    val owner: Owner.AddressOwner? = null,
+    val previousTransaction: String = "",
+    val storageRebate: Long = 0,
+    val content: ObjectDataContent? = null,
+  ) : ObjectResponse()
+
+  @Serializable
+  data class ObjectResponseError(
+    val code: String,
+    @SerialName("object_id") val objectId: String,
+  ) : ObjectResponse()
+
 }
