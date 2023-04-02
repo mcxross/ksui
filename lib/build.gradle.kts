@@ -1,3 +1,6 @@
+import java.net.URL
+import org.jetbrains.dokka.gradle.DokkaTask
+
 val ktorVersion: String = extra["ktor_version"] as String
 
 plugins {
@@ -37,27 +40,33 @@ kotlin {
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-        implementation("io.github.gciatto:kt-math:0.7.1-dev0i-dev01-dev01-dev01+bd98036")
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     val jvmMain by getting {
-      dependencies {
-        implementation("io.ktor:ktor-client-cio:$ktorVersion")
-      }
+      dependencies { implementation("io.ktor:ktor-client-cio:$ktorVersion") }
     }
     val jvmTest by getting
-    val jsMain by getting {
-      dependencies {
-        implementation("io.ktor:ktor-client-js:$ktorVersion")
-      }
-    }
+    val jsMain by getting { dependencies { implementation("io.ktor:ktor-client-js:$ktorVersion") } }
     val jsTest by getting
     val nativeMain by getting {
-      dependencies {
-        implementation("io.ktor:ktor-client-curl:$ktorVersion")
-      }
+      dependencies { implementation("io.ktor:ktor-client-curl:$ktorVersion") }
     }
     val nativeTest by getting
+  }
+}
+
+tasks.getByName<DokkaTask>("dokkaHtml") {
+  moduleName.set("Ksui")
+  outputDirectory.set(file(buildDir.resolve("dokka")))
+  dokkaSourceSets {
+    configureEach {
+      includes.from("Module.md")
+      sourceLink {
+        localDirectory.set(file("commonMain/kotlin"))
+        remoteUrl.set(URL("https://github.com/mcxross/ksui/blob/master/lib/src/commonMain/kotlin"))
+        remoteLineSuffix.set("#L")
+      }
+    }
   }
 }
