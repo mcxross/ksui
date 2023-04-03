@@ -1,10 +1,8 @@
 package xyz.mcxross.ksui.sample
 
+import xyz.mcxross.ksui.client.EndPoint
 import xyz.mcxross.ksui.client.createSuiHttpClient
-import xyz.mcxross.ksui.model.EndPoint
 import xyz.mcxross.ksui.model.SuiAddress
-import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.TransactionDigest
 
 suspend fun main() {
   val suiRpcClient = createSuiHttpClient {
