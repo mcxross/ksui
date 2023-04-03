@@ -1,12 +1,12 @@
 <h1 align="center">Ksui - KMP Library for Sui</h1>
 
-Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with Sui Full node.
+Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.
 
 ![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-0.29.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20Web%20|%20Native-blue.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
-
+[![Ksui Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 # Table of contents
 - [Features](#features)
 - [Quick start](#quick-start)
