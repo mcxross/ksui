@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Ksui</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="index.html">
+                    <span>Ksui</span>
+            </a>
+    </div>
+    <div>
+0.29.0-beta.1    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":lib:dokkaHtml/commonMain">common</button>
+                <button class="platform-tag platform-selector js-like" data-active="" data-filter=":lib:dokkaHtml/jsMain">js</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":lib:dokkaHtml/jvmMain">jvm</button>
+                <button class="platform-tag platform-selector native-like" data-active="" data-filter=":lib:dokkaHtml/nativeMain">native</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="Ksui::////PointingToDeclaration//1908444402">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Ksui</span></span></h1>
+    <div class="platform-hinted UnderCoverText with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain" data-active="" data-toggle=":lib:dokkaHtml/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":lib:dokkaHtml/jsMain" data-filterable-set=":lib:dokkaHtml/jsMain" data-toggle=":lib:dokkaHtml/jsMain">js</button><button class="platform-bookmark" data-filterable-current=":lib:dokkaHtml/jvmMain" data-filterable-set=":lib:dokkaHtml/jvmMain" data-toggle=":lib:dokkaHtml/jvmMain">jvm</button><button class="platform-bookmark" data-filterable-current=":lib:dokkaHtml/nativeMain" data-filterable-set=":lib:dokkaHtml/nativeMain" data-toggle=":lib:dokkaHtml/nativeMain">native</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><p class="paragraph">Ksui, <code class="lang-kotlin">/kei'su:i:/</code> (pronounced as &quot;kay-soo-ee&quot;), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with Sui Full node.</p></div><div class="content sourceset-dependent-content" data-togglable=":lib:dokkaHtml/jsMain"><p class="paragraph">Ksui, <code class="lang-kotlin">/kei'su:i:/</code> (pronounced as &quot;kay-soo-ee&quot;), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with Sui Full node.</p></div><div class="content sourceset-dependent-content" data-togglable=":lib:dokkaHtml/jvmMain"><p class="paragraph">Ksui, <code class="lang-kotlin">/kei'su:i:/</code> (pronounced as &quot;kay-soo-ee&quot;), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with Sui Full node.</p></div><div class="content sourceset-dependent-content" data-togglable=":lib:dokkaHtml/nativeMain"><p class="paragraph">Ksui, <code class="lang-kotlin">/kei'su:i:/</code> (pronounced as &quot;kay-soo-ee&quot;), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with Sui Full node.</p></div>    </div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="-810934366%2FPackages%2F-990484679" anchor-label="xyz.mcxross.ksui" id="-810934366%2FPackages%2F-990484679" data-filterable-set=":lib:dokkaHtml/nativeMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/nativeMain" data-filterable-set=":lib:dokkaHtml/nativeMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui/index.html">xyz.mcxross.ksui</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-810934366%2FPackages%2F-990484679"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag native-like">native</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1908096603%2FPackages%2F1630160307" anchor-label="xyz.mcxross.ksui.client" id="1908096603%2FPackages%2F1630160307" data-filterable-set=":lib:dokkaHtml/commonMain :lib:dokkaHtml/jsMain :lib:dokkaHtml/jvmMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain :lib:dokkaHtml/jsMain :lib:dokkaHtml/jvmMain" data-filterable-set=":lib:dokkaHtml/commonMain :lib:dokkaHtml/jsMain :lib:dokkaHtml/jvmMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui.client/index.html">xyz.mcxross.ksui.client</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1908096603%2FPackages%2F1630160307"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag js-like">js</div>
+              <div class="platform-tag jvm-like">jvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1222544483%2FPackages%2F976670565" anchor-label="xyz.mcxross.ksui.model" id="-1222544483%2FPackages%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui.model/index.html">xyz.mcxross.ksui.model</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1222544483%2FPackages%2F976670565"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1136529287%2FPackages%2F976670565" anchor-label="xyz.mcxross.ksui.model.serializer" id="1136529287%2FPackages%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui.model.serializer/index.html">xyz.mcxross.ksui.model.serializer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1136529287%2FPackages%2F976670565"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-867332467%2FPackages%2F976670565" anchor-label="xyz.mcxross.ksui.model.serializer.util" id="-867332467%2FPackages%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui.model.serializer.util/index.html">xyz.mcxross.ksui.model.serializer.util</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-867332467%2FPackages%2F976670565"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1333679954%2FPackages%2F976670565" anchor-label="xyz.mcxross.ksui.util" id="1333679954%2FPackages%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+    <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui/xyz.mcxross.ksui.util/index.html">xyz.mcxross.ksui.util</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1333679954%2FPackages%2F976670565"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

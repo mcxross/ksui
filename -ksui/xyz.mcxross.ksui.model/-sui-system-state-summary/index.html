@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>SuiSystemStateSummary</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>Ksui</span>
+            </a>
+    </div>
+    <div>
+0.29.0-beta.1    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":lib:dokkaHtml/commonMain">common</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.model/SuiSystemStateSummary///PointingToDeclaration//976670565">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.model</a><span class="delimiter">/</span><span class="current">SuiSystemStateSummary</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Sui</span><wbr></wbr><span>System</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Summary</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">SuiSystemStateSummary</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>epoch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>protocolVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>systemStateVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>storageFundTotalObjectStorageRebates<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>storageFundNonRefundableBalance<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>referenceGasPrice<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>safeMode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>safeModeStorageRewards<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>safeModeComputationRewards<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>safeModeStorageRebates<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>safeModeNonRefundableStorageFee<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>epochStartTimestampMs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>epochDurationMs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyStartEpoch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>maxValidatorCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>minValidatorJoiningStake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorLowStakeThreshold<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorVeryLowStakeThreshold<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorLowStakeGracePeriod<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyBalance<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyDistributionCounter<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyCurrentDistributionAmount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyPeriodLength<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakeSubsidyDecreaseRate<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>totalStake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>activeValidators<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-sui-validator-summary/index.html">SuiValidatorSummary</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>pendingActiveValidatorsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>pendingActiveValidatorsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>pendingRemovals<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakingPoolMappingsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stakingPoolMappingsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>inactivePoolsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>inactivePoolsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorCandidatesId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorCandidatesSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>atRiskValidators<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorReportRecords<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-validator-report-record/index.html">ValidatorReportRecord</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Latest SUI system state object on-chain</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>epoch</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The current epoch ID, starting from 0.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>protocol</span><wbr></wbr><span><span>Version</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The current protocol version, starting from 1.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>system</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Version</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The current version of the system state data structure type.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>storage</span><wbr></wbr><span>Fund</span><wbr></wbr><span>Total</span><wbr></wbr><span>Object</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rebates</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The storage rebates of all the objects on-chain stored in the storage fund.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>storage</span><wbr></wbr><span>Fund</span><wbr></wbr><span>Non</span><wbr></wbr><span>Refundable</span><wbr></wbr><span><span>Balance</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The non-refundable portion of the storage fund coming from storage reinvestment, non-refundable storage rebates and any leftover staking rewards.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>reference</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Price</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The reference gas price for the current epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>safe</span><wbr></wbr><span><span>Mode</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Whether the system is running in a downgraded safe mode due to a non-recoverable bug. This is set whenever Sui failed to execute advance_epoch, and ended up executing advance_epoch_safe_mode. It can be reset once Sui is able to successfully execute advance_epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rewards</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Amount of storage rewards accumulated (and not yet distributed) during safe mode.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Computation</span><wbr></wbr><span><span>Rewards</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Amount of computation rewards accumulated (and not yet distributed) during safe mode.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rebates</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Amount of storage rebates accumulated (and not yet burned) during safe mode.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Non</span><wbr></wbr><span>Refundable</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Fee</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Amount of non-refundable storage fee accumulated during safe mode.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>epoch</span><wbr></wbr><span>Start</span><wbr></wbr><span>Timestamp</span><wbr></wbr><span><span>Ms</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Unix timestamp of the current epoch start.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>epoch</span><wbr></wbr><span>Duration</span><wbr></wbr><span><span>Ms</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The duration of an epoch, in milliseconds.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Start</span><wbr></wbr><span><span>Epoch</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The starting epoch in which stake subsidies start being paid out.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>max</span><wbr></wbr><span>Validator</span><wbr></wbr><span><span>Count</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Maximum number of active validators at any moment. Sui does not allow the number of validators in any epoch to go above this.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>min</span><wbr></wbr><span>Validator</span><wbr></wbr><span>Joining</span><wbr></wbr><span><span>Stake</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Lower-bound on the amount of stake required to become a validator.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span><span>Threshold</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Validators with stake amount below <code class="lang-kotlin">validator_low_stake_threshold</code> are considered to have low stake and will be escorted out of the validator set after being below this threshold for more than <code class="lang-kotlin">validator_low_stake_grace_period</code> number of epochs.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Very</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span><span>Threshold</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Validators with stake below <code class="lang-kotlin">validator_very_low_stake_threshold</code> will be removed immediately at epoch change, no grace period.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span>Grace</span><wbr></wbr><span><span>Period</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A validator can have stake below <code class="lang-kotlin">validator_low_stake_threshold</code> for this many epochs before being kicked out.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span><span>Balance</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Balance of SUI set aside for stake subsidies that will be drawn down over time.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Distribution</span><wbr></wbr><span><span>Counter</span></span></u></div></span></div><div><div class="title"><p class="paragraph">This counter may be different from the current epoch number if in some epochs we decide to skip the subsidy.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Current</span><wbr></wbr><span>Distribution</span><wbr></wbr><span><span>Amount</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The amount of stake subsidy to be drawn down per epoch. This amount decays and decreases over time.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Period</span><wbr></wbr><span><span>Length</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Number of distributions to occur before the distribution amount decays.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Decrease</span><wbr></wbr><span><span>Rate</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The rate at which the distribution amount decays at the end of each period. Expressed in basis points.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>total</span><wbr></wbr><span><span>Stake</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Total amount of stake from all active validators at the beginning of the epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>active</span><wbr></wbr><span><span>Validators</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The list of active validators in the current epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>pending</span><wbr></wbr><span>Active</span><wbr></wbr><span>Validators</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">ID of the object that contains the list of new validators that will join at the end of the epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>pending</span><wbr></wbr><span>Active</span><wbr></wbr><span>Validators</span><wbr></wbr><span><span>Size</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Number of new validators that will join at the end of the epoch.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>pending</span><wbr></wbr><span><span>Removals</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Removal requests from the validators. Each element is an index pointing to <code class="lang-kotlin">active_validators</code>.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>staking</span><wbr></wbr><span>Pool</span><wbr></wbr><span>Mappings</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">ID of the object that maps from staking pool's ID to the sui address of a validator.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>staking</span><wbr></wbr><span>Pool</span><wbr></wbr><span>Mappings</span><wbr></wbr><span><span>Size</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Number of staking pool mappings.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>inactive</span><wbr></wbr><span>Pools</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">ID of the object that maps from a staking pool ID to the inactive validator that has that pool as its staking pool.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>inactive</span><wbr></wbr><span>Pools</span><wbr></wbr><span><span>Size</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Number of inactive staking pools.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Candidates</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">ID of the object that stores pre-active validators, mapping their addresses to their <code class="lang-kotlin">Validator</code> structs.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Candidates</span><wbr></wbr><span><span>Size</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Number of pre-active validators.</p></div></div></div></div><div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>validator</span><wbr></wbr><span>Report</span><wbr></wbr><span><span>Records</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A map storing the records of validator reporting each other.</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1051607199%2FConstructors%2F976670565" anchor-label="SuiSystemStateSummary" id="1051607199%2FConstructors%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sui-system-state-summary.html"><span>Sui</span><wbr></wbr><span>System</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Summary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1051607199%2FConstructors%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">epoch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">protocolVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">systemStateVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">storageFundTotalObjectStorageRebates<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">storageFundNonRefundableBalance<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">referenceGasPrice<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">safeMode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">safeModeStorageRewards<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">safeModeComputationRewards<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">safeModeStorageRebates<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">safeModeNonRefundableStorageFee<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">epochStartTimestampMs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">epochDurationMs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyStartEpoch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">maxValidatorCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">minValidatorJoiningStake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">validatorLowStakeThreshold<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">validatorVeryLowStakeThreshold<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">validatorLowStakeGracePeriod<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyBalance<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyDistributionCounter<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyCurrentDistributionAmount<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyPeriodLength<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">stakeSubsidyDecreaseRate<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">totalStake<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">activeValidators<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-sui-validator-summary/index.html">SuiValidatorSummary</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">pendingActiveValidatorsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">pendingActiveValidatorsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">pendingRemovals<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">stakingPoolMappingsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">stakingPoolMappingsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">inactivePoolsId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">inactivePoolsSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">validatorCandidatesId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">validatorCandidatesSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">atRiskValidators<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">validatorReportRecords<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-validator-report-record/index.html">ValidatorReportRecord</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1031137822%2FProperties%2F976670565" anchor-label="activeValidators" id="1031137822%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="active-validators.html"><span>active</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1031137822%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="active-validators.html">activeValidators</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-sui-validator-summary/index.html">SuiValidatorSummary</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-757732862%2FProperties%2F976670565" anchor-label="atRiskValidators" id="-757732862%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="at-risk-validators.html"><span>at</span><wbr></wbr><span>Risk</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-757732862%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="at-risk-validators.html">atRiskValidators</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="311680204%2FProperties%2F976670565" anchor-label="epoch" id="311680204%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="epoch.html"><span><span>epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="311680204%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="epoch.html">epoch</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="402478290%2FProperties%2F976670565" anchor-label="epochDurationMs" id="402478290%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="epoch-duration-ms.html"><span>epoch</span><wbr></wbr><span>Duration</span><wbr></wbr><span><span>Ms</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="402478290%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="epoch-duration-ms.html">epochDurationMs</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="234842194%2FProperties%2F976670565" anchor-label="epochStartTimestampMs" id="234842194%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="epoch-start-timestamp-ms.html"><span>epoch</span><wbr></wbr><span>Start</span><wbr></wbr><span>Timestamp</span><wbr></wbr><span><span>Ms</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="234842194%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="epoch-start-timestamp-ms.html">epochStartTimestampMs</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2133499730%2FProperties%2F976670565" anchor-label="inactivePoolsId" id="-2133499730%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inactive-pools-id.html"><span>inactive</span><wbr></wbr><span>Pools</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2133499730%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="inactive-pools-id.html">inactivePoolsId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="351125896%2FProperties%2F976670565" anchor-label="inactivePoolsSize" id="351125896%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inactive-pools-size.html"><span>inactive</span><wbr></wbr><span>Pools</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="351125896%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="inactive-pools-size.html">inactivePoolsSize</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2091605236%2FProperties%2F976670565" anchor-label="maxValidatorCount" id="2091605236%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="max-validator-count.html"><span>max</span><wbr></wbr><span>Validator</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2091605236%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="max-validator-count.html">maxValidatorCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1653702755%2FProperties%2F976670565" anchor-label="minValidatorJoiningStake" id="1653702755%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="min-validator-joining-stake.html"><span>min</span><wbr></wbr><span>Validator</span><wbr></wbr><span>Joining</span><wbr></wbr><span><span>Stake</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1653702755%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="min-validator-joining-stake.html">minValidatorJoiningStake</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1002692316%2FProperties%2F976670565" anchor-label="pendingActiveValidatorsId" id="1002692316%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pending-active-validators-id.html"><span>pending</span><wbr></wbr><span>Active</span><wbr></wbr><span>Validators</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1002692316%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="pending-active-validators-id.html">pendingActiveValidatorsId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-835359690%2FProperties%2F976670565" anchor-label="pendingActiveValidatorsSize" id="-835359690%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pending-active-validators-size.html"><span>pending</span><wbr></wbr><span>Active</span><wbr></wbr><span>Validators</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-835359690%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="pending-active-validators-size.html">pendingActiveValidatorsSize</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1870779337%2FProperties%2F976670565" anchor-label="pendingRemovals" id="-1870779337%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pending-removals.html"><span>pending</span><wbr></wbr><span><span>Removals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1870779337%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="pending-removals.html">pendingRemovals</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1839595541%2FProperties%2F976670565" anchor-label="protocolVersion" id="1839595541%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="protocol-version.html"><span>protocol</span><wbr></wbr><span><span>Version</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1839595541%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="protocol-version.html">protocolVersion</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1726700346%2FProperties%2F976670565" anchor-label="referenceGasPrice" id="1726700346%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reference-gas-price.html"><span>reference</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Price</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1726700346%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="reference-gas-price.html">referenceGasPrice</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1689525643%2FProperties%2F976670565" anchor-label="safeMode" id="-1689525643%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safe-mode.html"><span>safe</span><wbr></wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1689525643%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="safe-mode.html">safeMode</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="325941144%2FProperties%2F976670565" anchor-label="safeModeComputationRewards" id="325941144%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safe-mode-computation-rewards.html"><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Computation</span><wbr></wbr><span><span>Rewards</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="325941144%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="safe-mode-computation-rewards.html">safeModeComputationRewards</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1546875525%2FProperties%2F976670565" anchor-label="safeModeNonRefundableStorageFee" id="-1546875525%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safe-mode-non-refundable-storage-fee.html"><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Non</span><wbr></wbr><span>Refundable</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Fee</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1546875525%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="safe-mode-non-refundable-storage-fee.html">safeModeNonRefundableStorageFee</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-680888384%2FProperties%2F976670565" anchor-label="safeModeStorageRebates" id="-680888384%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safe-mode-storage-rebates.html"><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rebates</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-680888384%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="safe-mode-storage-rebates.html">safeModeStorageRebates</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-895390644%2FProperties%2F976670565" anchor-label="safeModeStorageRewards" id="-895390644%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safe-mode-storage-rewards.html"><span>safe</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rewards</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-895390644%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="safe-mode-storage-rewards.html">safeModeStorageRewards</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1261281590%2FProperties%2F976670565" anchor-label="stakeSubsidyBalance" id="-1261281590%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-balance.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span><span>Balance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1261281590%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-balance.html">stakeSubsidyBalance</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1615762895%2FProperties%2F976670565" anchor-label="stakeSubsidyCurrentDistributionAmount" id="-1615762895%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-current-distribution-amount.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Current</span><wbr></wbr><span>Distribution</span><wbr></wbr><span><span>Amount</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1615762895%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-current-distribution-amount.html">stakeSubsidyCurrentDistributionAmount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1887730154%2FProperties%2F976670565" anchor-label="stakeSubsidyDecreaseRate" id="-1887730154%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-decrease-rate.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Decrease</span><wbr></wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1887730154%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-decrease-rate.html">stakeSubsidyDecreaseRate</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-531912498%2FProperties%2F976670565" anchor-label="stakeSubsidyDistributionCounter" id="-531912498%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-distribution-counter.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Distribution</span><wbr></wbr><span><span>Counter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-531912498%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-distribution-counter.html">stakeSubsidyDistributionCounter</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-559578931%2FProperties%2F976670565" anchor-label="stakeSubsidyPeriodLength" id="-559578931%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-period-length.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Period</span><wbr></wbr><span><span>Length</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-559578931%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-period-length.html">stakeSubsidyPeriodLength</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1329675597%2FProperties%2F976670565" anchor-label="stakeSubsidyStartEpoch" id="1329675597%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stake-subsidy-start-epoch.html"><span>stake</span><wbr></wbr><span>Subsidy</span><wbr></wbr><span>Start</span><wbr></wbr><span><span>Epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1329675597%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="stake-subsidy-start-epoch.html">stakeSubsidyStartEpoch</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1130769506%2FProperties%2F976670565" anchor-label="stakingPoolMappingsId" id="1130769506%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="staking-pool-mappings-id.html"><span>staking</span><wbr></wbr><span>Pool</span><wbr></wbr><span>Mappings</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1130769506%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="staking-pool-mappings-id.html">stakingPoolMappingsId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1987735612%2FProperties%2F976670565" anchor-label="stakingPoolMappingsSize" id="1987735612%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="staking-pool-mappings-size.html"><span>staking</span><wbr></wbr><span>Pool</span><wbr></wbr><span>Mappings</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1987735612%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="staking-pool-mappings-size.html">stakingPoolMappingsSize</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2131764360%2FProperties%2F976670565" anchor-label="storageFundNonRefundableBalance" id="-2131764360%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="storage-fund-non-refundable-balance.html"><span>storage</span><wbr></wbr><span>Fund</span><wbr></wbr><span>Non</span><wbr></wbr><span>Refundable</span><wbr></wbr><span><span>Balance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2131764360%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="storage-fund-non-refundable-balance.html">storageFundNonRefundableBalance</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1726918259%2FProperties%2F976670565" anchor-label="storageFundTotalObjectStorageRebates" id="-1726918259%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="storage-fund-total-object-storage-rebates.html"><span>storage</span><wbr></wbr><span>Fund</span><wbr></wbr><span>Total</span><wbr></wbr><span>Object</span><wbr></wbr><span>Storage</span><wbr></wbr><span><span>Rebates</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1726918259%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="storage-fund-total-object-storage-rebates.html">storageFundTotalObjectStorageRebates</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-518809809%2FProperties%2F976670565" anchor-label="systemStateVersion" id="-518809809%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="system-state-version.html"><span>system</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Version</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-518809809%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="system-state-version.html">systemStateVersion</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2055256209%2FProperties%2F976670565" anchor-label="totalStake" id="-2055256209%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="total-stake.html"><span>total</span><wbr></wbr><span><span>Stake</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2055256209%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="total-stake.html">totalStake</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-88084776%2FProperties%2F976670565" anchor-label="validatorCandidatesId" id="-88084776%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-candidates-id.html"><span>validator</span><wbr></wbr><span>Candidates</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-88084776%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-candidates-id.html">validatorCandidatesId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1100124878%2FProperties%2F976670565" anchor-label="validatorCandidatesSize" id="-1100124878%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-candidates-size.html"><span>validator</span><wbr></wbr><span>Candidates</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1100124878%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-candidates-size.html">validatorCandidatesSize</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="930280420%2FProperties%2F976670565" anchor-label="validatorLowStakeGracePeriod" id="930280420%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-low-stake-grace-period.html"><span>validator</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span>Grace</span><wbr></wbr><span><span>Period</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="930280420%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-low-stake-grace-period.html">validatorLowStakeGracePeriod</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="975380306%2FProperties%2F976670565" anchor-label="validatorLowStakeThreshold" id="975380306%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-low-stake-threshold.html"><span>validator</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span><span>Threshold</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="975380306%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-low-stake-threshold.html">validatorLowStakeThreshold</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-891179895%2FProperties%2F976670565" anchor-label="validatorReportRecords" id="-891179895%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-report-records.html"><span>validator</span><wbr></wbr><span>Report</span><wbr></wbr><span><span>Records</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-891179895%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span><span class="token punctuation">(</span><span>with<span class="token operator"> = </span><a href="../../xyz.mcxross.ksui.model.serializer/-validator-report-record-serializer/index.html">ValidatorReportRecordSerializer::class</a></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-report-records.html">validatorReportRecords</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-validator-report-record/index.html">ValidatorReportRecord</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="177141800%2FProperties%2F976670565" anchor-label="validatorVeryLowStakeThreshold" id="177141800%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-very-low-stake-threshold.html"><span>validator</span><wbr></wbr><span>Very</span><wbr></wbr><span>Low</span><wbr></wbr><span>Stake</span><wbr></wbr><span><span>Threshold</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="177141800%2FProperties%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="validator-very-low-stake-threshold.html">validatorVeryLowStakeThreshold</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
