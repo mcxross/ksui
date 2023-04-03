@@ -23,7 +23,7 @@ jobs:
     - name: Generate HTML docs
       run: ./gradlew dokkaHtml
       shell: bash
-    - name: Deploy docs to GitHub Pages
+    - name: Deploy docs to GitHub Pages (branch)
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: gh-pages
