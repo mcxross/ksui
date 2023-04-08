@@ -26,3 +26,5 @@ data class ValidatorMetadata(
 @Serializable data class Validators(@SerialName("result") val list: List<ValidatorMetadata>)
 
 @Serializable data class ValidatorReportRecord(val hash: String, val addresses: List<String>)
+
+@Serializable data class Validator(val publicKey: String, val weight: Int)
