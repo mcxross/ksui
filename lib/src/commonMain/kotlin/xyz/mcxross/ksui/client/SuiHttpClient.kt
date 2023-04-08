@@ -266,6 +266,14 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
+  /**
+   * Return a checkpoint
+   *
+   * @param checkpointId Checkpoint identifier, can use either checkpoint digest, or checkpoint
+   *   sequence number as input.
+   * @return [Checkpoint]
+   * @throws [SuiException] if there is an error fetching the checkpoint *
+   */
   suspend fun getCheckpoint(checkpointId: CheckpointId): Checkpoint {
     val response =
         json.decodeFromString<Response<Checkpoint>>(
@@ -362,7 +370,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    * @throws SuiException if an error occurs while retrieving the coin information.
    */
   suspend fun getCoins(
-      address: SuiAddress,
+      owner: SuiAddress,
       coinType: String? = null,
       cursor: Int? = null,
       limit: Int
@@ -370,7 +378,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     val response =
         json.decodeFromString<Response<CoinPage>>(
             serializer(),
-            call("suix_getCoins", *listOf(address.pubKey, coinType, cursor, limit).toTypedArray())
+            call("suix_getCoins", *listOf(owner.pubKey, coinType, cursor, limit).toTypedArray())
                 .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
