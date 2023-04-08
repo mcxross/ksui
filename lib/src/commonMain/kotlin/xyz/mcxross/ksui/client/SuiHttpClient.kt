@@ -5,6 +5,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
@@ -18,6 +19,7 @@ import xyz.mcxross.ksui.model.CheckpointDigest
 import xyz.mcxross.ksui.model.CheckpointId
 import xyz.mcxross.ksui.model.CheckpointPage
 import xyz.mcxross.ksui.model.CheckpointSequenceNumber
+import xyz.mcxross.ksui.model.CoinPage
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.DevInspectResults
 import xyz.mcxross.ksui.model.DryRunTransactionResponse
@@ -80,13 +82,14 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
    * @param params The parameters to pass to the Sui RPC method.
    * @return The result of the Sui RPC method, or null if there was an error.
    */
+  @OptIn(ExperimentalSerializationApi::class)
   @Throws(
       SuiException::class,
       CancellationException::class,
       IOException::class,
       IllegalStateException::class,
   )
-  private suspend fun call(method: String, vararg params: Any): HttpResponse {
+  private suspend fun call(method: String, vararg params: Any?): HttpResponse {
     val response: HttpResponse =
         configContainer.httpClient.post {
           url(whichUrl(configContainer.endPoint))
@@ -104,6 +107,7 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
                           is Int -> add(it)
                           is Long -> add(it)
                           is Boolean -> add(it)
+                          null -> add(it)
                           is JsonElement -> add(it)
                           else -> add(json.encodeToString(serializer(), it))
                         }
@@ -321,7 +325,36 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       is Response.Error -> throw SuiException(response.message)
     }
   }
-  suspend fun getCoins() {}
+
+  /**
+   * Retrieves information about coins held by a given SUI address, with optional filtering by coin
+   * type and paging parameters.
+   *
+   * @param address The SUI address for which to retrieve coin information.
+   * @param coinType The type of coins to retrieve. This is optional, and if null, defaults to
+   *   `0x2::sui::SUI`
+   * @param cursor The index of the first item to retrieve. If null, the first item will be
+   *   retrieved.
+   * @param limit The maximum number of items to retrieve.
+   * @return A [CoinPage] object containing information about the coins.
+   * @throws SuiException if an error occurs while retrieving the coin information.
+   */
+  suspend fun getCoins(
+      address: SuiAddress,
+      coinType: String? = null,
+      cursor: Int? = null,
+      limit: Int
+  ): CoinPage {
+    val response =
+        json.decodeFromString<Response<CoinPage>>(
+            serializer(),
+            call("suix_getCoins", *listOf(address.pubKey, coinType, cursor, limit).toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
   /**
    * Suspended function to retrieve information about the committee information for the asked
    * `epoch`.
