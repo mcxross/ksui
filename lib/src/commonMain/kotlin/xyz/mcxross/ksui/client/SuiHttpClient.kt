@@ -242,7 +242,29 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun getAllCoins() {}
+  /**
+   * Return all Coin objects owned by an address.
+   *
+   * @param owner's Sui address.
+   * @param cursor pagination cursor. This is optional.
+   * @param limit pagination limit
+   * @return [Balance]
+   */
+  suspend fun getAllCoins(
+      owner: SuiAddress,
+      cursor: String? = null,
+      limit: Long,
+  ): CoinPage {
+    val response =
+        json.decodeFromString<Response<CoinPage>>(
+            serializer(),
+            call("suix_getAllCoins", *listOf(owner.pubKey, cursor, limit).toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   suspend fun getCheckpoint(checkpointId: CheckpointId): Checkpoint {
     val response =
