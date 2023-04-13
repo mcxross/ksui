@@ -1,3 +1,3 @@
-package xyz.mcxross.ksui.client
+package xyz.mcxross.ksui.exception
 
 class MethodNotFoundException(message: String) : Exception(message)

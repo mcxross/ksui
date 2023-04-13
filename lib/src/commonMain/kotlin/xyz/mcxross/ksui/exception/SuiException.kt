@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui.model
+package xyz.mcxross.ksui.exception
 
 
 // An exception class

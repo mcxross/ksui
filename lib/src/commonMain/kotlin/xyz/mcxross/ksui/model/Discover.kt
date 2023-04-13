@@ -134,7 +134,7 @@ data class Components(
 )
 
 @Serializable
-data class Discover(
+data class Discovery(
   val openrpc: String,
   val info: Info,
   val methods: List<Method>,
