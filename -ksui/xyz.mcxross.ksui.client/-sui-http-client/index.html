@@ -58,7 +58,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.client</a><span class="delimiter">/</span><span class="current">SuiHttpClient</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Sui</span><wbr></wbr><span>Http</span><wbr></wbr><span><span>Client</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">SuiHttpClient</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">configContainer<span class="token operator">: </span><a href="../-config-container/index.html">ConfigContainer</a></span></span><span class="token punctuation">)</span> : <a href="../-sui-client/index.html">SuiClient</a></div><p class="paragraph">A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">SuiHttpClient</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>configContainer<span class="token operator">: </span><a href="../-config-container/index.html">ConfigContainer</a></span></span><span class="token punctuation">)</span> : <a href="../-sui-client/index.html">SuiClient</a></div><p class="paragraph">A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
@@ -84,77 +84,17 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-1955220462%2FFunctions%2F976670565" anchor-label="batchTransaction" id="-1955220462%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+        <div class="table"><a data-name="-274496567%2FFunctions%2F976670565" anchor-label="discover" id="-274496567%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="batch-transaction.html"><span>batch</span><wbr></wbr><span><span>Transaction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1955220462%2FFunctions%2F976670565"></span>
+                  <div><a href="discover.html"><span><span>discover</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-274496567%2FFunctions%2F976670565"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="batch-transaction.html"><span class="token function">batchTransaction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signer<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">singleTransactionParams<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-r-p-c-transaction-request-params/index.html">RPCTransactionRequestParams</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">gas<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-gas/index.html">Gas</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">gasBudget<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">txnBuilderMode<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-transaction-builder-mode/index.html">SuiTransactionBuilderMode</a><span class="token operator"> = </span>SuiTransactionBuilderMode.REGULAR</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-bytes/index.html">TransactionBytes</a></div><div class="brief "><p class="paragraph">Create an unsigned batched transaction.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="179463697%2FFunctions%2F976670565" anchor-label="devInspectTransaction" id="179463697%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="dev-inspect-transaction.html"><span>dev</span><wbr></wbr><span>Inspect</span><wbr></wbr><span><span>Transaction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="179463697%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="dev-inspect-transaction.html"><span class="token function">devInspectTransaction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">senderAddress<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">txBytes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">gasPrice<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">epoch<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-dev-inspect-results/index.html">DevInspectResults</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-939179633%2FFunctions%2F976670565" anchor-label="dryRunTransaction" id="-939179633%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="dry-run-transaction.html"><span>dry</span><wbr></wbr><span>Run</span><wbr></wbr><span><span>Transaction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-939179633%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="dry-run-transaction.html"><span class="token function">dryRunTransaction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">txBytes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-dry-run-transaction-response/index.html">DryRunTransactionResponse</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="639888200%2FFunctions%2F976670565" anchor-label="executeTransaction" id="639888200%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="execute-transaction.html"><span>execute</span><wbr></wbr><span><span>Transaction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="639888200%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="execute-transaction.html"><span class="token function">executeTransaction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">txBytes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">signature<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">requestType<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-execute-transaction-request-type/index.html">ExecuteTransactionRequestType</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-block-response/index.html">TransactionBlockResponse</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1842613700%2FFunctions%2F976670565" anchor-label="executeTransactionSerializedSig" id="1842613700%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="execute-transaction-serialized-sig.html"><span>execute</span><wbr></wbr><span>Transaction</span><wbr></wbr><span>Serialized</span><wbr></wbr><span><span>Sig</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1842613700%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="execute-transaction-serialized-sig.html"><span class="token function">executeTransactionSerializedSig</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="discover.html"><span class="token function">discover</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-discovery/index.html">Discovery</a></div><div class="brief "><p class="paragraph">Suspended function that retrieves the <a href="../../xyz.mcxross.ksui.model/-discovery/index.html">Discovery</a> data from the JSON-RPC API service using the <code class="lang-kotlin">rpc.discover</code> method. This method provides documentation describing the available JSON-RPC APIs.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -219,36 +159,6 @@
               </div>
             </div>
           </div>
-<a data-name="661390928%2FFunctions%2F976670565" anchor-label="getCheckpointContents" id="661390928%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-checkpoint-contents.html"><span>get</span><wbr></wbr><span>Checkpoint</span><wbr></wbr><span><span>Contents</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="661390928%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-checkpoint-contents.html"><span class="token function">getCheckpointContents</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-2050291051%2FFunctions%2F976670565" anchor-label="getCheckpointContentsByDigest" id="-2050291051%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-checkpoint-contents-by-digest.html"><span>get</span><wbr></wbr><span>Checkpoint</span><wbr></wbr><span>Contents</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Digest</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2050291051%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-checkpoint-contents-by-digest.html"><span class="token function">getCheckpointContentsByDigest</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
 <a data-name="1357281263%2FFunctions%2F976670565" anchor-label="getCheckpoints" id="1357281263%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
@@ -260,36 +170,6 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-checkpoints.html"><span class="token function">getCheckpoints</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">descendingOrder<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-checkpoint-page/index.html">CheckpointPage</a></div><div class="brief "><p class="paragraph">Fetches paginated list of checkpoints.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-2353974%2FFunctions%2F976670565" anchor-label="getCheckpointSummary" id="-2353974%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-checkpoint-summary.html"><span>get</span><wbr></wbr><span>Checkpoint</span><wbr></wbr><span><span>Summary</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2353974%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-checkpoint-summary.html"><span class="token function">getCheckpointSummary</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1093594156%2FFunctions%2F976670565" anchor-label="getCheckpointSummaryByDigest" id="-1093594156%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-checkpoint-summary-by-digest.html"><span>get</span><wbr></wbr><span>Checkpoint</span><wbr></wbr><span>Summary</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Digest</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1093594156%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-checkpoint-summary-by-digest.html"><span class="token function">getCheckpointSummaryByDigest</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">digest<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-checkpoint-digest/index.html">CheckpointDigest</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -339,47 +219,17 @@
               </div>
             </div>
           </div>
-<a data-name="-894821072%2FFunctions%2F976670565" anchor-label="getDelegatedStakes" id="-894821072%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+<a data-name="-1360112934%2FFunctions%2F976670565" anchor-label="getCustom" id="-1360112934%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="get-delegated-stakes.html"><span>get</span><wbr></wbr><span>Delegated</span><wbr></wbr><span><span>Stakes</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-894821072%2FFunctions%2F976670565"></span>
+                  <div><a href="get-custom.html"><span>get</span><wbr></wbr><span><span>Custom</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1360112934%2FFunctions%2F976670565"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-delegated-stakes.html"><span class="token function">getDelegatedStakes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1832657160%2FFunctions%2F976670565" anchor-label="getDynamicFieldObject" id="-1832657160%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-dynamic-field-object.html"><span>get</span><wbr></wbr><span>Dynamic</span><wbr></wbr><span>Field</span><wbr></wbr><span><span>Object</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1832657160%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-dynamic-field-object.html"><span class="token function">getDynamicFieldObject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-879674192%2FFunctions%2F976670565" anchor-label="getDynamicFields" id="-879674192%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-dynamic-fields.html"><span>get</span><wbr></wbr><span>Dynamic</span><wbr></wbr><span><span>Fields</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-879674192%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-dynamic-fields.html"><span class="token function">getDynamicFields</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-custom.html">T</a><span class="token operator">&gt; </span><a href="get-custom.html"><span class="token function">getCustom</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>params<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="get-custom.html">T</a></div><div class="brief "><p class="paragraph">Suspended generic function that calls a custom JSON-RPC API method with the given name and parameters.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -474,36 +324,6 @@
               </div>
             </div>
           </div>
-<a data-name="1974718370%2FFunctions%2F976670565" anchor-label="getNormalizedMoveModulesByPackage" id="1974718370%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-normalized-move-modules-by-package.html"><span>get</span><wbr></wbr><span>Normalized</span><wbr></wbr><span>Move</span><wbr></wbr><span>Modules</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Package</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1974718370%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-normalized-move-modules-by-package.html"><span class="token function">getNormalizedMoveModulesByPackage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="4967637%2FFunctions%2F976670565" anchor-label="getNormalizedMoveStruct" id="4967637%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-normalized-move-struct.html"><span>get</span><wbr></wbr><span>Normalized</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Struct</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="4967637%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-normalized-move-struct.html"><span class="token function">getNormalizedMoveStruct</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
 <a data-name="1200870778%2FFunctions%2F976670565" anchor-label="getObject" id="1200870778%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
@@ -530,6 +350,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-reference-gas-price.html"><span class="token function">getReferenceGasPrice</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-gas-price/index.html">GasPrice</a></div><div class="brief "><p class="paragraph">Return the reference gas price for the network.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1117185481%2FFunctions%2F976670565" anchor-label="getStakes" id="1117185481%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-stakes.html"><span>get</span><wbr></wbr><span><span>Stakes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1117185481%2FFunctions%2F976670565"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-stakes.html"><span class="token function">getStakes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-delegated-stake/index.html">DelegatedStake</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Retrieves the list of delegated stakes for a specified owner.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -579,36 +414,6 @@
               </div>
             </div>
           </div>
-<a data-name="-1473330%2FFunctions%2F976670565" anchor-label="getTransactionsInRange" id="-1473330%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-transactions-in-range.html"><span>get</span><wbr></wbr><span>Transactions</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Range</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1473330%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-transactions-in-range.html"><span class="token function">getTransactionsInRange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">start<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-digests/index.html">TransactionDigests</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1772062319%2FFunctions%2F976670565" anchor-label="getValidators" id="-1772062319%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="get-validators.html"><span>get</span><wbr></wbr><span><span>Validators</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1772062319%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-validators.html"><span class="token function">getValidators</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-validators/index.html">Validators</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
 <a data-name="1740748486%2FFunctions%2F976670565" anchor-label="isSuiAvailable" id="1740748486%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
@@ -620,96 +425,6 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="is-sui-available.html"><span class="token function">isSuiAvailable</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Pings Sui using the configured endpoint URL and HTTP client.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1062799533%2FFunctions%2F976670565" anchor-label="mergeCoins" id="1062799533%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="merge-coins.html"><span>merge</span><wbr></wbr><span><span>Coins</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1062799533%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="merge-coins.html"><span class="token function">mergeCoins</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signer<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">primaryCoin<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-object-i-d/index.html">ObjectID</a><span class="token punctuation">, </span></span><span class="parameter ">coinToMerge<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-object-i-d/index.html">ObjectID</a><span class="token punctuation">, </span></span><span class="parameter ">gas<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-gas/index.html">Gas</a><span class="token punctuation">, </span></span><span class="parameter ">gasBudget<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-bytes/index.html">TransactionBytes</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="495418533%2FFunctions%2F976670565" anchor-label="moveCall" id="495418533%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="move-call.html"><span>move</span><wbr></wbr><span><span>Call</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="495418533%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="move-call.html"><span class="token function">moveCall</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">signer<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">packageObjectId<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-object-i-d/index.html">ObjectID</a><span class="token punctuation">, </span></span><span class="parameter ">module<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">function<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">typeArguments<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-type-tag/index.html">TypeTag</a><span class="token punctuation">, </span></span><span class="parameter ">arguments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-sui-json-value/index.html">SuiJsonValue</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">gas<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-gas/index.html">Gas</a><span class="token punctuation">, </span></span><span class="parameter ">gasBudget<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">executionMode<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-transaction-builder-mode/index.html">SuiTransactionBuilderMode</a><span class="token operator"> = </span>SuiTransactionBuilderMode.REGULAR</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-bytes/index.html">TransactionBytes</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="2052577024%2FFunctions%2F976670565" anchor-label="multiGetTransactions" id="2052577024%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="multi-get-transactions.html"><span>multi</span><wbr></wbr><span>Get</span><wbr></wbr><span><span>Transactions</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2052577024%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="multi-get-transactions.html"><span class="token function">multiGetTransactions</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-602972384%2FFunctions%2F976670565" anchor-label="pay" id="-602972384%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="pay.html"><span><span>pay</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-602972384%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="pay.html"><span class="token function">pay</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-960703846%2FFunctions%2F976670565" anchor-label="payAllSui" id="-960703846%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="pay-all-sui.html"><span>pay</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Sui</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-960703846%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="pay-all-sui.html"><span class="token function">payAllSui</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="90451251%2FFunctions%2F976670565" anchor-label="paySui" id="90451251%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="pay-sui.html"><span>pay</span><wbr></wbr><span><span>Sui</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="90451251%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="pay-sui.html"><span class="token function">paySui</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -729,167 +444,36 @@
               </div>
             </div>
           </div>
-<a data-name="2130568985%2FFunctions%2F976670565" anchor-label="publish" id="2130568985%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
+<a data-name="286921811%2FFunctions%2F976670565" anchor-label="requestTestTokens" id="286921811%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="publish.html"><span><span>publish</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2130568985%2FFunctions%2F976670565"></span>
+                  <div><a href="../../xyz.mcxross.ksui.util/request-test-tokens.html"><span>request</span><wbr></wbr><span>Test</span><wbr></wbr><span><span>Tokens</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="286921811%2FFunctions%2F976670565"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="publish.html"><span class="token function">publish</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="index.html">SuiHttpClient</a><span class="token punctuation">.</span><a href="../../xyz.mcxross.ksui.util/request-test-tokens.html"><span class="token function">requestTestTokens</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-faucet-response/index.html">FaucetResponse</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1464093432%2FFunctions%2F976670565" anchor-label="requestAddDelegation" id="1464093432%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="634261449%2FProperties%2F976670565" anchor-label="configContainer" id="634261449%2FProperties%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
           <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="request-add-delegation.html"><span>request</span><wbr></wbr><span>Add</span><wbr></wbr><span><span>Delegation</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1464093432%2FFunctions%2F976670565"></span>
+                  <div><a href="config-container.html"><span>config</span><wbr></wbr><span><span>Container</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="634261449%2FProperties%2F976670565"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="request-add-delegation.html"><span class="token function">requestAddDelegation</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1673521895%2FFunctions%2F976670565" anchor-label="requestWithdrawDelegation" id="1673521895%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="request-withdraw-delegation.html"><span>request</span><wbr></wbr><span>Withdraw</span><wbr></wbr><span><span>Delegation</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1673521895%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="request-withdraw-delegation.html"><span class="token function">requestWithdrawDelegation</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1335138333%2FFunctions%2F976670565" anchor-label="splitCoin" id="1335138333%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="split-coin.html"><span>split</span><wbr></wbr><span><span>Coin</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1335138333%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="split-coin.html"><span class="token function">splitCoin</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1516154167%2FFunctions%2F976670565" anchor-label="splitCoinEqual" id="-1516154167%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="split-coin-equal.html"><span>split</span><wbr></wbr><span>Coin</span><wbr></wbr><span><span>Equal</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1516154167%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="split-coin-equal.html"><span class="token function">splitCoinEqual</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1967235422%2FFunctions%2F976670565" anchor-label="submitTransaction" id="-1967235422%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="submit-transaction.html"><span>submit</span><wbr></wbr><span><span>Transaction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1967235422%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="submit-transaction.html"><span class="token function">submitTransaction</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="124836450%2FFunctions%2F976670565" anchor-label="subscribeEvent" id="124836450%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="subscribe-event.html"><span>subscribe</span><wbr></wbr><span><span>Event</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="124836450%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="subscribe-event.html"><span class="token function">subscribeEvent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1408734855%2FFunctions%2F976670565" anchor-label="tblsSignRandomnessObject" id="1408734855%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="tbls-sign-randomness-object.html"><span>tbls</span><wbr></wbr><span>Sign</span><wbr></wbr><span>Randomness</span><wbr></wbr><span><span>Object</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1408734855%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="tbls-sign-randomness-object.html"><span class="token function">tblsSignRandomnessObject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1352512520%2FFunctions%2F976670565" anchor-label="transferObject" id="1352512520%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="transfer-object.html"><span>transfer</span><wbr></wbr><span><span>Object</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1352512520%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="transfer-object.html"><span class="token function">transferObject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="969565420%2FFunctions%2F976670565" anchor-label="transferSui" id="969565420%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="transfer-sui.html"><span>transfer</span><wbr></wbr><span><span>Sui</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="969565420%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="transfer-sui.html"><span class="token function">transferSui</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1708481498%2FFunctions%2F976670565" anchor-label="tryGetPastObject" id="-1708481498%2FFunctions%2F976670565" data-filterable-set=":lib:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":lib:dokkaHtml/commonMain" data-filterable-set=":lib:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="try-get-past-object.html"><span>try</span><wbr></wbr><span>Get</span><wbr></wbr><span>Past</span><wbr></wbr><span><span>Object</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1708481498%2FFunctions%2F976670565"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="try-get-past-object.html"><span class="token function">tryGetPastObject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="config-container.html">configContainer</a><span class="token operator">: </span><a href="../-config-container/index.html">ConfigContainer</a></div></div></div>
                 </div>
               </div>
             </div>
