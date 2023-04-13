@@ -13,47 +13,35 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
+import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Checkpoint
-import xyz.mcxross.ksui.model.CheckpointDigest
 import xyz.mcxross.ksui.model.CheckpointId
 import xyz.mcxross.ksui.model.CheckpointPage
 import xyz.mcxross.ksui.model.CheckpointSequenceNumber
 import xyz.mcxross.ksui.model.CoinPage
 import xyz.mcxross.ksui.model.CommitteeInfo
-import xyz.mcxross.ksui.model.DevInspectResults
-import xyz.mcxross.ksui.model.DryRunTransactionResponse
+import xyz.mcxross.ksui.model.DelegatedStake
+import xyz.mcxross.ksui.model.Discovery
 import xyz.mcxross.ksui.model.Event
-import xyz.mcxross.ksui.model.ExecuteTransactionRequestType
-import xyz.mcxross.ksui.model.Gas
 import xyz.mcxross.ksui.model.GasPrice
 import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
 import xyz.mcxross.ksui.model.MoveNormalizedModule
-import xyz.mcxross.ksui.model.ObjectID
 import xyz.mcxross.ksui.model.ObjectResponse
-import xyz.mcxross.ksui.model.RPCTransactionRequestParams
 import xyz.mcxross.ksui.model.Response
 import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiCoinMetadata
-import xyz.mcxross.ksui.model.SuiException
-import xyz.mcxross.ksui.model.SuiJsonValue
-import xyz.mcxross.ksui.model.SuiObjectInfo
 import xyz.mcxross.ksui.model.SuiSystemStateSummary
-import xyz.mcxross.ksui.model.SuiTransactionBuilderMode
 import xyz.mcxross.ksui.model.Supply
 import xyz.mcxross.ksui.model.TransactionBlockResponse
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.TransactionBytes
 import xyz.mcxross.ksui.model.TransactionDigest
-import xyz.mcxross.ksui.model.TransactionDigests
-import xyz.mcxross.ksui.model.TypeTag
-import xyz.mcxross.ksui.model.Validators
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
-class SuiHttpClient constructor(private val configContainer: ConfigContainer) : SuiClient {
+class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClient {
 
-  private val json = Json {
+  internal val json = Json {
     ignoreUnknownKeys = true
     prettyPrint = true
   }
@@ -132,81 +120,43 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
   suspend fun isSuiAvailable(): Boolean = call("isSuiAvailable").status.isSuccess()
 
   /**
-   * Create an unsigned batched transaction.
+   * Suspended function that retrieves the [Discovery] data from the JSON-RPC API service using the
+   * `rpc.discover` method. This method provides documentation describing the available JSON-RPC
+   * APIs.
    *
-   * @param signer transaction signer's Sui address
-   * @param singleTransactionParams list of transaction request parameters
-   * @param gas object to be used in this transaction, node will pick one from the signer's
-   *   possession if not provided
-   * @param gasBudget the gas budget, the transaction will fail if the gas cost exceed the budget
-   * @param txnBuilderMode whether this is a regular transaction or a Dev Inspect Transaction
-   * @return [TransactionBytes]
+   * @return [Discovery] object containing the discovered APIs.
+   * @throws [SuiException] if an error occurs while decoding the JSON response or if the response
+   *   is an error.
    */
-  suspend fun batchTransaction(
-      signer: SuiAddress,
-      singleTransactionParams: List<RPCTransactionRequestParams>,
-      gas: Gas? = null,
-      gasBudget: Int,
-      txnBuilderMode: SuiTransactionBuilderMode = SuiTransactionBuilderMode.REGULAR
-  ): TransactionBytes =
-      Json.decodeFromString(
-          serializer(),
-          when (gas) {
-            null ->
-                call(
-                    "sui_batchTransaction",
-                    signer.pubKey,
-                    singleTransactionParams,
-                    gasBudget,
-                    when (txnBuilderMode) {
-                      SuiTransactionBuilderMode.REGULAR -> "Commit"
-                      SuiTransactionBuilderMode.DEV_INSPECT -> ""
-                    },
-                )
-            else ->
-                call(
-                    "sui_batchTransaction",
-                    signer.pubKey,
-                    singleTransactionParams,
-                    gas,
-                    gasBudget,
-                    when (txnBuilderMode) {
-                      SuiTransactionBuilderMode.REGULAR -> "Commit"
-                      SuiTransactionBuilderMode.DEV_INSPECT -> ""
-                    },
-                )
-          }.bodyAsText(),
-      )
+  suspend fun discover(): Discovery {
+    when (val result =
+        json.decodeFromString<Response<Discovery>>(
+            serializer(), call("rpc.discover").bodyAsText())) {
+      is Response.Ok -> return result.data
+      is Response.Error -> throw SuiException(result.message)
+    }
+  }
 
-  suspend fun devInspectTransaction(
-      senderAddress: SuiAddress,
-      txBytes: String,
-      gasPrice: Long,
-      epoch: Long? = null
-  ): DevInspectResults =
-      Json.decodeFromString(
-          serializer(),
-          when (epoch) {
-            null -> call("sui_devInspectTransaction", senderAddress.pubKey, txBytes, gasPrice)
-            else ->
-                call("sui_devInspectTransaction", senderAddress.pubKey, txBytes, gasPrice, epoch)
-          }.bodyAsText(),
-      )
-
-  suspend fun dryRunTransaction(txBytes: Long): DryRunTransactionResponse =
-      Json.decodeFromString(serializer(), call("sui_dryRunTransaction", txBytes).bodyAsText())
-
-  suspend fun executeTransaction(
-      txBytes: Long,
-      signature: Long,
-      requestType: ExecuteTransactionRequestType
-  ): TransactionBlockResponse =
-      Json.decodeFromString(
-          serializer(),
-          call("sui_executeTransaction", txBytes, signature, requestType).bodyAsText(),
-      )
-
-  suspend fun executeTransactionSerializedSig() {}
+  /**
+   * Suspended generic function that calls a custom JSON-RPC API method with the given name and
+   * parameters.
+   *
+   * This function is useful for calling JSON-RPC APIs that are not yet supported by this library.
+   *
+   * @param function The name of the JSON-RPC API method to call.
+   * @param params The parameters to pass to the JSON-RPC API method.
+   * @return a [T] object containing the result of the JSON-RPC API method.
+   * @throws [SuiException] if an error occurs while decoding the JSON response or if the response
+   *   is an error.
+   */
+  suspend fun <T> getCustom(function: String, vararg params: Any?): T {
+    val result =
+        json.decodeFromString<Response<T>>(serializer(), call(function, *params).bodyAsText())
+    when (result) {
+      is Response.Ok -> return result.data
+      is Response.Error -> throw SuiException(result.message)
+    }
+  }
 
   /**
    * Return the total coin balance for all coin type, owned by the address owner.
@@ -331,14 +281,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
     }
   }
 
-  suspend fun getCheckpointContents() {}
-  suspend fun getCheckpointContentsByDigest() {}
-  suspend fun getCheckpointSummary() {}
-  suspend fun getCheckpointSummaryByDigest(digest: CheckpointDigest) {
-    return Json.decodeFromString(
-        serializer(), call("sui_getCheckpointSummaryByDigest", digest).bodyAsText())
-  }
-
   /**
    * Return metadata(e.g., symbol, decimals) for a coin
    *
@@ -409,10 +351,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       is Response.Error -> throw SuiException(response.message)
     }
   }
-
-  suspend fun getDelegatedStakes() {}
-  suspend fun getDynamicFieldObject() {}
-  suspend fun getDynamicFields() {}
 
   /**
    * Return the latest SUI system state object on-chain.
@@ -514,8 +452,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       is Response.Error -> throw SuiException(response.message)
     }
   }
-  suspend fun getNormalizedMoveModulesByPackage() {}
-  suspend fun getNormalizedMoveStruct() {}
 
   /**
    * Asynchronously retrieves an object with the given [objectId] using the SUI API, with the
@@ -545,30 +481,6 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
   }
 
   /**
-   * Return the list of objects owned by an address.
-   *
-   * @param address of the owner
-   * @return List<[SuiObjectInfo]>
-   */
-  /*suspend fun getObjectsOwnedByAddress(address: SuiAddress): List<SuiObjectInfo> {
-    val result =
-      json.decodeFromString<SuiObjectResult>(
-        serializer(),
-        call("sui_getObjectsOwnedByAddress", *listOf(address.pubKey).toTypedArray()).bodyAsText()
-      )
-    return result.value.map {
-      SuiObjectInfo(
-        it.objectId,
-        it.version,
-        Digest(it.digest),
-        it.type,
-        it.owner,
-        Transaction(it.previousTransaction)
-      )
-    }
-  }*/
-
-  /**
    * Return the reference gas price for the network.
    *
    * @return [GasPrice]
@@ -579,6 +491,23 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
             serializer(), call("suix_getReferenceGasPrice").bodyAsText())
     when (response) {
       is Response.Ok -> return GasPrice(response.data)
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves the list of delegated stakes for a specified owner.
+   *
+   * @param owner The owner of the stakes to retrieve.
+   * @return The list of delegated stakes for the specified owner.
+   * @throws SuiException if there is an error retrieving the stakes.
+   */
+  suspend fun getStakes(owner: SuiAddress): List<DelegatedStake> {
+    val response =
+        json.decodeFromString<Response<List<DelegatedStake>>>(
+            serializer(), call("suix_getStakes", owner.pubKey).bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
     }
   }
@@ -633,62 +562,4 @@ class SuiHttpClient constructor(private val configContainer: ConfigContainer) : 
       is Response.Error -> throw SuiException(response.message)
     }
   }
-
-  suspend fun getTransactionsInRange(start: Long, end: Long): TransactionDigests =
-      json.decodeFromString(
-          serializer(), call("sui_getTransactionsInRange", start, end).bodyAsText())
-  suspend fun getValidators(): Validators =
-      json.decodeFromString(serializer(), call("sui_getValidators").bodyAsText())
-
-  suspend fun mergeCoins(
-      signer: SuiAddress,
-      primaryCoin: ObjectID,
-      coinToMerge: ObjectID,
-      gas: Gas,
-      gasBudget: Long
-  ): TransactionBytes =
-      Json.decodeFromString(
-          serializer(),
-          call("sui_mergeCoins", signer, primaryCoin, coinToMerge, gas, gasBudget).bodyAsText())
-  suspend fun moveCall(
-      signer: SuiAddress,
-      packageObjectId: ObjectID,
-      module: String,
-      function: String,
-      typeArguments: TypeTag,
-      arguments: List<SuiJsonValue>,
-      gas: Gas,
-      gasBudget: Long,
-      executionMode: SuiTransactionBuilderMode = SuiTransactionBuilderMode.REGULAR
-  ): TransactionBytes {
-    return Json.decodeFromString(
-        serializer(),
-        call(
-                "sui_moveCall",
-                signer,
-                packageObjectId,
-                module,
-                function,
-                typeArguments,
-                arguments,
-                gas,
-                gasBudget,
-                executionMode)
-            .bodyAsText())
-  }
-  suspend fun multiGetTransactions() {}
-  suspend fun pay() {}
-  suspend fun payAllSui() {}
-  suspend fun paySui() {}
-  suspend fun publish() {}
-  suspend fun requestAddDelegation() {}
-  suspend fun requestWithdrawDelegation() {}
-  suspend fun splitCoin() {}
-  suspend fun splitCoinEqual() {}
-  suspend fun submitTransaction() {}
-  suspend fun subscribeEvent() {}
-  suspend fun tblsSignRandomnessObject() {}
-  suspend fun transferObject() {}
-  suspend fun transferSui() {}
-  suspend fun tryGetPastObject() {}
 }
