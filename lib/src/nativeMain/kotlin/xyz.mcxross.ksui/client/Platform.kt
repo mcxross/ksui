@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui
+package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
 
