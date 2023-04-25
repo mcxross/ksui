@@ -1,5 +1,10 @@
 import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.kotlin.dsl.`maven-publish`
+import org.gradle.kotlin.dsl.signing
+import java.util.*
 
 val ktorVersion: String = extra["ktor_version"] as String
 
@@ -8,6 +13,7 @@ plugins {
   kotlin("plugin.serialization") version "1.8.10"
   id("org.jetbrains.dokka") version "1.8.10"
   id("maven-publish")
+  id("signing")
 }
 
 group = "xyz.mcxross.ksui"
@@ -15,6 +21,12 @@ group = "xyz.mcxross.ksui"
 version = "0.29.0-beta.1"
 
 repositories { mavenCentral() }
+
+ext["signing.keyId"] = null
+ext["signing.password"] = null
+ext["signing.secretKeyRingFile"] = null
+ext["ossrhUsername"] = null
+ext["ossrhPassword"] = null
 
 kotlin {
   jvm {
@@ -56,6 +68,23 @@ kotlin {
   }
 }
 
+val secretPropsFile = project.rootProject.file("local.properties")
+if (secretPropsFile.exists()) {
+  secretPropsFile.reader().use {
+    Properties().apply {
+      load(it)
+    }
+  }.onEach { (name, value) ->
+    ext[name.toString()] = value
+  }
+} else {
+  ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+  ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+  ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+  ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
+}
+
 tasks.getByName<DokkaTask>("dokkaHtml") {
   moduleName.set("Ksui")
   outputDirectory.set(file(buildDir.resolve("dokka")))
@@ -69,4 +98,56 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
       }
     }
   }
+}
+
+val javadocJar = tasks.register<Jar>("javadocJar") {
+  archiveClassifier.set("javadoc")
+  dependsOn("dokkaHtml")
+  from(buildDir.resolve("dokka"))
+}
+
+fun getExtraString(name: String) = ext[name]?.toString()
+
+publishing {
+  repositories {
+    maven {
+      name = "sonatype"
+      setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+      credentials {
+        username = getExtraString("ossrhUsername")
+        password = getExtraString("ossrhPassword")
+      }
+    }
+  }
+
+  publications.withType<MavenPublication> {
+    artifact(javadocJar.get())
+
+    pom {
+      name.set("MPP Sui library")
+      description.set("Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.")
+      url.set("https://github.com/mcxross")
+
+      licenses {
+        license {
+          name.set("Apache License, Version 2.0")
+          url.set("https://opensource.org/licenses/APACHE-2.0")
+        }
+      }
+      developers {
+        developer {
+          id.set("mcxross")
+          name.set("Mcxross")
+          email.set("oss@mcxross.xyz")
+        }
+      }
+      scm {
+        url.set("https://github.com/mcxross/ksui")
+      }
+    }
+  }
+}
+
+signing {
+  sign(publishing.publications)
 }
