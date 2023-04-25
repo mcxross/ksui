@@ -26,7 +26,7 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplat
 ##### Installation
 
 ```kotlin
-implementation("xyz.mcxross.ksui:ksui:$ksui_version")
+implementation("xyz.mcxross.ksui:<ksui-[platform]>:<$ksui_version>")
 ```
 
 ##### RPC HTTP Client
