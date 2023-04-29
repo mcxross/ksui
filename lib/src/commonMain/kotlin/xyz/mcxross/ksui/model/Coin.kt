@@ -7,7 +7,7 @@ data class SuiCoinMetadata(
     val decimals: UByte,
     val description: String,
     val iconUrl: String?,
-    val id: ObjectID?,
+    val id: String = "",
     val name: String,
     val symbol: String,
 )
