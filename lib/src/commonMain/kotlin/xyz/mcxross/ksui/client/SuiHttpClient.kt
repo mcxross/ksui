@@ -9,11 +9,13 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
+import kotlinx.serialization.json.addJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
 import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.exception.TransactionNotFoundException
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
@@ -36,6 +38,8 @@ import xyz.mcxross.ksui.model.SuiSystemStateSummary
 import xyz.mcxross.ksui.model.Supply
 import xyz.mcxross.ksui.model.TransactionBlockResponse
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.TransactionBlockResponseQuery
+import xyz.mcxross.ksui.model.TransactionBlocksPage
 import xyz.mcxross.ksui.model.TransactionDigest
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
@@ -97,6 +101,7 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
                           is Boolean -> add(it)
                           null -> add(it)
                           is JsonElement -> add(it)
+                          is List<*> -> addJsonArray { it.forEach { i -> add(i.toString()) } }
                           else -> add(json.encodeToString(serializer(), it))
                         }
                       }
@@ -529,9 +534,36 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
     }
   }
 
+  /**
+   * Return the total number of transactions known to the server.
+   *
+   * @return [Long]
+   */
+  suspend fun getTotalTransactionBlocks(): Long {
+    val response =
+        json.decodeFromString<Response<Long>>(
+            serializer(), call("sui_getTotalTransactionBlocks").bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves the transaction block corresponding to the given digest and with the specified
+   * options.
+   *
+   * @param digest the [TransactionDigest] object representing the digest of the transaction block
+   *   to retrieve.
+   * @param options an optional [TransactionBlockResponseOptions] object specifying additional
+   *   options for the response. Defaults to null.
+   * @return a [TransactionBlockResponse] object containing the transaction block data.
+   * @throws TransactionNotFoundException if the transaction block is not found.
+   * @throws SuiException if there is an error retrieving the transaction block.
+   */
   suspend fun getTransactionBlock(
       digest: TransactionDigest,
-      options: TransactionBlockResponseOptions
+      options: TransactionBlockResponseOptions? = null
   ): TransactionBlockResponse {
 
     val response =
@@ -544,19 +576,77 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
                 .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
+      is Response.Error ->
+          if (response.message.contains("not find")) {
+            throw TransactionNotFoundException(digest.value)
+          } else {
+            throw SuiException(response.message)
+          }
+    }
+  }
+
+  /**
+   * Retrieves multiple transaction blocks corresponding to the given digests and with the specified
+   * options.
+   *
+   * @param digests a list of [TransactionDigest] objects representing the digests of the
+   *   transaction blocks to retrieve.
+   * @param options an optional [TransactionBlockResponseOptions] object specifying additional
+   *   options for the response. Defaults to null.
+   * @return a list of [TransactionBlockResponse] objects containing the transaction block data.
+   * @throws SuiException if the response from the server is an error.
+   */
+  suspend fun getMultiTransactionBlocks(
+      digests: List<TransactionDigest>,
+      options: TransactionBlockResponseOptions? = null
+  ): List<TransactionBlockResponse> {
+    val response =
+        json.decodeFromString<Response<List<TransactionBlockResponse>>>(
+            serializer(),
+            call(
+                    "sui_multiGetTransactionBlocks",
+                    *listOf(
+                            digests.map { it.value },
+                            json.encodeToJsonElement(serializer(), options))
+                        .toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
     }
   }
 
   /**
-   * Return the total number of transactions known to the server.
+   * Queries the transaction blocks based on the given parameters.
    *
-   * @return [Long]
+   * @param query the [TransactionBlockResponseQuery] object containing the query parameters.
+   * @param cursor an optional string representing the cursor to use for pagination. Defaults to
+   *   null.
+   * @param limit an integer representing the maximum number of results to return. Defaults to QUERY_MAX_RESULT_LIMIT if null.
+   * @param descendingOrder a boolean indicating whether the results should be sorted in descending
+   *   order. Defaults to false (ascending order), oldest record first.
+   * @return a [TransactionBlocksPage] object containing the transaction blocks that match the query
+   *   parameters.
+   * @throws SuiException if the response from the server is an error.
    */
-  suspend fun getTotalTransactionBlocks(): Long {
+  suspend fun queryTransactionBlocks(
+      query: TransactionBlockResponseQuery,
+      cursor: String? = null,
+      limit: Int? = null,
+      descendingOrder: Boolean = false
+  ): TransactionBlocksPage {
     val response =
-        json.decodeFromString<Response<Long>>(
-            serializer(), call("sui_getTotalTransactionBlocks").bodyAsText())
+        json.decodeFromString<Response<TransactionBlocksPage>>(
+            serializer(),
+            call(
+                    "suix_queryTransactionBlocks",
+                    *listOf(
+                            json.encodeToJsonElement(serializer(), query),
+                            cursor,
+                            limit,
+                            descendingOrder)
+                        .toTypedArray())
+                .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
