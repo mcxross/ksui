@@ -1,1 +1,1 @@
-sourceset_dependencies='{":lib:dokkaHtml/commonMain":[],":lib:dokkaHtml/jsMain":[":lib:dokkaHtml/commonMain"],":lib:dokkaHtml/jvmMain":[":lib:dokkaHtml/commonMain"],":lib:dokkaHtml/nativeMain":[":lib:dokkaHtml/commonMain"]}'
+sourceset_dependencies='{":ksui:dokkaHtml/commonMain":[],":ksui:dokkaHtml/jsMain":[":ksui:dokkaHtml/commonMain"],":ksui:dokkaHtml/jvmMain":[":ksui:dokkaHtml/commonMain"],":ksui:dokkaHtml/nativeMain":[":ksui:dokkaHtml/commonMain"]}'

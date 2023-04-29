@@ -54,6 +54,7 @@ $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getEvents/#xyz.mcxross.ksu
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getLatestCheckpointSequenceNumber/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-latest-checkpoint-sequence-number.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getLatestSuiSystemState/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-latest-sui-system-state.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getMoveFunctionArgTypes/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-move-function-arg-types.html
+$dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getMultiTransactionBlocks/#kotlin.collections.List[xyz.mcxross.ksui.model.TransactionDigest]#xyz.mcxross.ksui.model.TransactionBlockResponseOptions?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-multi-transaction-blocks.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getNormalizedMoveFunction/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-normalized-move-function.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getNormalizedMoveModule/#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-normalized-move-module.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getObject/#kotlin.String#xyz.mcxross.ksui.model.ObjectResponse.ObjectDataOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-object.html
@@ -61,8 +62,9 @@ $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getReferenceGasPrice/#/Poi
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getStakes/#xyz.mcxross.ksui.model.SuiAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-stakes.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getTotalSupply/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-total-supply.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getTotalTransactionBlocks/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-total-transaction-blocks.html
-$dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getTransactionBlock/#xyz.mcxross.ksui.model.TransactionDigest#xyz.mcxross.ksui.model.TransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-transaction-block.html
+$dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/getTransactionBlock/#xyz.mcxross.ksui.model.TransactionDigest#xyz.mcxross.ksui.model.TransactionBlockResponseOptions?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/get-transaction-block.html
 $dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/isSuiAvailable/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/is-sui-available.html
+$dokka.location:xyz.mcxross.ksui.client/SuiHttpClient/queryTransactionBlocks/#xyz.mcxross.ksui.model.TransactionBlockResponseQuery#kotlin.String?#kotlin.Int?#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-http-client/query-transaction-blocks.html
 $dokka.location:xyz.mcxross.ksui.exception////PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/MethodNotFoundException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-method-not-found-exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/MethodNotFoundException/MethodNotFoundException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-method-not-found-exception/-method-not-found-exception.html
@@ -70,6 +72,8 @@ $dokka.location:xyz.mcxross.ksui.exception/SuiException///PointingToDeclaration/
 $dokka.location:xyz.mcxross.ksui.exception/SuiException/SuiException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-sui-exception/-sui-exception.html
 $dokka.location:xyz.mcxross.ksui.exception/TooManyRequestsException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-too-many-requests-exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/TooManyRequestsException/TooManyRequestsException/#kotlin.Int#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-too-many-requests-exception/-too-many-requests-exception.html
+$dokka.location:xyz.mcxross.ksui.exception/TransactionNotFoundException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-transaction-not-found-exception/index.html
+$dokka.location:xyz.mcxross.ksui.exception/TransactionNotFoundException/TransactionNotFoundException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-transaction-not-found-exception/-transaction-not-found-exception.html
 $dokka.location:xyz.mcxross.ksui.model.serializer.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer.util/index.html
 $dokka.location:xyz.mcxross.ksui.model.serializer.util//whichOwner/#kotlinx.serialization.json.JsonObject?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer.util/which-owner.html
 $dokka.location:xyz.mcxross.ksui.model.serializer////PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer/index.html
@@ -699,6 +703,9 @@ $dokka.location:xyz.mcxross.ksui.model/ObjectResponse///PointingToDeclaration/-
 $dokka.location:xyz.mcxross.ksui.model/Owner.AddressOwner///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-address-owner/index.html
 $dokka.location:xyz.mcxross.ksui.model/Owner.AddressOwner/AddressOwner/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-address-owner/-address-owner.html
 $dokka.location:xyz.mcxross.ksui.model/Owner.AddressOwner/address/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-address-owner/address.html
+$dokka.location:xyz.mcxross.ksui.model/Owner.LiteralOwner///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-literal-owner/index.html
+$dokka.location:xyz.mcxross.ksui.model/Owner.LiteralOwner/LiteralOwner/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-literal-owner/-literal-owner.html
+$dokka.location:xyz.mcxross.ksui.model/Owner.LiteralOwner/owner/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-literal-owner/owner.html
 $dokka.location:xyz.mcxross.ksui.model/Owner.ObjectOwner///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-object-owner/index.html
 $dokka.location:xyz.mcxross.ksui.model/Owner.ObjectOwner/ObjectOwner/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-object-owner/-object-owner.html
 $dokka.location:xyz.mcxross.ksui.model/Owner.ObjectOwner/address/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owner/-object-owner/address.html
@@ -780,7 +787,7 @@ $dokka.location:xyz.mcxross.ksui.model/SuiAddress///PointingToDeclaration/-ksui
 $dokka.location:xyz.mcxross.ksui.model/SuiAddress/SuiAddress/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-address/-sui-address.html
 $dokka.location:xyz.mcxross.ksui.model/SuiAddress/pubKey/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-address/pub-key.html
 $dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/index.html
-$dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata/SuiCoinMetadata/#kotlin.UByte#kotlin.String#kotlin.String?#xyz.mcxross.ksui.model.ObjectID?#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/-sui-coin-metadata.html
+$dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata/SuiCoinMetadata/#kotlin.UByte#kotlin.String#kotlin.String?#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/-sui-coin-metadata.html
 $dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata/decimals/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/decimals.html
 $dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata/description/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/description.html
 $dokka.location:xyz.mcxross.ksui.model/SuiCoinMetadata/iconUrl/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-coin-metadata/icon-url.html
@@ -946,12 +953,16 @@ $dokka.location:xyz.mcxross.ksui.model/Transaction///PointingToDeclaration/-ksu
 $dokka.location:xyz.mcxross.ksui.model/Transaction/Transaction/#xyz.mcxross.ksui.model.Data#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction/-transaction.html
 $dokka.location:xyz.mcxross.ksui.model/Transaction/data/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction/data.html
 $dokka.location:xyz.mcxross.ksui.model/Transaction/txSignatures/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction/tx-signatures.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlock///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block/index.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlock/TransactionBlock/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block/-transaction-block.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlock/digest/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block/digest.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/index.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/TransactionBlockResponse/#kotlin.String#xyz.mcxross.ksui.model.Transaction?#kotlin.String#xyz.mcxross.ksui.model.Effects?#kotlin.collections.List[xyz.mcxross.ksui.model.Event]#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectChange]#kotlin.collections.List[xyz.mcxross.ksui.model.BalanceChange]#kotlin.Long#kotlin.Long/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/-transaction-block-response.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/TransactionBlockResponse/#kotlin.String#xyz.mcxross.ksui.model.Transaction?#kotlin.String#xyz.mcxross.ksui.model.Effects?#kotlin.collections.List[xyz.mcxross.ksui.model.Event]#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectChange]#kotlin.collections.List[xyz.mcxross.ksui.model.BalanceChange]#kotlin.Long#kotlin.Long#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/-transaction-block-response.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/balanceChanges/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/balance-changes.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/checkpoint/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/checkpoint.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/digest/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/digest.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/effects/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/effects.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/errors/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/errors.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/events/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/events.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/objectChanges/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/object-changes.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponse/rawTransaction/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response/raw-transaction.html
@@ -965,6 +976,18 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptions/showEvent
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptions/showInput/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-options/show-input.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptions/showObjectChanges/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-options/show-object-changes.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptions/showRawInput/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-options/show-raw-input.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQuery///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query/index.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQuery/TransactionBlockResponseQuery/#xyz.mcxross.ksui.model.TransactionBlockResponseQueryFilter?#xyz.mcxross.ksui.model.TransactionBlockResponseOptions?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query/-transaction-block-response-query.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQuery/filter/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query/filter.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQuery/options/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query/options.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQueryFilter///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query-filter/index.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQueryFilter/TransactionBlockResponseQueryFilter/#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query-filter/-transaction-block-response-query-filter.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseQueryFilter/inputObject/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-query-filter/input-object.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlocksPage///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-blocks-page/index.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlocksPage/TransactionBlocksPage/#kotlin.collections.List[xyz.mcxross.ksui.model.TransactionBlock]#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-blocks-page/-transaction-blocks-page.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlocksPage/data/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-blocks-page/data.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlocksPage/hasNextPage/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-blocks-page/has-next-page.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlocksPage/nextCursor/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-blocks-page/next-cursor.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBytes///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-bytes/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBytes/TransactionBytes/#kotlin.collections.List[xyz.mcxross.ksui.model.Gas]#kotlin.collections.List[xyz.mcxross.ksui.model.InputObject]#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-bytes/-transaction-bytes.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBytes/gas/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-bytes/gas.html
@@ -1098,9 +1121,6 @@ $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/versionSpecificData/#
 $dokka.location:xyz.mcxross.ksui.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/index.html
 $dokka.location:xyz.mcxross.ksui.util//ping/xyz.mcxross.ksui.client.SuiClient#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/ping.html
 $dokka.location:xyz.mcxross.ksui.util//requestTestTokens/xyz.mcxross.ksui.client.SuiHttpClient#xyz.mcxross.ksui.model.SuiAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/request-test-tokens.html
-$dokka.location:xyz.mcxross.ksui////PointingToDeclaration/-ksui/xyz.mcxross.ksui/index.html
-$dokka.location:xyz.mcxross.ksui//httpClient/#kotlin.Function1[io.ktor.client.HttpClientConfig[*],kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui/http-client.html
-xyz.mcxross.ksui
 xyz.mcxross.ksui.client
 xyz.mcxross.ksui.exception
 xyz.mcxross.ksui.model
