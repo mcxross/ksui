@@ -26,6 +26,9 @@ import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.DelegatedStake
 import xyz.mcxross.ksui.model.Discovery
 import xyz.mcxross.ksui.model.Event
+import xyz.mcxross.ksui.model.EventFilter
+import xyz.mcxross.ksui.model.EventID
+import xyz.mcxross.ksui.model.EventPage
 import xyz.mcxross.ksui.model.GasPrice
 import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
@@ -535,6 +538,48 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
   }
 
   /**
+   * Queries events on the Sui blockchain matching the given [eventFilter].
+   *
+   * It optionally starts from the event with the specified [cursor], returning at most [limit]
+   * events, otherwise `QUERY_MAX_RESULT_LIMIT`, and in either ascending or descending order based
+   * on [descendingOrder]. Returns an [EventPage] containing the matching events and pagination
+   * information.
+   *
+   * @param eventFilter the query criteria used to match events on the blockchain
+   * @param cursor the event ID from which to start querying events, defaults to null which will
+   *   start from the beginning
+   * @param limit the maximum number of events to return, default to [QUERY_MAX_RESULT_LIMIT] if not
+   *   specified.
+   * @param descendingOrder the order in which to return the events, default to false (ascending
+   *   order), oldest record first.
+   * @return an [EventPage] containing the matching events and pagination information
+   * @throws SuiException if there is an error querying the events
+   */
+  suspend fun queryEvents(
+      eventFilter: EventFilter,
+      cursor: EventID? = null,
+      limit: Int? = null,
+      descendingOrder: Boolean? = null
+  ): EventPage {
+    val response =
+        json.decodeFromString<Response<EventPage>>(
+            serializer(),
+            call(
+                    "suix_queryEvents",
+                    *listOf(
+                            json.encodeToJsonElement(serializer(), eventFilter),
+                            cursor?.txDigest,
+                            limit,
+                            descendingOrder)
+                        .toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
    * Return the total number of transactions known to the server.
    *
    * @return [Long]
@@ -622,7 +667,8 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
    * @param query the [TransactionBlockResponseQuery] object containing the query parameters.
    * @param cursor an optional string representing the cursor to use for pagination. Defaults to
    *   null.
-   * @param limit an integer representing the maximum number of results to return. Defaults to QUERY_MAX_RESULT_LIMIT if null.
+   * @param limit an integer representing the maximum number of results to return. Defaults to
+   *   QUERY_MAX_RESULT_LIMIT if null.
    * @param descendingOrder a boolean indicating whether the results should be sorted in descending
    *   order. Defaults to false (ascending order), oldest record first.
    * @return a [TransactionBlocksPage] object containing the transaction blocks that match the query
