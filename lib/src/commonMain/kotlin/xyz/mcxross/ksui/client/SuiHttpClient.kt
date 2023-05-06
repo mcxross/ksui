@@ -3,6 +3,7 @@ package xyz.mcxross.ksui.client
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.util.network.*
 import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -16,6 +17,7 @@ import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.exception.TransactionNotFoundException
+import xyz.mcxross.ksui.exception.UnresolvedSuiEndPointException
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
@@ -65,7 +67,7 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
         "https://fullnode.testnet.sui.io:443"
       }
       EndPoint.MAINNET -> {
-        "https://fullnode.sui.io:443"
+        "https://fullnode.mainnet.sui.io:443"
       }
     }
   }
@@ -85,33 +87,38 @@ class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClien
       IllegalStateException::class,
   )
   private suspend fun call(method: String, vararg params: Any?): HttpResponse {
-    val response: HttpResponse =
-        configContainer.httpClient.post {
-          url(whichUrl(configContainer.endPoint))
-          contentType(ContentType.Application.Json)
-          setBody(
-              buildJsonObject {
-                    put("jsonrpc", "2.0")
-                    put("id", 1)
-                    put("method", method)
-                    // add an array of params to the request body
-                    putJsonArray("params") {
-                      params.forEach {
-                        when (it) {
-                          is String -> add(it)
-                          is Int -> add(it)
-                          is Long -> add(it)
-                          is Boolean -> add(it)
-                          null -> add(it)
-                          is JsonElement -> add(it)
-                          is List<*> -> addJsonArray { it.forEach { i -> add(i.toString()) } }
-                          else -> add(json.encodeToString(serializer(), it))
+    val response: HttpResponse
+    try {
+      response =
+          configContainer.httpClient.post {
+            url(whichUrl(configContainer.endPoint))
+            contentType(ContentType.Application.Json)
+            setBody(
+                buildJsonObject {
+                      put("jsonrpc", "2.0")
+                      put("id", 1)
+                      put("method", method)
+                      // add an array of params to the request body
+                      putJsonArray("params") {
+                        params.forEach {
+                          when (it) {
+                            is String -> add(it)
+                            is Int -> add(it)
+                            is Long -> add(it)
+                            is Boolean -> add(it)
+                            null -> add(it)
+                            is JsonElement -> add(it)
+                            is List<*> -> addJsonArray { it.forEach { i -> add(i.toString()) } }
+                            else -> add(json.encodeToString(serializer(), it))
+                          }
                         }
                       }
                     }
-                  }
-                  .toString())
-        }
+                    .toString())
+          }
+    } catch (e: UnresolvedAddressException) {
+      throw UnresolvedSuiEndPointException("Couldn't resolve endpoint: ${whichUrl(configContainer.endPoint)}")
+    }
 
     if (response.status.isSuccess()) {
       return response
