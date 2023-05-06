@@ -49,7 +49,7 @@ data class Param(
 @Serializable
 data class Result(
   val name: String,
-  val required: Boolean,
+  val required: Boolean? = null,
   val schema: Schema,
 )
 
@@ -57,7 +57,7 @@ data class Result(
 data class Method(
   val name: String,
   val tags: List<Tag>,
-  val description: String,
+  val description: String = "",
   val params: List<Param>,
   val result: Result,
 )
