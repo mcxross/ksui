@@ -120,7 +120,9 @@ abstract class EventTmp {
 
 @Serializable(with = EventFilterSerializer::class)
 open class EventFilter {
-  @Serializable class Sender : EventFilter()
+  @Serializable class Sender : EventFilter() {
+    var sender: String = ""
+  }
   @Serializable class Transaction : EventFilter()
   @Serializable class Package : EventFilter()
   @Serializable
