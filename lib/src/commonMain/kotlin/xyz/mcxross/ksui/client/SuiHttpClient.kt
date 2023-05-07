@@ -48,28 +48,11 @@ import xyz.mcxross.ksui.model.TransactionBlocksPage
 import xyz.mcxross.ksui.model.TransactionDigest
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
-class SuiHttpClient constructor(val configContainer: ConfigContainer) : SuiClient {
+class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
 
   internal val json = Json {
     ignoreUnknownKeys = true
     prettyPrint = true
-  }
-
-  private fun whichUrl(endPoint: EndPoint): String {
-    return when (endPoint) {
-      EndPoint.CUSTOM -> {
-        configContainer.customUrl
-      }
-      EndPoint.DEVNET -> {
-        "https://fullnode.devnet.sui.io:443"
-      }
-      EndPoint.TESTNET -> {
-        "https://fullnode.testnet.sui.io:443"
-      }
-      EndPoint.MAINNET -> {
-        "https://fullnode.mainnet.sui.io:443"
-      }
-    }
   }
 
   /**

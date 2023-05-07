@@ -1,7 +1,5 @@
 package xyz.mcxross.ksui.client
 
-import xyz.mcxross.ksui.model.SuiWebSocketClient
-
 /**
  * Creates a new instance of [SuiHttpClient] using the provided configuration.
  *
@@ -43,7 +41,7 @@ fun createSuiHttpClient(builderAction: ClientConfig.() -> Unit): SuiHttpClient {
  *   instance.
  */
 fun createSuiWebSocketClient(builderAction: ClientConfig.() -> Unit): SuiWebSocketClient {
-  val suiSocketClient = ClientConfig()
-  suiSocketClient.builderAction()
-  return suiSocketClient.build(ClientType.WS) as SuiWebSocketClient
+  val clientConfig = ClientConfig()
+  clientConfig.builderAction()
+  return clientConfig.build(ClientType.WS) as SuiWebSocketClient
 }

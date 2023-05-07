@@ -14,4 +14,28 @@ package xyz.mcxross.ksui.client
  * }
  * ```
  */
-interface SuiClient
+interface SuiClient {
+
+  val configContainer: ConfigContainer
+  /**
+   * Returns the current Sui end point.
+   *
+   * @return The current Sui end point.
+   */
+  fun whichUrl(endPoint: EndPoint): String {
+    return when (endPoint) {
+      EndPoint.CUSTOM -> {
+        configContainer.customUrl
+      }
+      EndPoint.DEVNET -> {
+        "https://fullnode.devnet.sui.io:443"
+      }
+      EndPoint.TESTNET -> {
+        "https://fullnode.testnet.sui.io:443"
+      }
+      EndPoint.MAINNET -> {
+        "https://fullnode.mainnet.sui.io:443"
+      }
+    }
+  }
+}

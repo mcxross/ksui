@@ -2,7 +2,7 @@ package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
 import io.ktor.client.plugins.*
-import xyz.mcxross.ksui.model.SuiWebSocketClient
+import io.ktor.client.plugins.websocket.*
 
 data class ConfigContainer(
     val httpClient: HttpClient,
@@ -67,30 +67,39 @@ class ClientConfig {
    * @return [SuiHttpClient]
    */
   fun build(clientType: ClientType): SuiClient =
-    when (clientType) {
-      ClientType.HTTP -> {
-        SuiHttpClient(
-          ConfigContainer(
-            httpClient {
-              install(UserAgent) { agent = agentName }
-              install(HttpRequestRetry) {
-                retryOnServerErrors(maxRetries = maxRetries)
-                exponentialDelay()
-              }
-              install(HttpTimeout) {
-                requestTimeoutMillis = requestTimeout
-                connectTimeoutMillis = connectionTimeout
-              }
-            },
-            endpoint,
-            customEndPointUrl,
-            maxRetries,
-            agentName,
-            requestTimeout,
-            connectionTimeout,
-          )
-        )
+      when (clientType) {
+        ClientType.HTTP -> {
+          SuiHttpClient(
+              ConfigContainer(
+                  httpClient {
+                    install(UserAgent) { agent = agentName }
+                    install(HttpRequestRetry) {
+                      retryOnServerErrors(maxRetries = maxRetries)
+                      exponentialDelay()
+                    }
+                    install(HttpTimeout) {
+                      requestTimeoutMillis = requestTimeout
+                      connectTimeoutMillis = connectionTimeout
+                    }
+                  },
+                  endpoint,
+                  customEndPointUrl,
+                  maxRetries,
+                  agentName,
+                  requestTimeout,
+                  connectionTimeout,
+              ))
+        }
+        ClientType.WS ->
+            SuiWebSocketClient(
+                ConfigContainer(
+                    HttpClient { install(WebSockets) },
+                    endpoint,
+                    customEndPointUrl,
+                    maxRetries,
+                    agentName,
+                    requestTimeout,
+                    connectionTimeout,
+                ))
       }
-      ClientType.WS -> SuiWebSocketClient()
-    }
 }
