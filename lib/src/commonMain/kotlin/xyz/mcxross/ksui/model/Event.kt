@@ -4,6 +4,7 @@ import kotlin.reflect.safeCast
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.EventFilterSerializer
 import xyz.mcxross.ksui.model.serializer.EventParsedJsonSerializer
+import xyz.mcxross.ksui.model.serializer.EventResponseSerializer
 import xyz.mcxross.ksui.model.serializer.ToStringSerializer
 
 @Serializable data class EventID(val txDigest: String, val eventSeq: Long)
@@ -120,7 +121,8 @@ abstract class EventTmp {
 
 @Serializable(with = EventFilterSerializer::class)
 open class EventFilter {
-  @Serializable class Sender : EventFilter() {
+  @Serializable
+  class Sender : EventFilter() {
     var sender: String = ""
   }
   @Serializable class Transaction : EventFilter()
@@ -137,6 +139,17 @@ open class EventFilter {
     var start: Long = 0
     var end: Long = 0
   }
+}
+
+@Serializable(with = EventResponseSerializer::class)
+sealed class EventResponse {
+  data class Ok(val subscriptionId: Long) : EventResponse()
+  data class Event(val eventEnvelope: EventEnvelope) : EventResponse()
+
+  data class Error(
+      val code: Int,
+      val message: String,
+  ) : EventResponse()
 }
 
 inline fun <reified T : EventFilter> createEventFilterFor(block: T.() -> Unit): T =

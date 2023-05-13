@@ -4,13 +4,15 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
-import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.exception.EventSubscriptionException
 import xyz.mcxross.ksui.model.EventEnvelope
 import xyz.mcxross.ksui.model.EventFilter
+import xyz.mcxross.ksui.model.EventResponse
 import xyz.mcxross.ksui.model.Response
 
 class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiClient {
@@ -21,7 +23,12 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
    * @param filter The filter to use.
    * @param callback The callback to call when an event is received.
    */
-  suspend fun subscribeEvent(filter: EventFilter, callback: (EventEnvelope) -> Unit) {
+  suspend fun subscribeEvent(
+      filter: EventFilter,
+      onSubscribe: (Long) -> Unit = {},
+      onError: (EventResponse.Error) -> Unit,
+      onEvent: (EventEnvelope) -> Unit
+  ) {
     val json = Json {
       ignoreUnknownKeys = true
       isLenient = true
@@ -39,19 +46,28 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
                       put("id", "1")
                       put("method", "suix_subscribeEvent")
                       putJsonArray("params") {
-                        add(json.encodeToJsonElement(serializer(), "{\"All:[]\"}"))
+                        addJsonObject {
+                          put(
+                              "Package",
+                              "0xc74531639fadfb02d30f05f37de4cf1e1149ed8d23658edd089004830068180b")
+                        }
                       }
                     }
                     .toString()))
         while (true) {
-          val event = incoming.receive() as? Frame.Text ?: continue
+          val incoming = incoming.receive() as? Frame.Text ?: continue
           val response =
-              json.decodeFromString(
-                  Response.serializer(EventEnvelope.serializer()), event.readText())
-          if (response is Response.Ok) {
-            callback(response.data)
-          } else {
-            throw SuiException("Error subscribing to event: ${response as Response.Error}")
+              json.decodeFromString<Response<EventResponse>>(serializer(), incoming.readText())
+          when (response) {
+            is Response.Ok -> {
+              when (response.data) {
+                is EventResponse.Ok -> onSubscribe(response.data.subscriptionId)
+                is EventResponse.Event -> onEvent(response.data.eventEnvelope)
+                is EventResponse.Error -> onError(response.data)
+              }
+            }
+            is Response.Error ->
+                throw EventSubscriptionException("Could not establish event listener")
           }
         }
       }
