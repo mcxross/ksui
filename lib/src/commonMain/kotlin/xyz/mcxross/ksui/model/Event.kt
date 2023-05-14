@@ -119,26 +119,28 @@ abstract class EventTmp {
   ) : EventTmp()
 }
 
+enum class EventTypes {
+  MOVE,
+  PUBLISH,
+  TRANSFER,
+  DELETE,
+  NEW,
+  EPOCH,
+  CHECKPOINT
+}
+
 @Serializable(with = EventFilterSerializer::class)
 open class EventFilter {
+  @Serializable class All : EventFilter()
+  @Serializable data class Transaction(val digest: Digest = Digest("")) : EventFilter()
   @Serializable
-  class Sender : EventFilter() {
-    var sender: String = ""
-  }
-  @Serializable class Transaction : EventFilter()
-  @Serializable class Package : EventFilter()
-  @Serializable
-  class MoveModule : EventFilter() {
-    var pakage: String = ""
-    var module: String = ""
-  }
-  @Serializable class MoveEventType : EventFilter()
-  @Serializable class MoveEventField : EventFilter()
-  @Serializable
-  class TimeRange : EventFilter() {
-    var start: Long = 0
-    var end: Long = 0
-  }
+  data class MoveModule(val pakage: String = "", val module: String = "") : EventFilter()
+  @Serializable data class MoveEvent(val struct: String = "") : EventFilter()
+  @Serializable data class EventType(val eventType: EventTypes? = null) : EventFilter()
+  @Serializable data class Sender(val sender: SuiAddress = SuiAddress("")) : EventFilter()
+  @Serializable data class Recipient(val addressOwner: SuiAddress = SuiAddress("")) : EventFilter()
+  @Serializable data class Object(val digest: Digest = Digest("")) : EventFilter()
+  @Serializable data class TimeRange(var start: Long = 0, var end: Long = 0) : EventFilter()
 }
 
 @Serializable(with = EventResponseSerializer::class)
@@ -154,14 +156,14 @@ sealed class EventResponse {
 
 inline fun <reified T : EventFilter> createEventFilterFor(block: T.() -> Unit): T =
     when (T::class) {
-      EventFilter.Sender::class -> T::class.safeCast(EventFilter.Sender())!!.apply(block)
+      EventFilter.All::class -> T::class.safeCast(EventFilter.All())!!.apply(block)
       EventFilter.Transaction::class -> T::class.safeCast(EventFilter.Transaction())!!.apply(block)
-      EventFilter.Package::class -> T::class.safeCast(EventFilter.Package())!!.apply(block)
       EventFilter.MoveModule::class -> T::class.safeCast(EventFilter.MoveModule())!!.apply(block)
-      EventFilter.MoveEventType::class ->
-          T::class.safeCast(EventFilter.MoveEventType())!!.apply(block)
-      EventFilter.MoveEventField::class ->
-          T::class.safeCast(EventFilter.MoveEventField())!!.apply(block)
+      EventFilter.MoveEvent::class -> T::class.safeCast(EventFilter.MoveEvent())!!.apply(block)
+      EventFilter.EventType::class -> T::class.safeCast(EventFilter.EventType())!!.apply(block)
+      EventFilter.Sender::class -> T::class.safeCast(EventFilter.Sender())!!.apply(block)
+      EventFilter.Recipient::class -> T::class.safeCast(EventFilter.Recipient())!!.apply(block)
+      EventFilter.Object::class -> T::class.safeCast(EventFilter.Object())!!.apply(block)
       EventFilter.TimeRange::class -> T::class.safeCast(EventFilter.TimeRange())!!.apply(block)
       else -> throw Exception("Unknown EventFilter type")
     }
