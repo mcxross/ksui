@@ -17,6 +17,7 @@ object EventFilterSerializer : KSerializer<EventFilter> {
     require(encoder is JsonEncoder)
     val json =
         when (value) {
+          is EventFilter.All -> buildJsonObject { putJsonObject("All") {} }
           is EventFilter.MoveModule ->
               buildJsonObject {
                 putJsonObject("MoveModule") {

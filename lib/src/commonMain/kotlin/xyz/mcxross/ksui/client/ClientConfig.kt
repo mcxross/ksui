@@ -8,6 +8,7 @@ data class ConfigContainer(
     val httpClient: HttpClient,
     val endPoint: EndPoint,
     val customUrl: String,
+    val port: Int = 443,
     val maxRetries: Int,
     val agentName: String,
     val requestTimeout: Long,
@@ -71,35 +72,40 @@ class ClientConfig {
         ClientType.HTTP -> {
           SuiHttpClient(
               ConfigContainer(
-                  httpClient {
-                    install(UserAgent) { agent = agentName }
-                    install(HttpRequestRetry) {
-                      retryOnServerErrors(maxRetries = maxRetries)
-                      exponentialDelay()
-                    }
-                    install(HttpTimeout) {
-                      requestTimeoutMillis = requestTimeout
-                      connectTimeoutMillis = connectionTimeout
-                    }
-                  },
-                  endpoint,
-                  customEndPointUrl,
-                  maxRetries,
-                  agentName,
-                  requestTimeout,
-                  connectionTimeout,
+                  httpClient =
+                      httpClient {
+                        install(UserAgent) { agent = agentName }
+                        install(HttpRequestRetry) {
+                          retryOnServerErrors(maxRetries = maxRetries)
+                          exponentialDelay()
+                        }
+                        install(HttpTimeout) {
+                          requestTimeoutMillis = requestTimeout
+                          connectTimeoutMillis = connectionTimeout
+                        }
+                      },
+                  endPoint = endpoint,
+                  customUrl = customEndPointUrl,
+                  maxRetries = maxRetries,
+                  agentName = agentName,
+                  requestTimeout = requestTimeout,
+                  connectionTimeout = connectionTimeout,
               ))
         }
         ClientType.WS ->
             SuiWebSocketClient(
                 ConfigContainer(
-                    HttpClient { install(WebSockets) },
-                    endpoint,
-                    customEndPointUrl,
-                    maxRetries,
-                    agentName,
-                    requestTimeout,
-                    connectionTimeout,
+                    httpClient =
+                        HttpClient {
+                          install(UserAgent) { agent = agentName }
+                          install(WebSockets)
+                        },
+                    endPoint = endpoint,
+                    customUrl = customEndPointUrl,
+                    maxRetries = maxRetries,
+                    agentName = agentName,
+                    requestTimeout = requestTimeout,
+                    connectionTimeout = connectionTimeout,
                 ))
       }
 }

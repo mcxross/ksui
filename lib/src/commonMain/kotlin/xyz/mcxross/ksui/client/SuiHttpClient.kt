@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
@@ -100,7 +101,8 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
                     .toString())
           }
     } catch (e: UnresolvedAddressException) {
-      throw UnresolvedSuiEndPointException("Couldn't resolve endpoint: ${whichUrl(configContainer.endPoint)}")
+      throw UnresolvedSuiEndPointException(
+          "Couldn't resolve endpoint: ${whichUrl(configContainer.endPoint)}")
     }
 
     if (response.status.isSuccess()) {
@@ -551,13 +553,14 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       limit: Int? = null,
       descendingOrder: Boolean? = null
   ): EventPage {
+    println(json.encodeToJsonElement(EventFilter.serializer(), eventFilter))
     val response =
         json.decodeFromString<Response<EventPage>>(
             serializer(),
             call(
                     "suix_queryEvents",
                     *listOf(
-                            json.encodeToJsonElement(serializer(), eventFilter),
+                            json.encodeToJsonElement(EventFilter.serializer(), eventFilter),
                             cursor?.txDigest,
                             limit,
                             descendingOrder)
