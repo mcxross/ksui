@@ -553,7 +553,6 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       limit: Int? = null,
       descendingOrder: Boolean? = null
   ): EventPage {
-    println(json.encodeToJsonElement(EventFilter.serializer(), eventFilter))
     val response =
         json.decodeFromString<Response<EventPage>>(
             serializer(),
