@@ -21,13 +21,13 @@ data class CoinData(
     val version: Long,
     val digest: String,
     val balance: Long,
-    val lockedUntilEpoch: Long?,
+    val lockedUntilEpoch: Long? = null,
     val previousTransaction: String?,
 )
 
 @Serializable
 data class CoinPage(
-    val data: List<CoinData>,
-    val nextCursor: String,
+    val data: List<CoinData> = emptyList(),
+    val nextCursor: String? = null,
     val hasNextPage: Boolean,
 )

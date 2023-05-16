@@ -7,6 +7,7 @@ import io.ktor.util.network.*
 import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
@@ -37,6 +38,8 @@ import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
 import xyz.mcxross.ksui.model.MoveNormalizedModule
 import xyz.mcxross.ksui.model.ObjectResponse
+import xyz.mcxross.ksui.model.ObjectResponseQuery
+import xyz.mcxross.ksui.model.ObjectsPage
 import xyz.mcxross.ksui.model.Response
 import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiCoinMetadata
@@ -246,8 +249,8 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws [SuiException] if there is an error fetching the checkpoints
    */
   suspend fun getCheckpoints(
-      cursor: Int,
-      limit: Long,
+      cursor: Int? = null,
+      limit: Long? = null,
       descendingOrder: Boolean = false
   ): CheckpointPage {
     val response =
@@ -255,7 +258,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
             serializer(),
             call(
                     "sui_getCheckpoints",
-                    *listOf(cursor.toString(), limit, descendingOrder).toTypedArray())
+                    *listOf(cursor?.toString(), limit, descendingOrder).toTypedArray())
                 .bodyAsText())
 
     when (response) {
@@ -327,6 +330,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       is Response.Error -> throw SuiException(response.message)
     }
   }
+
   /**
    * Suspended function to retrieve information about the committee information for the asked
    * `epoch`.
@@ -361,6 +365,28 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val response =
         json.decodeFromString<Response<SuiSystemStateSummary>>(
             serializer(), call("suix_getLatestSuiSystemState").bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  suspend fun getOwnedObjects(
+      address: SuiAddress,
+      query: ObjectResponseQuery,
+      cursor: String? = null,
+      limit: Int
+  ): ObjectsPage {
+    val response =
+        json.decodeFromString<Response<ObjectsPage>>(
+            serializer(),
+            call(
+                    "suix_getOwnedObjects",
+                    address.pubKey,
+                    json.encodeToJsonElement(serializer(), query),
+                    cursor,
+                    limit)
+                .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)

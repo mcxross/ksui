@@ -128,3 +128,38 @@ sealed class ObjectResponse {
 
 @Serializable
 data class TransferredGasObject(val amount: Int, val id: String, val transferTxDigest: String)
+
+@Serializable
+sealed class FilterCondition {
+  @Serializable data class MatchAll(val of: List<FilterCondition>)
+  @Serializable data class MatchAny(val of: List<FilterCondition>)
+  @Serializable data class MatchNone(val of: List<FilterCondition>)
+  @Serializable data class StructType(val value: String) : FilterCondition()
+  @Serializable data class AddressOwner(val value: String) : FilterCondition()
+  @Serializable data class Version(val value: String) : FilterCondition()
+}
+
+@Serializable data class Filter(val condition: FilterCondition)
+
+@Serializable
+data class ObjectResponseQuery(val filter: Filter, val options: ObjectResponse.ObjectDataOptions)
+
+@Serializable
+data class ObjectInfo(
+    val objectId: String,
+    val version: String,
+    val digest: String,
+    val type: String,
+    /*val owner: Owner,*/
+    val previousTransaction: String,
+    val storageRebateL: String
+)
+
+@Serializable data class ObjectData(val data: ObjectInfo)
+
+@Serializable
+data class ObjectsPage(
+    val data: List<ObjectData>,
+    val nextCursor: String? = null,
+    val hasNextPage: Boolean
+)
