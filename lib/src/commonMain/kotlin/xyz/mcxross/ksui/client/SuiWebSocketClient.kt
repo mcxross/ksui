@@ -4,7 +4,6 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
@@ -15,7 +14,7 @@ import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.model.EventResponse
 import xyz.mcxross.ksui.model.Response
 
-suspend fun DefaultWebSocketSession.subscribe(filter: EventFilter) {
+suspend fun DefaultWebSocketSession.subscribe(json: Json, filter: EventFilter) {
   send(
       Frame.Text(
           buildJsonObject {
@@ -23,11 +22,7 @@ suspend fun DefaultWebSocketSession.subscribe(filter: EventFilter) {
                 put("id", "1")
                 put("method", "suix_subscribeEvent")
                 putJsonArray("params") {
-                  addJsonObject {
-                    put(
-                        "Package",
-                        "0xc74531639fadfb02d30f05f37de4cf1e1149ed8d23658edd089004830068180b")
-                  }
+                  add(json.encodeToJsonElement(EventFilter.serializer(), filter))
                 }
               }
               .toString()))
@@ -35,7 +30,7 @@ suspend fun DefaultWebSocketSession.subscribe(filter: EventFilter) {
 
 class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiClient {
 
-  val json = Json {
+  private val json = Json {
     ignoreUnknownKeys = true
     isLenient = true
   }
@@ -59,7 +54,7 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
           method = HttpMethod.Post,
           host = url.host,
           port = if (url.port != -1) url.port else configContainer.port) {
-            subscribe(filter)
+            subscribe(json, filter)
             while (true) {
               val incoming = incoming.receive() as? Frame.Text ?: continue
               val response =
@@ -73,7 +68,8 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
                   }
                 }
                 is Response.Error ->
-                    throw EventSubscriptionException("Could not establish event listener")
+                    throw EventSubscriptionException(
+                        "Could not establish event listener: ${response.message}")
               }
             }
           }

@@ -53,6 +53,8 @@ object EventResponseSerializer : KSerializer<EventResponse> {
       return EventResponse.Ok(element.jsonPrimitive.long)
     }
 
-    return EventResponse.Event(decoder.json.decodeFromJsonElement(serializer(), element))
+    return EventResponse.Event(
+        decoder.json.decodeFromJsonElement(
+            serializer(), element.jsonObject["params"]!!.jsonObject["result"]!!))
   }
 }
