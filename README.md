@@ -53,6 +53,23 @@ val coinMetadata = suiHttpClient.getCoinMetadata("0x2::sui::SUI")
 
 <img src="asset/print.png" alt="Ksui output" />
 
+##### RPC WebSocket Client
+Create a new instance of the Sui RPC WebSocket Client. The client can be configured similarly to the http client.
+After the client is configured, subscribe to events with `subscribeEvent`
+
+```kotlin
+//Configure Client, DSL Style
+val suiWSClient = createSuiWebSocketClient { endpoint = EndPoint.MAINNET }
+
+suiWSClient.subscribeEvent(
+        createEventFilterFor<EventFilter.Combined> { operator = Operator.ALL },
+        onSubscribe = {},
+        onError = {}) {
+    // This block of code is a trailing lambda that will be executed whenever an event occurs.
+    // It has access to the `eventEnvelope` object, which represents the details of the event.
+}
+```
+
 For more information, please see the [documentation](https://mcxross.github.io/ksui/).
 
 ## What's included
