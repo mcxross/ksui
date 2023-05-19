@@ -2,6 +2,8 @@
 
 Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.
 
+This library is intended to be the highest quality publicly available library for interacting with Sui on any Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
+
 ![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.2.0-blue.svg)
 ![Ksui version](https://img.shields.io/badge/Ksui-1.2.0--beta-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20Web%20|%20Native-blue.svg)
@@ -68,7 +70,7 @@ The client supports both DSL and command-query styles for client creation and RP
 //Configure Client, DSL Style
 val suiHttpClient = createSuiHttpClient {
     endpoint = EndPoint.DEVNET
-    agentName = "KSUI/0.29.0-beta.1"
+    agentName = "KSUI/1.2.0-beta"
     maxRetries = 10
 }
 //Invoke remote procedure, command-query style
