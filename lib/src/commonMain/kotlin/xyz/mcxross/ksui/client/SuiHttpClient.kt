@@ -34,6 +34,7 @@ import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.model.EventID
 import xyz.mcxross.ksui.model.EventPage
 import xyz.mcxross.ksui.model.GasPrice
+import xyz.mcxross.ksui.model.LoadedChildObjectsResponse
 import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
 import xyz.mcxross.ksui.model.MoveNormalizedModule
@@ -404,6 +405,23 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
             serializer(), call("sui_getLatestCheckpointSequenceNumber").bodyAsText())
     when (response) {
       is Response.Ok -> return CheckpointSequenceNumber(response.data)
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves the loaded child objects for a given transaction digest.
+   *
+   * @param digest The transaction digest for which to retrieve the loaded child objects.
+   * @return [LoadedChildObjectsResponse] containing the loaded child objects.
+   * @throws SuiException if an error occurs while retrieving the loaded child objects.
+   */
+  suspend fun getLoadedChildObjects(digest: TransactionDigest): LoadedChildObjectsResponse {
+    val response =
+        json.decodeFromString<Response<LoadedChildObjectsResponse>>(
+            serializer(), call("sui_getLoadedChildObjects", digest.value).bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
     }
   }
