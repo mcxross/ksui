@@ -372,6 +372,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     }
   }
 
+  /**
+   * Retrieves the owned objects based on the provided address, query, cursor, and limit.
+   *
+   * @param address The SuiAddress representing the owner's address.
+   * @param query The [ObjectResponseQuery] to filter the owned objects.
+   * @param cursor The cursor indicating the starting point of the query results (optional).
+   * @param limit The maximum number of objects to retrieve.
+   * @return The [ObjectsPage] containing the owned objects.
+   * @throws SuiException if an error occurs while retrieving the owned objects.
+   */
   suspend fun getOwnedObjects(
       address: SuiAddress,
       query: ObjectResponseQuery,
