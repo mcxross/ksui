@@ -163,3 +163,8 @@ data class ObjectsPage(
     val nextCursor: String? = null,
     val hasNextPage: Boolean
 )
+
+@Serializable data class LoadedChildObject(val objectId: String, val sequenceNumber: String)
+
+@Serializable
+data class LoadedChildObjectsResponse(val loadedChildObjects: List<LoadedChildObject>)
