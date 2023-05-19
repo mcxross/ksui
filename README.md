@@ -2,8 +2,8 @@
 
 Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.
 
-![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-0.29.0-blue.svg)
-![Ksui version](https://img.shields.io/badge/Ksui-0.29.0--beta.1-blue.svg)
+![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.2.0-blue.svg)
+![Ksui version](https://img.shields.io/badge/Ksui-1.2.0--beta-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20Web%20|%20Native-blue.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
@@ -12,21 +12,46 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplat
 - [Features](#features)
 - [Quick start](#quick-start)
 - [What's included](#whats-included)
+- [Projects using Ksui](#Projects-using-Ksui)
 - [Contribution](#contribution)
 
 ## Features
-- Implements all functions (⚠️ WIP)
+- Implements all functions
 - Pub/Sub and Req/Res
-- Crypto wrappers (⚠️ WIP)
+- Crypto wrappers
 - Client Configurable
 - Multiplatform
 
 ## Quick Start
 
-##### Installation
+### Installation
+
+#### Multiplatform
+Add the `Ksui` dependency to the common sourceSet
+
+```kotlin
+implementation("xyz.mcxross.ksui:ksui:<$ksui_version>")
+```
+#### Platform specific (Android, Web, Native, JVM)
+Add the `Ksui` dependency to the Project's dependency block
+
+Generic:
 
 ```kotlin
 implementation("xyz.mcxross.ksui:<ksui-[platform]>:<$ksui_version>")
+```
+For example for Android and JS
+
+Android:
+
+```kotlin
+implementation("xyz.mcxross.ksui:ksui-android:<$ksui_version>")
+```
+
+Web:
+
+```kotlin
+implementation("xyz.mcxross.ksui:ksui-js:<$ksui_version>")
 ```
 
 ##### RPC HTTP Client
@@ -77,6 +102,10 @@ For more information, please see the [documentation](https://mcxross.github.io/k
 |------------------|---------------------------------------------------------------------------------------------------------|
 | [lib](lib)       | Library implementation folder. It contains the code for Ksui that can be used across multiple platforms |
 | [sample](sample) | Samples on how to use the exported APIs                                                                 |
+
+## Projects using Ksui
+
+- [Sui Cohesive](https://github.com/mcxross/sui-cohesive)
 
 ## Contribution
 
