@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.cli.jvm.main
+
 plugins {
-  kotlin("jvm") version "1.8.10"
+  kotlin("jvm")
   application
 }
 
@@ -16,3 +18,7 @@ dependencies {
 }
 
 tasks.getByName<Test>("test") { useJUnitPlatform() }
+
+application {
+  mainClass.set("xyz.mcxross.ksui.sample.MainKt")
+}

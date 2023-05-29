@@ -3,10 +3,14 @@ group = "xyz.mcxross.ksui"
 version = "1.2.0-beta"
 
 plugins {
-  kotlin("jvm") version "1.8.10" apply false
-  kotlin("multiplatform") version "1.8.10" apply false
-  kotlin("plugin.serialization") version "1.8.10" apply false
-  id("org.jetbrains.dokka") version "1.8.10" apply false
+  kotlin("jvm") apply false
+  id("com.android.library") apply false
+  kotlin("multiplatform") apply false
+  kotlin("plugin.serialization") apply false
+  id("org.jetbrains.dokka") apply false
 }
 
-repositories { mavenCentral() }
+repositories {
+  mavenCentral()
+  google()
+}

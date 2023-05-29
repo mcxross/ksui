@@ -1,17 +1,17 @@
 import java.net.URL
-import org.jetbrains.dokka.gradle.DokkaTask
+import java.util.*
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.kotlin.dsl.`maven-publish`
 import org.gradle.kotlin.dsl.signing
-import java.util.*
+import org.jetbrains.dokka.gradle.DokkaTask
 
 val ktorVersion: String = extra["ktor_version"] as String
 
 plugins {
-  kotlin("multiplatform") version "1.8.10"
-  kotlin("plugin.serialization") version "1.8.10"
-  id("org.jetbrains.dokka") version "1.8.10"
+  kotlin("multiplatform")
+  id("com.android.library")
+  kotlin("plugin.serialization")
+  id("org.jetbrains.dokka")
   id("maven-publish")
   id("signing")
 }
@@ -20,31 +20,37 @@ group = "xyz.mcxross.ksui"
 
 version = "1.2.0-beta"
 
-repositories { mavenCentral() }
+repositories {
+  mavenCentral()
+  google()
+}
 
 ext["signing.keyId"] = null
+
 ext["signing.password"] = null
+
 ext["signing.secretKeyRingFile"] = null
+
 ext["ossrhUsername"] = null
+
 ext["ossrhPassword"] = null
 
 kotlin {
   jvm {
-    jvmToolchain(8)
-    withJava()
+    jvmToolchain(11)
     testRuns["test"].executionTask.configure { useJUnitPlatform() }
   }
+  android { publishLibraryVariants("release", "debug") }
   js(IR) { browser { commonWebpackConfig { cssSupport { enabled.set(true) } } } }
   val hostOs = System.getProperty("os.name")
   val isMingwX64 = hostOs.startsWith("Windows")
   val nativeTarget =
-    when {
-      hostOs == "Mac OS X" -> macosX64("native")
-      hostOs == "Linux" -> linuxX64("native")
-      isMingwX64 -> mingwX64("native")
-      else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
-
+      when {
+        hostOs == "Mac OS X" -> macosX64("native")
+        hostOs == "Linux" -> linuxX64("native")
+        isMingwX64 -> mingwX64("native")
+        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+      }
   sourceSets {
     val commonMain by getting {
       dependencies {
@@ -55,6 +61,9 @@ kotlin {
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }
+    val androidMain by getting {
+      dependencies { implementation("io.ktor:ktor-client-okhttp:$ktorVersion") }
+    }
     val jvmMain by getting {
       dependencies { implementation("io.ktor:ktor-client-cio:$ktorVersion") }
     }
@@ -68,15 +77,39 @@ kotlin {
   }
 }
 
-val secretPropsFile = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-  secretPropsFile.reader().use {
-    Properties().apply {
-      load(it)
-    }
-  }.onEach { (name, value) ->
-    ext[name.toString()] = value
+android {
+  compileSdk = 33
+  defaultConfig {
+    minSdk = 24
+    targetSdk = 33
   }
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+  }
+  sourceSets {
+    named("main") {
+      manifest.srcFile("src/androidMain/AndroidManifest.xml")
+      res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+    }
+  }
+  buildTypes {
+    getByName("release") { isMinifyEnabled = false }
+    getByName("debug") {}
+  }
+  publishing {
+    singleVariant("release") { withSourcesJar() }
+    singleVariant("debug") { withSourcesJar() }
+  }
+}
+
+val secretPropsFile = project.rootProject.file("local.properties")
+
+if (secretPropsFile.exists()) {
+  secretPropsFile
+      .reader()
+      .use { Properties().apply { load(it) } }
+      .onEach { (name, value) -> ext[name.toString()] = value }
 } else {
   ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
   ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
@@ -100,11 +133,14 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
   }
 }
 
-val javadocJar = tasks.register<Jar>("javadocJar") {
-  archiveClassifier.set("javadoc")
-  dependsOn("dokkaHtml")
-  from(buildDir.resolve("dokka"))
-}
+val javadocJar =
+    tasks.register<Jar>("javadocJar") {
+      archiveClassifier.set("javadoc")
+      dependsOn("dokkaHtml")
+      from(buildDir.resolve("dokka"))
+    }
+
+dependencies { implementation("io.ktor:ktor-client-okhttp-jvm:2.2.3") }
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
@@ -125,7 +161,8 @@ publishing {
 
     pom {
       name.set("MPP Sui library")
-      description.set("Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.")
+      description.set(
+          "Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.")
       url.set("https://github.com/mcxross")
 
       licenses {
@@ -141,13 +178,9 @@ publishing {
           email.set("oss@mcxross.xyz")
         }
       }
-      scm {
-        url.set("https://github.com/mcxross/ksui")
-      }
+      scm { url.set("https://github.com/mcxross/ksui") }
     }
   }
 }
 
-signing {
-  sign(publishing.publications)
-}
+signing { sign(publishing.publications) }
