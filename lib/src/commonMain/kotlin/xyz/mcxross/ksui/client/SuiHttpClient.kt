@@ -221,6 +221,21 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
+   * Suspended function that retrieves the chain's identifier.
+   *
+   * @return The chain identifier as a string.
+   * @throws SuiException if there is an error retrieving the chain identifier.
+   */
+  suspend fun getChainIdentifier(): String {
+    when (val response =
+        json.decodeFromString<Response<String>>(
+            serializer(), call("sui_getChainIdentifier").bodyAsText())) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
    * Return a checkpoint
    *
    * @param checkpointId Checkpoint identifier, can use either checkpoint digest, or checkpoint
