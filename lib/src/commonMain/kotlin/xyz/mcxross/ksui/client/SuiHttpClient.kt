@@ -51,6 +51,7 @@ import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlockResponseQuery
 import xyz.mcxross.ksui.model.TransactionBlocksPage
 import xyz.mcxross.ksui.model.TransactionDigest
+import xyz.mcxross.ksui.model.ValidatorApys
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
 class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
@@ -593,6 +594,21 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         json.decodeFromString<Response<Supply>>(
             serializer(), call("suix_getTotalSupply", coinType).bodyAsText())
     when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Suspended function that retrieves the APYs (Annual Percentage Yields) for validators.
+   *
+   * @return An instance of ValidatorApys containing the APY data for validators.
+   * @throws SuiException if there is an error retrieving the APY data.
+   */
+  suspend fun getValidatorApys(): ValidatorApys {
+    when (val response =
+        json.decodeFromString<Response<ValidatorApys>>(
+            serializer(), call("suix_getValidatorsApy").bodyAsText())) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
     }
