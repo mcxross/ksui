@@ -5,21 +5,22 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.ModuleExposedFunctionsSerializer
 import xyz.mcxross.ksui.model.serializer.MoveFunctionArgTypeSerializer
 import xyz.mcxross.ksui.model.serializer.MoveNormalizedFunctionParameterSerializer
+import xyz.mcxross.ksui.model.serializer.ToStringSerializer
 
 @Serializable(with = MoveFunctionArgTypeSerializer::class)
 abstract class MoveFunctionArgType {
   @Serializable
   data class MoveFunctionArgDefault(
-    val default: String,
+      val default: String,
   ) : MoveFunctionArgType()
   @Serializable
   data class MoveFunctionArgObject(
-    val objekt: String,
+      val objekt: String,
   ) : MoveFunctionArgType()
 
   @Serializable
   data class MoveFunctionArgString(
-    val str: String,
+      val str: String,
   ) : MoveFunctionArgType()
 }
 
@@ -63,10 +64,10 @@ abstract class MoveFunctionParameter {
 
   @Serializable
   data class Struct(
-    val address: String,
-    val module: String,
-    val name: String,
-  ): MoveFunctionParameter()
+      val address: String,
+      val module: String,
+      val name: String,
+  ) : MoveFunctionParameter()
 
   @Serializable
   class MutableReference : MoveFunctionParameter() {
@@ -93,7 +94,7 @@ abstract class MoveFunctionParameter {
 
   @Serializable
   data class Vector(
-    val of: MoveFunctionParameter,
+      val of: MoveFunctionParameter,
   ) : MoveFunctionParameter()
 
   @Serializable
@@ -107,31 +108,33 @@ abstract class MoveFunctionParameter {
   }
 }
 
+@Serializable data class SuiMoveAbilitySet(val abilities: List<String> = emptyList())
+
 @Serializable
 data class MoveNormalizedFunction(
-  val visibility: String,
-  val isEntry: Boolean,
-  val typeParameters: List<String>,
-  val parameters: List<MoveFunctionParameter>,
-  @SerialName("return") val returnType: List<MoveFunctionParameter>,
+    val visibility: String,
+    val isEntry: Boolean,
+    val typeParameters: List<SuiMoveAbilitySet> = emptyList(),
+    val parameters: List<MoveFunctionParameter> = emptyList(),
+    @SerialName("return") val returnType: List<MoveFunctionParameter>,
 )
 
 @Serializable
 data class Friend(
-  val address: String,
-  val name: String,
+    val address: String,
+    val name: String,
 )
 
 @Serializable
 data class ModuleExposedFunction(val name: String, val normalized: MoveNormalizedFunction)
+
 @Serializable
 data class MoveNormalizedModule(
-  val fileFormatVersion: Long,
-  val address: String,
-  val name: String,
-  val friends: List<Friend>,
-  /*val structs: List<MoveNormalizedStruct>,
-   */
-  @Serializable(with = ModuleExposedFunctionsSerializer::class)
-  val exposedFunctions: List<ModuleExposedFunction>,
+    val fileFormatVersion: Long,
+    val address: String,
+    val name: String,
+    val friends: List<Friend> = emptyList(),
+    @Serializable(with = ToStringSerializer::class) val structs: String,
+    @Serializable(with = ModuleExposedFunctionsSerializer::class)
+    val exposedFunctions: List<ModuleExposedFunction> = emptyList(),
 )
