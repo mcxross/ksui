@@ -7,13 +7,11 @@ import io.ktor.util.network.*
 import io.ktor.utils.io.errors.*
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonArray
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
@@ -516,6 +514,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         json.decodeFromString<Response<MoveNormalizedModule>>(
             serializer(),
             call("sui_getNormalizedMoveModule", *listOf(pakage, module).toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves structured representations of all modules in the given package.
+   *
+   * @param pakage The package name to retrieve move modules from.
+   * @return A map of module names to MoveNormalizedModule objects.
+   * @throws SuiException if there is an error in the response.
+   */
+  suspend fun getNormalizedMoveModulesByPackage(pakage: String): Map<String, MoveNormalizedModule> {
+    val response =
+        json.decodeFromString<Response<Map<String, MoveNormalizedModule>>>(
+            serializer(),
+            call("sui_getNormalizedMoveModulesByPackage", *listOf(pakage).toTypedArray())
                 .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
