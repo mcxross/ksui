@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
@@ -36,9 +37,13 @@ import xyz.mcxross.ksui.model.LoadedChildObjectsResponse
 import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
 import xyz.mcxross.ksui.model.MoveNormalizedModule
+import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.ObjectResponse
 import xyz.mcxross.ksui.model.ObjectResponseQuery
 import xyz.mcxross.ksui.model.ObjectsPage
+import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.PastObjectRequest
+import xyz.mcxross.ksui.model.PastObjectResponse
 import xyz.mcxross.ksui.model.Response
 import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiCoinMetadata
@@ -87,7 +92,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
                       put("method", method)
                       // add an array of params to the request body
                       putJsonArray("params") {
-                        params.forEach {
+                        params.forEach { it ->
                           when (it) {
                             is String -> add(it)
                             is Int -> add(it)
@@ -95,7 +100,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
                             is Boolean -> add(it)
                             null -> add(it)
                             is JsonElement -> add(it)
-                            is List<*> -> addJsonArray { it.forEach { i -> add(i.toString()) } }
+                            is List<*> ->
+                                addJsonArray {
+                                  it.forEach { item ->
+                                    when (item) {
+                                      is String -> add(item)
+                                      is Int -> add(item)
+                                      is JsonElement -> add(item)
+                                    }
+                                  }
+                                }
                             else -> add(json.encodeToString(serializer(), it))
                           }
                         }
@@ -725,6 +739,34 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
+   * Retrieves the object data for a list of objects.
+   *
+   * @param objectIds the IDs of the queried objects.
+   * @param options options for specifying the content to be returned.
+   * @return A list of ObjectResponse objects.
+   * @throws SuiException if an error occurs during the retrieval process.
+   */
+  suspend fun getMultiObjects(
+      objectIds: List<ObjectId>,
+      options: ObjectResponse.ObjectDataOptions
+  ): List<ObjectResponse> {
+    val response =
+        json.decodeFromString<Response<List<ObjectResponse>>>(
+            serializer(),
+            call(
+                    "sui_multiGetObjects",
+                    *listOf(
+                            objectIds.map { it.hash },
+                            json.encodeToJsonElement(serializer(), options))
+                        .toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
    * Retrieves multiple transaction blocks corresponding to the given digests and with the specified
    * options.
    *
@@ -749,6 +791,82 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
                             json.encodeToJsonElement(serializer(), options))
                         .toTypedArray())
                 .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Tries to retrieve a past version of an object based on its ID and version number.
+   *
+   * Note: There is no software-level guarantee/SLA that objects with past versions can be retrieved
+   * by this API, even if the object and version exists/existed. The result may vary across nodes
+   * depending on their pruning policies. Return the object information for a specified version
+   *
+   * @param objectId the ID of the queried object.
+   * @param version the version of the queried object. If None, default to the latest known version.
+   * @param options for specifying the content to be returned.
+   * @return An Option containing a PastObjectResponse if the retrieval is successful, or None if
+   *   the object/version is not found.
+   * @throws SuiException if an error occurs during the retrieval process.
+   */
+  suspend fun tryGetPastObject(
+      objectId: ObjectId,
+      version: Long,
+      options: ObjectResponse.ObjectDataOptions
+  ): Option<PastObjectResponse> {
+    val response =
+        json.decodeFromString<Response<Option<PastObjectResponse>>>(
+            serializer(),
+            call(
+                    "sui_tryGetPastObject",
+                    *listOf(objectId.hash, version, json.encodeToJsonElement(serializer(), options))
+                        .toTypedArray())
+                .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Tries to retrieve multiple past versions of objects based on the provided PastObjectRequest
+   * list and options.
+   *
+   * Note: There is no software-level guarantee/SLA that objects with past versions can be retrieved
+   * by this API, even if the object and version exists/existed. The result may vary across nodes
+   * depending on their pruning policies. Return the object information for a specified version
+   *
+   * @param pastObjects The list of PastObjectRequest objects containing the object IDs and version
+   *   numbers.
+   * @param options The options for retrieving object data.
+   * @return A list of Option<PastObjectResponse> where each element represents a past object if
+   *   found, or None if not found.
+   * @throws SuiException if an error occurs during the retrieval process.
+   */
+  suspend fun tryGetMultiPastObjects(
+      pastObjects: List<PastObjectRequest>,
+      options: ObjectResponse.ObjectDataOptions
+  ): List<Option<PastObjectResponse>> {
+    val response =
+        json.decodeFromString<Response<List<Option<PastObjectResponse>>>>(
+            serializer(),
+            call(
+                    "sui_tryMultiGetPastObjects",
+                    *listOf(
+                            pastObjects.map {
+                              json.encodeToJsonElement(
+                                  serializer(),
+                                  buildJsonObject {
+                                    put("objectId", it.objectId.hash)
+                                    put("version", it.version.toString())
+                                  })
+                            },
+                            json.encodeToJsonElement(serializer(), options))
+                        .toTypedArray())
+                .bodyAsText())
+
     when (response) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
