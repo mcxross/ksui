@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.ObjectResponseSerializer
 import xyz.mcxross.ksui.model.serializer.OwnerSerializer
 
-@Serializable class ObjectID
+@Serializable data class ObjectId(val hash: String)
 
 @Serializable
 data class Object(
@@ -168,3 +168,9 @@ data class ObjectsPage(
 
 @Serializable
 data class LoadedChildObjectsResponse(val loadedChildObjects: List<LoadedChildObject>)
+
+@Serializable data class PastObjectResponse(val status: String, val details: ObjectResponse)
+
+@Serializable data class PastObjectRequest(val objectId: ObjectId, val version: Long)
+
+@Serializable data class PastObjectRequestRaw(val objectId: String, val version: String)

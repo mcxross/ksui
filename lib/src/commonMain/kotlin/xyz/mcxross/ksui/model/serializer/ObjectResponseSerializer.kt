@@ -20,10 +20,11 @@ class ObjectResponseSerializer : KSerializer<ObjectResponse> {
 
   @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
   override val descriptor: SerialDescriptor =
-    buildSerialDescriptor("ObjectResponse", PolymorphicKind.SEALED) {
-      element("ObjectData", buildClassSerialDescriptor("ObjectData") { element<String>("message") })
-      /*element("ObjectResponseError", serializer().descriptor)*/
-    }
+      buildSerialDescriptor("ObjectResponse", PolymorphicKind.SEALED) {
+        element(
+            "ObjectData", buildClassSerialDescriptor("ObjectData") { element<String>("message") })
+        /*element("ObjectResponseError", serializer().descriptor)*/
+      }
 
   override fun serialize(encoder: Encoder, value: ObjectResponse) {
     TODO("Not yet implemented")
@@ -34,20 +35,16 @@ class ObjectResponseSerializer : KSerializer<ObjectResponse> {
     val element = decoder.decodeJsonElement()
     if (element is JsonObject && "error" in element) {
       return decoder.json.decodeFromJsonElement<ObjectResponse.ObjectResponseError>(
-        serializer(),
-        element.jsonObject["error"]!!
-      )
+          serializer(), element.jsonObject["error"]!!)
     }
 
     val resultElement =
-      when (val resultProperty = element.jsonObject["data"]) {
-        is JsonObject -> resultProperty.jsonObject
-        else -> element
-      }
+        when (val resultProperty = element.jsonObject["data"]) {
+          is JsonObject -> resultProperty.jsonObject
+          else -> element
+        }
 
     return decoder.json.decodeFromJsonElement<ObjectResponse.ObjectData>(
-      serializer(),
-      resultElement
-    )
+        serializer(), resultElement)
   }
 }
