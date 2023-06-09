@@ -12,7 +12,6 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonArray
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.serializer
@@ -28,6 +27,7 @@ import xyz.mcxross.ksui.model.CoinPage
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.DelegatedStake
 import xyz.mcxross.ksui.model.Discovery
+import xyz.mcxross.ksui.model.DynamicFieldName
 import xyz.mcxross.ksui.model.Event
 import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.model.EventID
@@ -379,6 +379,32 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
               else -> call("suix_getCommitteeInfo", epoch).bodyAsText()
             })
     // Return data or throw an exception if response is an error
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Retrieves the dynamic field object information for a specified object.
+   *
+   * @param parentObjectId The ID of the queried parent object.
+   * @param name The Name of the dynamic field.
+   * @return The response containing the dynamic field object.
+   * @throws SuiException if there is an error in the response.
+   */
+  suspend fun getDynamicFieldObject(
+      parentObjectId: ObjectId,
+      name: DynamicFieldName
+  ): ObjectResponse {
+    val response =
+        json.decodeFromString<Response<ObjectResponse>>(
+            serializer(),
+            call(
+                    "suix_getDynamicFieldObject",
+                    *listOf(parentObjectId.hash, json.encodeToJsonElement(serializer(), name))
+                        .toTypedArray())
+                .bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
@@ -905,6 +931,23 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
                             descendingOrder)
                         .toTypedArray())
                 .bodyAsText())
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
+
+  /**
+   * Resolves the address of a name service based on the provided name.
+   *
+   * @param name The name to resolve.
+   * @return The resolved address.
+   * @throws SuiException if there is an error in the response.
+   */
+  suspend fun resolveNameServiceAddress(name: String): String {
+    val response =
+        json.decodeFromString<Response<String>>(
+            serializer(), call("suix_resolveNameServiceAddress", name).bodyAsText())
     when (response) {
       is Response.Ok -> return response.data
       is Response.Error -> throw SuiException(response.message)
