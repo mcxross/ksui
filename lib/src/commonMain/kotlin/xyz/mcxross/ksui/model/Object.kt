@@ -173,4 +173,4 @@ data class LoadedChildObjectsResponse(val loadedChildObjects: List<LoadedChildOb
 
 @Serializable data class PastObjectRequest(val objectId: ObjectId, val version: Long)
 
-@Serializable data class PastObjectRequestRaw(val objectId: String, val version: String)
+@Serializable data class DynamicFieldName(val type: String, val value: String)
