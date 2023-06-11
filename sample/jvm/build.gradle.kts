@@ -7,7 +7,7 @@ plugins {
 
 group = "xyz.mcxross.ksui.sample"
 
-version = "1.2.2-beta"
+version = "1.2.3-beta"
 
 repositories { mavenCentral() }
 
