@@ -140,7 +140,6 @@ val javadocJar =
       from(buildDir.resolve("dokka"))
     }
 
-dependencies { implementation("io.ktor:ktor-client-okhttp-jvm:2.2.3") }
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
