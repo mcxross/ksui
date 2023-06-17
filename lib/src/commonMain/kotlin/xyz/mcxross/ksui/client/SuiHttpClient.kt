@@ -974,6 +974,167 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     }
   }
 
+  suspend fun mergeCoins(
+      signer: SuiAddress,
+      primaryCoin: ObjectId,
+      coinToMerge: ObjectId,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_mergeCoins",
+                      *listOf(
+                              signer.pubKey,
+                              primaryCoin.hash,
+                              coinToMerge.hash,
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  suspend fun pay(
+      signer: SuiAddress,
+      inputCoins: List<ObjectId>,
+      recipients: List<SuiAddress>,
+      amounts: List<Long>,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_pay",
+                      *listOf(
+                              signer.pubKey,
+                              inputCoins.map { it.hash },
+                              recipients.map { it.pubKey },
+                              amounts.map { it.toString() },
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+  suspend fun payAllSui(
+      signer: SuiAddress,
+      inputCoins: List<ObjectId>,
+      recipient: SuiAddress,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_payAllSui",
+                      *listOf(
+                              signer.pubKey,
+                              inputCoins.map { it.hash },
+                              recipient.pubKey,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+  suspend fun paySui(
+      signer: SuiAddress,
+      inputCoins: List<ObjectId>,
+      recipients: List<SuiAddress>,
+      amounts: List<Long>,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_paySui",
+                      *listOf(
+                              signer.pubKey,
+                              inputCoins.map { it.hash },
+                              recipients.map { it.pubKey },
+                              amounts.map { it.toString() },
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  suspend fun publish(
+      sender: SuiAddress,
+      compiledModules: List<String>,
+      dependencies: List<ObjectId>,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_publish",
+                      *listOf(
+                              sender.pubKey,
+                              compiledModules,
+                              dependencies.map { it.hash },
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  suspend fun requestAddStake(
+      signer: SuiAddress,
+      coins: List<ObjectId>,
+      amount: Long,
+      validator: SuiAddress,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_requestAddStake",
+                      *listOf(
+                              signer.pubKey,
+                              coins.map { it.hash },
+                              amount.toString(),
+                              validator.pubKey,
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+  suspend fun requestWithdrawStake(
+      signer: SuiAddress,
+      stakedSui: ObjectId,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_requestWithdrawStake",
+                      *listOf(signer.pubKey, stakedSui.hash, gas?.hash, gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
   suspend fun splitCoin(
       signer: SuiAddress,
       coinObjectId: ObjectId,
