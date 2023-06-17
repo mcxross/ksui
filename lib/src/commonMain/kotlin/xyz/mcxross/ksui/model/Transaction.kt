@@ -109,3 +109,9 @@ data class TransactionBlocksPage(
     val nextCursor: String? = null,
     val hasNextPage: Boolean,
 )
+
+@Serializable
+data class TransactionBlockBytes(
+    val txBytes: String,
+    val gas: List<Gas>,
+)

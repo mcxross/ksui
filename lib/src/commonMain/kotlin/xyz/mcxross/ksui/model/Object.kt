@@ -174,3 +174,6 @@ data class LoadedChildObjectsResponse(val loadedChildObjects: List<LoadedChildOb
 @Serializable data class PastObjectRequest(val objectId: ObjectId, val version: Long)
 
 @Serializable data class DynamicFieldName(val type: String, val value: String)
+
+@Serializable
+data class ImmOrOwnedMoveObject(val objectId: String, val version: Int, val digest: String)

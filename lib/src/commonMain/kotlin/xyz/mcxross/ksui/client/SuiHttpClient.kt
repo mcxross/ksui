@@ -49,6 +49,7 @@ import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiCoinMetadata
 import xyz.mcxross.ksui.model.SuiSystemStateSummary
 import xyz.mcxross.ksui.model.Supply
+import xyz.mcxross.ksui.model.TransactionBlockBytes
 import xyz.mcxross.ksui.model.TransactionBlockResponse
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlockResponseQuery
@@ -640,6 +641,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
+   * Retrieves one or more [DelegatedStake].
+   *
+   * If a Stake was withdrawn its status will be Unstaked. Fails if either one of the stakedSuiId is
+   * not found.
+   *
+   * @param stakedSuiIds The list of stake IDs to retrieve.
+   * @return The list of delegated stakes matching the provided IDs.
+   * @throws SuiException if an error occurs during the retrieval process.
+   */
+  suspend fun getStakesByIds(stakedSuiIds: List<ObjectId>): List<DelegatedStake> =
+      when (val response =
+          json.decodeFromString<Response<List<DelegatedStake>>>(
+              serializer(),
+              call("suix_getStakesByIds", stakedSuiIds.map { it.hash }).bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  /**
    * Retrieves the total supply for a specified cryptocurrency.
    *
    * @param coinType The type of cryptocurrency to retrieve the supply for.
@@ -953,4 +973,99 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       is Response.Error -> throw SuiException(response.message)
     }
   }
+
+  suspend fun splitCoin(
+      signer: SuiAddress,
+      coinObjectId: ObjectId,
+      splitAmounts: List<Long>,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_splitCoin",
+                      *listOf(
+                              signer.pubKey,
+                              coinObjectId.hash,
+                              splitAmounts.map { it.toString() },
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+  suspend fun splitCoinEqual(
+      signer: SuiAddress,
+      coinObjectId: ObjectId,
+      splitCount: Long,
+      gas: ObjectId? = null,
+      gasBudget: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_splitCoinEqual",
+                      *listOf(
+                              signer.pubKey,
+                              coinObjectId.hash,
+                              splitCount.toString(),
+                              gas?.hash,
+                              gasBudget.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  suspend fun transferObject(
+      signer: SuiAddress,
+      objectId: ObjectId,
+      gas: ObjectId? = null,
+      gasBudget: Long,
+      recipient: SuiAddress
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_transferObject",
+                      *listOf(
+                              signer.pubKey,
+                              objectId.hash,
+                              gas?.hash,
+                              gasBudget.toString(),
+                              recipient.pubKey)
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
+
+  suspend fun transferSui(
+      signer: SuiAddress,
+      suiObjectId: ObjectId,
+      gasBudget: Long,
+      recipient: SuiAddress,
+      amount: Long
+  ): TransactionBlockBytes =
+      when (val response =
+          json.decodeFromString<Response<TransactionBlockBytes>>(
+              serializer(),
+              call(
+                      "unsafe_transferSui",
+                      *listOf(
+                              signer.pubKey,
+                              suiObjectId.hash,
+                              gasBudget.toString(),
+                              recipient.pubKey,
+                              amount.toString())
+                          .toTypedArray())
+                  .bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
 }
