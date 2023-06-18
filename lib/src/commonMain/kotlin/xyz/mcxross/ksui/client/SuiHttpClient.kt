@@ -177,6 +177,13 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     }
   }
 
+  /**
+   * Return transaction execution effects including the gas cost summary, while the effects are not committed to the chain.
+   *
+   * @param txBytes The serialized transaction block bytes.
+   * @return [DryRunTransactionBlockResponse] The response containing the result of the dry run.
+   * @throws SuiException if there is an error during the dry run.
+   */
   suspend fun dryRunTransactionBlock(txBytes: String): DryRunTransactionBlockResponse =
       when (val response =
           json.decodeFromString<Response<DryRunTransactionBlockResponse>>(
@@ -984,6 +991,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     }
   }
 
+  /**
+   * Create an unsigned transaction to merge multiple coins into one coin.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param primaryCoin The coin object to merge into, this coin will remain after the transaction.
+   * @param coinToMerge The coin object to be merged, this coin will be destroyed, the balance will
+   *   be added to `[primaryCoin]`.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the coin merge is completed.
+   * @throws SuiException if there is an error during the coin merge process.
+   */
   suspend fun mergeCoins(
       signer: SuiAddress,
       primaryCoin: ObjectId,
@@ -1008,6 +1028,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Send `Coin<T>` to a list of addresses, where `T` can be any coin type following a list of
+   * amounts.
+   *
+   * The object specified in the `gas` field will be used to pay the gas fee for the transaction.
+   * The gas object can not appear in `input_coins`. If the gas object is not specified, the RPC
+   * server will auto-select one.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param inputCoins The list of Sui coins to be used in this transaction.
+   * @param recipients The list of recipients' addresses, the length of this vector must be the same
+   *   as amounts.
+   * @param amounts The amounts to be transferred to recipients, following the same order.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the payment is completed.
+   * @throws SuiException if there is an error during the payment process.
+   */
   suspend fun pay(
       signer: SuiAddress,
       inputCoins: List<ObjectId>,
@@ -1033,6 +1072,24 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Send all SUI coins to one recipient.
+   *
+   * This is for SUI coin only and does not require a separate gas coin object. Specifically, what
+   * pay_all_sui does are: 1. accumulate all SUI from input coins and deposit all SUI to the first
+   * input coin 2. transfer the updated first coin to the recipient and also use this first coin as
+   * gas coin object. 3. the balance of the first input coin after tx is sum(input_coins) -
+   * actual_gas_cost. 4. all other input coins other than the first are deleted.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param inputCoins The Sui coins to be used in this transaction, including the coin for gas
+   *   payment.
+   * @param recipient The recipients' Sui address.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the publishing is completed.
+   * @throws SuiException if there is an error during the publishing process.
+   */
   suspend fun payAllSui(
       signer: SuiAddress,
       inputCoins: List<ObjectId>,
@@ -1054,6 +1111,26 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Send SUI coins to a list of addresses, following a list of amounts.
+   *
+   * This is for SUI coin only and does not require a separate gas coin object. Specifically, what
+   * pay_sui does are: 1. debit each input_coin to create new coin following the order of amounts
+   * and assign it to the corresponding recipient. 2. accumulate all residual SUI from input coins
+   * left and deposit all SUI to the first input coin, then use the first input coin as the gas coin
+   * object. 3. the balance of the first input coin after tx is sum(input_coins) - sum(amounts) -
+   * actual_gas_cost 4. all other input coints other than the first one are deleted.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param inputCoins The Sui coins to be used in this transaction, including the coin for gas
+   *   payment.
+   * @param recipients The recipients' addresses, the length of this vector must be the same as
+   *   amounts.
+   * @param amounts The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the publishing is completed.
+   * @throws SuiException if there is an error during the publishing process.
+   */
   suspend fun paySui(
       signer: SuiAddress,
       inputCoins: List<ObjectId>,
@@ -1078,6 +1155,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Create an unsigned transaction to publish a Move package.
+   *
+   * @param sender The transaction signer's Sui address.
+   * @param compiledModules The compiled bytes of a Move package.
+   * @param dependencies The list of transitive dependency addresses that this set of modules
+   *   depends on.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the publishing is completed.
+   * @throws SuiException if there is an error during the publishing process.
+   */
   suspend fun publish(
       sender: SuiAddress,
       compiledModules: List<String>,
@@ -1102,6 +1192,20 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Add stake to a validator's staking pool using multiple coins and amount.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param coins The list of Coin Objects to stake.
+   * @param amount The amount of SUI tokens to stake.
+   * @param validator The validator's Sui address.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the stake addition request is
+   *   completed.
+   * @throws SuiException if there is an error during the stake addition request.
+   */
   suspend fun requestAddStake(
       signer: SuiAddress,
       coins: List<ObjectId>,
@@ -1127,6 +1231,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Withdraw stake from a validator's staking pool.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param stakedSui Staked Sui object ID.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the withdrawal request is
+   *   completed.
+   * @throws SuiException if there is an error during the withdrawal request.
+   */
   suspend fun requestWithdrawStake(
       signer: SuiAddress,
       stakedSui: ObjectId,
@@ -1145,6 +1262,18 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Create an unsigned transaction to split a coin object into multiple coins.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param coinObjectId The ID of the coin to be split.
+   * @param splitAmounts The amounts to split out from the coin.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the split is completed.
+   * @throws SuiException if there is an error during the split.
+   */
   suspend fun splitCoin(
       signer: SuiAddress,
       coinObjectId: ObjectId,
@@ -1168,6 +1297,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Create an unsigned transaction to split a coin object into multiple equal-size coins.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param coinObjectId The ID of the coin to be split.
+   * @param splitCount The number of coins to split into.
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @return [TransactionBlockBytes] The transaction block bytes after the split is completed.
+   * @throws SuiException if there is an error during the split.
+   */
   suspend fun splitCoinEqual(
       signer: SuiAddress,
       coinObjectId: ObjectId,
@@ -1192,6 +1334,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Create an unsigned transaction to transfer an object from one address to another. The object's
+   * type must allow public transfers.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param objectId The ID of the object being transferred.
+   * @param gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @param recipient The SUI address of the recipient account.
+   * @return [TransactionBlockBytes] The transaction block bytes after the transfer is completed.
+   * @throws SuiException if there is an error during the transfer.
+   */
   suspend fun transferObject(
       signer: SuiAddress,
       objectId: ObjectId,
@@ -1216,6 +1371,18 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Error -> throw SuiException(response.message)
       }
 
+  /**
+   * Create an unsigned transaction to send SUI coin object to a Sui address. The SUI object is also
+   * used as the gas object.
+   *
+   * @param signer The transaction signer's Sui address.
+   * @param suiObjectId The Sui coin object to be used in this transaction.
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget.
+   * @param recipient The SUI address of the recipient account.
+   * @param amount The amount to be split out and transferred.
+   * @return [TransactionBlockBytes] The transaction block bytes after the transfer is completed.
+   * @throws SuiException if there is an error during the transfer.
+   */
   suspend fun transferSui(
       signer: SuiAddress,
       suiObjectId: ObjectId,
