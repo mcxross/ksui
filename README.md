@@ -5,8 +5,8 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplat
 This library is intended to be the highest quality publicly available library for interacting with Sui on any Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
 
 ![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.3.0-blue.svg)
-![Ksui version](https://img.shields.io/badge/Ksui-1.2.2--beta-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20Web%20|%20Native-blue.svg)
+![Ksui version](https://img.shields.io/badge/Ksui-1.2.3--beta-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20JS%20|%20Native-blue.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 [![Ksui Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
@@ -19,7 +19,7 @@ This library is intended to be the highest quality publicly available library fo
 
 ## Features
 - Implements all functions
-- Pub/Sub and Req/Res
+- HTTP and WebSocket Clients
 - Crypto wrappers
 - Client Configurable
 - Multiplatform
@@ -34,7 +34,7 @@ Add the `Ksui` dependency to the common sourceSet
 ```kotlin
 implementation("xyz.mcxross.ksui:ksui:<$ksui_version>")
 ```
-#### Platform specific (Android, Web, Native, JVM)
+#### Platform specific (Android, JS, Native, JVM)
 Add the `Ksui` dependency to the Project's dependency block
 
 Generic:
@@ -50,7 +50,7 @@ Android:
 implementation("xyz.mcxross.ksui:ksui-android:<$ksui_version>")
 ```
 
-Web:
+JS:
 
 ```kotlin
 implementation("xyz.mcxross.ksui:ksui-js:<$ksui_version>")
