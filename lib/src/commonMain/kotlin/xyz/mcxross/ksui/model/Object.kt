@@ -8,6 +8,9 @@ import xyz.mcxross.ksui.model.serializer.OwnerSerializer
 @Serializable data class ObjectId(val hash: String)
 
 @Serializable
+data class ObjectReference(val objectId: String, val version: Long, val digest: String)
+
+@Serializable
 data class Object(
     @Serializable(with = OwnerSerializer::class) val owner: Owner,
     val reference: ObjectReference,

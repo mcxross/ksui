@@ -115,3 +115,25 @@ data class TransactionBlockBytes(
     val txBytes: String,
     val gas: List<Gas>,
 )
+
+@Serializable data class Input(val type: String, val valueType: String, val value: String)
+
+// TODO: Complete impl
+@Serializable data class Transaction1(val kind: String, val inputs: List<Input>)
+
+@Serializable
+data class TransactionBlockData(
+    val messageVersion: String,
+    val transaction: Transaction1,
+    val sender: String,
+    val gasData: GasData
+)
+
+@Serializable
+data class DryRunTransactionBlockResponse(
+    val effects: TransactionBlockEffects,
+    val events: List<Event>,
+    @Serializable(with = ObjectChangeSerializer::class) val objectChanges: List<ObjectChange>,
+    @Serializable(with = ObjectChangeSerializer::class) val balanceChanges: List<BalanceChange>,
+    val input: TransactionBlockData,
+)
