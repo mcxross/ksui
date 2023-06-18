@@ -27,6 +27,7 @@ import xyz.mcxross.ksui.model.CoinPage
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.DelegatedStake
 import xyz.mcxross.ksui.model.Discovery
+import xyz.mcxross.ksui.model.DryRunTransactionBlockResponse
 import xyz.mcxross.ksui.model.DynamicFieldName
 import xyz.mcxross.ksui.model.Event
 import xyz.mcxross.ksui.model.EventFilter
@@ -175,6 +176,15 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       is Response.Error -> throw SuiException(result.message)
     }
   }
+
+  suspend fun dryRunTransactionBlock(txBytes: String): DryRunTransactionBlockResponse =
+      when (val response =
+          json.decodeFromString<Response<DryRunTransactionBlockResponse>>(
+              serializer(),
+              call("sui_dryRunTransactionBlock", *listOf(txBytes).toTypedArray()).bodyAsText())) {
+        is Response.Ok -> response.data
+        is Response.Error -> throw SuiException(response.message)
+      }
 
   /**
    * Return the total coin balance for all coin type, owned by the address owner.
