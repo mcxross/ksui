@@ -33,6 +33,7 @@ import xyz.mcxross.ksui.model.Event
 import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.model.EventID
 import xyz.mcxross.ksui.model.EventPage
+import xyz.mcxross.ksui.model.ExecuteTransactionRequestType
 import xyz.mcxross.ksui.model.GasPrice
 import xyz.mcxross.ksui.model.LoadedChildObjectsResponse
 import xyz.mcxross.ksui.model.MoveFunctionArgType
@@ -178,7 +179,8 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
-   * Return transaction execution effects including the gas cost summary, while the effects are not committed to the chain.
+   * Return transaction execution effects including the gas cost summary, while the effects are not
+   * committed to the chain.
    *
    * @param txBytes The serialized transaction block bytes.
    * @return [DryRunTransactionBlockResponse] The response containing the result of the dry run.
@@ -192,6 +194,52 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Execute the transaction and wait for results if desired.
+   *
+   * Request types: 1. WaitForEffectsCert: waits for TransactionEffectsCert and then return to
+   * client. This mode is a proxy for transaction finality. 2. WaitForLocalExecution: waits for
+   * TransactionEffectsCert and make sure the node executed the transaction locally before returning
+   * the client. The local execution makes sure this node is aware of this transaction when client
+   * fires subsequent queries. However, if the node fails to execute the transaction locally in a
+   * timely manner, a bool type in the response is set to false indicating the case. request_type is
+   * default to be `WaitForEffectsCert` unless options.show_events or options.show_effects is true
+   *
+   * @param txBytes BCS serialized transaction data bytes without its type tag, as base-64 encoded
+   *   string.
+   * @param signatures A list of signatures (`flag || signature || pubkey` bytes, as base-64 encoded
+   *   string). Signature is committed to the intent message of the transaction data, as base-64
+   *   encoded string.
+   * @param options for specifying the content to be returned.
+   * @param requestType The request type, derived from `[TransactionBlockResponseOptions]` if None.
+   * @return [TransactionBlockResponse] The response from the transaction block execution.
+   * @throws SuiException if the response is an error.
+   */
+  suspend fun executeTransactionBlock(
+      txBytes: String,
+      signatures: List<String>,
+      options: TransactionBlockResponseOptions,
+      requestType: ExecuteTransactionRequestType? = null
+  ): TransactionBlockResponse {
+    val response =
+        json.decodeFromString<Response<TransactionBlockResponse>>(
+            serializer(),
+            call(
+                    "sui_executeTransactionBlock",
+                    *listOf(
+                            txBytes,
+                            signatures,
+                            json.encodeToJsonElement(serializer(), options),
+                            requestType?.value())
+                        .toTypedArray())
+                .bodyAsText())
+
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   /**
    * Return the total coin balance for all coin type, owned by the address owner.
