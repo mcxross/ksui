@@ -5,6 +5,17 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.DisassembledFieldSerializer
 import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
 
+enum class ExecuteTransactionRequestType {
+  WAITFOREFFECTSCERT {
+    override fun value(): String = "WaitForEffectsCert"
+  },
+  WAITFORLOCALEXECUTION {
+    override fun value(): String = "WaitForLocalExecution"
+  };
+
+  abstract fun value(): String
+}
+
 @Serializable
 data class Transaction(
     val data: Data,
