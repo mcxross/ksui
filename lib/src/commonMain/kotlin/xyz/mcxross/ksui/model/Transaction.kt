@@ -4,6 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.DisassembledFieldSerializer
 import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
+import xyz.mcxross.ksui.model.serializer.TransactionFilterSerializer
+import xyz.mcxross.ksui.model.serializer.TxnSubResSerializer
 
 enum class ExecuteTransactionRequestType {
   WAITFOREFFECTSCERT {
@@ -148,3 +150,40 @@ data class DryRunTransactionBlockResponse(
     @Serializable(with = ObjectChangeSerializer::class) val balanceChanges: List<BalanceChange>,
     val input: TransactionBlockData,
 )
+
+@Serializable(with = TxnSubResSerializer::class)
+sealed class TransactionSubscriptionResponse {
+  data class Ok(val subscriptionId: Long) : TransactionSubscriptionResponse()
+
+  data class Effect(val effect: TransactionBlockResponse) : TransactionSubscriptionResponse()
+  data class Error(
+      val code: Int,
+      val message: String,
+  ) : TransactionSubscriptionResponse()
+}
+
+@Serializable(with = TransactionFilterSerializer::class)
+open class TransactionFilter {
+  @Serializable data class Checkpoint(val checkpointSequenceNumber: Long) : TransactionFilter()
+  @Serializable
+  data class MoveFunction(val pakage: ObjectId, val module: String, val function: String) :
+      TransactionFilter()
+
+  @Serializable data class InputObject(val objectId: ObjectId) : TransactionFilter()
+
+  @Serializable data class ChangedObject(val objectId: ObjectId) : TransactionFilter()
+
+  @Serializable data class FromAddress(val address: SuiAddress) : TransactionFilter()
+
+  @Serializable data class ToAddress(val address: SuiAddress) : TransactionFilter()
+
+  @Serializable
+  data class FromAndToAddress(val fromAddress: SuiAddress, val toAddress: SuiAddress) :
+      TransactionFilter()
+
+  @Serializable data class FromOrToAddress(val suiAddress: SuiAddress) : TransactionFilter()
+
+  @Serializable
+  data class TransactionKind(val transactionKind: xyz.mcxross.ksui.model.TransactionKind) :
+      TransactionFilter()
+}
