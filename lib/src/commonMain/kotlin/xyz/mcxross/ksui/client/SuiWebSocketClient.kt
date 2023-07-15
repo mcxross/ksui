@@ -14,7 +14,7 @@ import xyz.mcxross.ksui.model.EventEnvelope
 import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.model.EventResponse
 import xyz.mcxross.ksui.model.Response
-import xyz.mcxross.ksui.model.TransactionBlockResponse
+import xyz.mcxross.ksui.model.TransactionBlockEffects
 import xyz.mcxross.ksui.model.TransactionFilter
 import xyz.mcxross.ksui.model.TransactionSubscriptionResponse
 
@@ -85,7 +85,7 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
       filter: TransactionFilter,
       onSubscribe: (Long) -> Unit = {},
       onError: (TransactionSubscriptionResponse.Error) -> Unit,
-      onEffect: (TransactionBlockResponse) -> Unit
+      onEffect: (TransactionBlockEffects) -> Unit
   ) {
     runBlocking {
       configContainer.httpClient.wss(
@@ -102,7 +102,9 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
                 is Response.Ok -> {
                   when (val data = response.data) {
                     is TransactionSubscriptionResponse.Ok -> onSubscribe(data.subscriptionId)
-                    is TransactionSubscriptionResponse.Effect -> onEffect(data.effect)
+                    is TransactionSubscriptionResponse.Effect -> {
+                      onEffect(data.effect)
+                    }
                     is TransactionSubscriptionResponse.Error -> onError(data)
                   }
                 }

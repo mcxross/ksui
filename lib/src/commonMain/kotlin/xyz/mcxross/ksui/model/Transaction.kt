@@ -155,7 +155,7 @@ data class DryRunTransactionBlockResponse(
 sealed class TransactionSubscriptionResponse {
   data class Ok(val subscriptionId: Long) : TransactionSubscriptionResponse()
 
-  data class Effect(val effect: TransactionBlockResponse) : TransactionSubscriptionResponse()
+  data class Effect(val effect: TransactionBlockEffects) : TransactionSubscriptionResponse()
   data class Error(
       val code: Int,
       val message: String,
@@ -182,8 +182,4 @@ open class TransactionFilter {
       TransactionFilter()
 
   @Serializable data class FromOrToAddress(val suiAddress: SuiAddress) : TransactionFilter()
-
-  @Serializable
-  data class TransactionKind(val transactionKind: xyz.mcxross.ksui.model.TransactionKind) :
-      TransactionFilter()
 }
