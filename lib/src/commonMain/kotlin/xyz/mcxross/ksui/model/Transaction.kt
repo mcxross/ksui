@@ -18,6 +18,17 @@ enum class ExecuteTransactionRequestType {
   abstract fun value(): String
 }
 
+enum class TransactionBlockBuilderMode {
+  Commit {
+    override val value: String = "Commit"
+  },
+  DevInspect {
+    override val value: String = "DevInspect"
+  };
+
+  abstract val value: String
+}
+
 @Serializable
 data class Transaction(
     val data: Data,
