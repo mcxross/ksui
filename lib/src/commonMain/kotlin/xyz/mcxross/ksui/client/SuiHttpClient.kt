@@ -51,12 +51,14 @@ import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiCoinMetadata
 import xyz.mcxross.ksui.model.SuiSystemStateSummary
 import xyz.mcxross.ksui.model.Supply
+import xyz.mcxross.ksui.model.TransactionBlockBuilderMode
 import xyz.mcxross.ksui.model.TransactionBlockBytes
 import xyz.mcxross.ksui.model.TransactionBlockResponse
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlockResponseQuery
 import xyz.mcxross.ksui.model.TransactionBlocksPage
 import xyz.mcxross.ksui.model.TransactionDigest
+import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.model.ValidatorApys
 
 /** A Kotlin wrapper around the Sui JSON-RPC API for interacting with a Sui full node. */
@@ -1075,6 +1077,59 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
         is Response.Ok -> response.data
         is Response.Error -> throw SuiException(response.message)
       }
+
+  /**
+   * Create an unsigned transaction to execute a Move call on the network, by calling the specified
+   * function in the module of a given package.
+   *
+   * @param signer The transaction signer's Sui address
+   * @param packageObjectId The Move package ID, e.g. `0x2`
+   * @param module The Move module name, e.g. `pay`
+   * @param function The move function name, e.g. `split`
+   * @param typeArguments The type arguments of the Move function
+   * @param arguments The arguments to be passed into the Move function, in SuiJson format
+   * @param gas The gas object to be used in this transaction, node will pick one from the signer's
+   *   possession if not provided
+   * @param gasBudget The gas budget, the transaction will fail if the gas cost exceed the budget
+   * @param executionMode Whether this is a Normal transaction or a Dev Inspect Transaction. Default
+   *   to be `SuiTransactionBlockBuilderMode::Commit` when it's None
+   * @return The resulting [TransactionBlockBytes]
+   * @throws SuiException if there is an error in the response.
+   */
+  suspend fun moveCall(
+      signer: SuiAddress,
+      packageObjectId: ObjectId,
+      module: String,
+      function: String,
+      typeArguments: List<TypeTag>,
+      arguments: List<Any>,
+      gas: ObjectId? = null,
+      gasBudget: Long,
+      executionMode: TransactionBlockBuilderMode? = null
+  ): TransactionBlockBytes {
+    val response =
+        json.decodeFromString<Response<TransactionBlockBytes>>(
+            serializer(),
+            call(
+                    "unsafe_moveCall",
+                    *listOf(
+                            signer.pubKey,
+                            packageObjectId.hash,
+                            module,
+                            function,
+                            typeArguments.map { it.asMoveType() },
+                            arguments.toTypedArray(),
+                            gas,
+                            gasBudget.toString(),
+                            executionMode)
+                        .toTypedArray())
+                .bodyAsText())
+
+    when (response) {
+      is Response.Ok -> return response.data
+      is Response.Error -> throw SuiException(response.message)
+    }
+  }
 
   /**
    * Send `Coin<T>` to a list of addresses, where `T` can be any coin type following a list of
