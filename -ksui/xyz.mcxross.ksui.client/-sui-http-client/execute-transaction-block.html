@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>executeTransactionBlock</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>Ksui</span>
+            </a>
+    </div>
+    <div>
+1.2.4-beta    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":ksui:dokkaHtml/commonMain">common</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageIds="Ksui::xyz.mcxross.ksui.client/SuiHttpClient/executeTransactionBlock/#kotlin.String#kotlin.collections.List[kotlin.String]#xyz.mcxross.ksui.model.TransactionBlockResponseOptions#xyz.mcxross.ksui.model.ExecuteTransactionRequestType?/PointingToDeclaration//1931646062">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.client</a><span class="delimiter">/</span><a href="index.html">SuiHttpClient</a><span class="delimiter">/</span><span class="current">executeTransactionBlock</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>execute</span><wbr></wbr><span>Transaction</span><wbr></wbr><span><span>Block</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="execute-transaction-block.html"><span class="token function">executeTransactionBlock</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">txBytes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">signatures<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-block-response-options/index.html">TransactionBlockResponseOptions</a><span class="token punctuation">, </span></span><span class="parameter ">requestType<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-execute-transaction-request-type/index.html">ExecuteTransactionRequestType</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-block-response/index.html">TransactionBlockResponse</a></div><p class="paragraph">Execute the transaction and wait for results if desired.</p><p class="paragraph">Request types: 1. WaitForEffectsCert: waits for TransactionEffectsCert and then return to client. This mode is a proxy for transaction finality. 2. WaitForLocalExecution: waits for TransactionEffectsCert and make sure the node executed the transaction locally before returning the client. The local execution makes sure this node is aware of this transaction when client fires subsequent queries. However, if the node fails to execute the transaction locally in a timely manner, a bool type in the response is set to false indicating the case. request_type is default to be <code class="lang-kotlin">WaitForEffectsCert</code> unless options.show_events or options.show_effects is true</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph"><a href="../../xyz.mcxross.ksui.model/-transaction-block-response/index.html">TransactionBlockResponse</a> The response from the transaction block execution.</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>tx</span><wbr></wbr><span><span>Bytes</span></span></u></div></span></div><div><div class="title"><p class="paragraph">BCS serialized transaction data bytes without its type tag, as base-64 encoded string.</p></div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>signatures</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A list of signatures (<code class="lang-kotlin">flag || signature || pubkey</code> bytes, as base-64 encoded string). Signature is committed to the intent message of the transaction data, as base-64 encoded string.</p></div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>options</span></span></u></div></span></div><div><div class="title"><p class="paragraph">for specifying the content to be returned.</p></div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>request</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The request type, derived from <code class="lang-kotlin">[TransactionBlockResponseOptions]</code> if None.</p></div></div></div></div></div><h4 class="">Throws</h4><div class="table"><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../xyz.mcxross.ksui.exception/-sui-exception/index.html"><span>Sui</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div><div class="title"><p class="paragraph">if the response is an error.</p></div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
