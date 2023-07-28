@@ -2,6 +2,7 @@ package xyz.mcxross.ksui.model
 
 import kotlin.reflect.safeCast
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.exception.UnknownEventFilterException
 import xyz.mcxross.ksui.model.serializer.EventFilterSerializer
 import xyz.mcxross.ksui.model.serializer.EventParsedJsonSerializer
 import xyz.mcxross.ksui.model.serializer.EventResponseSerializer
@@ -157,7 +158,15 @@ sealed class EventResponse {
   ) : EventResponse()
 }
 
-inline fun <reified T : EventFilter> createEventFilterFor(block: T.() -> Unit): T =
+/**
+ * Creates an [EventFilter] instance of type [T] and applies the specified [block] on it.
+ *
+ * @param block A lambda function that takes an instance of [T] (subtype of [EventFilter]) and
+ *   applies operations on it.
+ * @return An instance of [T] with the operations from the [block] applied on it.
+ * @throws UnknownEventFilterException if the [T] type is not a known [EventFilter] type.
+ */
+inline fun <reified T : EventFilter> eventFilterFor(block: T.() -> Unit): T =
     when (T::class) {
       EventFilter.All::class -> T::class.safeCast(EventFilter.All())!!.apply(block)
       EventFilter.Transaction::class -> T::class.safeCast(EventFilter.Transaction())!!.apply(block)
@@ -171,5 +180,5 @@ inline fun <reified T : EventFilter> createEventFilterFor(block: T.() -> Unit): 
           T::class.safeCast(EventFilter.MoveEventField())!!.apply(block)
       EventFilter.TimeRange::class -> T::class.safeCast(EventFilter.TimeRange())!!.apply(block)
       EventFilter.Combined::class -> T::class.safeCast(EventFilter.Combined())!!.apply(block)
-      else -> throw Exception("Unknown EventFilter type")
+      else -> throw UnknownEventFilterException("Unknown EventFilter type: ${T::class}")
     }
