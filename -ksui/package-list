@@ -2,13 +2,13 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:xyz.mcxross.ksui.client////PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/index.html
 $dokka.location:xyz.mcxross.ksui.client//KSUI_VERSION/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-k-s-u-i_-v-e-r-s-i-o-n.html
-$dokka.location:xyz.mcxross.ksui.client//createSuiHttpClient/#kotlin.Function1[xyz.mcxross.ksui.client.ClientConfig,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/create-sui-http-client.html
-$dokka.location:xyz.mcxross.ksui.client//createSuiWebSocketClient/#kotlin.Function1[xyz.mcxross.ksui.client.ClientConfig,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/create-sui-web-socket-client.html
 $dokka.location:xyz.mcxross.ksui.client//httpClient/#kotlin.Function1[io.ktor.client.HttpClientConfig[*],kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/http-client.html
 $dokka.location:xyz.mcxross.ksui.client//runBlocking/#kotlin.coroutines.CoroutineContext#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/run-blocking.html
 $dokka.location:xyz.mcxross.ksui.client//subscribe/io.ktor.websocket.DefaultWebSocketSession#kotlin.String#kotlinx.serialization.json.JsonElement/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/subscribe.html
 $dokka.location:xyz.mcxross.ksui.client//subscribeEvent/io.ktor.websocket.DefaultWebSocketSession#kotlinx.serialization.json.Json#xyz.mcxross.ksui.model.EventFilter/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/subscribe-event.html
 $dokka.location:xyz.mcxross.ksui.client//subscribeTransaction/io.ktor.websocket.DefaultWebSocketSession#kotlinx.serialization.json.Json#xyz.mcxross.ksui.model.TransactionFilter/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/subscribe-transaction.html
+$dokka.location:xyz.mcxross.ksui.client//suiHttpClient/#kotlin.Function1[xyz.mcxross.ksui.client.ClientConfig,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/sui-http-client.html
+$dokka.location:xyz.mcxross.ksui.client//suiWebSocketClient/#kotlin.Function1[xyz.mcxross.ksui.client.ClientConfig,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/sui-web-socket-client.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig///PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/index.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/agentName/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/agent-name.html
@@ -114,6 +114,8 @@ $dokka.location:xyz.mcxross.ksui.exception/TooManyRequestsException///PointingTo
 $dokka.location:xyz.mcxross.ksui.exception/TooManyRequestsException/TooManyRequestsException/#kotlin.Int#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-too-many-requests-exception/-too-many-requests-exception.html
 $dokka.location:xyz.mcxross.ksui.exception/TransactionNotFoundException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-transaction-not-found-exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/TransactionNotFoundException/TransactionNotFoundException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-transaction-not-found-exception/-transaction-not-found-exception.html
+$dokka.location:xyz.mcxross.ksui.exception/UnknownEventFilterException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-unknown-event-filter-exception/index.html
+$dokka.location:xyz.mcxross.ksui.exception/UnknownEventFilterException/UnknownEventFilterException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-unknown-event-filter-exception/-unknown-event-filter-exception.html
 $dokka.location:xyz.mcxross.ksui.exception/UnresolvedSuiEndPointException///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-unresolved-sui-end-point-exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/UnresolvedSuiEndPointException/UnresolvedSuiEndPointException/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-unresolved-sui-end-point-exception/-unresolved-sui-end-point-exception.html
 $dokka.location:xyz.mcxross.ksui.model.serializer.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer.util/index.html
@@ -203,7 +205,7 @@ $dokka.location:xyz.mcxross.ksui.model.serializer/ValidatorReportRecordSerialize
 $dokka.location:xyz.mcxross.ksui.model.serializer/ValidatorReportRecordSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer/-validator-report-record-serializer/deserialize.html
 $dokka.location:xyz.mcxross.ksui.model.serializer/ValidatorReportRecordSerializer/serialize/#kotlinx.serialization.encoding.Encoder#kotlin.collections.List[xyz.mcxross.ksui.model.ValidatorReportRecord]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model.serializer/-validator-report-record-serializer/serialize.html
 $dokka.location:xyz.mcxross.ksui.model////PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/index.html
-$dokka.location:xyz.mcxross.ksui.model//createEventFilterFor/#kotlin.Function1[TypeParam(bounds=[xyz.mcxross.ksui.model.EventFilter]),kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/create-event-filter-for.html
+$dokka.location:xyz.mcxross.ksui.model//eventFilterFor/#kotlin.Function1[TypeParam(bounds=[xyz.mcxross.ksui.model.EventFilter]),kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/event-filter-for.html
 $dokka.location:xyz.mcxross.ksui.model//vectorOf/#xyz.mcxross.ksui.model.TypeTag/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/vector-of.html
 $dokka.location:xyz.mcxross.ksui.model/AdditionalProperties///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-additional-properties/index.html
 $dokka.location:xyz.mcxross.ksui.model/AdditionalProperties/AdditionalProperties/#kotlin.String#kotlin.String#kotlin.Int/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-additional-properties/-additional-properties.html
