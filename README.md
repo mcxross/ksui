@@ -91,7 +91,7 @@ After the client is configured, subscribe to events with `subscribeEvent`
 val suiWSClient = createSuiWebSocketClient { endpoint = EndPoint.MAINNET }
 
 suiWSClient.subscribeEvent(
-        createEventFilterFor<EventFilter.Combined> { operator = Operator.ALL },
+        eventFilterFor<EventFilter.Combined> { operator = Operator.ALL },
         onSubscribe = {},
         onError = {}) {
     // This block of code is a trailing lambda that will be executed whenever an event occurs.
