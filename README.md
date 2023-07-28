@@ -70,7 +70,7 @@ After the client is configured, it can be used to invoke remote procedures e.g. 
 The client supports both DSL and command-query styles for client creation and RPC calls respectively as shown below:
 ```kotlin
 //Configure Client, DSL Style
-val suiHttpClient = createSuiHttpClient {
+val suiHttpClient = suiHttpClient {
     endpoint = EndPoint.DEVNET
     agentName = "KSUI/1.2.0-beta"
     maxRetries = 10
@@ -88,7 +88,7 @@ After the client is configured, subscribe to events with `subscribeEvent`
 
 ```kotlin
 //Configure Client, DSL Style
-val suiWSClient = createSuiWebSocketClient { endpoint = EndPoint.MAINNET }
+val suiWSClient = suiWebSocketClient { endpoint = EndPoint.MAINNET }
 
 suiWSClient.subscribeEvent(
         eventFilterFor<EventFilter.Combined> { operator = Operator.ALL },
