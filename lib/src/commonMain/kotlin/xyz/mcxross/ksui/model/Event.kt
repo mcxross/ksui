@@ -130,21 +130,60 @@ enum class Operator {
 @Serializable(with = EventFilterSerializer::class)
 open class EventFilter {
   @Serializable class All : EventFilter()
-  @Serializable data class Transaction(var digest: Digest = Digest("")) : EventFilter()
+  @Serializable data class Transaction(val digest: Digest) : EventFilter()
+  @Serializable data class MoveModule(val pakage: String, val module: String) : EventFilter()
+  @Serializable data class MoveEvent(val struct: String) : EventFilter()
+  @Serializable data class Sender(val address: SuiAddress) : EventFilter()
+  @Serializable data class Package(val id: String) : EventFilter()
+  @Serializable data class MoveEventType(val eventType: String) : EventFilter()
+  @Serializable data class DataField(val path: String, val value: String)
+  @Serializable data class MoveEventField(val dataField: DataField) : EventFilter()
+  @Serializable data class TimeRange(val start: Long, val end: Long) : EventFilter()
   @Serializable
-  data class MoveModule(var pakage: String = "", var module: String = "") : EventFilter()
-  @Serializable data class MoveEvent(var struct: String = "") : EventFilter()
-  @Serializable data class Sender(var address: SuiAddress = SuiAddress("")) : EventFilter()
-  @Serializable data class Package(var id: String = "") : EventFilter()
-  @Serializable data class MoveEventType(var eventType: String = "") : EventFilter()
-  @Serializable data class DataField(var path: String = "", var value: String = "")
-  @Serializable data class MoveEventField(var dataField: DataField = DataField()) : EventFilter()
-  @Serializable data class TimeRange(var start: Long = 0, var end: Long = 0) : EventFilter()
-  @Serializable
+  data class Combined(val operator: Operator = Operator.ALL, val filters: List<EventFilter>) :
+      EventFilter()
+}
+
+abstract class EventFilterMutable {
+
+  abstract fun toImmutable(): EventFilter
+  class All : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.All()
+  }
+  data class Transaction(var digest: Digest = Digest("")) : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.Transaction(digest)
+  }
+  data class MoveModule(var pakage: String = "", var module: String = "") : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.MoveModule(pakage, module)
+  }
+  data class MoveEvent(var struct: String = "") : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.MoveEvent(struct)
+  }
+
+  data class Sender(var address: SuiAddress = SuiAddress("")) : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.Sender(address)
+  }
+  data class Package(var id: String = "") : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.Package(id)
+  }
+  data class MoveEventType(var eventType: String = "") : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.MoveEventType(eventType)
+  }
+  data class DataField(var path: String = "", var value: String = "") {
+    fun toMutable(): EventFilter.DataField = EventFilter.DataField(path, value)
+  }
+  data class MoveEventField(var dataField: DataField = DataField()) : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.MoveEventField(dataField.toMutable())
+  }
+  data class TimeRange(var start: Long = 0, var end: Long = 0) : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.TimeRange(start, end)
+  }
   data class Combined(
       var operator: Operator = Operator.ALL,
       var filters: List<EventFilter> = emptyList()
-  ) : EventFilter()
+  ) : EventFilterMutable() {
+    override fun toImmutable(): EventFilter = EventFilter.Combined(operator, filters)
+  }
 }
 
 @Serializable(with = EventResponseSerializer::class)
@@ -166,19 +205,55 @@ sealed class EventResponse {
  * @return An instance of [T] with the operations from the [block] applied on it.
  * @throws UnknownEventFilterException if the [T] type is not a known [EventFilter] type.
  */
-inline fun <reified T : EventFilter> eventFilterFor(block: T.() -> Unit): T =
+inline fun <reified T : EventFilterMutable> eventFilterFor(block: T.() -> Unit): EventFilter =
     when (T::class) {
-      EventFilter.All::class -> T::class.safeCast(EventFilter.All())!!.apply(block)
-      EventFilter.Transaction::class -> T::class.safeCast(EventFilter.Transaction())!!.apply(block)
-      EventFilter.MoveModule::class -> T::class.safeCast(EventFilter.MoveModule())!!.apply(block)
-      EventFilter.MoveEvent::class -> T::class.safeCast(EventFilter.MoveEvent())!!.apply(block)
-      EventFilter.Sender::class -> T::class.safeCast(EventFilter.Sender())!!.apply(block)
-      EventFilter.Package::class -> T::class.safeCast(EventFilter.Package())!!.apply(block)
-      EventFilter.MoveEventType::class ->
-          T::class.safeCast(EventFilter.MoveEventType())!!.apply(block)
-      EventFilter.MoveEventField::class ->
-          T::class.safeCast(EventFilter.MoveEventField())!!.apply(block)
-      EventFilter.TimeRange::class -> T::class.safeCast(EventFilter.TimeRange())!!.apply(block)
-      EventFilter.Combined::class -> T::class.safeCast(EventFilter.Combined())!!.apply(block)
+      EventFilterMutable.All::class -> {
+        val eventFilterAllMutable = T::class.safeCast(EventFilterMutable.All())!!.apply(block)
+        eventFilterAllMutable.toImmutable()
+      }
+      EventFilterMutable.Transaction::class -> {
+        val eventFilterTransactionMutable =
+            T::class.safeCast(EventFilterMutable.Transaction())!!.apply(block)
+        eventFilterTransactionMutable.toImmutable()
+      }
+      EventFilterMutable.MoveModule::class -> {
+        val eventFilterMoveModuleMutable =
+            T::class.safeCast(EventFilterMutable.MoveModule())!!.apply(block)
+        eventFilterMoveModuleMutable.toImmutable()
+      }
+      EventFilterMutable.MoveEvent::class -> {
+        val eventFilterMoveEventMutable =
+            T::class.safeCast(EventFilterMutable.MoveEvent())!!.apply(block)
+        eventFilterMoveEventMutable.toImmutable()
+      }
+      EventFilterMutable.Sender::class -> {
+        val eventFilterSenderMutable = T::class.safeCast(EventFilterMutable.Sender())!!.apply(block)
+        eventFilterSenderMutable.toImmutable()
+      }
+      EventFilterMutable.Package::class -> {
+        val eventFilterPackageMutable =
+            T::class.safeCast(EventFilterMutable.Package())!!.apply(block)
+        eventFilterPackageMutable.toImmutable()
+      }
+      EventFilterMutable.MoveEventType::class -> {
+        val eventFilterMoveEventTypeMutable =
+            T::class.safeCast(EventFilterMutable.MoveEventType())!!.apply(block)
+        eventFilterMoveEventTypeMutable.toImmutable()
+      }
+      EventFilterMutable.MoveEventField::class -> {
+        val eventFilterMoveEventFieldMutable =
+            T::class.safeCast(EventFilterMutable.MoveEventField())!!.apply(block)
+        eventFilterMoveEventFieldMutable.toImmutable()
+      }
+      EventFilterMutable.TimeRange::class -> {
+        val eventFilterTimeRangeMutable =
+            T::class.safeCast(EventFilterMutable.TimeRange())!!.apply(block)
+        eventFilterTimeRangeMutable.toImmutable()
+      }
+      EventFilterMutable.Combined::class -> {
+        val eventFilterCombinedMutable =
+            T::class.safeCast(EventFilterMutable.Combined())!!.apply(block)
+        eventFilterCombinedMutable.toImmutable()
+      }
       else -> throw UnknownEventFilterException("Unknown EventFilter type: ${T::class}")
     }
