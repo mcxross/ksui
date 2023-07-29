@@ -1,5 +1,6 @@
 package xyz.mcxross.ksui.model
 
+import kotlin.reflect.safeCast
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.exception.UnknownTransactionFilterException
@@ -7,7 +8,6 @@ import xyz.mcxross.ksui.model.serializer.DisassembledFieldSerializer
 import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
 import xyz.mcxross.ksui.model.serializer.TransactionFilterSerializer
 import xyz.mcxross.ksui.model.serializer.TxnSubResSerializer
-import kotlin.reflect.safeCast
 
 enum class ExecuteTransactionRequestType {
   WAITFOREFFECTSCERT {
@@ -259,42 +259,42 @@ inline fun <reified T : TransactionFilterMutable> transactionFilterFor(
       TransactionFilterMutable.Checkpoint::class -> {
         val checkpointMutable =
             T::class.safeCast(TransactionFilterMutable.Checkpoint())!!.apply(block)
-        (checkpointMutable as TransactionFilterMutable.Checkpoint).toImmutable()
+        checkpointMutable.toImmutable()
       }
       TransactionFilterMutable.MoveFunction::class -> {
         val moveFunctionMutable =
             T::class.safeCast(TransactionFilterMutable.MoveFunction())!!.apply(block)
-        (moveFunctionMutable as TransactionFilterMutable.MoveFunction).toImmutable()
+        moveFunctionMutable.toImmutable()
       }
       TransactionFilterMutable.InputObject::class -> {
         val inputObjectMutable =
             T::class.safeCast(TransactionFilterMutable.InputObject())!!.apply(block)
-        (inputObjectMutable as TransactionFilterMutable.InputObject).toImmutable()
+        inputObjectMutable.toImmutable()
       }
       TransactionFilterMutable.ChangedObject::class -> {
         val changedObjectMutable =
             T::class.safeCast(TransactionFilterMutable.ChangedObject())!!.apply(block)
-        (changedObjectMutable as TransactionFilterMutable.ChangedObject).toImmutable()
+        changedObjectMutable.toImmutable()
       }
       TransactionFilterMutable.FromAddress::class -> {
         val fromAddressMutable =
             T::class.safeCast(TransactionFilterMutable.FromAddress())!!.apply(block)
-        (fromAddressMutable as TransactionFilterMutable.FromAddress).toImmutable()
+        fromAddressMutable.toImmutable()
       }
       TransactionFilterMutable.ToAddress::class -> {
         val toAddressMutable =
             T::class.safeCast(TransactionFilterMutable.ToAddress())!!.apply(block)
-        (toAddressMutable as TransactionFilterMutable.ToAddress).toImmutable()
+        toAddressMutable.toImmutable()
       }
       TransactionFilterMutable.FromAndToAddress::class -> {
         val fromAndToAddressMutable =
             T::class.safeCast(TransactionFilterMutable.FromAndToAddress())!!.apply(block)
-        (fromAndToAddressMutable as TransactionFilterMutable.FromAndToAddress).toImmutable()
+        fromAndToAddressMutable.toImmutable()
       }
       TransactionFilterMutable.FromOrToAddress::class -> {
         val fromOrToAddressMutable =
             T::class.safeCast(TransactionFilterMutable.FromOrToAddress())!!.apply(block)
-        (fromOrToAddressMutable as TransactionFilterMutable.FromOrToAddress).toImmutable()
+        fromOrToAddressMutable.toImmutable()
       }
       else -> throw UnknownTransactionFilterException("Unknown TransactionFilter type: ${T::class}")
     }
