@@ -60,7 +60,12 @@ kotlin {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
       }
     }
-    val commonTest by getting { dependencies { implementation(kotlin("test")) } }
+    val commonTest by getting {
+      dependencies {
+        implementation(kotlin("test"))
+        implementation("io.ktor:ktor-client-mock:$ktorVersion")
+      }
+    }
     val androidMain by getting {
       dependencies { implementation("io.ktor:ktor-client-okhttp:$ktorVersion") }
     }
@@ -139,7 +144,6 @@ val javadocJar =
       dependsOn("dokkaHtml")
       from(buildDir.resolve("dokka"))
     }
-
 
 fun getExtraString(name: String) = ext[name]?.toString()
 

@@ -1,6 +1,6 @@
 package xyz.mcxross.ksui.client
 
-import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.engine.js.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-actual fun httpClient(config: HttpClientConfig<*>.() -> Unit): HttpClient = HttpClient(Js)
+actual val defaultEngine: HttpClientEngine = Js.create()
 
 @OptIn(DelicateCoroutinesApi::class)
 actual suspend fun <T> runBlocking(
