@@ -53,8 +53,9 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
       onError: (EventResponse.Error) -> Unit,
       onEvent: (EventEnvelope) -> Unit
   ) {
+    val wsClient = configContainer.wsClient()
     runBlocking {
-      configContainer.httpClient.wss(
+      wsClient.wss(
           method = HttpMethod.Post,
           host = url.host,
           port = if (url.port != -1) url.port else configContainer.port) {
@@ -78,7 +79,7 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
             }
           }
     }
-    configContainer.httpClient.close()
+    wsClient.close()
   }
 
   suspend fun subscribeTransaction(
@@ -87,8 +88,9 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
       onError: (TransactionSubscriptionResponse.Error) -> Unit,
       onEffect: (TransactionBlockEffects) -> Unit
   ) {
+    val wsClient = configContainer.wsClient()
     runBlocking {
-      configContainer.httpClient.wss(
+      wsClient.wss(
           method = HttpMethod.Post,
           host = url.host,
           port = if (url.port != -1) url.port else configContainer.port) {
@@ -115,6 +117,6 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
             }
           }
     }
-    configContainer.httpClient.close()
+    wsClient.close()
   }
 }

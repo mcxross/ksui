@@ -87,7 +87,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val response: HttpResponse
     try {
       response =
-          configContainer.httpClient.post {
+          configContainer.httpClient().post {
             url(whichUrl(configContainer.endPoint))
             contentType(ContentType.Application.Json)
             setBody(
