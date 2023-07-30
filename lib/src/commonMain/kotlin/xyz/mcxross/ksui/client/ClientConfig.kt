@@ -5,7 +5,6 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.websocket.*
 
 data class ConfigContainer(
-    val httpClient: HttpClient,
     val endPoint: EndPoint,
     val customUrl: String,
     val port: Int = 443,
@@ -13,7 +12,25 @@ data class ConfigContainer(
     val agentName: String,
     val requestTimeout: Long,
     val connectionTimeout: Long,
-)
+) {
+  fun httpClient() = httpClient {
+    install(UserAgent) { agent = agentName }
+    install(HttpRequestRetry) {
+      retryOnServerErrors(maxRetries = maxRetries)
+      exponentialDelay()
+    }
+    install(HttpTimeout) {
+      requestTimeoutMillis = requestTimeout
+      connectTimeoutMillis = connectionTimeout
+    }
+  }
+
+  fun wsClient() = HttpClient {
+    install(UserAgent) { agent = agentName }
+    install(WebSockets)
+  }
+
+}
 
 class ClientConfig {
 
@@ -72,18 +89,6 @@ class ClientConfig {
         ClientType.HTTP -> {
           SuiHttpClient(
               ConfigContainer(
-                  httpClient =
-                      httpClient {
-                        install(UserAgent) { agent = agentName }
-                        install(HttpRequestRetry) {
-                          retryOnServerErrors(maxRetries = maxRetries)
-                          exponentialDelay()
-                        }
-                        install(HttpTimeout) {
-                          requestTimeoutMillis = requestTimeout
-                          connectTimeoutMillis = connectionTimeout
-                        }
-                      },
                   endPoint = endpoint,
                   customUrl = customEndPointUrl,
                   maxRetries = maxRetries,
@@ -95,11 +100,6 @@ class ClientConfig {
         ClientType.WS ->
             SuiWebSocketClient(
                 ConfigContainer(
-                    httpClient =
-                        HttpClient {
-                          install(UserAgent) { agent = agentName }
-                          install(WebSockets)
-                        },
                     endPoint = endpoint,
                     customUrl = customEndPointUrl,
                     maxRetries = maxRetries,

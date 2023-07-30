@@ -17,7 +17,7 @@ import xyz.mcxross.ksui.model.SuiAddress
 @Throws(TooManyRequestsException::class, CancellationException::class)
 suspend fun SuiHttpClient.requestTestTokens(owner: SuiAddress): FaucetResponse {
   val response =
-      configContainer.httpClient.post {
+      configContainer.httpClient().post {
         url(
             when (configContainer.endPoint) {
               EndPoint.DEVNET -> "https://faucet.devnet.sui.io/gas"

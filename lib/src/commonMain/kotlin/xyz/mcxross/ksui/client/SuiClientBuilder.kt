@@ -9,7 +9,8 @@ package xyz.mcxross.ksui.client
  *
  * Example usage:
  * ```
- * val client = suiHttpClient { setEndPoint(EndPoint.DEVNET) }
+ * val suiHttpClient = suiHttpClient { setEndPoint(EndPoint.DEVNET) }
+ *
  * ```
  *
  * @param builderAction A lambda function that modifies the properties of a [ClientConfig] instance.
@@ -31,8 +32,7 @@ fun suiHttpClient(builderAction: ClientConfig.() -> Unit): SuiHttpClient {
  *
  * Example usage:
  * ```
- *
- *
+ * val suiWSClient = suiWebSocketClient { endpoint = EndPoint.MAINNET }
  *
  * ```
  *
