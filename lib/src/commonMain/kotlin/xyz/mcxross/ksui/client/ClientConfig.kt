@@ -1,10 +1,12 @@
 package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.websocket.*
 
 data class ConfigContainer(
+    val engine: HttpClientEngine? = null,
     val endPoint: EndPoint,
     val customUrl: String,
     val port: Int = 443,
@@ -13,28 +15,30 @@ data class ConfigContainer(
     val requestTimeout: Long,
     val connectionTimeout: Long,
 ) {
-  fun httpClient() = httpClient {
-    install(UserAgent) { agent = agentName }
-    install(HttpRequestRetry) {
-      retryOnServerErrors(maxRetries = maxRetries)
-      exponentialDelay()
-    }
-    install(HttpTimeout) {
-      requestTimeoutMillis = requestTimeout
-      connectTimeoutMillis = connectionTimeout
-    }
-  }
+
+  private val selectedEngine = engine ?: defaultEngine
+  fun httpClient() =
+      HttpClient(selectedEngine) {
+        install(UserAgent) { agent = agentName }
+        install(HttpRequestRetry) {
+          retryOnServerErrors(maxRetries = maxRetries)
+          exponentialDelay()
+        }
+        install(HttpTimeout) {
+          requestTimeoutMillis = requestTimeout
+          connectTimeoutMillis = connectionTimeout
+        }
+      }
 
   fun wsClient() = HttpClient {
     install(UserAgent) { agent = agentName }
     install(WebSockets)
   }
-
 }
 
 class ClientConfig {
 
-  var engine: HttpClientConfig<*>.() -> Unit = {}
+  var engine: HttpClientEngine? = null
 
   /**
    * Sets the [EndPoint] to make calls to.
@@ -89,6 +93,7 @@ class ClientConfig {
         ClientType.HTTP -> {
           SuiHttpClient(
               ConfigContainer(
+                  engine = engine,
                   endPoint = endpoint,
                   customUrl = customEndPointUrl,
                   maxRetries = maxRetries,
@@ -100,6 +105,7 @@ class ClientConfig {
         ClientType.WS ->
             SuiWebSocketClient(
                 ConfigContainer(
+                    engine = engine,
                     endPoint = endpoint,
                     customUrl = customEndPointUrl,
                     maxRetries = maxRetries,

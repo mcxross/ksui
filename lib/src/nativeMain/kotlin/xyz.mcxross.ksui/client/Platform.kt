@@ -1,10 +1,10 @@
 package xyz.mcxross.ksui.client
 
-import io.ktor.client.*
+import io.ktor.client.engine.*
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 
-actual fun httpClient(config: HttpClientConfig<*>.() -> Unit): HttpClient = HttpClient(config)
+actual val defaultEngine: HttpClientEngine = TODO()
 
 actual suspend fun <T> runBlocking(
     context: CoroutineContext,
