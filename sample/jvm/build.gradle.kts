@@ -7,9 +7,13 @@ plugins {
 
 group = "xyz.mcxross.ksui.sample"
 
-version = "1.2.5-beta"
+version = "1.3.0"
 
 repositories { mavenCentral() }
+
+kotlin {
+  jvmToolchain(11)
+}
 
 dependencies {
   implementation(project(":ksui"))

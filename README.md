@@ -5,7 +5,7 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Multiplat
 This library is intended to be the highest quality publicly available library for interacting with Sui on any Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
 
 ![SUI JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.6.0-blue.svg)
-![Ksui version](https://img.shields.io/badge/Ksui-1.2.5--beta-blue.svg)
+![Ksui version](https://img.shields.io/badge/Ksui-1.3.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20JS%20|%20Native-blue.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
@@ -72,7 +72,7 @@ The client supports both DSL and command-query styles for client creation and RP
 //Configure Client, DSL Style
 val suiHttpClient = suiHttpClient {
     endpoint = EndPoint.DEVNET
-    agentName = "KSUI/1.2.0-beta"
+    agentName = "KSUI/1.3.0"
     maxRetries = 10
 }
 //Invoke remote procedure, command-query style
