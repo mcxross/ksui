@@ -1,4 +1,4 @@
-name: Test Ksui
+name: Tests
 
 on:
   push:
