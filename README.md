@@ -6,6 +6,7 @@ This library is intended to be the highest quality publicly available library fo
 
 ![Sui JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.6.0-blue.svg)
 ![Build](https://img.shields.io/badge/Build-1.3.1-blue.svg)
+[![Tests](https://github.com/mcxross/ksui/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/mcxross/ksui/actions/workflows/tests.yml)
 ![Platform](https://img.shields.io/badge/platform-Android%20|%20JVM%20|%20JS%20|%20Native-blue.svg)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
