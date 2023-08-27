@@ -22,6 +22,7 @@ version = "1.3.1"
 
 repositories {
   mavenCentral()
+  mavenLocal()
   google()
 }
 
@@ -61,6 +62,7 @@ kotlin {
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        implementation("xyz.mcxross.bcs:bcs:1.0.0")
       }
     }
     val commonTest by getting {
