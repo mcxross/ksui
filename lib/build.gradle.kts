@@ -41,11 +41,11 @@ kotlin {
     jvmToolchain(11)
     testRuns["test"].executionTask.configure { useJUnitPlatform() }
   }
-  android { publishLibraryVariants("release", "debug") }
+  androidTarget { publishLibraryVariants("release", "debug") }
   listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
     it.binaries.framework { baseName = "commonMain" }
   }
-  js(IR) { browser { commonWebpackConfig { cssSupport { enabled.set(true) } } } }
+  js(IR) { browser() }
   val hostOs = System.getProperty("os.name")
   val isMingwX64 = hostOs.startsWith("Windows")
   val nativeTarget =
@@ -61,7 +61,7 @@ kotlin {
         implementation("io.ktor:ktor-client-core:$ktorVersion")
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
         implementation("xyz.mcxross.bcs:bcs:1.0.0")
       }
     }
