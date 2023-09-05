@@ -25,7 +25,7 @@ abstract class DataTransactionInput {
   data class DtiPure(
       override val type: String,
       val valueType: String,
-      val value: String,
+      val value: String? = null,
   ) : DataTransactionInput()
 
   @Serializable
