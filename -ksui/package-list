@@ -22,6 +22,7 @@ $dokka.location:xyz.mcxross.ksui.client/ClientConfig/requestTimeout/#/PointingTo
 $dokka.location:xyz.mcxross.ksui.client/ClientType.HTTP///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-client-type/-h-t-t-p/index.html
 $dokka.location:xyz.mcxross.ksui.client/ClientType.WS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-client-type/-w-s/index.html
 $dokka.location:xyz.mcxross.ksui.client/ClientType///PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-type/index.html
+$dokka.location:xyz.mcxross.ksui.client/ClientType/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-type/entries.html
 $dokka.location:xyz.mcxross.ksui.client/ClientType/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-type/value-of.html
 $dokka.location:xyz.mcxross.ksui.client/ClientType/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-type/values.html
 $dokka.location:xyz.mcxross.ksui.client/ConfigContainer///PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-config-container/index.html
@@ -38,9 +39,11 @@ $dokka.location:xyz.mcxross.ksui.client/ConfigContainer/requestTimeout/#/Pointin
 $dokka.location:xyz.mcxross.ksui.client/ConfigContainer/wsClient/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-config-container/ws-client.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint.CUSTOM///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-end-point/-c-u-s-t-o-m/index.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint.DEVNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-end-point/-d-e-v-n-e-t/index.html
+$dokka.location:xyz.mcxross.ksui.client/EndPoint.LOCALNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-end-point/-l-o-c-a-l-n-e-t/index.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint.MAINNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-end-point/-m-a-i-n-n-e-t/index.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint.TESTNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.client/-end-point/-t-e-s-t-n-e-t/index.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint///PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-end-point/index.html
+$dokka.location:xyz.mcxross.ksui.client/EndPoint/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-end-point/entries.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-end-point/value-of.html
 $dokka.location:xyz.mcxross.ksui.client/EndPoint/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-end-point/values.html
 $dokka.location:xyz.mcxross.ksui.client/SuiClient///PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-sui-client/index.html
@@ -364,7 +367,7 @@ $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiImmOrOwnedObject/
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiImmOrOwnedObject/type/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-imm-or-owned-object/type.html
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiImmOrOwnedObject/version/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-imm-or-owned-object/version.html
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/index.html
-$dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure/DtiPure/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/-dti-pure.html
+$dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure/DtiPure/#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/-dti-pure.html
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure/type/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/type.html
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/value.html
 $dokka.location:xyz.mcxross.ksui.model/DataTransactionInput.DtiPure/valueType/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-data-transaction-input/-dti-pure/value-type.html
@@ -644,6 +647,7 @@ $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFOREFFE
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFORLOCALEXECUTION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/-w-a-i-t-f-o-r-l-o-c-a-l-e-x-e-c-u-t-i-o-n/index.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFORLOCALEXECUTION/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/-w-a-i-t-f-o-r-l-o-c-a-l-e-x-e-c-u-t-i-o-n/value.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/index.html
+$dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/entries.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/value.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/values.html
@@ -941,6 +945,7 @@ $dokka.location:xyz.mcxross.ksui.model/Operator.AND///PointingToDeclaration/{"or
 $dokka.location:xyz.mcxross.ksui.model/Operator.ANY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-operator/-a-n-y/index.html
 $dokka.location:xyz.mcxross.ksui.model/Operator.OR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-operator/-o-r/index.html
 $dokka.location:xyz.mcxross.ksui.model/Operator///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-operator/index.html
+$dokka.location:xyz.mcxross.ksui.model/Operator/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-operator/entries.html
 $dokka.location:xyz.mcxross.ksui.model/Operator/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-operator/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/Operator/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-operator/values.html
 $dokka.location:xyz.mcxross.ksui.model/Option.None///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-option/-none/index.html
@@ -1104,6 +1109,7 @@ $dokka.location:xyz.mcxross.ksui.model/SuiSystemStateSummary/validatorVeryLowSta
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode.DEV_INSPECT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/-d-e-v_-i-n-s-p-e-c-t/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode.REGULAR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/-r-e-g-u-l-a-r/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/index.html
+$dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/entries.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/values.html
 $dokka.location:xyz.mcxross.ksui.model/SuiValidatorSummary///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-validator-summary/index.html
@@ -1174,6 +1180,7 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.Commit/value/
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.DevInspect///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/-dev-inspect/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.DevInspect/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/-dev-inspect/value.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/index.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/entries.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/value.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/values.html
@@ -1447,7 +1454,10 @@ $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/data/#/PointingToDecl
 $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/version/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-version-specific-data/version.html
 $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/versionSpecificData/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-version-specific-data/version-specific-data.html
 $dokka.location:xyz.mcxross.ksui.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/index.html
+$dokka.location:xyz.mcxross.ksui.util//listOfTnxDigests/#kotlin.Array[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/list-of-tnx-digests.html
 $dokka.location:xyz.mcxross.ksui.util//requestTestTokens/xyz.mcxross.ksui.client.SuiHttpClient#xyz.mcxross.ksui.model.SuiAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/request-test-tokens.html
+$dokka.location:xyz.mcxross.ksui.util//toSuiAddress/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-sui-address.html
+$dokka.location:xyz.mcxross.ksui.util//toTxnDigest/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-txn-digest.html
 xyz.mcxross.ksui.client
 xyz.mcxross.ksui.exception
 xyz.mcxross.ksui.model
