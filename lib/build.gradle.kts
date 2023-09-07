@@ -62,7 +62,7 @@ kotlin {
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-        implementation("xyz.mcxross.bcs:bcs:1.0.0")
+        //implementation("xyz.mcxross.bcs:bcs:1.0.0")
       }
     }
     val commonTest by getting {
