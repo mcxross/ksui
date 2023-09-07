@@ -43,7 +43,7 @@ class ClientConfig {
   /**
    * Sets the [EndPoint] to make calls to.
    *
-   * If [EndPoint.CUSTOM] is set, you must explicitly provide the url by calling [setCustomEndPoint]
+   * If [EndPoint.CUSTOM] is set, you must explicitly provide the url by calling [customEndPointUrl]
    */
   var endpoint: EndPoint = EndPoint.DEVNET
 
