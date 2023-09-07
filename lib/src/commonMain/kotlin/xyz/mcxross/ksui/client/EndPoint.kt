@@ -4,5 +4,6 @@ enum class EndPoint {
   MAINNET,
   DEVNET,
   TESTNET,
+  LOCALNET,
   CUSTOM
 }

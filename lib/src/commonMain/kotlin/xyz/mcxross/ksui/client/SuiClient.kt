@@ -33,6 +33,9 @@ interface SuiClient {
       EndPoint.TESTNET -> {
         "https://fullnode.testnet.sui.io:443"
       }
+      EndPoint.LOCALNET -> {
+        "http://localhost:9000"
+      }
       EndPoint.MAINNET -> {
         "https://fullnode.mainnet.sui.io:443"
       }
