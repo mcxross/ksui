@@ -18,7 +18,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "1.3.1"
+version = "1.3.1-SNAPSHOT"
 
 repositories {
   mavenCentral()
@@ -142,7 +142,7 @@ if (secretPropsFile.exists()) {
 } else {
   ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
   ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_IN_MEMORY_SECRET_KEY")
   ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
   ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
@@ -187,7 +187,7 @@ publishing {
     artifact(javadocJar.get())
 
     pom {
-      name.set("MPP Sui library")
+      name.set("KMP Sui library")
       description.set(
           "Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.")
       url.set("https://github.com/mcxross")
