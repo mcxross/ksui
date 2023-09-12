@@ -211,10 +211,10 @@ publishing {
 }
 
 signing {
-    if (ext["signing.secretKeyRingFile"]) {
-        useGpgCmd()
-    } else {
-        useInMemoryPgpKeys(ext["signing.inMemoryKey"].toString(), ext["signing.password"].toString())
-    }
+    if (!ext["signing.secretKeyRingFile"].toString().isNullOrEmpty()) {
+    useGpgCmd()
+} else {
+    useInMemoryPgpKeys(ext["signing.inMemoryKey"].toString(), ext["signing.password"].toString())
+}
     sign(publishing.publications)
 }
