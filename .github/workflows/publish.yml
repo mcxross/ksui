@@ -24,11 +24,6 @@ jobs:
       - name: Grant Permission to Execute Gradle
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-
       - name: Publish Library
         run: |
           echo "Publishing and Releasing library 🚀"
@@ -41,6 +36,7 @@ jobs:
           SIGNING_IN_MEMORY_SECRET_KEY: ${{ secrets.SIGNING_IN_MEMORY_SECRET_KEY }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GRADLE_OPTS: -Xmx4g
 
       - name: Create and push tag
         run: |
