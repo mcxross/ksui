@@ -168,7 +168,7 @@ val javadocJar =
     }
 
 fun getExtraString(name: String) = ext[name]?.toString()
-println(getExtraString("ossrhUsername"))
+println("Name: ${getExtraString("ossrhUsername")}")
 publishing {
   repositories {
     maven {
