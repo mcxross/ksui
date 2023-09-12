@@ -141,8 +141,6 @@ if (secretPropsFile.exists()) {
       .onEach { (name, value) -> ext[name.toString()] = value }
 } else {
   ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-  ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_IN_MEMORY_SECRET_KEY")
   ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
   ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
@@ -214,7 +212,7 @@ signing {
     if (!ext["signing.secretKeyRingFile"].toString().isNullOrEmpty()) {
     useGpgCmd()
 } else {
-    useInMemoryPgpKeys(ext["signing.inMemoryKey"].toString(), ext["signing.password"].toString())
+    useInMemoryPgpKeys(System.getenv("SIGNING_IN_MEMORY_SECRET_KEY"), System.getenv("SIGNING_PASSWORD"))
 }
     sign(publishing.publications)
 }
