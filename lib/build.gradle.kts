@@ -209,10 +209,6 @@ publishing {
 }
 
 signing {
-    if (!ext["signing.secretKeyRingFile"].toString().isNullOrEmpty()) {
-    useGpgCmd()
-} else {
     useInMemoryPgpKeys(System.getenv("SIGNING_IN_MEMORY_SECRET_KEY"), System.getenv("SIGNING_PASSWORD"))
-}
     sign(publishing.publications)
 }
