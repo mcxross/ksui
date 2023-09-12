@@ -211,6 +211,10 @@ publishing {
 }
 
 signing {
-  useInMemoryPgpKeys(System.getenv("SIGNING_IN_MEMORY_SECRET_KEY"), System.getenv("SIGNING_PASSWORD"))
-  sign(publishing.publications) 
+    if (ext["signing.secretKeyRingFile"]) {
+        useGpgCmd()
+    } else {
+        useInMemoryPgpKeys(ext["signing.inMemoryKey"].toString(), ext["signing.password"].toString())
+    }
+    sign(publishing.publications)
 }
