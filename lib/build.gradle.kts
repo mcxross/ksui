@@ -210,4 +210,7 @@ publishing {
   }
 }
 
-signing { sign(publishing.publications) }
+signing {
+  useInMemoryPgpKeys(System.getenv("SIGNING_IN_MEMORY_SECRET_KEY"), System.getenv("SIGNING_PASSWORD"))
+  sign(publishing.publications) 
+}
