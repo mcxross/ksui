@@ -1454,7 +1454,7 @@ $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/data/#/PointingToDecl
 $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/version/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-version-specific-data/version.html
 $dokka.location:xyz.mcxross.ksui.model/VersionSpecificData/versionSpecificData/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-version-specific-data/version-specific-data.html
 $dokka.location:xyz.mcxross.ksui.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/index.html
-$dokka.location:xyz.mcxross.ksui.util//listOfTnxDigests/#kotlin.Array[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/list-of-tnx-digests.html
+$dokka.location:xyz.mcxross.ksui.util//listOfTxDigests/#kotlin.Array[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/list-of-tx-digests.html
 $dokka.location:xyz.mcxross.ksui.util//requestTestTokens/xyz.mcxross.ksui.client.SuiHttpClient#xyz.mcxross.ksui.model.SuiAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/request-test-tokens.html
 $dokka.location:xyz.mcxross.ksui.util//toSuiAddress/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-sui-address.html
 $dokka.location:xyz.mcxross.ksui.util//toTxnDigest/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-txn-digest.html
