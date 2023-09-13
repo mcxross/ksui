@@ -1,25 +1,22 @@
 # Module Ksui
 
-Ksui, `/kei'su:i:/` (pronounced as "kay-soo-ee"), is a collection of Multiplatform Kotlin language JSON-RPC wrapper and
-crypto utilities for interacting with Sui Full node.
+Ksui is a Kotlin Multiplatform library for interacting with Sui Full node. It maintains parity with Sui data types and exposes a neat DSL-style API for interacting with Sui Full node.
 
 # Table of Contents
 
-- [Installation](#installation)
-    * [Multiplatform](#multiplatform)
-    * [Android](#android)
-    * [JS](#js)
-    * [JVM](#jvm)
-
-- [Client](#client)
-    * [Types of Clients](#types-of-clients)
-    * [Create Client](#create-client)
-
-- [Transactions](#transactions)
-    * [Create Transaction](#create-transaction)
-    * [Sign Transaction](#sign-transaction)
-    * [Send Transaction](#send-transaction)
-    * [Get Transaction](#get-transaction)
+- [Installation]()
+    * [Multiplatform]()
+    * [Android]()
+    * [JS]()
+    * [JVM]()
+- [Client]()
+    * [Types of Clients]()
+    * [Create Client]()
+- [Transactions]()
+    * [Create Transaction]()
+    * [Sign Transaction]()
+    * [Send Transaction]()
+    * [Get Transaction]()
 
 # Installation
 
@@ -127,7 +124,7 @@ Get an ordered list of transaction responses
 val txnBlockResponseList =
     suiHttpClient.getMultiTransactionBlocks(
         query =
-        listOfTnxDigests(
+        listOfTxDigests(
             "D8KMrY8z83yprmEkWFHEgZkjVW48ctP8VvAUMqpB9fRC",
             "AcppBEeCQfFWUDrKgLfAgmmMw48ooMjmRsHmhv565bfR",
             "Fmyh1FxxAX2WUdoMU22dHJByvt6Z1NN7TRtdofXC5oSN",
@@ -138,3 +135,20 @@ val txnBlockResponseList =
         )
     )
 ```
+
+# Package xyz.mcxross.ksui.client
+
+This package contains the `SuiHttpClient` and `SuiWebsocketClient` classes and related classes for interacting with Sui
+Full node.
+
+# Package xyz.mcxross.ksui.exception
+
+This package contains all the custom exceptions thrown by Ksui. These are mostly Sui wrapper exceptions.
+
+# Package xyz.mcxross.ksui.model
+
+This package contains all the data classes used by Ksui. These are mostly Sui type wrappers.
+
+# Package xyz.mcxross.ksui.util
+
+This package contains all the utility functions used by Ksui.

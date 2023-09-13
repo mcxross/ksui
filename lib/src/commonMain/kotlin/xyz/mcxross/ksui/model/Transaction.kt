@@ -9,6 +9,15 @@ import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
 import xyz.mcxross.ksui.model.serializer.TransactionFilterSerializer
 import xyz.mcxross.ksui.model.serializer.TxnSubResSerializer
 
+@Serializable data class TransactionDigest(val value: String)
+
+@Serializable
+data class TransactionDigests(
+  @SerialName("result")
+  val vec: List<String>
+)
+
+
 enum class ExecuteTransactionRequestType {
   WAITFOREFFECTSCERT {
     override fun value(): String = "WaitForEffectsCert"
