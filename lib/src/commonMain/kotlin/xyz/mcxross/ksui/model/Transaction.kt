@@ -11,12 +11,7 @@ import xyz.mcxross.ksui.model.serializer.TxnSubResSerializer
 
 @Serializable data class TransactionDigest(val value: String)
 
-@Serializable
-data class TransactionDigests(
-  @SerialName("result")
-  val vec: List<String>
-)
-
+@Serializable data class TransactionDigests(@SerialName("result") val vec: List<String>)
 
 enum class ExecuteTransactionRequestType {
   WAITFOREFFECTSCERT {
@@ -52,6 +47,13 @@ abstract class TransactionKind {
   data class DefaultTransaction(
       val kind: String,
   ) : TransactionKind()
+
+  @Serializable
+  data class ProgrammableTransaction(
+      val inputs: List<CallArg>,
+      val commands: List<Command>,
+  ) : TransactionKind()
+
   data class MoveCall(
       @SerialName("package") val pakage: String,
       val module: String,
@@ -93,6 +95,24 @@ abstract class TransactionKind {
   data class SplitCoin(
       @SerialName("SplitCoins") val splitCoins: List<String>,
   ) : TransactionKind()
+}
+
+@Serializable
+sealed class CallArg {
+
+  @Serializable data class Pure(val data: List<Byte>) : CallArg()
+
+  @Serializable data class Object(val arg: ObjectArg) : CallArg()
+}
+
+@Serializable
+sealed class ObjectArg {
+
+  @Serializable data class ImmOrOwnedObject(val objectRef: ObjectReference) : ObjectArg()
+
+  @Serializable
+  data class SharedObject(val id: ObjectId, val initialSharedVersion: Long, val mutable: Boolean) :
+      ObjectArg()
 }
 
 @Serializable
@@ -307,3 +327,75 @@ inline fun <reified T : TransactionFilterMutable> transactionFilterFor(
       }
       else -> throw UnknownTransactionFilterException("Unknown TransactionFilter type: ${T::class}")
     }
+
+@Serializable
+sealed class TransactionData {
+  @Serializable data class V1(val data: TransactionDataV1) : TransactionData()
+}
+
+@Serializable
+data class TransactionDataV1(
+    val kind: TransactionKind,
+    val sender: SuiAddress,
+    val gasData: GasData,
+    val expiration: TransactionExpiration,
+) : TransactionDataVersion
+
+interface TransactionDataVersion
+
+@Serializable
+sealed class TransactionExpiration {
+  @Serializable data object None : TransactionExpiration()
+
+  @Serializable data class Epoch(val epochId: EpochId) : TransactionExpiration()
+}
+
+@Serializable
+sealed class Command {
+
+  @Serializable data class MoveCall(val moveCall: ProgrammableMoveCall) : Command()
+
+  @Serializable
+  data class TransferObjects(val list: List<Argument>, val address: Argument) : Command()
+
+  @Serializable data class SplitCoins(val coin: Argument, val coins: List<Argument>) : Command()
+
+  @Serializable data class MergeCoins(val coin: Argument, val coins: List<Argument>) : Command()
+
+  @Serializable
+  data class Publish(val bytes: List<List<Byte>>, val dependencies: List<ObjectId>) : Command()
+
+  @Serializable
+  data class MakeMoveVec(val typeTag: TypeTag?, val values: List<Argument>) : Command()
+
+  @Serializable
+  data class Upgrade(
+      val modules: List<List<Byte>>,
+      val dependencies: List<ObjectId>,
+      val packageId: ObjectId,
+      val upgradeTicket: Argument
+  ) : Command()
+}
+
+// TODO: for module and function params, check on `Identifier` type
+@Serializable
+data class ProgrammableMoveCall(
+    val pakage: ObjectId,
+    val module: String,
+    val function: String,
+    val typeArguments: List<TypeTag>,
+    val arguments: List<Argument>,
+)
+
+@Serializable
+sealed class Argument {
+
+  @Serializable data object GasCoin : Argument()
+
+  @Serializable data class Input(val inputObjectOrPrimitiveValue: Int) : Argument()
+
+  @Serializable data class Result(val commandResult: Int) : Argument()
+
+  @Serializable
+  data class NestedResult(val commandIndex: Int, val returnValueIndex: Int) : Argument()
+}
