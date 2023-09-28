@@ -34,26 +34,27 @@ import xyz.mcxross.ksui.model.Response
 class ResponseSerializer<T>(private val dataSerializer: KSerializer<T>) : KSerializer<Response<T>> {
   @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
   override val descriptor: SerialDescriptor =
-      buildSerialDescriptor("Response", PolymorphicKind.SEALED) {
-        element("Ok", buildClassSerialDescriptor("Ok") { element<String>("message") })
-        element("Error", dataSerializer.descriptor)
-      }
+    buildSerialDescriptor("Response", PolymorphicKind.SEALED) {
+      element("Ok", buildClassSerialDescriptor("Ok") { element<String>("message") })
+      element("Error", dataSerializer.descriptor)
+    }
 
   override fun serialize(encoder: Encoder, value: Response<T>) {
     require(encoder is JsonEncoder)
     val element =
-        when (value) {
-          is Response.Ok -> encoder.json.encodeToJsonElement(dataSerializer, value.data)
-          is Response.Error ->
+      when (value) {
+        is Response.Ok -> encoder.json.encodeToJsonElement(dataSerializer, value.data)
+        is Response.Error ->
+          buildJsonObject {
+            put(
+              "error",
               buildJsonObject {
-                put(
-                    "error",
-                    buildJsonObject {
-                      put("code", value.code)
-                      put("message", value.message)
-                    })
+                put("code", value.code)
+                put("message", value.message)
               }
-        }
+            )
+          }
+      }
     encoder.encodeJsonElement(element)
   }
 
@@ -62,18 +63,19 @@ class ResponseSerializer<T>(private val dataSerializer: KSerializer<T>) : KSeria
     val element = decoder.decodeJsonElement()
     if (element is JsonObject && "error" in element) {
       return Response.Error(
-          element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
-          element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content)
+        element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
+        element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content
+      )
     }
 
     val resultElement =
-        when (val resultProperty = element.jsonObject["result"]) {
-          is JsonObject -> resultProperty.jsonObject
-          is JsonArray -> resultProperty.jsonArray
-          is JsonPrimitive -> resultProperty.jsonPrimitive
-          is JsonNull -> resultProperty.jsonNull
-          else -> element
-        }
+      when (val resultProperty = element.jsonObject["result"]) {
+        is JsonObject -> resultProperty.jsonObject
+        is JsonArray -> resultProperty.jsonArray
+        is JsonPrimitive -> resultProperty.jsonPrimitive
+        is JsonNull -> resultProperty.jsonNull
+        else -> element
+      }
 
     if (resultElement is JsonNull) {
       throw SuiException("Sui returned null result")

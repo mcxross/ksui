@@ -3,8 +3,7 @@ package xyz.mcxross.ksui.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class Owner_(@SerialName("AddressOwner") val address: SuiAddress)
+@Serializable data class Owner_(@SerialName("AddressOwner") val address: SuiAddress)
 
 @Serializable data class Fields(val balance: Balance, val id: ID)
 
@@ -28,5 +27,4 @@ data class Details(
   val content: Content
 )
 
-@Serializable
-data class SuiObjectResponse(val status: Status, val details: Details)
+@Serializable data class SuiObjectResponse(val status: Status, val details: Details)

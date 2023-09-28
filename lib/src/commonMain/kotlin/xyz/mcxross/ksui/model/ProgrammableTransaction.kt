@@ -19,6 +19,7 @@ class ProgrammableTransactionBuilder {
 
 sealed class BuilderArg {
   data class Object(val objectId: ObjectId) : BuilderArg()
+
   data class Pure(val data: ByteArray) : BuilderArg() {
     override fun equals(other: Any?): Boolean {
       if (this === other) return true
@@ -39,7 +40,7 @@ sealed class BuilderArg {
 
 /** A DSL for building a [TransactionKind.ProgrammableTransaction]. */
 fun programmableTx(
-    block: ProgrammableTransactionBuilder.() -> Unit
+  block: ProgrammableTransactionBuilder.() -> Unit
 ): TransactionKind.ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   builder.block()

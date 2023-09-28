@@ -24,29 +24,33 @@ import xyz.mcxross.ksui.model.EventResponse
 object EventResponseSerializer : KSerializer<EventResponse> {
   @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
   override val descriptor: SerialDescriptor =
-      buildSerialDescriptor("EventResponse", PolymorphicKind.SEALED) {
-        element("Ok", buildClassSerialDescriptor("Ok") { element<Long>("subscriptionId") })
-        element(
-            "Event",
-            buildClassSerialDescriptor("Event") { element<EventEnvelope>("eventEnvelope") })
-        element(
-            "Error",
-            buildClassSerialDescriptor("Error") {
-              element<Int>("code")
-              element<String>("message")
-            })
-      }
+    buildSerialDescriptor("EventResponse", PolymorphicKind.SEALED) {
+      element("Ok", buildClassSerialDescriptor("Ok") { element<Long>("subscriptionId") })
+      element(
+        "Event",
+        buildClassSerialDescriptor("Event") { element<EventEnvelope>("eventEnvelope") }
+      )
+      element(
+        "Error",
+        buildClassSerialDescriptor("Error") {
+          element<Int>("code")
+          element<String>("message")
+        }
+      )
+    }
 
   override fun serialize(encoder: Encoder, value: EventResponse) {
     TODO("Not yet implemented")
   }
+
   override fun deserialize(decoder: Decoder): EventResponse {
     require(decoder is JsonDecoder)
     val element = decoder.decodeJsonElement()
     if (element is JsonObject && "error" in element) {
       return EventResponse.Error(
-          element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
-          element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content)
+        element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
+        element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content
+      )
     }
 
     if (element is JsonPrimitive) {
@@ -54,7 +58,10 @@ object EventResponseSerializer : KSerializer<EventResponse> {
     }
 
     return EventResponse.Event(
-        decoder.json.decodeFromJsonElement(
-            serializer(), element.jsonObject["params"]!!.jsonObject["result"]!!))
+      decoder.json.decodeFromJsonElement(
+        serializer(),
+        element.jsonObject["params"]!!.jsonObject["result"]!!
+      )
+    )
   }
 }

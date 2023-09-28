@@ -10,7 +10,8 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
 object DisassembledFieldSerializer : KSerializer<Any> {
-  override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("EventField", PrimitiveKind.STRING)
+  override val descriptor: SerialDescriptor =
+    PrimitiveSerialDescriptor("EventField", PrimitiveKind.STRING)
 
   override fun serialize(encoder: Encoder, value: Any) {
     encoder.encodeString(Json.encodeToString(value))

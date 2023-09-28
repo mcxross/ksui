@@ -12,8 +12,8 @@ data class AuthSignInfo(
 
 @Serializable
 data class Certificate(
-    val transactionDigest: String,
-    val data: Data,
-    val txSignatures: List<String>,
-    val authSignInfo: AuthSignInfo,
+  val transactionDigest: String,
+  val data: Data,
+  val txSignatures: List<String>,
+  val authSignInfo: AuthSignInfo,
 )

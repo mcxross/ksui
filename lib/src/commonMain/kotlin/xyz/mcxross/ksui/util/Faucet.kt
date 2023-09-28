@@ -17,23 +17,23 @@ import xyz.mcxross.ksui.model.SuiAddress
 @Throws(TooManyRequestsException::class, CancellationException::class)
 suspend fun SuiHttpClient.requestTestTokens(owner: SuiAddress): FaucetResponse {
   val response =
-      configContainer.httpClient().post {
-        url(
-            when (configContainer.endPoint) {
-              EndPoint.DEVNET -> "https://faucet.devnet.sui.io/gas"
-              EndPoint.TESTNET -> "https://faucet.testnet.sui.io/gas"
-              else -> {
-                configContainer.customUrl
-              }
-            })
+    configContainer.httpClient().post {
+      url(
+        when (configContainer.endPoint) {
+          EndPoint.DEVNET -> "https://faucet.devnet.sui.io/gas"
+          EndPoint.TESTNET -> "https://faucet.testnet.sui.io/gas"
+          else -> {
+            configContainer.customUrl
+          }
+        }
+      )
 
-        contentType(ContentType.Application.Json)
-        setBody(
-            buildJsonObject {
-                  putJsonObject("FixedAmountRequest") { put("recipient", owner.pubKey) }
-                }
-                .toString())
-      }
+      contentType(ContentType.Application.Json)
+      setBody(
+        buildJsonObject { putJsonObject("FixedAmountRequest") { put("recipient", owner.pubKey) } }
+          .toString()
+      )
+    }
 
   if (response.status.isSuccess()) {
     when (val result = json.decodeFromString<FaucetResponse>(serializer(), response.bodyAsText())) {

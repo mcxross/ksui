@@ -20,14 +20,16 @@ import xyz.mcxross.ksui.model.TransactionSubscriptionResponse
 
 suspend fun DefaultWebSocketSession.subscribe(method: String, params: JsonElement) {
   send(
-      Frame.Text(
-          buildJsonObject {
-                put("jsonrpc", "2.0")
-                put("id", "1")
-                put("method", method)
-                putJsonArray("params") { add(params) }
-              }
-              .toString()))
+    Frame.Text(
+      buildJsonObject {
+          put("jsonrpc", "2.0")
+          put("id", "1")
+          put("method", method)
+          putJsonArray("params") { add(params) }
+        }
+        .toString()
+    )
+  )
 }
 
 suspend fun DefaultWebSocketSession.subscribeEvent(json: Json, filter: EventFilter) {
@@ -36,7 +38,9 @@ suspend fun DefaultWebSocketSession.subscribeEvent(json: Json, filter: EventFilt
 
 suspend fun DefaultWebSocketSession.subscribeTransaction(json: Json, filter: TransactionFilter) {
   subscribe(
-      "suix_subscribeTransaction", json.encodeToJsonElement(TransactionFilter.serializer(), filter))
+    "suix_subscribeTransaction",
+    json.encodeToJsonElement(TransactionFilter.serializer(), filter)
+  )
 }
 
 class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiClient {
@@ -48,74 +52,80 @@ class SuiWebSocketClient(override val configContainer: ConfigContainer) : SuiCli
   private val url = Url(whichUrl(configContainer.endPoint))
 
   suspend fun subscribeEvent(
-      filter: EventFilter,
-      onSubscribe: (Long) -> Unit = {},
-      onError: (EventResponse.Error) -> Unit,
-      onEvent: (EventEnvelope) -> Unit
+    filter: EventFilter,
+    onSubscribe: (Long) -> Unit = {},
+    onError: (EventResponse.Error) -> Unit,
+    onEvent: (EventEnvelope) -> Unit
   ) {
     val wsClient = configContainer.wsClient()
     runBlocking {
       wsClient.wss(
-          method = HttpMethod.Post,
-          host = url.host,
-          port = if (url.port != -1) url.port else configContainer.port) {
-            subscribeEvent(json, filter)
-            while (true) {
-              val incoming = incoming.receive() as? Frame.Text ?: continue
-              val response =
-                  json.decodeFromString<Response<EventResponse>>(serializer(), incoming.readText())
-              when (response) {
-                is Response.Ok -> {
-                  when (val data = response.data) {
-                    is EventResponse.Ok -> onSubscribe(data.subscriptionId)
-                    is EventResponse.Event -> onEvent(data.eventEnvelope)
-                    is EventResponse.Error -> onError(data)
-                  }
-                }
-                is Response.Error ->
-                    throw EventSubscriptionException(
-                        "Could not establish event listener: ${response.message}")
+        method = HttpMethod.Post,
+        host = url.host,
+        port = if (url.port != -1) url.port else configContainer.port
+      ) {
+        subscribeEvent(json, filter)
+        while (true) {
+          val incoming = incoming.receive() as? Frame.Text ?: continue
+          val response =
+            json.decodeFromString<Response<EventResponse>>(serializer(), incoming.readText())
+          when (response) {
+            is Response.Ok -> {
+              when (val data = response.data) {
+                is EventResponse.Ok -> onSubscribe(data.subscriptionId)
+                is EventResponse.Event -> onEvent(data.eventEnvelope)
+                is EventResponse.Error -> onError(data)
               }
             }
+            is Response.Error ->
+              throw EventSubscriptionException(
+                "Could not establish event listener: ${response.message}"
+              )
           }
+        }
+      }
     }
     wsClient.close()
   }
 
   suspend fun subscribeTransaction(
-      filter: TransactionFilter,
-      onSubscribe: (Long) -> Unit = {},
-      onError: (TransactionSubscriptionResponse.Error) -> Unit,
-      onEffect: (TransactionBlockEffects) -> Unit
+    filter: TransactionFilter,
+    onSubscribe: (Long) -> Unit = {},
+    onError: (TransactionSubscriptionResponse.Error) -> Unit,
+    onEffect: (TransactionBlockEffects) -> Unit
   ) {
     val wsClient = configContainer.wsClient()
     runBlocking {
       wsClient.wss(
-          method = HttpMethod.Post,
-          host = url.host,
-          port = if (url.port != -1) url.port else configContainer.port) {
-            subscribeTransaction(json, filter)
-            while (true) {
-              val incoming = incoming.receive() as? Frame.Text ?: continue
-              val response =
-                  json.decodeFromString<Response<TransactionSubscriptionResponse>>(
-                      serializer(), incoming.readText())
-              when (response) {
-                is Response.Ok -> {
-                  when (val data = response.data) {
-                    is TransactionSubscriptionResponse.Ok -> onSubscribe(data.subscriptionId)
-                    is TransactionSubscriptionResponse.Effect -> {
-                      onEffect(data.effect)
-                    }
-                    is TransactionSubscriptionResponse.Error -> onError(data)
-                  }
+        method = HttpMethod.Post,
+        host = url.host,
+        port = if (url.port != -1) url.port else configContainer.port
+      ) {
+        subscribeTransaction(json, filter)
+        while (true) {
+          val incoming = incoming.receive() as? Frame.Text ?: continue
+          val response =
+            json.decodeFromString<Response<TransactionSubscriptionResponse>>(
+              serializer(),
+              incoming.readText()
+            )
+          when (response) {
+            is Response.Ok -> {
+              when (val data = response.data) {
+                is TransactionSubscriptionResponse.Ok -> onSubscribe(data.subscriptionId)
+                is TransactionSubscriptionResponse.Effect -> {
+                  onEffect(data.effect)
                 }
-                is Response.Error ->
-                    throw EventSubscriptionException(
-                        "Could not establish transaction listener: ${response.message}")
+                is TransactionSubscriptionResponse.Error -> onError(data)
               }
             }
+            is Response.Error ->
+              throw EventSubscriptionException(
+                "Could not establish transaction listener: ${response.message}"
+              )
           }
+        }
+      }
     }
     wsClient.close()
   }

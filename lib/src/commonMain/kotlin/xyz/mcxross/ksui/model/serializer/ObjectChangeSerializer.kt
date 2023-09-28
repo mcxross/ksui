@@ -26,39 +26,41 @@ object ObjectChangeSerializer : KSerializer<List<ObjectChange>> {
   override fun serialize(encoder: Encoder, value: List<ObjectChange>) {
     require(encoder is JsonEncoder)
     val jsonArray =
-        JsonArray(
-            value.map { oc ->
-              buildJsonObject {
-                put("type", oc.type)
-                put("sender", oc.sender)
-                when (oc.owner) {
-                  is Owner.SharedOwner -> {
-                    putJsonObject("owner") {
-                      putJsonObject("Shared") {
-                        put(
-                            "initial_shared_version",
-                            (oc.owner as Owner.SharedOwner).shared.initialSharedVersion)
-                      }
-                    }
-                  }
-                  is Owner.ObjectOwner -> {
-                    putJsonObject("owner") {
-                      put("ObjectOwner", (oc.owner as Owner.ObjectOwner).address)
-                    }
-                  }
-                  is Owner.AddressOwner -> {
-                    putJsonObject("owner") {
-                      put("AddressOwner", (oc.owner as Owner.AddressOwner).address)
-                    }
+      JsonArray(
+        value.map { oc ->
+          buildJsonObject {
+            put("type", oc.type)
+            put("sender", oc.sender)
+            when (oc.owner) {
+              is Owner.SharedOwner -> {
+                putJsonObject("owner") {
+                  putJsonObject("Shared") {
+                    put(
+                      "initial_shared_version",
+                      (oc.owner as Owner.SharedOwner).shared.initialSharedVersion
+                    )
                   }
                 }
-                put("objectType", oc.objectType)
-                put("objectId", oc.objectId)
-                put("version", oc.version)
-                put("previousVersion", oc.previousVersion)
-                put("digest", oc.digest)
               }
-            })
+              is Owner.ObjectOwner -> {
+                putJsonObject("owner") {
+                  put("ObjectOwner", (oc.owner as Owner.ObjectOwner).address)
+                }
+              }
+              is Owner.AddressOwner -> {
+                putJsonObject("owner") {
+                  put("AddressOwner", (oc.owner as Owner.AddressOwner).address)
+                }
+              }
+            }
+            put("objectType", oc.objectType)
+            put("objectId", oc.objectId)
+            put("version", oc.version)
+            put("previousVersion", oc.previousVersion)
+            put("digest", oc.digest)
+          }
+        }
+      )
     encoder.encodeJsonElement(jsonArray)
   }
 
@@ -70,33 +72,35 @@ object ObjectChangeSerializer : KSerializer<List<ObjectChange>> {
       when (jsonObject["type"]?.jsonPrimitive?.content) {
         "created" -> {
           ObjectChange.CreatedObject(
-              jsonObject["type"]?.jsonPrimitive?.content ?: "type",
-              jsonObject["sender"]?.jsonPrimitive?.content ?: "sender",
-              if (jsonElement.jsonObject["owner"] is JsonObject) {
-                whichOwner(jsonObject["owner"]?.jsonObject)
-              } else {
-                Owner.LiteralOwner(jsonObject["owner"]?.jsonPrimitive?.content ?: "default")
-              },
-              jsonObject["objectType"]?.jsonPrimitive?.content ?: "objectType",
-              jsonObject["objectId"]?.jsonPrimitive?.content ?: "objectId",
-              jsonObject["version"]?.jsonPrimitive?.long ?: 0,
-              jsonObject["previousVersion"]?.jsonPrimitive?.long ?: 0,
-              jsonObject["digest"]?.jsonPrimitive?.content ?: "digest")
+            jsonObject["type"]?.jsonPrimitive?.content ?: "type",
+            jsonObject["sender"]?.jsonPrimitive?.content ?: "sender",
+            if (jsonElement.jsonObject["owner"] is JsonObject) {
+              whichOwner(jsonObject["owner"]?.jsonObject)
+            } else {
+              Owner.LiteralOwner(jsonObject["owner"]?.jsonPrimitive?.content ?: "default")
+            },
+            jsonObject["objectType"]?.jsonPrimitive?.content ?: "objectType",
+            jsonObject["objectId"]?.jsonPrimitive?.content ?: "objectId",
+            jsonObject["version"]?.jsonPrimitive?.long ?: 0,
+            jsonObject["previousVersion"]?.jsonPrimitive?.long ?: 0,
+            jsonObject["digest"]?.jsonPrimitive?.content ?: "digest"
+          )
         }
         "mutated" -> {
           ObjectChange.MutatedObject(
-              jsonObject["type"]?.jsonPrimitive?.content ?: "type",
-              jsonObject["sender"]?.jsonPrimitive?.content ?: "sender",
-              if (jsonElement is JsonObject) {
-                whichOwner(jsonObject)
-              } else {
-                Owner.LiteralOwner(jsonElement.jsonPrimitive.content)
-              },
-              jsonObject["objectType"]?.jsonPrimitive?.content ?: "objectType",
-              jsonObject["objectId"]?.jsonPrimitive?.content ?: "objectId",
-              jsonObject["version"]?.jsonPrimitive?.long ?: 0,
-              jsonObject["previousVersion"]?.jsonPrimitive?.long ?: 0,
-              jsonObject["digest"]?.jsonPrimitive?.content ?: "digest")
+            jsonObject["type"]?.jsonPrimitive?.content ?: "type",
+            jsonObject["sender"]?.jsonPrimitive?.content ?: "sender",
+            if (jsonElement is JsonObject) {
+              whichOwner(jsonObject)
+            } else {
+              Owner.LiteralOwner(jsonElement.jsonPrimitive.content)
+            },
+            jsonObject["objectType"]?.jsonPrimitive?.content ?: "objectType",
+            jsonObject["objectId"]?.jsonPrimitive?.content ?: "objectId",
+            jsonObject["version"]?.jsonPrimitive?.long ?: 0,
+            jsonObject["previousVersion"]?.jsonPrimitive?.long ?: 0,
+            jsonObject["digest"]?.jsonPrimitive?.content ?: "digest"
+          )
         }
         else -> {
           ObjectChange.DefaultObject()

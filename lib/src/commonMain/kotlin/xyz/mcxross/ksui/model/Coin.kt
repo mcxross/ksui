@@ -4,30 +4,30 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SuiCoinMetadata(
-    val decimals: UByte,
-    val description: String,
-    val iconUrl: String?,
-    val id: String = "",
-    val name: String,
-    val symbol: String,
+  val decimals: UByte,
+  val description: String,
+  val iconUrl: String?,
+  val id: String = "",
+  val name: String,
+  val symbol: String,
 )
 
 @Serializable data class Supply(val value: Long)
 
 @Serializable
 data class CoinData(
-    val coinType: String,
-    val coinObjectId: String,
-    val version: Long,
-    val digest: String,
-    val balance: Long,
-    val lockedUntilEpoch: Long? = null,
-    val previousTransaction: String?,
+  val coinType: String,
+  val coinObjectId: String,
+  val version: Long,
+  val digest: String,
+  val balance: Long,
+  val lockedUntilEpoch: Long? = null,
+  val previousTransaction: String?,
 )
 
 @Serializable
 data class CoinPage(
-    val data: List<CoinData> = emptyList(),
-    val nextCursor: String? = null,
-    val hasNextPage: Boolean,
+  val data: List<CoinData> = emptyList(),
+  val nextCursor: String? = null,
+  val hasNextPage: Boolean,
 )

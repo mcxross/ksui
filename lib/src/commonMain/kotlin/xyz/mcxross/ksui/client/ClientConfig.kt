@@ -6,29 +6,30 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.websocket.*
 
 data class ConfigContainer(
-    val engine: HttpClientEngine? = null,
-    val endPoint: EndPoint,
-    val customUrl: String,
-    val port: Int = 443,
-    val maxRetries: Int,
-    val agentName: String,
-    val requestTimeout: Long,
-    val connectionTimeout: Long,
+  val engine: HttpClientEngine? = null,
+  val endPoint: EndPoint,
+  val customUrl: String,
+  val port: Int = 443,
+  val maxRetries: Int,
+  val agentName: String,
+  val requestTimeout: Long,
+  val connectionTimeout: Long,
 ) {
 
   private val selectedEngine = engine ?: defaultEngine
+
   fun httpClient() =
-      HttpClient(selectedEngine) {
-        install(UserAgent) { agent = agentName }
-        install(HttpRequestRetry) {
-          retryOnServerErrors(maxRetries = maxRetries)
-          exponentialDelay()
-        }
-        install(HttpTimeout) {
-          requestTimeoutMillis = requestTimeout
-          connectTimeoutMillis = connectionTimeout
-        }
+    HttpClient(selectedEngine) {
+      install(UserAgent) { agent = agentName }
+      install(HttpRequestRetry) {
+        retryOnServerErrors(maxRetries = maxRetries)
+        exponentialDelay()
       }
+      install(HttpTimeout) {
+        requestTimeoutMillis = requestTimeout
+        connectTimeoutMillis = connectionTimeout
+      }
+    }
 
   fun wsClient() = HttpClient {
     install(UserAgent) { agent = agentName }
@@ -89,29 +90,31 @@ class ClientConfig {
    * @return [SuiHttpClient]
    */
   fun build(clientType: ClientType): SuiClient =
-      when (clientType) {
-        ClientType.HTTP -> {
-          SuiHttpClient(
-              ConfigContainer(
-                  engine = engine,
-                  endPoint = endpoint,
-                  customUrl = customEndPointUrl,
-                  maxRetries = maxRetries,
-                  agentName = agentName,
-                  requestTimeout = requestTimeout,
-                  connectionTimeout = connectionTimeout,
-              ))
-        }
-        ClientType.WS ->
-            SuiWebSocketClient(
-                ConfigContainer(
-                    engine = engine,
-                    endPoint = endpoint,
-                    customUrl = customEndPointUrl,
-                    maxRetries = maxRetries,
-                    agentName = agentName,
-                    requestTimeout = requestTimeout,
-                    connectionTimeout = connectionTimeout,
-                ))
+    when (clientType) {
+      ClientType.HTTP -> {
+        SuiHttpClient(
+          ConfigContainer(
+            engine = engine,
+            endPoint = endpoint,
+            customUrl = customEndPointUrl,
+            maxRetries = maxRetries,
+            agentName = agentName,
+            requestTimeout = requestTimeout,
+            connectionTimeout = connectionTimeout,
+          )
+        )
       }
+      ClientType.WS ->
+        SuiWebSocketClient(
+          ConfigContainer(
+            engine = engine,
+            endPoint = endpoint,
+            customUrl = customEndPointUrl,
+            maxRetries = maxRetries,
+            agentName = agentName,
+            requestTimeout = requestTimeout,
+            connectionTimeout = connectionTimeout,
+          )
+        )
+    }
 }

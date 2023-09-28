@@ -17,6 +17,7 @@ import xyz.mcxross.ksui.model.MoveFunctionParameter
 object MoveNormalizedFunctionParameterSerializer : KSerializer<MoveFunctionParameter> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("MoveFunctionParameter", PrimitiveKind.STRING)
+
   override fun serialize(encoder: Encoder, value: MoveFunctionParameter) {
     require(encoder is JsonEncoder)
   }
