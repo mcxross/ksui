@@ -16,6 +16,7 @@ import xyz.mcxross.ksui.model.ValidatorReportRecord
 object ValidatorReportRecordSerializer : KSerializer<List<ValidatorReportRecord>> {
   override val descriptor: SerialDescriptor =
     ListSerializer(ValidatorReportRecord.serializer()).descriptor
+
   override fun serialize(encoder: Encoder, value: List<ValidatorReportRecord>) {
     require(encoder is JsonEncoder)
     val jsonArray =

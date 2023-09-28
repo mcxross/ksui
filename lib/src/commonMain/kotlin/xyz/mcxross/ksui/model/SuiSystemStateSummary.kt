@@ -1,6 +1,5 @@
 package xyz.mcxross.ksui.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import xyz.mcxross.ksui.model.serializer.ValidatorReportRecordSerializer

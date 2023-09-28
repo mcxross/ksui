@@ -17,19 +17,22 @@ import xyz.mcxross.ksui.model.Validator
 
 object SuiCommitteeValidatorSerializer : KSerializer<List<Validator>> {
   override val descriptor: SerialDescriptor = ListSerializer(Validator.serializer()).descriptor
+
   override fun serialize(encoder: Encoder, value: List<Validator>) {
     require(encoder is JsonEncoder)
     val jsonArray =
-        JsonArray(
-            value.map { validator ->
-              JsonArray(
-                  listOf(
-                      buildJsonArray {
-                        add(validator.publicKey)
-                        add(validator.weight)
-                      },
-                  ))
-            })
+      JsonArray(
+        value.map { validator ->
+          JsonArray(
+            listOf(
+              buildJsonArray {
+                add(validator.publicKey)
+                add(validator.weight)
+              },
+            )
+          )
+        }
+      )
     encoder.encodeJsonElement(jsonArray)
   }
 
@@ -39,8 +42,9 @@ object SuiCommitteeValidatorSerializer : KSerializer<List<Validator>> {
     return jsonArray.map { jsonElement ->
       if (jsonElement is JsonArray) {
         Validator(
-            publicKey = jsonElement[0].jsonPrimitive.content,
-            weight = jsonElement[1].jsonPrimitive.int)
+          publicKey = jsonElement[0].jsonPrimitive.content,
+          weight = jsonElement[1].jsonPrimitive.int
+        )
       } else {
         throw IllegalArgumentException("Invalid validator format")
       }

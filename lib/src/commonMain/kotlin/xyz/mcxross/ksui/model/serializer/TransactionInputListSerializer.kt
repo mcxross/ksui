@@ -18,42 +18,44 @@ import xyz.mcxross.ksui.model.DataTransactionInput
 object TransactionInputListSerializer : KSerializer<List<DataTransactionInput>> {
 
   override val descriptor: SerialDescriptor =
-      ListSerializer(DataTransactionInput.serializer()).descriptor
+    ListSerializer(DataTransactionInput.serializer()).descriptor
+
   override fun serialize(encoder: Encoder, value: List<DataTransactionInput>) {
     require(encoder is JsonEncoder)
     val jsonArray =
-        kotlinx.serialization.json.JsonArray(
-            value.map { dti ->
-              when (dti) {
-                is DataTransactionInput.DtiImmOrOwnedObject ->
-                    kotlinx.serialization.json.buildJsonObject {
-                      put("type", dti.type)
-                      put("objectType", dti.objectType)
-                      put("objectId", dti.objectId)
-                      put("version", dti.version)
-                      put("digest", dti.digest)
-                    }
-                is DataTransactionInput.DtiPure ->
-                    kotlinx.serialization.json.buildJsonObject {
-                      put("type", dti.type)
-                      put("valueType", dti.valueType)
-                      put("value", encoder.json.parseToJsonElement(dti.value!!))
-                    }
-                is DataTransactionInput.DtiSharedObject ->
-                    kotlinx.serialization.json.buildJsonObject {
-                      put("type", dti.type)
-                      put("objectType", dti.objectType)
-                      put("objectId", dti.objectId)
-                      put("initialSharedVersion", dti.initialSharedVersion)
-                      put("mutable", dti.mutable)
-                    }
-                is DataTransactionInput.DtiDefault ->
-                    kotlinx.serialization.json.buildJsonObject { put("type", dti.type) }
-                else -> {
-                  kotlinx.serialization.json.buildJsonObject { put("type", "default") }
-                }
+      kotlinx.serialization.json.JsonArray(
+        value.map { dti ->
+          when (dti) {
+            is DataTransactionInput.DtiImmOrOwnedObject ->
+              kotlinx.serialization.json.buildJsonObject {
+                put("type", dti.type)
+                put("objectType", dti.objectType)
+                put("objectId", dti.objectId)
+                put("version", dti.version)
+                put("digest", dti.digest)
               }
-            })
+            is DataTransactionInput.DtiPure ->
+              kotlinx.serialization.json.buildJsonObject {
+                put("type", dti.type)
+                put("valueType", dti.valueType)
+                put("value", encoder.json.parseToJsonElement(dti.value!!))
+              }
+            is DataTransactionInput.DtiSharedObject ->
+              kotlinx.serialization.json.buildJsonObject {
+                put("type", dti.type)
+                put("objectType", dti.objectType)
+                put("objectId", dti.objectId)
+                put("initialSharedVersion", dti.initialSharedVersion)
+                put("mutable", dti.mutable)
+              }
+            is DataTransactionInput.DtiDefault ->
+              kotlinx.serialization.json.buildJsonObject { put("type", dti.type) }
+            else -> {
+              kotlinx.serialization.json.buildJsonObject { put("type", "default") }
+            }
+          }
+        }
+      )
     encoder.encodeJsonElement(jsonArray)
   }
 
@@ -64,31 +66,31 @@ object TransactionInputListSerializer : KSerializer<List<DataTransactionInput>> 
       val jsonObject = jsonElement.jsonObject
       when (val type = jsonObject["objectType"]?.jsonPrimitive?.content) {
         "immOrOwnedObject" ->
-            DataTransactionInput.DtiImmOrOwnedObject(
-                type = type,
-                objectType = jsonObject["objectType"]?.jsonPrimitive?.content!!,
-                objectId = jsonObject["objectId"]?.jsonPrimitive?.content!!,
-                version = jsonObject["version"]?.jsonPrimitive?.long!!,
-                digest = jsonObject["digest"]?.jsonPrimitive?.content!!,
-            )
+          DataTransactionInput.DtiImmOrOwnedObject(
+            type = type,
+            objectType = jsonObject["objectType"]?.jsonPrimitive?.content!!,
+            objectId = jsonObject["objectId"]?.jsonPrimitive?.content!!,
+            version = jsonObject["version"]?.jsonPrimitive?.long!!,
+            digest = jsonObject["digest"]?.jsonPrimitive?.content!!,
+          )
         "sharedObject" ->
-            DataTransactionInput.DtiSharedObject(
-                type = type,
-                objectType = jsonObject["objectType"]?.jsonPrimitive?.content!!,
-                objectId = jsonObject["objectId"]?.jsonPrimitive?.content!!,
-                initialSharedVersion = jsonObject["initialSharedVersion"]?.jsonPrimitive?.long!!,
-                mutable = jsonObject["mutable"]?.jsonPrimitive?.boolean!!,
-            )
+          DataTransactionInput.DtiSharedObject(
+            type = type,
+            objectType = jsonObject["objectType"]?.jsonPrimitive?.content!!,
+            objectId = jsonObject["objectId"]?.jsonPrimitive?.content!!,
+            initialSharedVersion = jsonObject["initialSharedVersion"]?.jsonPrimitive?.long!!,
+            mutable = jsonObject["mutable"]?.jsonPrimitive?.boolean!!,
+          )
         else ->
-            if ((jsonObject["type"]?.jsonPrimitive?.content ?: "") == "pure") {
-              DataTransactionInput.DtiPure(
-                  type = "pure",
-                  valueType = jsonObject["valueType"]?.jsonPrimitive?.content!!,
-                  value = jsonObject["value"]?.toString(),
-              )
-            } else {
-              DataTransactionInput.DtiDefault(type = "default")
-            }
+          if ((jsonObject["type"]?.jsonPrimitive?.content ?: "") == "pure") {
+            DataTransactionInput.DtiPure(
+              type = "pure",
+              valueType = jsonObject["valueType"]?.jsonPrimitive?.content!!,
+              value = jsonObject["value"]?.toString(),
+            )
+          } else {
+            DataTransactionInput.DtiDefault(type = "default")
+          }
       }
     }
   }

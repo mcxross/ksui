@@ -8,10 +8,10 @@ import xyz.mcxross.ksui.model.serializer.FaucetResponseSerializer
 
 @Serializable
 data class GasUsed(
-    val computationCost: String,
-    val storageCost: String,
-    val storageRebate: String,
-    val nonRefundableStorageFee: String
+  val computationCost: String,
+  val storageCost: String,
+  val storageRebate: String,
+  val nonRefundableStorageFee: String
 )
 
 @Serializable data class GasObject(val owner: Owner.AddressOwner, val reference: ObjectReference)
@@ -21,9 +21,9 @@ data class GasData(val payment: List<Payment>, val owner: String, val price: Int
 
 @Serializable
 data class GasCostSummary(
-    val computationCost: Long,
-    val storageCost: Long,
-    val storageRebate: Long,
+  val computationCost: Long,
+  val storageCost: Long,
+  val storageRebate: Long,
 )
 
 @Serializable data class GasPrice(@SerialName("result") val cost: Long)
@@ -31,5 +31,6 @@ data class GasCostSummary(
 @Serializable(with = FaucetResponseSerializer::class)
 sealed class FaucetResponse {
   data class Ok(val transferredGasObjects: List<TransferredGasObject>) : FaucetResponse()
+
   data class Error(val code: Int, val message: String) : FaucetResponse()
 }

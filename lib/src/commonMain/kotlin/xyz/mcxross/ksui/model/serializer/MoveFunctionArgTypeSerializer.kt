@@ -14,6 +14,7 @@ import xyz.mcxross.ksui.model.MoveFunctionArgType
 
 object MoveFunctionArgTypeSerializer : KSerializer<MoveFunctionArgType> {
   override val descriptor = PrimitiveSerialDescriptor("MoveFunctionArgType", PrimitiveKind.STRING)
+
   override fun serialize(encoder: Encoder, value: MoveFunctionArgType) {
     require(encoder is JsonEncoder)
   }

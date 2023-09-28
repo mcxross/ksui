@@ -24,27 +24,30 @@ import xyz.mcxross.ksui.model.TransactionSubscriptionResponse
 object TxnSubResSerializer : KSerializer<TransactionSubscriptionResponse> {
   @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
   override val descriptor: SerialDescriptor =
-      buildSerialDescriptor("TransactionSubscriptionResponse", PolymorphicKind.SEALED) {
-        element("Ok", buildClassSerialDescriptor("Ok") { element<Long>("subscriptionId") })
-        element("Effect", buildClassSerialDescriptor("Effect") { element<EventEnvelope>("effect") })
-        element(
-            "Error",
-            buildClassSerialDescriptor("Error") {
-              element<Int>("code")
-              element<String>("message")
-            })
-      }
+    buildSerialDescriptor("TransactionSubscriptionResponse", PolymorphicKind.SEALED) {
+      element("Ok", buildClassSerialDescriptor("Ok") { element<Long>("subscriptionId") })
+      element("Effect", buildClassSerialDescriptor("Effect") { element<EventEnvelope>("effect") })
+      element(
+        "Error",
+        buildClassSerialDescriptor("Error") {
+          element<Int>("code")
+          element<String>("message")
+        }
+      )
+    }
 
   override fun serialize(encoder: Encoder, value: TransactionSubscriptionResponse) {
     TODO("Not yet implemented")
   }
+
   override fun deserialize(decoder: Decoder): TransactionSubscriptionResponse {
     require(decoder is JsonDecoder)
     val element = decoder.decodeJsonElement()
     if (element is JsonObject && "error" in element) {
       return TransactionSubscriptionResponse.Error(
-          element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
-          element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content)
+        element["error"]!!.jsonObject["code"]!!.jsonPrimitive.int,
+        element["error"]!!.jsonObject["message"]!!.jsonPrimitive.content
+      )
     }
 
     if (element is JsonPrimitive) {
@@ -52,7 +55,10 @@ object TxnSubResSerializer : KSerializer<TransactionSubscriptionResponse> {
     }
 
     return TransactionSubscriptionResponse.Effect(
-        decoder.json.decodeFromJsonElement(
-            serializer(), element.jsonObject["params"]!!.jsonObject["result"]!!))
+      decoder.json.decodeFromJsonElement(
+        serializer(),
+        element.jsonObject["params"]!!.jsonObject["result"]!!
+      )
+    )
   }
 }

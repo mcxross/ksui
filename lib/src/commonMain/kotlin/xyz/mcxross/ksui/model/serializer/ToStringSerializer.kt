@@ -14,6 +14,7 @@ import kotlinx.serialization.json.jsonObject
 object ToStringSerializer : KSerializer<String> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("ToStringSerializer", PrimitiveKind.STRING)
+
   override fun serialize(encoder: Encoder, value: String) {
     require(encoder is JsonEncoder)
     val jsonElement = parseToJsonElement(value)

@@ -5,14 +5,14 @@ import kotlinx.serialization.Serializable
 
 interface Owner {
 
-  @Serializable
-  data class LiteralOwner(val owner: String) : Owner
+  @Serializable data class LiteralOwner(val owner: String) : Owner
 
   @Serializable data class AddressOwner(@SerialName("AddressOwner") val address: String) : Owner
 
   @Serializable data class ObjectOwner(@SerialName("ObjectOwner") val address: String) : Owner
 
-  @Serializable class SharedOwner(@SerialName("Shared") val shared: Shared) : Owner {
+  @Serializable
+  class SharedOwner(@SerialName("Shared") val shared: Shared) : Owner {
     @Serializable
     data class Shared(@SerialName("initial_shared_version") val initialSharedVersion: Long)
   }

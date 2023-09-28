@@ -20,8 +20,7 @@ data class Balance(
 
 @Serializable
 data class BalanceChange(
-  @Serializable(with = OwnerSerializer::class)
-  val owner: Owner,
+  @Serializable(with = OwnerSerializer::class) val owner: Owner,
   val coinType: String,
   val amount: String,
 )

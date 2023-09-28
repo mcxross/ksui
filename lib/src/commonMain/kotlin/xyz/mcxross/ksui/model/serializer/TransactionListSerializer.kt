@@ -15,6 +15,7 @@ import xyz.mcxross.ksui.model.TransactionKind
 object TransactionListSerializer : KSerializer<List<TransactionKind>> {
   override val descriptor: SerialDescriptor =
     ListSerializer(TransactionKind.serializer()).descriptor
+
   override fun serialize(encoder: Encoder, value: List<TransactionKind>) {
     require(encoder is JsonEncoder)
     val jsonArray =

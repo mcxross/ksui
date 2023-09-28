@@ -15,7 +15,7 @@ import xyz.mcxross.ksui.model.serializer.util.whichOwner
 
 object OwnerSerializer : KSerializer<Owner> {
   override val descriptor: SerialDescriptor =
-      PrimitiveSerialDescriptor("Owner", PrimitiveKind.STRING)
+    PrimitiveSerialDescriptor("Owner", PrimitiveKind.STRING)
 
   override fun serialize(encoder: Encoder, value: Owner) {
     encoder.encodeString(value.toString())

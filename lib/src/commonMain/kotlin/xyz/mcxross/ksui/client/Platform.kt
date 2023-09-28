@@ -8,6 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 expect val defaultEngine: HttpClientEngine
 
 expect suspend fun <T> runBlocking(
-    context: CoroutineContext = EmptyCoroutineContext,
-    block: suspend CoroutineScope.() -> T
+  context: CoroutineContext = EmptyCoroutineContext,
+  block: suspend CoroutineScope.() -> T
 ): T

@@ -37,63 +37,63 @@ enum class TransactionBlockBuilderMode {
 
 @Serializable
 data class Transaction(
-    val data: Data,
-    val txSignatures: List<String>,
+  val data: Data,
+  val txSignatures: List<String>,
 )
 
 @Serializable
 abstract class TransactionKind {
   @Serializable
   data class DefaultTransaction(
-      val kind: String,
+    val kind: String,
   ) : TransactionKind()
 
   @Serializable
   data class ProgrammableTransaction(
-      val inputs: List<CallArg>,
-      val commands: List<Command>,
+    val inputs: List<CallArg>,
+    val commands: List<Command>,
   ) : TransactionKind()
 
   data class MoveCall(
-      @SerialName("package") val pakage: String,
-      val module: String,
-      val function: String,
-      @SerialName("type_arguments") val typeArguments: List<String>? = emptyList(),
+    @SerialName("package") val pakage: String,
+    val module: String,
+    val function: String,
+    @SerialName("type_arguments") val typeArguments: List<String>? = emptyList(),
   ) : TransactionKind()
 
   @Serializable
   data class Transfer(
-      val recipient: String,
-      @SerialName("objectRef") val objectReference: ObjectReference
+    val recipient: String,
+    @SerialName("objectRef") val objectReference: ObjectReference
   ) : TransactionKind()
 
   @Serializable
   data class PaySui(
-      val coins: List<ObjectReference>,
-      val recipients: List<String>,
-      val amounts: List<Long>,
+    val coins: List<ObjectReference>,
+    val recipients: List<String>,
+    val amounts: List<Long>,
   ) : TransactionKind()
 
   @Serializable
   data class TransferSui(
-      val recipient: String,
-      val amount: Long,
+    val recipient: String,
+    val amount: Long,
   ) : TransactionKind()
 
   @Serializable
   data class PayAllSui(
-      val recipient: String,
-      val coins: List<ObjectReference>,
+    val recipient: String,
+    val coins: List<ObjectReference>,
   ) : TransactionKind()
 
   @Serializable
   data class Publish(
-      @Serializable(with = DisassembledFieldSerializer::class) val disassembled: Any,
+    @Serializable(with = DisassembledFieldSerializer::class) val disassembled: Any,
   ) : TransactionKind()
 
   @Serializable
   data class SplitCoin(
-      @SerialName("SplitCoins") val splitCoins: List<String>,
+    @SerialName("SplitCoins") val splitCoins: List<String>,
   ) : TransactionKind()
 }
 
@@ -112,63 +112,63 @@ sealed class ObjectArg {
 
   @Serializable
   data class SharedObject(val id: ObjectId, val initialSharedVersion: Long, val mutable: Boolean) :
-      ObjectArg()
+    ObjectArg()
 }
 
 @Serializable
 data class TransactionBlockResponse(
-    val digest: String,
-    val transaction: Transaction? = null,
-    val rawTransaction: String = "",
-    val effects: Effects? = null,
-    val events: List<Event> = emptyList(),
-    @Serializable(with = ObjectChangeSerializer::class)
-    val objectChanges: List<ObjectChange> = emptyList(),
-    val balanceChanges: List<BalanceChange> = emptyList(),
-    val timestampMs: Long,
-    val checkpoint: Long,
-    val errors: List<String> = emptyList(),
+  val digest: String,
+  val transaction: Transaction? = null,
+  val rawTransaction: String = "",
+  val effects: Effects? = null,
+  val events: List<Event> = emptyList(),
+  @Serializable(with = ObjectChangeSerializer::class)
+  val objectChanges: List<ObjectChange> = emptyList(),
+  val balanceChanges: List<BalanceChange> = emptyList(),
+  val timestampMs: Long,
+  val checkpoint: Long,
+  val errors: List<String> = emptyList(),
 )
 
 /** The options for the transaction response. */
 @Serializable
 data class TransactionBlockResponseOptions(
-    val showInput: Boolean,
-    val showRawInput: Boolean,
-    val showEffects: Boolean,
-    val showEvents: Boolean,
-    val showObjectChanges: Boolean,
-    val showBalanceChanges: Boolean
+  val showInput: Boolean,
+  val showRawInput: Boolean,
+  val showEffects: Boolean,
+  val showEvents: Boolean,
+  val showObjectChanges: Boolean,
+  val showBalanceChanges: Boolean
 )
 
 @Serializable
 data class TransactionBlockResponseQueryFilter(
-    @SerialName("InputObject") val inputObject: String? = null,
+  @SerialName("InputObject") val inputObject: String? = null,
 )
 
 /** The transaction query criteria. */
 @Serializable
 data class TransactionBlockResponseQuery(
-    val filter: TransactionBlockResponseQueryFilter? = null,
-    val options: TransactionBlockResponseOptions? = null,
+  val filter: TransactionBlockResponseQueryFilter? = null,
+  val options: TransactionBlockResponseOptions? = null,
 )
 
 @Serializable
 data class TransactionBlock(
-    val digest: String,
+  val digest: String,
 )
 
 @Serializable
 data class TransactionBlocksPage(
-    val data: List<TransactionBlock>,
-    val nextCursor: String? = null,
-    val hasNextPage: Boolean,
+  val data: List<TransactionBlock>,
+  val nextCursor: String? = null,
+  val hasNextPage: Boolean,
 )
 
 @Serializable
 data class TransactionBlockBytes(
-    val txBytes: String,
-    val gas: List<Gas>,
+  val txBytes: String,
+  val gas: List<Gas>,
 )
 
 @Serializable data class Input(val type: String, val valueType: String, val value: String)
@@ -178,19 +178,19 @@ data class TransactionBlockBytes(
 
 @Serializable
 data class TransactionBlockData(
-    val messageVersion: String,
-    val transaction: Transaction1,
-    val sender: String,
-    val gasData: GasData
+  val messageVersion: String,
+  val transaction: Transaction1,
+  val sender: String,
+  val gasData: GasData
 )
 
 @Serializable
 data class DryRunTransactionBlockResponse(
-    val effects: TransactionBlockEffects,
-    val events: List<Event>,
-    @Serializable(with = ObjectChangeSerializer::class) val objectChanges: List<ObjectChange>,
-    @Serializable(with = ObjectChangeSerializer::class) val balanceChanges: List<BalanceChange>,
-    val input: TransactionBlockData,
+  val effects: TransactionBlockEffects,
+  val events: List<Event>,
+  @Serializable(with = ObjectChangeSerializer::class) val objectChanges: List<ObjectChange>,
+  @Serializable(with = ObjectChangeSerializer::class) val balanceChanges: List<BalanceChange>,
+  val input: TransactionBlockData,
 )
 
 @Serializable(with = TxnSubResSerializer::class)
@@ -198,18 +198,20 @@ sealed class TransactionSubscriptionResponse {
   data class Ok(val subscriptionId: Long) : TransactionSubscriptionResponse()
 
   data class Effect(val effect: TransactionBlockEffects) : TransactionSubscriptionResponse()
+
   data class Error(
-      val code: Int,
-      val message: String,
+    val code: Int,
+    val message: String,
   ) : TransactionSubscriptionResponse()
 }
 
 @Serializable(with = TransactionFilterSerializer::class)
 open class TransactionFilter {
   @Serializable data class Checkpoint(val checkpointSequenceNumber: Long) : TransactionFilter()
+
   @Serializable
   data class MoveFunction(val pakage: ObjectId, val module: String, val function: String) :
-      TransactionFilter()
+    TransactionFilter()
 
   @Serializable data class InputObject(val objectId: ObjectId) : TransactionFilter()
 
@@ -221,7 +223,7 @@ open class TransactionFilter {
 
   @Serializable
   data class FromAndToAddress(val fromAddress: SuiAddress, val toAddress: SuiAddress) :
-      TransactionFilter()
+    TransactionFilter()
 
   @Serializable data class FromOrToAddress(val suiAddress: SuiAddress) : TransactionFilter()
 }
@@ -229,20 +231,22 @@ open class TransactionFilter {
 abstract class TransactionFilterMutable {
 
   abstract fun toImmutable(): TransactionFilter
+
   @Serializable
   class Checkpoint(var checkpointSequenceNumber: Long = -1) : TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter {
       return TransactionFilter.Checkpoint(checkpointSequenceNumber)
     }
   }
+
   @Serializable
   data class MoveFunction(
-      var pakage: ObjectId = ObjectId(""),
-      var module: String = "",
-      var function: String = ""
+    var pakage: ObjectId = ObjectId(""),
+    var module: String = "",
+    var function: String = ""
   ) : TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter =
-        TransactionFilter.MoveFunction(pakage, module, function)
+      TransactionFilter.MoveFunction(pakage, module, function)
   }
 
   @Serializable
@@ -267,66 +271,65 @@ abstract class TransactionFilterMutable {
 
   @Serializable
   data class FromAndToAddress(
-      var fromAddress: SuiAddress = SuiAddress(""),
-      var toAddress: SuiAddress = SuiAddress("")
+    var fromAddress: SuiAddress = SuiAddress(""),
+    var toAddress: SuiAddress = SuiAddress("")
   ) : TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter =
-        TransactionFilter.FromAndToAddress(fromAddress, toAddress)
+      TransactionFilter.FromAndToAddress(fromAddress, toAddress)
   }
 
   @Serializable
   data class FromOrToAddress(var suiAddress: SuiAddress = SuiAddress("")) :
-      TransactionFilterMutable() {
+    TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter = TransactionFilter.FromOrToAddress(suiAddress)
   }
 }
 
 inline fun <reified T : TransactionFilterMutable> transactionFilterFor(
-    block: T.() -> Unit
+  block: T.() -> Unit
 ): TransactionFilter =
-    when (T::class) {
-      TransactionFilterMutable.Checkpoint::class -> {
-        val checkpointMutable =
-            T::class.safeCast(TransactionFilterMutable.Checkpoint())!!.apply(block)
-        checkpointMutable.toImmutable()
-      }
-      TransactionFilterMutable.MoveFunction::class -> {
-        val moveFunctionMutable =
-            T::class.safeCast(TransactionFilterMutable.MoveFunction())!!.apply(block)
-        moveFunctionMutable.toImmutable()
-      }
-      TransactionFilterMutable.InputObject::class -> {
-        val inputObjectMutable =
-            T::class.safeCast(TransactionFilterMutable.InputObject())!!.apply(block)
-        inputObjectMutable.toImmutable()
-      }
-      TransactionFilterMutable.ChangedObject::class -> {
-        val changedObjectMutable =
-            T::class.safeCast(TransactionFilterMutable.ChangedObject())!!.apply(block)
-        changedObjectMutable.toImmutable()
-      }
-      TransactionFilterMutable.FromAddress::class -> {
-        val fromAddressMutable =
-            T::class.safeCast(TransactionFilterMutable.FromAddress())!!.apply(block)
-        fromAddressMutable.toImmutable()
-      }
-      TransactionFilterMutable.ToAddress::class -> {
-        val toAddressMutable =
-            T::class.safeCast(TransactionFilterMutable.ToAddress())!!.apply(block)
-        toAddressMutable.toImmutable()
-      }
-      TransactionFilterMutable.FromAndToAddress::class -> {
-        val fromAndToAddressMutable =
-            T::class.safeCast(TransactionFilterMutable.FromAndToAddress())!!.apply(block)
-        fromAndToAddressMutable.toImmutable()
-      }
-      TransactionFilterMutable.FromOrToAddress::class -> {
-        val fromOrToAddressMutable =
-            T::class.safeCast(TransactionFilterMutable.FromOrToAddress())!!.apply(block)
-        fromOrToAddressMutable.toImmutable()
-      }
-      else -> throw UnknownTransactionFilterException("Unknown TransactionFilter type: ${T::class}")
+  when (T::class) {
+    TransactionFilterMutable.Checkpoint::class -> {
+      val checkpointMutable =
+        T::class.safeCast(TransactionFilterMutable.Checkpoint())!!.apply(block)
+      checkpointMutable.toImmutable()
     }
+    TransactionFilterMutable.MoveFunction::class -> {
+      val moveFunctionMutable =
+        T::class.safeCast(TransactionFilterMutable.MoveFunction())!!.apply(block)
+      moveFunctionMutable.toImmutable()
+    }
+    TransactionFilterMutable.InputObject::class -> {
+      val inputObjectMutable =
+        T::class.safeCast(TransactionFilterMutable.InputObject())!!.apply(block)
+      inputObjectMutable.toImmutable()
+    }
+    TransactionFilterMutable.ChangedObject::class -> {
+      val changedObjectMutable =
+        T::class.safeCast(TransactionFilterMutable.ChangedObject())!!.apply(block)
+      changedObjectMutable.toImmutable()
+    }
+    TransactionFilterMutable.FromAddress::class -> {
+      val fromAddressMutable =
+        T::class.safeCast(TransactionFilterMutable.FromAddress())!!.apply(block)
+      fromAddressMutable.toImmutable()
+    }
+    TransactionFilterMutable.ToAddress::class -> {
+      val toAddressMutable = T::class.safeCast(TransactionFilterMutable.ToAddress())!!.apply(block)
+      toAddressMutable.toImmutable()
+    }
+    TransactionFilterMutable.FromAndToAddress::class -> {
+      val fromAndToAddressMutable =
+        T::class.safeCast(TransactionFilterMutable.FromAndToAddress())!!.apply(block)
+      fromAndToAddressMutable.toImmutable()
+    }
+    TransactionFilterMutable.FromOrToAddress::class -> {
+      val fromOrToAddressMutable =
+        T::class.safeCast(TransactionFilterMutable.FromOrToAddress())!!.apply(block)
+      fromOrToAddressMutable.toImmutable()
+    }
+    else -> throw UnknownTransactionFilterException("Unknown TransactionFilter type: ${T::class}")
+  }
 
 @Serializable
 sealed class TransactionData {
@@ -335,10 +338,10 @@ sealed class TransactionData {
 
 @Serializable
 data class TransactionDataV1(
-    val kind: TransactionKind,
-    val sender: SuiAddress,
-    val gasData: GasData,
-    val expiration: TransactionExpiration,
+  val kind: TransactionKind,
+  val sender: SuiAddress,
+  val gasData: GasData,
+  val expiration: TransactionExpiration,
 ) : TransactionDataVersion
 
 interface TransactionDataVersion
@@ -370,21 +373,21 @@ sealed class Command {
 
   @Serializable
   data class Upgrade(
-      val modules: List<List<Byte>>,
-      val dependencies: List<ObjectId>,
-      val packageId: ObjectId,
-      val upgradeTicket: Argument
+    val modules: List<List<Byte>>,
+    val dependencies: List<ObjectId>,
+    val packageId: ObjectId,
+    val upgradeTicket: Argument
   ) : Command()
 }
 
 // TODO: for module and function params, check on `Identifier` type
 @Serializable
 data class ProgrammableMoveCall(
-    val pakage: ObjectId,
-    val module: String,
-    val function: String,
-    val typeArguments: List<TypeTag>,
-    val arguments: List<Argument>,
+  val pakage: ObjectId,
+  val module: String,
+  val function: String,
+  val typeArguments: List<TypeTag>,
+  val arguments: List<Argument>,
 )
 
 @Serializable

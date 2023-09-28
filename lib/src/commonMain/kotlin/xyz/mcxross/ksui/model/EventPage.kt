@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EventPage(
-    val data: List<EventEnvelope>,
-    val nextCursor: NextCursor?,
-    val hasNextPage: Boolean,
+  val data: List<EventEnvelope>,
+  val nextCursor: NextCursor?,
+  val hasNextPage: Boolean,
 )

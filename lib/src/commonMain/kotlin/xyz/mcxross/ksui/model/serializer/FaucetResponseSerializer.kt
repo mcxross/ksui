@@ -25,10 +25,10 @@ import xyz.mcxross.ksui.model.TransferredGasObject
 object FaucetResponseSerializer : KSerializer<FaucetResponse> {
   @OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
   override val descriptor: SerialDescriptor =
-      buildSerialDescriptor("FaucetResponse", PolymorphicKind.SEALED) {
-        element("Ok", buildClassSerialDescriptor("Ok"))
-        element("Error", buildClassSerialDescriptor("Error"))
-      }
+    buildSerialDescriptor("FaucetResponse", PolymorphicKind.SEALED) {
+      element("Ok", buildClassSerialDescriptor("Ok"))
+      element("Error", buildClassSerialDescriptor("Error"))
+    }
 
   // TODO: Not tested
   @OptIn(ExperimentalSerializationApi::class)
@@ -38,24 +38,27 @@ object FaucetResponseSerializer : KSerializer<FaucetResponse> {
     val json = buildJsonObject {
       if (value is FaucetResponse.Ok) {
         put(
-            "transferredGasObjects",
-            JsonArray(
-                value.transferredGasObjects.map {
-                  buildJsonObject {
-                    put("amount", it.amount)
-                    put("id", it.id)
-                    put("transferTxDigest", it.transferTxDigest)
-                  }
-                }))
+          "transferredGasObjects",
+          JsonArray(
+            value.transferredGasObjects.map {
+              buildJsonObject {
+                put("amount", it.amount)
+                put("id", it.id)
+                put("transferTxDigest", it.transferTxDigest)
+              }
+            }
+          )
+        )
         put("error", null)
       } else if (value is FaucetResponse.Error) {
         put("transferredGasObjects", null)
         put(
-            "error",
-            buildJsonObject {
-              put("code", value.code)
-              put("message", value.message)
-            })
+          "error",
+          buildJsonObject {
+            put("code", value.code)
+            put("message", value.message)
+          }
+        )
       }
     }
 
@@ -68,19 +71,19 @@ object FaucetResponseSerializer : KSerializer<FaucetResponse> {
     if (json is JsonObject) {
       return if (json["transferredGasObjects"]?.jsonArray?.isEmpty() == true) {
         FaucetResponse.Error(
-            json["error"]?.jsonObject?.get("code")?.jsonPrimitive?.int ?: 0,
-            json["error"]?.jsonObject?.get("message")?.jsonPrimitive?.content ?: "",
+          json["error"]?.jsonObject?.get("code")?.jsonPrimitive?.int ?: 0,
+          json["error"]?.jsonObject?.get("message")?.jsonPrimitive?.content ?: "",
         )
       } else {
         FaucetResponse.Ok(
-            json["transferredGasObjects"]?.jsonArray?.map {
-              TransferredGasObject(
-                  it.jsonObject["amount"]?.jsonPrimitive?.int ?: 0,
-                  it.jsonObject["id"]?.jsonPrimitive?.content ?: "",
-                  it.jsonObject["transferTxDigest"]?.jsonPrimitive?.content ?: "",
-              )
-            }
-                ?: emptyList())
+          json["transferredGasObjects"]?.jsonArray?.map {
+            TransferredGasObject(
+              it.jsonObject["amount"]?.jsonPrimitive?.int ?: 0,
+              it.jsonObject["id"]?.jsonPrimitive?.content ?: "",
+              it.jsonObject["transferTxDigest"]?.jsonPrimitive?.content ?: "",
+            )
+          } ?: emptyList()
+        )
       }
     } else {
       throw Exception("Unknown error. Maybe the response is not a json object.")
