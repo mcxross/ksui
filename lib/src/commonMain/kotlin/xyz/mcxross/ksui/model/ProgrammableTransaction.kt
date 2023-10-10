@@ -1,19 +1,49 @@
 package xyz.mcxross.ksui.model
 
+import kotlinx.serialization.Serializable
+import xyz.mcxross.bcs.Bcs
+
+@Serializable
+data class ProgrammableTransaction(
+  val inputs: List<CallArg>,
+  val commands: List<Command>,
+) : TransactionKind()
+
 class ProgrammableTransactionBuilder {
   private val inputs: MutableMap<BuilderArg, CallArg> = LinkedHashMap()
-  private val commands: MutableList<Command> = mutableListOf()
+  private val command = Command()
 
-  fun input(arg: BuilderArg, value: CallArg) {
+  private fun input(arg: BuilderArg, value: CallArg): Argument.Input {
     inputs[arg] = value
+    return Argument.Input(inputs.size - 1)
   }
 
-  fun command(command: Command) {
-    commands.add(command)
+  fun input(bytes: ByteArray, forceSeparate: Boolean): Argument.Input {
+    val arg =
+      if (forceSeparate) {
+        BuilderArg.ForcedNonUniquePure(inputs.size)
+      } else {
+        BuilderArg.Pure(bytes)
+      }
+    return input(arg, CallArg.Pure(bytes))
   }
 
-  fun build(): TransactionKind.ProgrammableTransaction {
-    return TransactionKind.ProgrammableTransaction(inputs.values.toList(), commands)
+  inline fun <reified T> input(value: T): Argument.Input {
+    val bcs = Bcs {}
+    return input(bcs.encodeToBinary(value), false)
+  }
+
+  inline fun <reified T> forceSeparateInput(value: T): Argument.Input {
+    val bcs = Bcs {}
+    return input(bcs.encodeToBinary(value), true)
+  }
+
+  fun command(block: Command.() -> Unit) {
+    command.block()
+  }
+
+  fun build(): ProgrammableTransaction {
+    return ProgrammableTransaction(inputs.values.toList(), command.list)
   }
 }
 
@@ -38,10 +68,8 @@ sealed class BuilderArg {
   data class ForcedNonUniquePure(val index: Int) : BuilderArg()
 }
 
-/** A DSL for building a [TransactionKind.ProgrammableTransaction]. */
-fun programmableTx(
-  block: ProgrammableTransactionBuilder.() -> Unit
-): TransactionKind.ProgrammableTransaction {
+/** A DSL for building a [ProgrammableTransaction]. */
+fun programmableTx(block: ProgrammableTransactionBuilder.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   builder.block()
   return builder.build()
