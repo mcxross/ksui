@@ -1,4 +1,4 @@
-name: Docs Publish
+name: Build
 
 on:
   push:
@@ -13,29 +13,31 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
-
 jobs:
-  deploy-gh-pages:
-    runs-on: ubuntu-latest
+  build:
+    name: Build
+    runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 11
-          distribution: zulu
+          java-version: '17'
+          distribution: 'adopt'
+
       - name: Cache Konan
         uses: ./.github/actions/cache-konan
+
       - name: Cache Gradle
         uses: ./.github/actions/cache-gradle
-      - name: Make gradlew executable
+
+      - name: Grant Permission to Execute Gradle
         run: chmod +x ./gradlew
         shell: bash
-      - name: Generate HTML docs
-        run: ./gradlew dokkaHtml
+
+      - name: Build with Gradle
+        run: ./gradlew build
         shell: bash
-      - name: Deploy docs to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
-        with:
-          branch: gh-pages
-          folder: lib/build/dokka
