@@ -1,5 +1,4 @@
 import java.net.URL
-import java.util.*
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.signing
@@ -21,40 +20,34 @@ group = "xyz.mcxross.ksui"
 version = "1.3.1"
 
 repositories {
+  maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
   mavenCentral()
   mavenLocal()
   google()
 }
 
-ext["signing.keyId"] = null
-
-ext["signing.password"] = null
-
-ext["signing.secretKeyRingFile"] = null
-
-ext["ossrhUsername"] = null
-
-ext["ossrhPassword"] = null
-
 kotlin {
-  jvm {
-    jvmToolchain(11)
-    testRuns["test"].executionTask.configure { useJUnitPlatform() }
-  }
   androidTarget { publishLibraryVariants("release", "debug") }
-  listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
-    it.binaries.framework { baseName = "commonMain" }
+
+  ios()
+  iosSimulatorArm64()
+
+  js {
+    browser()
+    nodejs()
+    compilations.all {
+      kotlinOptions.sourceMap = true
+      kotlinOptions.moduleKind = "umd"
+    }
   }
-  js(IR) { browser() }
-  val hostOs = System.getProperty("os.name")
-  val isMingwX64 = hostOs.startsWith("Windows")
-  val nativeTarget =
-      when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-      }
+
+  jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
+
+  linuxX64()
+  macosArm64()
+  macosX64()
+  mingwX64()
+
   sourceSets {
     val commonMain by getting {
       dependencies {
@@ -62,7 +55,7 @@ kotlin {
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-        //implementation("xyz.mcxross.bcs:bcs:1.0.0")
+        implementation("xyz.mcxross.bcs:bcs:1.0.0-SNAPSHOT")
       }
     }
     val commonTest by getting {
@@ -74,77 +67,40 @@ kotlin {
     val androidMain by getting {
       dependencies { implementation("io.ktor:ktor-client-okhttp:$ktorVersion") }
     }
-    val iosX64Main by getting
-    val iosArm64Main by getting
-    val iosSimulatorArm64Main by getting
-    val iosMain by creating {
-      dependsOn(commonMain)
-      iosX64Main.dependsOn(this)
-      iosArm64Main.dependsOn(this)
-      iosSimulatorArm64Main.dependsOn(this)
-      dependencies { implementation("io.ktor:ktor-client-darwin:$ktorVersion") }
-    }
-    val iosX64Test by getting
-    val iosArm64Test by getting
-    val iosSimulatorArm64Test by getting
-    val iosTest by creating {
-      dependsOn(commonTest)
-      iosX64Test.dependsOn(this)
-      iosArm64Test.dependsOn(this)
-      iosSimulatorArm64Test.dependsOn(this)
-    }
+    val iosMain by getting
+    val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     val jvmMain by getting {
       dependencies { implementation("io.ktor:ktor-client-cio:$ktorVersion") }
     }
     val jvmTest by getting
     val jsMain by getting { dependencies { implementation("io.ktor:ktor-client-js:$ktorVersion") } }
     val jsTest by getting
-    val nativeMain by getting {
+    val nativeMain by creating {
+      dependsOn(getByName("commonMain"))
       dependencies { implementation("io.ktor:ktor-client-curl:$ktorVersion") }
     }
-    val nativeTest by getting
+    val mingwX64Main by getting { dependsOn(getByName("nativeMain")) }
+    val linuxX64Main by getting { dependsOn(getByName("nativeMain")) }
+    val macosArm64Main by getting { dependsOn(getByName("nativeMain")) }
+    val macosX64Main by getting { dependsOn(getByName("nativeMain")) }
   }
 }
 
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
 android {
-  compileSdk = 33
+  namespace = "mcxross.ksui"
   defaultConfig {
     minSdk = 24
-    targetSdk = 33
+    compileSdk = 33
   }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
+
   sourceSets {
     named("main") {
       manifest.srcFile("src/androidMain/AndroidManifest.xml")
       res.srcDirs("src/androidMain/res", "src/commonMain/resources")
     }
   }
-  buildTypes {
-    getByName("release") { isMinifyEnabled = false }
-    getByName("debug") {}
-  }
-  publishing {
-    singleVariant("release") { withSourcesJar() }
-    singleVariant("debug") { withSourcesJar() }
-  }
-}
-
-val secretPropsFile = project.rootProject.file("local.properties")
-
-if (secretPropsFile.exists()) {
-  secretPropsFile
-      .reader()
-      .use { Properties().apply { load(it) } }
-      .onEach { (name, value) -> ext[name.toString()] = value }
-} else {
-  ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-  ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_IN_MEMORY_SECRET_KEY")
-  ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-  ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
 
 tasks.getByName<DokkaTask>("dokkaHtml") {
@@ -163,22 +119,31 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
 }
 
 val javadocJar =
-    tasks.register<Jar>("javadocJar") {
-      archiveClassifier.set("javadoc")
-      dependsOn("dokkaHtml")
-      from(buildDir.resolve("dokka"))
-    }
+  tasks.register<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    dependsOn("dokkaHtml")
+    from(buildDir.resolve("dokka"))
+  }
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
 publishing {
-  repositories {
-    maven {
-      name = "sonatype"
-      setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-      credentials {
-        username = getExtraString("ossrhUsername")
-        password = getExtraString("ossrhPassword")
+  if (hasProperty("sonatypeUser") && hasProperty("sonatypePass")) {
+    repositories {
+      maven {
+        name = "sonatype"
+        val isSnapshot = version.toString().endsWith("-SNAPSHOT")
+        setUrl(
+          if (isSnapshot) {
+            "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+          } else {
+            "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+          },
+        )
+        credentials {
+          username = property("sonatypeUser") as String
+          password = property("sonatypePass") as String
+        }
       }
     }
   }
@@ -189,7 +154,8 @@ publishing {
     pom {
       name.set("KMP Sui library")
       description.set(
-          "Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node.")
+        "Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node."
+      )
       url.set("https://github.com/mcxross")
 
       licenses {
@@ -210,4 +176,12 @@ publishing {
   }
 }
 
-signing { sign(publishing.publications) }
+signing {
+  val sonatypeGpgKey = System.getenv("SONATYPE_GPG_KEY")
+  val sonatypeGpgKeyPassword = System.getenv("SONATYPE_GPG_KEY_PASSWORD")
+  when {
+    sonatypeGpgKey == null || sonatypeGpgKeyPassword == null -> useGpgCmd()
+    else -> useInMemoryPgpKeys(sonatypeGpgKey, sonatypeGpgKeyPassword)
+  }
+  sign(publishing.publications)
+}
