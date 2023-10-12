@@ -5,8 +5,8 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Kotlin Mu
 This library is intended to be the highest quality publicly available library for interacting with Sui on any Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
 
 ![Sui JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.10.0-blue.svg)
-![Build](https://img.shields.io/badge/Build-1.3.2-blue.svg)
-[![Tests](https://github.com/mcxross/ksui/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/mcxross/ksui/actions/workflows/tests.yml)
+![Version](https://img.shields.io/badge/Version-1.3.2-blue.svg)
+[![Build](https://github.com/mcxross/ksui/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/mcxross/ksui/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 [![Ksui Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
