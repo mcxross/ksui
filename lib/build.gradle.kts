@@ -4,8 +4,6 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.signing
 import org.jetbrains.dokka.gradle.DokkaTask
 
-val ktorVersion: String = extra["ktor_version"] as String
-
 plugins {
   kotlin("multiplatform")
   id("com.android.library")
@@ -17,7 +15,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "1.3.1"
+version = "1.3.2"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -29,7 +27,8 @@ repositories {
 kotlin {
   androidTarget { publishLibraryVariants("release", "debug") }
 
-  ios()
+  iosX64()
+  iosArm64()
   iosSimulatorArm64()
 
   js {
@@ -49,40 +48,32 @@ kotlin {
   mingwX64()
 
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation("io.ktor:ktor-client-core:$ktorVersion")
-        implementation("io.ktor:ktor-client-websockets:$ktorVersion")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-        implementation("xyz.mcxross.bcs:bcs:1.0.0-SNAPSHOT")
-      }
+    commonMain.dependencies {
+      implementation(libs.ktor.client.core)
+      implementation(libs.ktor.client.websockets)
+      implementation(libs.ktor.serialization.kotlinx.json)
+      implementation(libs.kotlinx.coroutines.core)
+      implementation(libs.common.bcs)
     }
-    val commonTest by getting {
-      dependencies {
-        implementation(kotlin("test"))
-        implementation("io.ktor:ktor-client-mock:$ktorVersion")
-      }
+
+    commonTest.dependencies {
+      implementation(kotlin("test"))
+      implementation(libs.ktor.client.mock)
     }
-    val androidMain by getting {
-      dependencies { implementation("io.ktor:ktor-client-okhttp:$ktorVersion") }
-    }
-    val iosMain by getting
-    val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
-    val jvmMain by getting {
-      dependencies { implementation("io.ktor:ktor-client-cio:$ktorVersion") }
-    }
-    val jvmTest by getting
-    val jsMain by getting { dependencies { implementation("io.ktor:ktor-client-js:$ktorVersion") } }
-    val jsTest by getting
-    val nativeMain by creating {
-      dependsOn(getByName("commonMain"))
-      dependencies { implementation("io.ktor:ktor-client-curl:$ktorVersion") }
-    }
-    val mingwX64Main by getting { dependsOn(getByName("nativeMain")) }
-    val linuxX64Main by getting { dependsOn(getByName("nativeMain")) }
-    val macosArm64Main by getting { dependsOn(getByName("nativeMain")) }
-    val macosX64Main by getting { dependsOn(getByName("nativeMain")) }
+
+    jsMain.dependencies { implementation(libs.ktor.client.js) }
+
+    jvmMain.dependencies { implementation(libs.ktor.client.cio) }
+
+    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
+
+    iosMain.dependencies { implementation(libs.ktor.client.curl) }
+
+    mingwMain.dependencies { implementation(libs.ktor.client.curl) }
+
+    linuxMain.dependencies { implementation(libs.ktor.client.curl) }
+
+    macosMain.dependencies { implementation(libs.ktor.client.curl) }
   }
 }
 
@@ -183,5 +174,5 @@ signing {
     sonatypeGpgKey == null || sonatypeGpgKeyPassword == null -> useGpgCmd()
     else -> useInMemoryPgpKeys(sonatypeGpgKey, sonatypeGpgKeyPassword)
   }
-  sign(publishing.publications)
+  //sign(publishing.publications)
 }
