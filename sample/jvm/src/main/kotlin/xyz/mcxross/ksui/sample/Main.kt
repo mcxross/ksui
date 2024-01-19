@@ -1,11 +1,11 @@
 package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.client.EndPoint
-import xyz.mcxross.ksui.client.createSuiHttpClient
+import xyz.mcxross.ksui.client.suiHttpClient
 import xyz.mcxross.ksui.model.SuiAddress
 
 suspend fun main() {
-  val suiRpcClient = createSuiHttpClient {
+  val suiRpcClient = suiHttpClient {
     endpoint = EndPoint.DEVNET
     agentName = "KSUI/0.0.1"
     maxRetries = 10
