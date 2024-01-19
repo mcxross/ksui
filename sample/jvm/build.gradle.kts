@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.cli.jvm.main
-
 plugins {
   kotlin("jvm")
   application
@@ -9,11 +7,12 @@ group = "xyz.mcxross.ksui.sample"
 
 version = "1.3.1"
 
-repositories { mavenCentral() }
-
-kotlin {
-  jvmToolchain(11)
+repositories {
+  mavenLocal()
+  mavenCentral()
 }
+
+kotlin { jvmToolchain(11) }
 
 dependencies {
   implementation(project(":ksui"))
@@ -23,6 +22,4 @@ dependencies {
 
 tasks.getByName<Test>("test") { useJUnitPlatform() }
 
-application {
-  mainClass.set("xyz.mcxross.ksui.sample.MainKt")
-}
+application { mainClass.set("xyz.mcxross.ksui.sample.MainKt") }

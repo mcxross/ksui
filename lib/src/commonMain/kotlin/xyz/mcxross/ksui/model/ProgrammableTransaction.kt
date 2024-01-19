@@ -4,10 +4,8 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 
 @Serializable
-data class ProgrammableTransaction(
-  val inputs: List<CallArg>,
-  val commands: List<Command>,
-) : TransactionKind()
+data class ProgrammableTransaction(val inputs: List<CallArg>, val commands: List<Command>) :
+  TransactionKind()
 
 class ProgrammableTransactionBuilder {
   private val inputs: MutableMap<BuilderArg, CallArg> = LinkedHashMap()
@@ -30,12 +28,12 @@ class ProgrammableTransactionBuilder {
 
   inline fun <reified T> input(value: T): Argument.Input {
     val bcs = Bcs {}
-    return input(bcs.encodeToBinary(value), false)
+    return input(bcs.encodeToByteArray(value), false)
   }
 
   inline fun <reified T> forceSeparateInput(value: T): Argument.Input {
     val bcs = Bcs {}
-    return input(bcs.encodeToBinary(value), true)
+    return input(bcs.encodeToByteArray(value), true)
   }
 
   fun command(block: Command.() -> Unit) {
