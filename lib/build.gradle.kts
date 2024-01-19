@@ -18,7 +18,7 @@ group = "xyz.mcxross.ksui"
 version = "1.3.2"
 
 repositories {
-  maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+  //maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
   mavenCentral()
   mavenLocal()
   google()
@@ -57,17 +57,19 @@ kotlin {
     }
 
     commonTest.dependencies {
-      implementation(kotlin("test"))
       implementation(libs.ktor.client.mock)
+      implementation("org.jetbrains.kotlin:kotlin-test")
     }
 
     jsMain.dependencies { implementation(libs.ktor.client.js) }
 
-    jvmMain.dependencies { implementation(libs.ktor.client.cio) }
+    jvmMain.dependencies {
+      implementation(libs.ktor.client.cio)
+    }
 
     androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
 
-    iosMain.dependencies { implementation(libs.ktor.client.curl) }
+    iosMain.dependencies { implementation(libs.ktor.client.darwin) }
 
     mingwMain.dependencies { implementation(libs.ktor.client.curl) }
 
@@ -107,6 +109,10 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
       }
     }
   }
+}
+
+tasks.withType<DokkaTask>().configureEach {
+  notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
 }
 
 val javadocJar =
