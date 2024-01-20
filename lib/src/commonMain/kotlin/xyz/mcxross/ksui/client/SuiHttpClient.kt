@@ -1,5 +1,6 @@
 package xyz.mcxross.ksui.client
 
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -83,10 +84,10 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     IOException::class,
     IllegalStateException::class,
   )
-  private suspend fun call(method: String, vararg params: Any?): HttpResponse {
-    val response: HttpResponse
+  private suspend inline fun <reified T> call(method: String, vararg params: Any?): T {
+    val resp: HttpResponse
     try {
-      response =
+      resp =
         configContainer.httpClient().post {
           url(whichUrl(configContainer.endPoint))
           contentType(ContentType.Application.Json)
@@ -129,10 +130,10 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       )
     }
 
-    if (response.status.isSuccess()) {
-      return response
+    if (resp.status.isSuccess()) {
+      return resp.body()
     } else {
-      throw SuiException(response.status.value.toString())
+      throw SuiException(resp.status.value.toString())
     }
   }
 
@@ -141,7 +142,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    *
    * @return `true` if the Sui is available and returns a successful response, `false` otherwise.
    */
-  suspend fun isSuiAvailable(): Boolean = call("isSuiAvailable").status.isSuccess()
+  suspend fun isSuiAvailable(): Boolean = call<Boolean>("isSuiAvailable")
 
   /**
    * Suspended function that retrieves the [Discovery] data from the JSON-RPC API service using the
@@ -153,10 +154,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    *   is an error.
    */
   suspend fun discover(): Discovery {
-    when (
-      val result =
-        json.decodeFromString<Response<Discovery>>(serializer(), call("rpc.discover").bodyAsText())
-    ) {
+    when (val result = call<Response<Discovery>>("rpc.discover")) {
       is Response.Ok -> return result.data
       is Response.Error -> throw SuiException(result.message)
     }
@@ -175,9 +173,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    *   is an error.
    */
   suspend fun <T> getCustom(function: String, vararg params: Any?): T {
-    val result =
-      json.decodeFromString<Response<T>>(serializer(), call(function, *params).bodyAsText())
-    when (result) {
+    when (val result = call<Response<T>>(function, *params)) {
       is Response.Ok -> return result.data
       is Response.Error -> throw SuiException(result.message)
     }
@@ -193,14 +189,14 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun dryRunTransactionBlock(txBytes: String): DryRunTransactionBlockResponse =
     when (
-      val response =
-        json.decodeFromString<Response<DryRunTransactionBlockResponse>>(
-          serializer(),
-          call("sui_dryRunTransactionBlock", *listOf(txBytes).toTypedArray()).bodyAsText()
+      val resp =
+        call<Response<DryRunTransactionBlockResponse>>(
+          "sui_dryRunTransactionBlock",
+          *listOf(txBytes).toTypedArray(),
         )
     ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+      is Response.Ok -> resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
 
   /**
@@ -228,27 +224,22 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     txBytes: String,
     signatures: List<String>,
     options: TransactionBlockResponseOptions,
-    requestType: ExecuteTransactionRequestType? = null
+    requestType: ExecuteTransactionRequestType? = null,
   ): TransactionBlockResponse {
-    val response =
-      json.decodeFromString<Response<TransactionBlockResponse>>(
-        serializer(),
-        call(
-            "sui_executeTransactionBlock",
-            *listOf(
-                txBytes,
-                signatures,
-                json.encodeToJsonElement(serializer(), options),
-                requestType?.value()
-              )
-              .toTypedArray()
+    val resp =
+      call<Response<TransactionBlockResponse>>(
+        "sui_executeTransactionBlock",
+        *listOf(
+            txBytes,
+            signatures,
+            json.encodeToJsonElement(serializer(), options),
+            requestType?.value(),
           )
-          .bodyAsText()
+          .toTypedArray(),
       )
-
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -259,12 +250,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [List<[Balance]>]
    */
   suspend fun getAllBalances(owner: SuiAddress): List<Balance> {
-    val result =
-      json.decodeFromString<Response<List<Balance>>>(
-        serializer(),
-        call("suix_getAllBalances", owner.pubKey).bodyAsText()
-      )
-    when (result) {
+    when (val result = call<Response<List<Balance>>>("suix_getAllBalances", owner.pubKey)) {
       is Response.Ok -> return result.data
       is Response.Error -> throw SuiException(result.message)
     }
@@ -278,14 +264,11 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [Balance]
    */
   suspend fun getBalance(owner: SuiAddress, coinType: String = "0x2::sui::SUI"): Balance {
-    val response =
-      json.decodeFromString<Response<Balance>>(
-        serializer(),
-        call("suix_getBalance", *listOf(owner.pubKey, coinType).toTypedArray()).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    val resp =
+      call<Response<Balance>>("suix_getBalance", *listOf(owner.pubKey, coinType).toTypedArray())
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -297,19 +280,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @param limit pagination limit
    * @return [Balance]
    */
-  suspend fun getAllCoins(
-    owner: SuiAddress,
-    cursor: String? = null,
-    limit: Long,
-  ): CoinPage {
-    val response =
-      json.decodeFromString<Response<CoinPage>>(
-        serializer(),
-        call("suix_getAllCoins", *listOf(owner.pubKey, cursor, limit).toTypedArray()).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+  suspend fun getAllCoins(owner: SuiAddress, cursor: String? = null, limit: Long): CoinPage {
+    when (
+      val resp =
+        call<Response<CoinPage>>(
+          "suix_getAllCoins",
+          *listOf(owner.pubKey, cursor, limit).toTypedArray(),
+        )
+    ) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -320,15 +300,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the chain identifier.
    */
   suspend fun getChainIdentifier(): String {
-    when (
-      val response =
-        json.decodeFromString<Response<String>>(
-          serializer(),
-          call("sui_getChainIdentifier").bodyAsText()
-        )
-    ) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<String>>("sui_getChainIdentifier")) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -341,15 +315,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws [SuiException] if there is an error fetching the checkpoint *
    */
   suspend fun getCheckpoint(checkpointId: CheckpointId): Checkpoint {
-    val response =
-      json.decodeFromString<Response<Checkpoint>>(
-        serializer(),
-        call("sui_getCheckpoint", checkpointId.digest).bodyAsText()
-      )
-
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<Checkpoint>>("sui_getCheckpoint", checkpointId.digest)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -366,21 +334,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   suspend fun getCheckpoints(
     cursor: Int? = null,
     limit: Long? = null,
-    descendingOrder: Boolean = false
+    descendingOrder: Boolean = false,
   ): CheckpointPage {
-    val response =
-      json.decodeFromString<Response<CheckpointPage>>(
-        serializer(),
-        call(
-            "sui_getCheckpoints",
-            *listOf(cursor?.toString(), limit, descendingOrder).toTypedArray()
-          )
-          .bodyAsText()
-      )
-
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (
+      val resp =
+        call<Response<CheckpointPage>>(
+          "sui_getCheckpoints",
+          *listOf(cursor?.toString(), limit, descendingOrder).toTypedArray(),
+        )
+    ) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -392,14 +356,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if an error occurs while retrieving the events
    */
   suspend fun getEvents(digest: TransactionDigest): List<Event> {
-    val response =
-      json.decodeFromString<Response<List<Event>>>(
-        serializer(),
-        call("sui_getEvents", digest.value).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<List<Event>>>("sui_getEvents", digest.value)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -410,14 +369,12 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [SuiCoinMetadata]
    */
   suspend fun getCoinMetadata(coinType: String): SuiCoinMetadata {
-    val response =
-      json.decodeFromString<Response<SuiCoinMetadata>>(
-        serializer(),
-        call("suix_getCoinMetadata", *listOf(coinType).toTypedArray()).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (
+      val resp =
+        call<Response<SuiCoinMetadata>>("suix_getCoinMetadata", *listOf(coinType).toTypedArray())
+    ) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -438,17 +395,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     owner: SuiAddress,
     coinType: String? = null,
     cursor: Int? = null,
-    limit: Int
+    limit: Int,
   ): CoinPage {
-    val response =
-      json.decodeFromString<Response<CoinPage>>(
-        serializer(),
-        call("suix_getCoins", *listOf(owner.pubKey, coinType, cursor, limit).toTypedArray())
-          .bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (
+      val resp =
+        call<Response<CoinPage>>(
+          "suix_getCoins",
+          *listOf(owner.pubKey, coinType, cursor, limit).toTypedArray(),
+        )
+    ) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -462,19 +419,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if an error occurred while retrieving committee information
    */
   suspend fun getCommitteeInfo(epoch: Long? = null): CommitteeInfo.SuiCommittee {
-    // Decode response using JSON deserialization
-    val response =
-      json.decodeFromString<Response<CommitteeInfo.SuiCommittee>>(
-        serializer(),
-        when (epoch) {
-          null -> call("suix_getCommitteeInfo").bodyAsText()
-          else -> call("suix_getCommitteeInfo", epoch).bodyAsText()
-        }
-      )
-    // Return data or throw an exception if response is an error
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    // Decode resp using JSON deserialization
+    val resp =
+      when (epoch) {
+        null -> call<Response<CommitteeInfo.SuiCommittee>>("suix_getCommitteeInfo")
+        else -> call<Response<CommitteeInfo.SuiCommittee>>("suix_getCommitteeInfo", epoch)
+      }
+    // Return data or throw an exception if resp is an error
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -488,21 +442,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getDynamicFieldObject(
     parentObjectId: ObjectId,
-    name: DynamicFieldName
+    name: DynamicFieldName,
   ): ObjectResponse {
-    val response =
-      json.decodeFromString<Response<ObjectResponse>>(
-        serializer(),
-        call(
-            "suix_getDynamicFieldObject",
-            *listOf(parentObjectId.hash, json.encodeToJsonElement(serializer(), name))
-              .toTypedArray()
-          )
-          .bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (
+      val resp =
+        call<Response<ObjectResponse>>(
+          "suix_getDynamicFieldObject",
+          *listOf(parentObjectId.hash, json.encodeToJsonElement(serializer(), name)).toTypedArray(),
+        )
+    ) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -512,14 +462,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [SuiSystemStateSummary]
    */
   suspend fun getLatestSuiSystemState(): SuiSystemStateSummary {
-    val response =
-      json.decodeFromString<Response<SuiSystemStateSummary>>(
-        serializer(),
-        call("suix_getLatestSuiSystemState").bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<SuiSystemStateSummary>>("suix_getLatestSuiSystemState")) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -537,23 +482,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     address: SuiAddress,
     query: ObjectResponseQuery,
     cursor: String? = null,
-    limit: Int
+    limit: Int,
   ): ObjectsPage {
-    val response =
-      json.decodeFromString<Response<ObjectsPage>>(
-        serializer(),
-        call(
-            "suix_getOwnedObjects",
-            address.pubKey,
-            json.encodeToJsonElement(serializer(), query),
-            cursor,
-            limit
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<ObjectsPage>>(
+        "suix_getOwnedObjects",
+        address.pubKey,
+        json.encodeToJsonElement(serializer(), query),
+        cursor,
+        limit,
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -563,14 +504,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [CheckpointSequenceNumber]
    */
   suspend fun getLatestCheckpointSequenceNumber(): CheckpointSequenceNumber {
-    val response =
-      json.decodeFromString<Response<Long>>(
-        serializer(),
-        call("sui_getLatestCheckpointSequenceNumber").bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return CheckpointSequenceNumber(response.data)
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<Long>>("sui_getLatestCheckpointSequenceNumber")) {
+      is Response.Ok -> return CheckpointSequenceNumber(resp.data)
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -582,14 +518,10 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if an error occurs while retrieving the loaded child objects.
    */
   suspend fun getLoadedChildObjects(digest: TransactionDigest): LoadedChildObjectsResponse {
-    val response =
-      json.decodeFromString<Response<LoadedChildObjectsResponse>>(
-        serializer(),
-        call("sui_getLoadedChildObjects", digest.value).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    val resp = call<Response<LoadedChildObjectsResponse>>("sui_getLoadedChildObjects", digest.value)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -606,17 +538,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   suspend fun getMoveFunctionArgTypes(
     pakage: String,
     module: String,
-    function: String
+    function: String,
   ): List<MoveFunctionArgType> {
-    val response =
-      json.decodeFromString<Response<List<MoveFunctionArgType>>>(
-        serializer(),
-        call("sui_getMoveFunctionArgTypes", *listOf(pakage, module, function).toTypedArray())
-          .bodyAsText()
+    val resp =
+      call<Response<List<MoveFunctionArgType>>>(
+        "sui_getMoveFunctionArgTypes",
+        *listOf(pakage, module, function).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -632,17 +563,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   suspend fun getNormalizedMoveFunction(
     pakage: String,
     module: String,
-    function: String
+    function: String,
   ): MoveNormalizedFunction {
-    val response =
-      json.decodeFromString<Response<MoveNormalizedFunction>>(
-        serializer(),
-        call("sui_getNormalizedMoveFunction", *listOf(pakage, module, function).toTypedArray())
-          .bodyAsText()
+    val resp =
+      call<Response<MoveNormalizedFunction>>(
+        "sui_getNormalizedMoveFunction",
+        *listOf(pakage, module, function).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -655,14 +585,14 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the module from the blockchain
    */
   suspend fun getNormalizedMoveModule(pakage: String, module: String): MoveNormalizedModule {
-    val response =
-      json.decodeFromString<Response<MoveNormalizedModule>>(
-        serializer(),
-        call("sui_getNormalizedMoveModule", *listOf(pakage, module).toTypedArray()).bodyAsText()
+    val resp =
+      call<Response<MoveNormalizedModule>>(
+        "sui_getNormalizedMoveModule",
+        *listOf(pakage, module).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -674,14 +604,14 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error in the response.
    */
   suspend fun getNormalizedMoveModulesByPackage(pakage: String): Map<String, MoveNormalizedModule> {
-    val response =
-      json.decodeFromString<Response<Map<String, MoveNormalizedModule>>>(
-        serializer(),
-        call("sui_getNormalizedMoveModulesByPackage", *listOf(pakage).toTypedArray()).bodyAsText()
+    val resp =
+      call<Response<Map<String, MoveNormalizedModule>>>(
+        "sui_getNormalizedMoveModulesByPackage",
+        *listOf(pakage).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -696,20 +626,16 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getObject(
     objectId: String,
-    options: ObjectResponse.ObjectDataOptions
+    options: ObjectResponse.ObjectDataOptions,
   ): ObjectResponse {
-    val response =
-      json.decodeFromString<Response<ObjectResponse>>(
-        serializer(),
-        call(
-            "sui_getObject",
-            *listOf(objectId, json.encodeToJsonElement(serializer(), options)).toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<ObjectResponse>>(
+        "sui_getObject",
+        *listOf(objectId, json.encodeToJsonElement(serializer(), options)).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -719,14 +645,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [GasPrice]
    */
   suspend fun getReferenceGasPrice(): GasPrice {
-    val response =
-      json.decodeFromString<Response<Long>>(
-        serializer(),
-        call("suix_getReferenceGasPrice").bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return GasPrice(response.data)
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<Long>>("suix_getReferenceGasPrice")) {
+      is Response.Ok -> return GasPrice(resp.data)
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -738,14 +659,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the stakes.
    */
   suspend fun getStakes(owner: SuiAddress): List<DelegatedStake> {
-    val response =
-      json.decodeFromString<Response<List<DelegatedStake>>>(
-        serializer(),
-        call("suix_getStakes", owner.pubKey).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<List<DelegatedStake>>>("suix_getStakes", owner.pubKey)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -759,17 +675,14 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return The list of delegated stakes matching the provided IDs.
    * @throws SuiException if an error occurs during the retrieval process.
    */
-  suspend fun getStakesByIds(stakedSuiIds: List<ObjectId>): List<DelegatedStake> =
-    when (
-      val response =
-        json.decodeFromString<Response<List<DelegatedStake>>>(
-          serializer(),
-          call("suix_getStakesByIds", stakedSuiIds.map { it.hash }).bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+  suspend fun getStakesByIds(stakedSuiIds: List<ObjectId>): List<DelegatedStake> {
+    val resp =
+      call<Response<List<DelegatedStake>>>("suix_getStakesByIds", stakedSuiIds.map { it.hash })
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Retrieves the total supply for a specified cryptocurrency.
@@ -779,14 +692,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the supply.
    */
   suspend fun getTotalSupply(coinType: String): Supply {
-    val response =
-      json.decodeFromString<Response<Supply>>(
-        serializer(),
-        call("suix_getTotalSupply", coinType).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<Supply>>("suix_getTotalSupply", coinType)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -797,24 +705,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the APY data.
    */
   suspend fun getValidatorApys(): ValidatorApys {
-    when (
-      val response =
-        json.decodeFromString<Response<ValidatorApys>>(
-          serializer(),
-          call("suix_getValidatorsApy").bodyAsText()
-        )
-    ) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<ValidatorApys>>("suix_getValidatorsApy")) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
   /**
-   * Queries events on the Sui blockchain matching the given [eventFilter].
-   *
-   * It optionally starts from the event with the specified [cursor], returning at most [limit]
-   * events, otherwise `QUERY_MAX_RESULT_LIMIT`, and in either ascending or descending order based
-   * on [descendingOrder]. Returns an [EventPage] containing the matching events and pagination
+   * Queries events on the Sui blockchain matching the given [eventFilter]. d It optionally starts
+   * from the event with the specified [cursor], returning at most [limit] events, otherwise
+   * `QUERY_MAX_RESULT_LIMIT`, and in either ascending or descending order based on
+   * [descendingOrder]. Returns an [EventPage] containing the matching events and pagination
    * information.
    *
    * @param eventFilter the query criteria used to match events on the blockchain
@@ -831,26 +732,22 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     eventFilter: EventFilter,
     cursor: EventID? = null,
     limit: Int? = null,
-    descendingOrder: Boolean? = null
+    descendingOrder: Boolean? = null,
   ): EventPage {
-    val response =
-      json.decodeFromString<Response<EventPage>>(
-        serializer(),
-        call(
-            "suix_queryEvents",
-            *listOf(
-                json.encodeToJsonElement(EventFilter.serializer(), eventFilter),
-                cursor?.txDigest,
-                limit,
-                descendingOrder
-              )
-              .toTypedArray()
+    val resp =
+      call<Response<EventPage>>(
+        "suix_queryEvents",
+        *listOf(
+            json.encodeToJsonElement(EventFilter.serializer(), eventFilter),
+            cursor?.txDigest,
+            limit,
+            descendingOrder,
           )
-          .bodyAsText()
+          .toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -860,14 +757,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [Long]
    */
   suspend fun getTotalTransactionBlocks(): Long {
-    val response =
-      json.decodeFromString<Response<Long>>(
-        serializer(),
-        call("sui_getTotalTransactionBlocks").bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<Long>>("sui_getTotalTransactionBlocks")) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -885,25 +777,20 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getTransactionBlock(
     digest: TransactionDigest,
-    options: TransactionBlockResponseOptions? = null
+    options: TransactionBlockResponseOptions? = null,
   ): TransactionBlockResponse {
-
-    val response =
-      json.decodeFromString<Response<TransactionBlockResponse>>(
-        serializer(),
-        call(
-            "sui_getTransactionBlock",
-            *listOf(digest.value, json.encodeToJsonElement(serializer(), options)).toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<TransactionBlockResponse>>(
+        "sui_getTransactionBlock",
+        *listOf(digest.value, json.encodeToJsonElement(serializer(), options)).toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
+    when (resp) {
+      is Response.Ok -> return resp.data
       is Response.Error ->
-        if (response.message.contains("not find")) {
+        if (resp.message.contains("not find")) {
           throw TransactionNotFoundException(digest.value)
         } else {
-          throw SuiException(response.message)
+          throw SuiException(resp.message)
         }
     }
   }
@@ -918,21 +805,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getMultiObjects(
     objectIds: List<ObjectId>,
-    options: ObjectResponse.ObjectDataOptions
+    options: ObjectResponse.ObjectDataOptions,
   ): List<ObjectResponse> {
-    val response =
-      json.decodeFromString<Response<List<ObjectResponse>>>(
-        serializer(),
-        call(
-            "sui_multiGetObjects",
-            *listOf(objectIds.map { it.hash }, json.encodeToJsonElement(serializer(), options))
-              .toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<List<ObjectResponse>>>(
+        "sui_multiGetObjects",
+        *listOf(objectIds.map { it.hash }, json.encodeToJsonElement(serializer(), options))
+          .toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -949,21 +832,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getMultiTransactionBlocks(
     digests: List<TransactionDigest>,
-    options: TransactionBlockResponseOptions? = null
+    options: TransactionBlockResponseOptions? = null,
   ): List<TransactionBlockResponse> {
-    val response =
-      json.decodeFromString<Response<List<TransactionBlockResponse>>>(
-        serializer(),
-        call(
-            "sui_multiGetTransactionBlocks",
-            *listOf(digests.map { it.value }, json.encodeToJsonElement(serializer(), options))
-              .toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<List<TransactionBlockResponse>>>(
+        "sui_multiGetTransactionBlocks",
+        *listOf(digests.map { it.value }, json.encodeToJsonElement(serializer(), options))
+          .toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -984,21 +863,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   suspend fun tryGetPastObject(
     objectId: ObjectId,
     version: Long,
-    options: ObjectResponse.ObjectDataOptions
+    options: ObjectResponse.ObjectDataOptions,
   ): Option<PastObjectResponse> {
-    val response =
-      json.decodeFromString<Response<Option<PastObjectResponse>>>(
-        serializer(),
-        call(
-            "sui_tryGetPastObject",
-            *listOf(objectId.hash, version, json.encodeToJsonElement(serializer(), options))
-              .toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<Option<PastObjectResponse>>>(
+        "sui_tryGetPastObject",
+        *listOf(objectId.hash, version, json.encodeToJsonElement(serializer(), options))
+          .toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -1019,33 +894,29 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun tryGetMultiPastObjects(
     pastObjects: List<PastObjectRequest>,
-    options: ObjectResponse.ObjectDataOptions
+    options: ObjectResponse.ObjectDataOptions,
   ): List<Option<PastObjectResponse>> {
-    val response =
-      json.decodeFromString<Response<List<Option<PastObjectResponse>>>>(
-        serializer(),
-        call(
-            "sui_tryMultiGetPastObjects",
-            *listOf(
-                pastObjects.map {
-                  json.encodeToJsonElement(
-                    serializer(),
-                    buildJsonObject {
-                      put("objectId", it.objectId.hash)
-                      put("version", it.version.toString())
-                    }
-                  )
+    val resp =
+      call<Response<List<Option<PastObjectResponse>>>>(
+        "sui_tryMultiGetPastObjects",
+        *listOf(
+            pastObjects.map {
+              json.encodeToJsonElement(
+                serializer(),
+                buildJsonObject {
+                  put("objectId", it.objectId.hash)
+                  put("version", it.version.toString())
                 },
-                json.encodeToJsonElement(serializer(), options)
               )
-              .toTypedArray()
+            },
+            json.encodeToJsonElement(serializer(), options),
           )
-          .bodyAsText()
+          .toTypedArray(),
       )
 
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -1067,21 +938,17 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     query: TransactionBlockResponseQuery,
     cursor: String? = null,
     limit: Int? = null,
-    descendingOrder: Boolean = false
+    descendingOrder: Boolean = false,
   ): TransactionBlocksPage {
-    val response =
-      json.decodeFromString<Response<TransactionBlocksPage>>(
-        serializer(),
-        call(
-            "suix_queryTransactionBlocks",
-            *listOf(json.encodeToJsonElement(serializer(), query), cursor, limit, descendingOrder)
-              .toTypedArray()
-          )
-          .bodyAsText()
+    val resp =
+      call<Response<TransactionBlocksPage>>(
+        "suix_queryTransactionBlocks",
+        *listOf(json.encodeToJsonElement(serializer(), query), cursor, limit, descendingOrder)
+          .toTypedArray(),
       )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -1093,14 +960,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error in the response.
    */
   suspend fun resolveNameServiceAddress(name: String): String {
-    val response =
-      json.decodeFromString<Response<String>>(
-        serializer(),
-        call("suix_resolveNameServiceAddress", name).bodyAsText()
-      )
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (val resp = call<Response<String>>("suix_resolveNameServiceAddress", name)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -1122,29 +984,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     primaryCoin: ObjectId,
     coinToMerge: ObjectId,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_mergeCoins",
-              *listOf(
-                  signer.pubKey,
-                  primaryCoin.hash,
-                  coinToMerge.hash,
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_mergeCoins",
+        *listOf(signer.pubKey, primaryCoin.hash, coinToMerge.hash, gas?.hash, gasBudget.toString())
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to execute a Move call on the network, by calling the specified
@@ -1173,32 +1025,27 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     arguments: List<Any>,
     gas: ObjectId? = null,
     gasBudget: Long,
-    executionMode: TransactionBlockBuilderMode? = null
+    executionMode: TransactionBlockBuilderMode? = null,
   ): TransactionBlockBytes {
-    val response =
-      json.decodeFromString<Response<TransactionBlockBytes>>(
-        serializer(),
-        call(
-            "unsafe_moveCall",
-            *listOf(
-                signer.pubKey,
-                packageObjectId.hash,
-                module,
-                function,
-                typeArguments.map { it.asMoveType() },
-                arguments.toTypedArray(),
-                gas,
-                gasBudget.toString(),
-                executionMode
-              )
-              .toTypedArray()
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_moveCall",
+        *listOf(
+            signer.pubKey,
+            packageObjectId.hash,
+            module,
+            function,
+            typeArguments.map { it.asMoveType() },
+            arguments.toTypedArray(),
+            gas,
+            gasBudget.toString(),
+            executionMode,
           )
-          .bodyAsText()
+          .toTypedArray(),
       )
-
-    when (response) {
-      is Response.Ok -> return response.data
-      is Response.Error -> throw SuiException(response.message)
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
   }
 
@@ -1227,30 +1074,26 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     recipients: List<SuiAddress>,
     amounts: List<Long>,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_pay",
-              *listOf(
-                  signer.pubKey,
-                  inputCoins.map { it.hash },
-                  recipients.map { it.pubKey },
-                  amounts.map { it.toString() },
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_pay",
+        *listOf(
+            signer.pubKey,
+            inputCoins.map { it.hash },
+            recipients.map { it.pubKey },
+            amounts.map { it.toString() },
+            gas?.hash,
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Send all SUI coins to one recipient.
@@ -1273,28 +1116,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     signer: SuiAddress,
     inputCoins: List<ObjectId>,
     recipient: SuiAddress,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_payAllSui",
-              *listOf(
-                  signer.pubKey,
-                  inputCoins.map { it.hash },
-                  recipient.pubKey,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_payAllSui",
+        *listOf(signer.pubKey, inputCoins.map { it.hash }, recipient.pubKey, gasBudget.toString())
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Send SUI coins to a list of addresses, following a list of amounts.
@@ -1320,29 +1154,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     inputCoins: List<ObjectId>,
     recipients: List<SuiAddress>,
     amounts: List<Long>,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_paySui",
-              *listOf(
-                  signer.pubKey,
-                  inputCoins.map { it.hash },
-                  recipients.map { it.pubKey },
-                  amounts.map { it.toString() },
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_paySui",
+        *listOf(
+            signer.pubKey,
+            inputCoins.map { it.hash },
+            recipients.map { it.pubKey },
+            amounts.map { it.toString() },
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to publish a Move package.
@@ -1362,29 +1192,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     compiledModules: List<String>,
     dependencies: List<ObjectId>,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_publish",
-              *listOf(
-                  sender.pubKey,
-                  compiledModules,
-                  dependencies.map { it.hash },
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_publish",
+        *listOf(
+            sender.pubKey,
+            compiledModules,
+            dependencies.map { it.hash },
+            gas?.hash,
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Add stake to a validator's staking pool using multiple coins and amount.
@@ -1406,30 +1232,26 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     amount: Long,
     validator: SuiAddress,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_requestAddStake",
-              *listOf(
-                  signer.pubKey,
-                  coins.map { it.hash },
-                  amount.toString(),
-                  validator.pubKey,
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_requestAddStake",
+        *listOf(
+            signer.pubKey,
+            coins.map { it.hash },
+            amount.toString(),
+            validator.pubKey,
+            gas?.hash,
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Withdraw stake from a validator's staking pool.
@@ -1447,22 +1269,18 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     signer: SuiAddress,
     stakedSui: ObjectId,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_requestWithdrawStake",
-              *listOf(signer.pubKey, stakedSui.hash, gas?.hash, gasBudget.toString()).toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_requestWithdrawStake",
+        *listOf(signer.pubKey, stakedSui.hash, gas?.hash, gasBudget.toString()).toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to split a coin object into multiple coins.
@@ -1481,29 +1299,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     coinObjectId: ObjectId,
     splitAmounts: List<Long>,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_splitCoin",
-              *listOf(
-                  signer.pubKey,
-                  coinObjectId.hash,
-                  splitAmounts.map { it.toString() },
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_splitCoin",
+        *listOf(
+            signer.pubKey,
+            coinObjectId.hash,
+            splitAmounts.map { it.toString() },
+            gas?.hash,
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to split a coin object into multiple equal-size coins.
@@ -1522,29 +1336,25 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     coinObjectId: ObjectId,
     splitCount: Long,
     gas: ObjectId? = null,
-    gasBudget: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_splitCoinEqual",
-              *listOf(
-                  signer.pubKey,
-                  coinObjectId.hash,
-                  splitCount.toString(),
-                  gas?.hash,
-                  gasBudget.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    gasBudget: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_splitCoinEqual",
+        *listOf(
+            signer.pubKey,
+            coinObjectId.hash,
+            splitCount.toString(),
+            gas?.hash,
+            gasBudget.toString(),
+          )
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to transfer an object from one address to another. The object's
@@ -1564,29 +1374,19 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     objectId: ObjectId,
     gas: ObjectId? = null,
     gasBudget: Long,
-    recipient: SuiAddress
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_transferObject",
-              *listOf(
-                  signer.pubKey,
-                  objectId.hash,
-                  gas?.hash,
-                  gasBudget.toString(),
-                  recipient.pubKey
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    recipient: SuiAddress,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_transferObject",
+        *listOf(signer.pubKey, objectId.hash, gas?.hash, gasBudget.toString(), recipient.pubKey)
+          .toTypedArray(),
+      )
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 
   /**
    * Create an unsigned transaction to send SUI coin object to a Sui address. The SUI object is also
@@ -1605,27 +1405,24 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     suiObjectId: ObjectId,
     gasBudget: Long,
     recipient: SuiAddress,
-    amount: Long
-  ): TransactionBlockBytes =
-    when (
-      val response =
-        json.decodeFromString<Response<TransactionBlockBytes>>(
-          serializer(),
-          call(
-              "unsafe_transferSui",
-              *listOf(
-                  signer.pubKey,
-                  suiObjectId.hash,
-                  gasBudget.toString(),
-                  recipient.pubKey,
-                  amount.toString()
-                )
-                .toTypedArray()
-            )
-            .bodyAsText()
-        )
-    ) {
-      is Response.Ok -> response.data
-      is Response.Error -> throw SuiException(response.message)
+    amount: Long,
+  ): TransactionBlockBytes {
+    val resp =
+      call<Response<TransactionBlockBytes>>(
+        "unsafe_transferSui",
+        *listOf(
+            signer.pubKey,
+            suiObjectId.hash,
+            gasBudget.toString(),
+            recipient.pubKey,
+            amount.toString(),
+          )
+          .toTypedArray(),
+      )
+
+    when (resp) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
     }
+  }
 }

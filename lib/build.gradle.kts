@@ -18,7 +18,7 @@ group = "xyz.mcxross.ksui"
 version = "1.3.2"
 
 repositories {
-  //maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+  // maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
   mavenCentral()
   mavenLocal()
   google()
@@ -50,6 +50,7 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.ktor.client.core)
+      implementation(libs.ktor.client.content.negotiation)
       implementation(libs.ktor.client.websockets)
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
@@ -63,9 +64,7 @@ kotlin {
 
     jsMain.dependencies { implementation(libs.ktor.client.js) }
 
-    jvmMain.dependencies {
-      implementation(libs.ktor.client.cio)
-    }
+    jvmMain.dependencies { implementation(libs.ktor.client.cio) }
 
     androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
 
@@ -135,7 +134,7 @@ publishing {
             "https://s01.oss.sonatype.org/content/repositories/snapshots/"
           } else {
             "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-          },
+          }
         )
         credentials {
           username = property("sonatypeUser") as String
@@ -180,5 +179,5 @@ signing {
     sonatypeGpgKey == null || sonatypeGpgKeyPassword == null -> useGpgCmd()
     else -> useInMemoryPgpKeys(sonatypeGpgKey, sonatypeGpgKeyPassword)
   }
-  //sign(publishing.publications)
+  // sign(publishing.publications)
 }
