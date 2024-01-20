@@ -19,6 +19,7 @@ data class ConfigContainer(
   val agentName: String,
   val requestTimeout: Long,
   val connectionTimeout: Long,
+  val followRedirectsWrapper: Boolean,
   val enableLogging: Boolean,
   val loggerWrapper: xyz.mcxross.ksui.util.Logger,
   val logLevelWrapper: xyz.mcxross.ksui.util.LogLevel,
@@ -28,6 +29,7 @@ data class ConfigContainer(
 
   fun httpClient() =
     HttpClient(selectedEngine) {
+      followRedirects = followRedirectsWrapper
       install(UserAgent) { agent = agentName }
       install(ContentNegotiation) { json() }
       install(HttpRequestRetry) {
@@ -120,6 +122,13 @@ class ClientConfig {
   var logLevel: xyz.mcxross.ksui.util.LogLevel = xyz.mcxross.ksui.util.LogLevel.INFO
 
   /**
+   * Sets whether to follow redirects.
+   *
+   * Defaults to true
+   */
+  var followRedirects: Boolean = true
+
+  /**
    * Builds a new instance of [SuiHttpClient].
    *
    * @return [SuiHttpClient]
@@ -139,6 +148,7 @@ class ClientConfig {
             enableLogging = enableLogging,
             loggerWrapper = logger,
             logLevelWrapper = logLevel,
+            followRedirectsWrapper = followRedirects,
           )
         )
       }
@@ -155,6 +165,7 @@ class ClientConfig {
             enableLogging = enableLogging,
             loggerWrapper = logger,
             logLevelWrapper = logLevel,
+            followRedirectsWrapper = followRedirects,
           )
         )
     }
