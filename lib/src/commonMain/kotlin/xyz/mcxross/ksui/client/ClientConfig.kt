@@ -3,7 +3,9 @@ package xyz.mcxross.ksui.client
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.websocket.*
+import io.ktor.serialization.kotlinx.json.*
 
 data class ConfigContainer(
   val engine: HttpClientEngine? = null,
@@ -21,6 +23,7 @@ data class ConfigContainer(
   fun httpClient() =
     HttpClient(selectedEngine) {
       install(UserAgent) { agent = agentName }
+      install(ContentNegotiation) { json() }
       install(HttpRequestRetry) {
         retryOnServerErrors(maxRetries = maxRetries)
         exponentialDelay()
