@@ -4,8 +4,11 @@ import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.json.*
+import xyz.mcxross.ksui.util.getKtorLogLevel
+import xyz.mcxross.ksui.util.getKtorLogger
 
 data class ConfigContainer(
   val engine: HttpClientEngine? = null,
@@ -16,6 +19,9 @@ data class ConfigContainer(
   val agentName: String,
   val requestTimeout: Long,
   val connectionTimeout: Long,
+  val enableLogging: Boolean,
+  val loggerWrapper: xyz.mcxross.ksui.util.Logger,
+  val logLevelWrapper: xyz.mcxross.ksui.util.LogLevel,
 ) {
 
   private val selectedEngine = engine ?: defaultEngine
@@ -32,6 +38,11 @@ data class ConfigContainer(
         requestTimeoutMillis = requestTimeout
         connectTimeoutMillis = connectionTimeout
       }
+      if (enableLogging)
+        install(Logging) {
+          logger = loggerWrapper.getKtorLogger()
+          level = logLevelWrapper.getKtorLogLevel()
+        }
     }
 
   fun wsClient() = HttpClient {
@@ -88,6 +99,27 @@ class ClientConfig {
   var connectionTimeout: Long = 30_000
 
   /**
+   * Enables logging of requests and responses.
+   *
+   * Defaults to false
+   */
+  var enableLogging: Boolean = false
+
+  /**
+   * Sets the logger to use.
+   *
+   * Defaults to [Logger.SIMPLE]
+   */
+  var logger: xyz.mcxross.ksui.util.Logger = xyz.mcxross.ksui.util.Logger.SIMPLE
+
+  /**
+   * Sets the log level to use.
+   *
+   * Defaults to [LogLevel.INFO]
+   */
+  var logLevel: xyz.mcxross.ksui.util.LogLevel = xyz.mcxross.ksui.util.LogLevel.INFO
+
+  /**
    * Builds a new instance of [SuiHttpClient].
    *
    * @return [SuiHttpClient]
@@ -104,6 +136,9 @@ class ClientConfig {
             agentName = agentName,
             requestTimeout = requestTimeout,
             connectionTimeout = connectionTimeout,
+            enableLogging = enableLogging,
+            loggerWrapper = logger,
+            logLevelWrapper = logLevel,
           )
         )
       }
@@ -117,6 +152,9 @@ class ClientConfig {
             agentName = agentName,
             requestTimeout = requestTimeout,
             connectionTimeout = connectionTimeout,
+            enableLogging = enableLogging,
+            loggerWrapper = logger,
+            logLevelWrapper = logLevel,
           )
         )
     }
