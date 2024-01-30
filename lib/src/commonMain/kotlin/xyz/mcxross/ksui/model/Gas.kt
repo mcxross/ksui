@@ -11,13 +11,18 @@ data class GasUsed(
   val computationCost: String,
   val storageCost: String,
   val storageRebate: String,
-  val nonRefundableStorageFee: String
+  val nonRefundableStorageFee: String,
 )
 
 @Serializable data class GasObject(val owner: Owner.AddressOwner, val reference: ObjectReference)
 
 @Serializable
-data class GasData(val payment: List<Payment>, val owner: String, val price: Int, val budget: Int)
+data class GasData(
+  val payment: List<ObjectReference>,
+  val owner: String,
+  val price: ULong,
+  val budget: ULong,
+)
 
 @Serializable
 data class GasCostSummary(

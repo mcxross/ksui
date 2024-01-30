@@ -3,6 +3,7 @@ package xyz.mcxross.ksui.model
 import kotlin.reflect.safeCast
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.exception.UnknownTransactionFilterException
 import xyz.mcxross.ksui.model.serializer.DisassembledFieldSerializer
 import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
@@ -35,18 +36,11 @@ enum class TransactionBlockBuilderMode {
   abstract val value: String
 }
 
-@Serializable
-data class Transaction(
-  val data: Data,
-  val txSignatures: List<String>,
-)
+@Serializable data class Transaction(val data: Data, val txSignatures: List<String>)
 
 @Serializable
-abstract class TransactionKind {
-  @Serializable
-  data class DefaultTransaction(
-    val kind: String,
-  ) : TransactionKind()
+sealed class TransactionKind {
+  @Serializable data class DefaultTransaction(val kind: String) : TransactionKind()
 
   @Serializable
   data class ProgrammableTransaction(
@@ -63,7 +57,7 @@ abstract class TransactionKind {
   @Serializable
   data class Transfer(
     val recipient: String,
-    @SerialName("objectRef") val objectReference: ObjectReference
+    @SerialName("objectRef") val objectReference: ObjectReference,
   ) : TransactionKind()
 
   @Serializable
@@ -73,27 +67,18 @@ abstract class TransactionKind {
     val amounts: List<Long>,
   ) : TransactionKind()
 
-  @Serializable
-  data class TransferSui(
-    val recipient: String,
-    val amount: Long,
-  ) : TransactionKind()
+  @Serializable data class TransferSui(val recipient: String, val amount: Long) : TransactionKind()
 
   @Serializable
-  data class PayAllSui(
-    val recipient: String,
-    val coins: List<ObjectReference>,
-  ) : TransactionKind()
+  data class PayAllSui(val recipient: String, val coins: List<ObjectReference>) : TransactionKind()
 
   @Serializable
   data class Publish(
-    @Serializable(with = DisassembledFieldSerializer::class) val disassembled: Any,
+    @Serializable(with = DisassembledFieldSerializer::class) val disassembled: Any
   ) : TransactionKind()
 
   @Serializable
-  data class SplitCoin(
-    @SerialName("SplitCoins") val splitCoins: List<String>,
-  ) : TransactionKind()
+  data class SplitCoin(@SerialName("SplitCoins") val splitCoins: List<String>) : TransactionKind()
 }
 
 @Serializable
@@ -151,12 +136,12 @@ data class TransactionBlockResponseOptions(
   val showEffects: Boolean,
   val showEvents: Boolean,
   val showObjectChanges: Boolean,
-  val showBalanceChanges: Boolean
+  val showBalanceChanges: Boolean,
 )
 
 @Serializable
 data class TransactionBlockResponseQueryFilter(
-  @SerialName("InputObject") val inputObject: String? = null,
+  @SerialName("InputObject") val inputObject: String? = null
 )
 
 /** The transaction query criteria. */
@@ -166,10 +151,7 @@ data class TransactionBlockResponseQuery(
   val options: TransactionBlockResponseOptions? = null,
 )
 
-@Serializable
-data class TransactionBlock(
-  val digest: String,
-)
+@Serializable data class TransactionBlock(val digest: String)
 
 @Serializable
 data class TransactionBlocksPage(
@@ -178,11 +160,7 @@ data class TransactionBlocksPage(
   val hasNextPage: Boolean,
 )
 
-@Serializable
-data class TransactionBlockBytes(
-  val txBytes: String,
-  val gas: List<Gas>,
-)
+@Serializable data class TransactionBlockBytes(val txBytes: String, val gas: List<Gas>)
 
 @Serializable data class Input(val type: String, val valueType: String, val value: String)
 
@@ -194,7 +172,7 @@ data class TransactionBlockData(
   val messageVersion: String,
   val transaction: Transaction1,
   val sender: String,
-  val gasData: GasData
+  val gasData: GasData,
 )
 
 @Serializable
@@ -212,10 +190,7 @@ sealed class TransactionSubscriptionResponse {
 
   data class Effect(val effect: TransactionBlockEffects) : TransactionSubscriptionResponse()
 
-  data class Error(
-    val code: Int,
-    val message: String,
-  ) : TransactionSubscriptionResponse()
+  data class Error(val code: Int, val message: String) : TransactionSubscriptionResponse()
 }
 
 @Serializable(with = TransactionFilterSerializer::class)
@@ -256,7 +231,7 @@ abstract class TransactionFilterMutable {
   data class MoveFunction(
     var pakage: ObjectId = ObjectId(""),
     var module: String = "",
-    var function: String = ""
+    var function: String = "",
   ) : TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter =
       TransactionFilter.MoveFunction(pakage, module, function)
@@ -285,7 +260,7 @@ abstract class TransactionFilterMutable {
   @Serializable
   data class FromAndToAddress(
     var fromAddress: SuiAddress = SuiAddress(""),
-    var toAddress: SuiAddress = SuiAddress("")
+    var toAddress: SuiAddress = SuiAddress(""),
   ) : TransactionFilterMutable() {
     override fun toImmutable(): TransactionFilter =
       TransactionFilter.FromAndToAddress(fromAddress, toAddress)
@@ -344,9 +319,58 @@ inline fun <reified T : TransactionFilterMutable> transactionFilterFor(
     else -> throw UnknownTransactionFilterException("Unknown TransactionFilter type: ${T::class}")
   }
 
+object TransactionDataComposer {
+  fun programmable(
+    sender: SuiAddress,
+    gapPayment: List<ObjectReference>,
+    pt: ProgrammableTransaction,
+    gasBudget: ULong,
+    gasPrice: ULong,
+  ): TransactionData = programmableAllowSponsor(sender, gapPayment, pt, gasBudget, gasPrice, sender)
+
+  fun programmableAllowSponsor(
+    sender: SuiAddress,
+    gapPayment: List<ObjectReference>,
+    pt: ProgrammableTransaction,
+    gasBudget: ULong,
+    gasPrice: ULong,
+    sponsor: SuiAddress,
+  ): TransactionData =
+    withGasCoinsAllowSponsor(
+      TransactionKind.ProgrammableTransaction(pt),
+      sender,
+      gapPayment,
+      gasBudget,
+      gasPrice,
+      sponsor,
+    )
+
+  fun withGasCoinsAllowSponsor(
+    kind: TransactionKind,
+    sender: SuiAddress,
+    gapPayment: List<ObjectReference>,
+    gasBudget: ULong,
+    gasPrice: ULong,
+    sponsor: SuiAddress,
+  ): TransactionData =
+    TransactionData.V1(
+      TransactionDataV1(
+        kind,
+        sender,
+        GasData(gapPayment, sponsor.pubKey, gasBudget, gasPrice),
+        TransactionExpiration.None,
+      )
+    )
+}
+
 @Serializable
 sealed class TransactionData {
-  @Serializable data class V1(val data: TransactionDataV1) : TransactionData()
+  abstract fun toBcs(): ByteArray
+
+  @Serializable
+  data class V1(val data: TransactionDataV1) : TransactionData() {
+    override fun toBcs(): ByteArray = Bcs.encodeToByteArray(data)
+  }
 }
 
 @Serializable
@@ -451,7 +475,7 @@ open class Command {
     val modules: List<List<Byte>>,
     val dependencies: List<ObjectId>,
     val packageId: ObjectId,
-    val upgradeTicket: Argument
+    val upgradeTicket: Argument,
   ) : Command()
 
   /**
