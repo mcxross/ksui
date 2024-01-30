@@ -78,7 +78,7 @@ object FaucetResponseSerializer : KSerializer<FaucetResponse> {
         FaucetResponse.Ok(
           json["transferredGasObjects"]?.jsonArray?.map {
             TransferredGasObject(
-              it.jsonObject["amount"]?.jsonPrimitive?.int ?: 0,
+              it.jsonObject["amount"]?.jsonPrimitive?.content ?: "0",
               it.jsonObject["id"]?.jsonPrimitive?.content ?: "",
               it.jsonObject["transferTxDigest"]?.jsonPrimitive?.content ?: "",
             )
