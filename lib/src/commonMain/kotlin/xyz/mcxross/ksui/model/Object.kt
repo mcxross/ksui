@@ -130,7 +130,7 @@ sealed class ObjectResponse {
 }
 
 @Serializable
-data class TransferredGasObject(val amount: Int, val id: String, val transferTxDigest: String)
+data class TransferredGasObject(val amount: String, val id: String, val transferTxDigest: String)
 
 @Serializable
 sealed class FilterCondition {
