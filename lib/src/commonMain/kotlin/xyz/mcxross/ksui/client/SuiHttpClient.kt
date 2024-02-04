@@ -40,6 +40,7 @@ import xyz.mcxross.ksui.model.LoadedChildObjectsResponse
 import xyz.mcxross.ksui.model.MoveFunctionArgType
 import xyz.mcxross.ksui.model.MoveNormalizedFunction
 import xyz.mcxross.ksui.model.MoveNormalizedModule
+import xyz.mcxross.ksui.model.NameServicePage
 import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.ObjectResponse
 import xyz.mcxross.ksui.model.ObjectResponseQuery
@@ -961,6 +962,35 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun resolveNameServiceAddress(name: String): String {
     when (val resp = call<Response<String>>("suix_resolveNameServiceAddress", name)) {
+      is Response.Ok -> return resp.data
+      is Response.Error -> throw SuiException(resp.message)
+    }
+  }
+
+  /**
+   * Return the resolved names given address, if multiple names are resolved, the first one is the
+   * primary name.
+   *
+   * @param address The list of addresses to resolve.
+   * @param cursor The cursor to start fetching from. This is optional.
+   * @param limit The maximum number of names to fetch.
+   * @return A [NameServicePage] object containing the resolved names.
+   * @throws SuiException if there is an error in the response.
+   */
+  suspend fun resolveNameServiceNames(
+    address: SuiAddress,
+    cursor: ObjectId? = null,
+    limit: Long? = null,
+  ): NameServicePage {
+    when (
+      val resp =
+        call<Response<NameServicePage>>(
+          "suix_resolveNameServiceNames",
+          address.pubKey,
+          cursor?.hash,
+          limit,
+        )
+    ) {
       is Response.Ok -> return resp.data
       is Response.Error -> throw SuiException(resp.message)
     }
