@@ -1,9 +1,9 @@
 [versions]
-ktor = "2.3.4"
+ktor = "2.3.7"
 junit = "5.8.1"
 
 [libraries]
-common-bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.0-SNAPSHOT" }
+bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.1-SNAPSHOT" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -17,5 +17,5 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.2" }
-
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.3" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version = "1.9.22" }

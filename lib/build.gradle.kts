@@ -18,7 +18,7 @@ group = "xyz.mcxross.ksui"
 version = "1.3.2"
 
 repositories {
-  // maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+  maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
   mavenCentral()
   mavenLocal()
   google()
@@ -43,9 +43,17 @@ kotlin {
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
   linuxX64()
+  linuxArm64()
   macosArm64()
   macosX64()
+  tvosX64()
+  tvosArm64()
+  watchosX64()
+  watchosArm32()
+  watchosArm64()
   mingwX64()
+
+  applyDefaultHierarchyTemplate()
 
   sourceSets {
     commonMain.dependencies {
@@ -55,12 +63,12 @@ kotlin {
       implementation(libs.ktor.client.logging)
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
-      implementation(libs.common.bcs)
+      implementation(libs.bcs)
     }
 
     commonTest.dependencies {
       implementation(libs.ktor.client.mock)
-      implementation("org.jetbrains.kotlin:kotlin-test")
+      implementation(libs.kotlin.test)
     }
 
     jsMain.dependencies { implementation(libs.ktor.client.js) }
@@ -71,11 +79,6 @@ kotlin {
 
     iosMain.dependencies { implementation(libs.ktor.client.darwin) }
 
-    mingwMain.dependencies { implementation(libs.ktor.client.curl) }
-
-    linuxMain.dependencies { implementation(libs.ktor.client.curl) }
-
-    macosMain.dependencies { implementation(libs.ktor.client.curl) }
   }
 }
 
