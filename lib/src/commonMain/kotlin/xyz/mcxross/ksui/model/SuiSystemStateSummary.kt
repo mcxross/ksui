@@ -93,7 +93,7 @@ data class SuiSystemStateSummary(
   val validatorLowStakeThreshold: Long,
   val validatorVeryLowStakeThreshold: Long,
   val validatorLowStakeGracePeriod: Long,
-  @Transient val stakeSubsidyBalance: Long = 9_223_372_036_854_775_807,
+  val stakeSubsidyBalance: String,
   val stakeSubsidyDistributionCounter: Long,
   val stakeSubsidyCurrentDistributionAmount: Long,
   val stakeSubsidyPeriodLength: Long,
