@@ -39,5 +39,5 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x :ksui:jsBrowserTest
         shell: bash

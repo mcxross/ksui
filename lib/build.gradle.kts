@@ -32,14 +32,20 @@ kotlin {
   iosSimulatorArm64()
 
   js {
-    browser()
+    browser {
+      testTask {
+        useKarma {
+          useChromeHeadless()
+          useSafari()
+        }
+      }
+    }
     nodejs()
     compilations.all {
       kotlinOptions.sourceMap = true
       kotlinOptions.moduleKind = "umd"
     }
   }
-
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
   linuxX64()
@@ -78,7 +84,6 @@ kotlin {
     androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
 
     iosMain.dependencies { implementation(libs.ktor.client.darwin) }
-
   }
 }
 
