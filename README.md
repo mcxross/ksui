@@ -4,7 +4,7 @@ Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Kotlin Mu
 
 This library is intended to be the highest quality publicly available library for interacting with Sui on any Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
 
-![Sui JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.10.0-blue.svg)
+![Sui JSON-RPC version](https://img.shields.io/badge/Sui%20JSON--RPC-1.18.0-blue.svg)
 ![Version](https://img.shields.io/badge/Version-1.3.2-blue.svg)
 [![Build](https://github.com/mcxross/ksui/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/mcxross/ksui/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
