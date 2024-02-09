@@ -21,6 +21,6 @@ pluginManagement {
 
 rootProject.name = "ksui"
 
-include(":lib", ":sample:jvm")
+include(":lib", ":sample:jvm", ":sample:android")
 
 project(":lib").name = "ksui"
