@@ -28,7 +28,7 @@ enum class AppId {
 @Serializable
 data class Intent(val scope: IntentScope, val version: IntentVersion, val appId: AppId)
 
-@Serializable data class IntentMessage<T>(val intent: Intent, val message: T)
+@Serializable data class IntentMessage<T>(val intent: Intent, val value: T)
 
 // An intent abstraction. This is so as it is scoped, but can well be a top level function
 // TODO: This is a placeholder for now, look back at this later

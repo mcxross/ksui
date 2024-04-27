@@ -5,6 +5,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.exception.UnknownTransactionFilterException
+import xyz.mcxross.ksui.model.serializer.CallArgObjectSerializer
+import xyz.mcxross.ksui.model.serializer.CallArgPureSerializer
 import xyz.mcxross.ksui.model.serializer.DisassembledFieldSerializer
 import xyz.mcxross.ksui.model.serializer.ObjectChangeSerializer
 import xyz.mcxross.ksui.model.serializer.TransactionFilterSerializer
@@ -85,6 +87,7 @@ sealed class TransactionKind {
 sealed class CallArg {
 
   @Serializable
+  @SerialName("")
   data class Pure(val data: ByteArray) : CallArg() {
     override fun equals(other: Any?): Boolean {
       if (this === other) return true
@@ -100,7 +103,8 @@ sealed class CallArg {
     }
   }
 
-  @Serializable data class Object(val arg: ObjectArg) : CallArg()
+  @Serializable(with = CallArgObjectSerializer::class)
+  data class Object(val arg: ObjectArg) : CallArg()
 }
 
 @Serializable
@@ -414,6 +418,7 @@ open class Command {
    * @param address to send the objects to.
    */
   @Serializable
+  @SerialName("")
   data class TransferObjects(val objects: List<Argument>, val address: Argument) : Command()
 
   /**
@@ -422,7 +427,10 @@ open class Command {
    * @param coin to split.
    * @param into the amounts to split the coin into.
    */
-  @Serializable data class SplitCoins(val coin: Argument, val into: List<Argument>) : Command()
+
+  @Serializable
+  @SerialName("")
+  data class SplitCoins(val coin: Argument, val into: List<Argument>) : Command()
 
   /**
    * Merges n-coins into the first coin
@@ -666,10 +674,19 @@ sealed class Argument {
 
   @Serializable data object GasCoin : Argument()
 
-  @Serializable data class Input(val inputObjectOrPrimitiveValue: Int) : Argument()
+  @Serializable data class Input <T> (val inputObjectOrPrimitiveValue: T) : Argument()
 
   @Serializable data class Result(val commandResult: Int) : Argument()
 
   @Serializable
   data class NestedResult(val commandIndex: Int, val returnValueIndex: Int) : Argument()
 }
+
+@Serializable
+data class SenderSignedData(val senderSignedTransactions: List<SenderSignedTransaction>)
+
+@Serializable
+data class SenderSignedTransaction(
+  val intentMessage: IntentMessage<TransactionData>,
+  val txSignatures: List<String>,
+)
