@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import java.util.*
 import kotlinx.coroutines.launch
+import xyz.mcxross.ksui.android.controller.send
 import xyz.mcxross.ksui.client.EndPoint
 import xyz.mcxross.ksui.client.suiHttpClient
 import xyz.mcxross.ksui.model.SuiAddress
@@ -49,7 +50,7 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
 
   val prepSending = remember { mutableStateOf(false) }
 
-  val toAddress = remember { mutableStateOf("") }
+  val recipient = remember { mutableStateOf("") }
 
   LaunchedEffect(key1 = updateTrigger.intValue) {
     balance.longValue = suiHttpClient.getBalance(SuiAddress(keyDetails?.address ?: "")).totalBalance
@@ -100,11 +101,20 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
           .clickable { isBlurred.value = !isBlurred.value },
     )
 
+    if (!isBlurred.value) {
+      Button(
+        onClick = { clipboardManager.setText(AnnotatedString(keyDetails?.phrase ?: "")) },
+        modifier = Modifier.padding(5.dp),
+      ) {
+        Text("Copy Phrase")
+      }
+    }
+
     if (prepSending.value) {
       TextField(
-        value = toAddress.value,
-        onValueChange = { toAddress.value = it },
-        label = { Text("Address") },
+        value = recipient.value,
+        onValueChange = { recipient.value = it },
+        label = { Text("Recipient Address") },
         modifier = Modifier.fillMaxWidth().padding(5.dp),
       )
     }
@@ -112,11 +122,22 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
     // Don't show send btn if user has no balance
     if (balance.longValue > 0) {
       Button(
-        onClick = { prepSending.value = !prepSending.value },
+        onClick = {
+          if (prepSending.value && recipient.value.isNotEmpty()) {
+            coroutineScope.launch {
+              send(
+                keyDetails?.sk ?: "",
+                SuiAddress(keyDetails?.address ?: ""),
+                SuiAddress(recipient.value),
+              )
+            }
+          }
+          prepSending.value = !prepSending.value
+        },
         modifier = Modifier.fillMaxWidth().padding(5.dp),
         shape = RoundedCornerShape(15.dp),
       ) {
-        if (prepSending.value) {
+        if (prepSending.value && recipient.value.isEmpty()) {
           Text("Cancel")
         } else {
           Text("Send")

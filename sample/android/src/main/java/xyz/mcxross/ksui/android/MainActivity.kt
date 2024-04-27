@@ -26,9 +26,15 @@ class MainActivity : ComponentActivity() {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
           var created by remember { mutableStateOf(false) }
           var keyDetails by remember { mutableStateOf<KeyDetails?>(null) }
-
           if (!created) {
-            Wallet(Modifier.padding()) {
+            Wallet(
+              Modifier.padding(),
+              {
+                val details = SuiCommons.derive.importKey(it)
+                keyDetails = details
+                created = true
+              },
+            ) {
               val details = SuiCommons.derive.newKey()
               keyDetails = details
               created = true
