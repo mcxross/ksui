@@ -2,21 +2,22 @@ package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
+import xyz.mcxross.ksui.util.bcs
 
 @Serializable
 data class ProgrammableTransaction(val inputs: List<CallArg>, val commands: List<Command>) :
   TransactionKind()
 
 class ProgrammableTransactionBuilder {
-  private val inputs: MutableMap<BuilderArg, CallArg> = LinkedHashMap()
+  private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
   private val command = Command()
 
-  private fun input(arg: BuilderArg, value: CallArg): Argument.Input {
+  private fun input(arg: BuilderArg, value: CallArg): Argument {
     inputs[arg] = value
-    return Argument.Input(inputs.size - 1)
+    return Argument.Input((inputs.size - 1).toULong())
   }
 
-  fun input(bytes: ByteArray, forceSeparate: Boolean): Argument.Input {
+  fun input(bytes: ByteArray, forceSeparate: Boolean): Argument {
     val arg =
       if (forceSeparate) {
         BuilderArg.ForcedNonUniquePure(inputs.size)
@@ -26,12 +27,12 @@ class ProgrammableTransactionBuilder {
     return input(arg, CallArg.Pure(bytes))
   }
 
-  inline fun <reified T> input(value: T): Argument.Input {
+  inline fun <reified T> input(value: T): Argument {
     val bcs = Bcs {}
     return input(bcs.encodeToByteArray(value), false)
   }
 
-  inline fun <reified T> forceSeparateInput(value: T): Argument.Input {
+  inline fun <reified T> forceSeparateInput(value: T): Argument {
     val bcs = Bcs {}
     return input(bcs.encodeToByteArray(value), true)
   }
@@ -45,9 +46,12 @@ class ProgrammableTransactionBuilder {
   }
 }
 
+@Serializable
 sealed class BuilderArg {
-  data class Object(val objectId: ObjectId) : BuilderArg()
 
+  @Serializable data class Object(val objectId: ObjectId) : BuilderArg()
+
+  @Serializable
   data class Pure(val data: ByteArray) : BuilderArg() {
     override fun equals(other: Any?): Boolean {
       if (this === other) return true
