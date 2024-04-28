@@ -42,7 +42,7 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
   var balance = remember { mutableLongStateOf(0L) }
   val coroutineScope = rememberCoroutineScope()
   val suiHttpClient = remember { suiHttpClient { endpoint = EndPoint.DEVNET } }
-  // This state is used to trigger balance updates.
+  // This state is used to trigger balance.graphql updates.
   val updateTrigger = remember { mutableIntStateOf(0) }
 
   val isBlurred = remember { mutableStateOf(true) }
@@ -55,14 +55,14 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
     balance.longValue = suiHttpClient.getBalance(SuiAddress(keyDetails?.address ?: "")).totalBalance
   }
 
-  // Periodic balance update logic
+  // Periodic balance.graphql update logic
   DisposableEffect(Unit) {
     val timer = Timer()
     timer.schedule(
       object : TimerTask() {
         override fun run() {
           coroutineScope.launch {
-            // Increment the trigger to refresh the balance
+            // Increment the trigger to refresh the balance.graphql
             updateTrigger.intValue += 1
           }
         }
@@ -118,7 +118,7 @@ fun Account(context: Context, keyDetails: KeyDetails?) {
       )
     }
 
-    // Don't show send btn if user has no balance
+    // Don't show send btn if user has no balance.graphql
     if (balance.longValue > 0) {
       Button(
         onClick = {

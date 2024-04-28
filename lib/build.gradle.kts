@@ -3,19 +3,22 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.signing
 import org.jetbrains.dokka.gradle.DokkaTask
+import xyz.mcxross.graphql.plugin.gradle.config.GraphQLSerializer
+import xyz.mcxross.graphql.plugin.gradle.graphql
 
 plugins {
   kotlin("multiplatform")
   id("com.android.library")
   kotlin("plugin.serialization")
   id("org.jetbrains.dokka")
+  id("xyz.mcxross.graphql")
   id("maven-publish")
   id("signing")
 }
 
 group = "xyz.mcxross.ksui"
 
-version = "1.3.4"
+version = "2.0.0-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -70,6 +73,7 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
+      implementation(libs.graphql.multiplatform.client)
     }
 
     commonTest.dependencies {
@@ -88,6 +92,14 @@ kotlin {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+graphql {
+  client {
+    endpoint = "https://sui-devnet.mystenlabs.com/graphql"
+    packageName = "xyz.mcxross.ksui.generated"
+    serializer = GraphQLSerializer.KOTLINX
+  }
+}
 
 android {
   namespace = "mcxross.ksui"

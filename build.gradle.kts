@@ -1,6 +1,6 @@
 group = "xyz.mcxross.ksui"
 
-version = "1.3.4"
+version = "2.0.0-SNAPSHOT"
 
 plugins {
   kotlin("jvm") apply false
@@ -9,6 +9,7 @@ plugins {
   kotlin("multiplatform") apply false
   kotlin("plugin.serialization") apply false
   id("org.jetbrains.dokka") version "1.9.10" apply false
+  id("xyz.mcxross.graphql") version "1.0.0-SNAPSHOT" apply false
 }
 
 repositories {

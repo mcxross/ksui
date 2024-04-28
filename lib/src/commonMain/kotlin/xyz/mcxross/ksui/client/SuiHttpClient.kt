@@ -245,7 +245,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
-   * Return the total coin balance for all coin type, owned by the address owner.
+   * Return the total coin balance.graphql for all coin type, owned by the address owner.
    *
    * @param owner's Sui address.
    * @return [List<[Balance]>]
@@ -258,7 +258,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
   }
 
   /**
-   * Return the total coin balance for one coin type, owned by the address owner.
+   * Return the total coin balance.graphql for one coin type, owned by the address owner.
    *
    * @param owner's Sui address.
    * @param coinType names for the coin. Defaults to "0x2::sui::SUI"
@@ -1001,7 +1001,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    *
    * @param signer The transaction signer's Sui address.
    * @param primaryCoin The coin object to merge into, this coin will remain after the transaction.
-   * @param coinToMerge The coin object to be merged, this coin will be destroyed, the balance will
+   * @param coinToMerge The coin object to be merged, this coin will be destroyed, the balance.graphql will
    *   be added to `[primaryCoin]`.
    * @param gas The gas object to be used in this transaction, node will pick one from the signer's
    *   possession if not provided.
@@ -1137,7 +1137,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * This is for SUI coin only and does not require a separate gas coin object. Specifically, what
    * pay_all_sui does are: 1. accumulate all SUI from input coins and deposit all SUI to the first
    * input coin 2. transfer the updated first coin to the recipient and also use this first coin as
-   * gas coin object. 3. the balance of the first input coin after tx is sum(input_coins) -
+   * gas coin object. 3. the balance.graphql of the first input coin after tx is sum(input_coins) -
    * actual_gas_cost. 4. all other input coins other than the first are deleted.
    *
    * @param signer The transaction signer's Sui address.
@@ -1178,7 +1178,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * pay_sui does are: 1. debit each input_coin to create new coin following the order of amounts
    * and assign it to the corresponding recipient. 2. accumulate all residual SUI from input coins
    * left and deposit all SUI to the first input coin, then use the first input coin as the gas coin
-   * object. 3. the balance of the first input coin after tx is sum(input_coins) - sum(amounts) -
+   * object. 3. the balance.graphql of the first input coin after tx is sum(input_coins) - sum(amounts) -
    * actual_gas_cost 4. all other input coints other than the first one are deleted.
    *
    * @param signer The transaction signer's Sui address.
