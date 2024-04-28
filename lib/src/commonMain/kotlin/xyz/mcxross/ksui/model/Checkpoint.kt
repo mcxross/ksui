@@ -7,6 +7,7 @@ import kotlinx.serialization.Transient
 @Serializable
 data class CheckpointId(
   val digest: String,
+  val sequenceNumber: Long
 )
 
 @Serializable
