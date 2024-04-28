@@ -14,6 +14,6 @@ fun String.toSuiAddress(): SuiAddress = SuiAddress(this)
 /** Extension functions to create [Argument.Input]s from various types. */
 inline fun <reified T : Any> ProgrammableTransactionBuilder.inputs(
   vararg inputs: T
-): List<Argument.Input> {
+): List<Argument> {
   return inputs.map { input(it) }
 }

@@ -68,9 +68,9 @@ data class ValidatorMetadata(
  * @property stakingPoolId The staking pool ID of the validator.
  * @property stakingPoolActivationEpoch The staking pool activation epoch of the validator.
  * @property stakingPoolDeactivationEpoch The staking pool deactivation epoch of the validator.
- * @property stakingPoolSuiBalance The SUI balance of the staking pool of the validator.
+ * @property stakingPoolSuiBalance The SUI balance.graphql of the staking pool of the validator.
  * @property rewardsPool The rewards pool of the validator.
- * @property poolTokenBalance The pool token balance of the validator.
+ * @property poolTokenBalance The pool token balance.graphql of the validator.
  * @property pendingStake The pending stake of the validator.
  * @property pendingTotalSuiWithdraw The pending total SUI withdraw of the validator.
  * @property pendingPoolTokenWithdraw The pending pool token withdraw of the validator.
