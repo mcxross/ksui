@@ -3,6 +3,7 @@ pluginManagement {
     google()
     gradlePluginPortal()
     mavenCentral()
+    maven(url = "../repo")
     mavenLocal()
   }
 
