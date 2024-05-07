@@ -16,7 +16,7 @@ enum class IntentScope {
 
 @Serializable
 enum class IntentVersion {
-  V0,
+  V0
 }
 
 @Serializable
@@ -26,7 +26,15 @@ enum class AppId {
 }
 
 @Serializable
-data class Intent(val scope: IntentScope, val version: IntentVersion, val appId: AppId)
+data class Intent(val scope: IntentScope, val version: IntentVersion, val appId: AppId) {
+  companion object {
+    fun suiApp(scope: IntentScope): Intent = Intent(scope, IntentVersion.V0, AppId.SUI)
+
+    fun suiTransaction(): Intent = Intent(IntentScope.TRANSACTIONDATA, IntentVersion.V0, AppId.SUI)
+
+    fun personalMessage(): Intent = Intent(IntentScope.PERSONALMESSAGE, IntentVersion.V0, AppId.SUI)
+  }
+}
 
 @Serializable data class IntentMessage<T>(val intent: Intent, val value: T)
 

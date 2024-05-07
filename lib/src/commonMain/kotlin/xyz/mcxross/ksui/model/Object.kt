@@ -4,11 +4,114 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.model.serializer.ObjectResponseSerializer
 import xyz.mcxross.ksui.model.serializer.OwnerSerializer
+import xyz.mcxross.ksui.model.serializer.SuiAddressSerializer
+import xyz.mcxross.ksui.util.decodeBase58
 
 @Serializable data class ObjectId(val hash: String)
 
 @Serializable
-data class ObjectReference(val objectId: String, val version: Long, val digest: String)
+data class ObjectReference(val reference: Reference, val version: Long, val digest: ObjectDigest)
+
+@Serializable data class Reference(val accountAddress: AccountAddress)
+
+@Serializable
+data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val data: ByteArray) {
+
+  constructor(s: String) : this(fromString(s).data)
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || this::class != other::class) return false
+
+    other as AccountAddress
+
+    return data.contentEquals(other.data)
+  }
+
+  override fun hashCode(): Int {
+    return data.contentHashCode()
+  }
+
+  override fun toString(): String {
+    return data.toString()
+  }
+
+  companion object {
+
+    private const val LENGTH: Int = 32
+
+    val EMPTY = AccountAddress(ByteArray(LENGTH))
+
+    fun fromString(s: String): AccountAddress {
+      return try {
+        fromHexLiteral(s)
+      } catch (e: Exception) {
+        fromHex(s)
+      }
+    }
+
+    private fun fromHexLiteral(literal: String): AccountAddress {
+      require(literal.startsWith("0x")) { "Address must start with 0x" }
+
+      val hexLen = literal.length - 2
+
+      // If the string is too short, pad it
+      return if (hexLen < LENGTH * 2) {
+        val hexStr = StringBuilder(LENGTH * 2)
+        for (i in 0 until LENGTH * 2 - hexLen) {
+          hexStr.append('0')
+        }
+        hexStr.append(literal.substring(2))
+        fromHex(hexStr.toString())
+      } else {
+        fromHex(literal.substring(2))
+      }
+    }
+
+    private fun fromHex(hex: String): AccountAddress {
+      val bytes = ByteArray(hex.length / 2) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+      require(bytes.size == LENGTH) { "Address must be $LENGTH bytes long, but was ${bytes.size}" }
+      return AccountAddress(bytes)
+    }
+  }
+}
+
+@Serializable data class ObjectDigest(val digest: Digest)
+
+@Serializable
+data class Digest(val data: ByteArray) {
+
+  constructor(data: String) : this(fromString(data).data)
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || this::class != other::class) return false
+
+    other as Digest
+
+    return data.contentEquals(other.data)
+  }
+
+  override fun hashCode(): Int {
+    return data.contentHashCode()
+  }
+
+  override fun toString(): String {
+    return data.toString()
+  }
+
+  companion object {
+    fun fromString(s: String): Digest {
+      val buffer = s.decodeBase58()
+
+      if (buffer.size != 32) {
+        throw IllegalArgumentException("Digest must be 32 bytes long, but was ${buffer.size}")
+      }
+
+      return Digest(buffer)
+    }
+  }
+}
 
 @Serializable
 data class Object(
@@ -16,12 +119,7 @@ data class Object(
   val reference: ObjectReference,
 )
 
-@Serializable
-data class SharedObject(
-  val objectId: String,
-  val version: Long,
-  val digest: String,
-)
+@Serializable data class SharedObject(val objectId: String, val version: Long, val digest: String)
 
 data class SuiObjectInfo(
   var objectId: String,
@@ -36,6 +134,7 @@ data class SuiObjectInfo(
 abstract class ObjectChange {
   abstract val type: String
   abstract val sender: String
+
   @Serializable(with = OwnerSerializer::class) abstract val owner: Owner
   abstract val objectType: String
   abstract val objectId: String
@@ -123,10 +222,8 @@ sealed class ObjectResponse {
   ) : ObjectResponse()
 
   @Serializable
-  data class ObjectResponseError(
-    val code: String,
-    @SerialName("object_id") val objectId: String,
-  ) : ObjectResponse()
+  data class ObjectResponseError(val code: String, @SerialName("object_id") val objectId: String) :
+    ObjectResponse()
 }
 
 @Serializable
@@ -160,7 +257,7 @@ data class ObjectInfo(
   val type: String,
   /*val owner: Owner,*/
   val previousTransaction: String,
-  val storageRebateL: String
+  val storageRebateL: String,
 )
 
 @Serializable data class ObjectData(val data: ObjectInfo)
@@ -169,7 +266,7 @@ data class ObjectInfo(
 data class ObjectsPage(
   val data: List<ObjectData>,
   val nextCursor: String? = null,
-  val hasNextPage: Boolean
+  val hasNextPage: Boolean,
 )
 
 @Serializable data class LoadedChildObject(val objectId: String, val sequenceNumber: String)

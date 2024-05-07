@@ -7,6 +7,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 import xyz.mcxross.ksui.util.getKtorLogLevel
 import xyz.mcxross.ksui.util.getKtorLogger
 
@@ -31,7 +32,15 @@ data class ConfigContainer(
     HttpClient(selectedEngine) {
       followRedirects = followRedirectsWrapper
       install(UserAgent) { agent = agentName }
-      install(ContentNegotiation) { json() }
+      install(ContentNegotiation) {
+        json(
+          Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+          }
+        )
+      }
       install(HttpRequestRetry) {
         retryOnServerErrors(maxRetries = maxRetries)
         exponentialDelay()

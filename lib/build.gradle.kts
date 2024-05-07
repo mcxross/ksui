@@ -70,6 +70,7 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
+      implementation(libs.kase64)
     }
 
     commonTest.dependencies {

@@ -21,7 +21,7 @@ object EventFilterSerializer : KSerializer<EventFilter> {
     val json =
       when (value) {
         is EventFilter.All -> buildJsonObject { putJsonArray("All") {} }
-        is EventFilter.Transaction -> buildJsonObject { put("Transaction", value.digest.value) }
+        is EventFilter.Transaction -> buildJsonObject { put("Transaction", value.digest.toString()) }
         is EventFilter.MoveModule ->
           buildJsonObject {
             putJsonObject("MoveModule") {
@@ -30,7 +30,7 @@ object EventFilterSerializer : KSerializer<EventFilter> {
             }
           }
         is EventFilter.MoveEvent -> buildJsonObject { put("MoveEvent", value.struct) }
-        is EventFilter.Sender -> buildJsonObject { put("Sender", value.address.pubKey) }
+        is EventFilter.Sender -> buildJsonObject { put("Sender", value.address.toString()) }
         is EventFilter.Package -> buildJsonObject { put("Package", value.id) }
         is EventFilter.TimeRange ->
           buildJsonObject {

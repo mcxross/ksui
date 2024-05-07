@@ -251,7 +251,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @return [List<[Balance]>]
    */
   suspend fun getAllBalances(owner: SuiAddress): List<Balance> {
-    when (val result = call<Response<List<Balance>>>("suix_getAllBalances", owner.pubKey)) {
+    when (val result = call<Response<List<Balance>>>("suix_getAllBalances", owner.toString())) {
       is Response.Ok -> return result.data
       is Response.Error -> throw SuiException(result.message)
     }
@@ -266,7 +266,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    */
   suspend fun getBalance(owner: SuiAddress, coinType: String = "0x2::sui::SUI"): Balance {
     val resp =
-      call<Response<Balance>>("suix_getBalance", *listOf(owner.pubKey, coinType).toTypedArray())
+      call<Response<Balance>>("suix_getBalance", *listOf(owner.toString(), coinType).toTypedArray())
     when (resp) {
       is Response.Ok -> return resp.data
       is Response.Error -> throw SuiException(resp.message)
@@ -286,7 +286,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       val resp =
         call<Response<CoinPage>>(
           "suix_getAllCoins",
-          *listOf(owner.pubKey, cursor, limit).toTypedArray(),
+          *listOf(owner.toString(), cursor, limit).toTypedArray(),
         )
     ) {
       is Response.Ok -> return resp.data
@@ -396,13 +396,13 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     owner: SuiAddress,
     coinType: String? = null,
     cursor: Int? = null,
-    limit: Int,
+    limit: Int? = null,
   ): CoinPage {
     when (
       val resp =
         call<Response<CoinPage>>(
           "suix_getCoins",
-          *listOf(owner.pubKey, coinType, cursor, limit).toTypedArray(),
+          *listOf(owner.toString(), coinType, cursor, limit).toTypedArray(),
         )
     ) {
       is Response.Ok -> return resp.data
@@ -488,7 +488,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val resp =
       call<Response<ObjectsPage>>(
         "suix_getOwnedObjects",
-        address.pubKey,
+        address.toString(),
         json.encodeToJsonElement(serializer(), query),
         cursor,
         limit,
@@ -660,7 +660,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
    * @throws SuiException if there is an error retrieving the stakes.
    */
   suspend fun getStakes(owner: SuiAddress): List<DelegatedStake> {
-    when (val resp = call<Response<List<DelegatedStake>>>("suix_getStakes", owner.pubKey)) {
+    when (val resp = call<Response<List<DelegatedStake>>>("suix_getStakes", owner.toString())) {
       is Response.Ok -> return resp.data
       is Response.Error -> throw SuiException(resp.message)
     }
@@ -986,7 +986,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       val resp =
         call<Response<NameServicePage>>(
           "suix_resolveNameServiceNames",
-          address.pubKey,
+          address.toString(),
           cursor?.hash,
           limit,
         )
@@ -1019,7 +1019,13 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val resp =
       call<Response<TransactionBlockBytes>>(
         "unsafe_mergeCoins",
-        *listOf(signer.pubKey, primaryCoin.hash, coinToMerge.hash, gas?.hash, gasBudget.toString())
+        *listOf(
+            signer.toString(),
+            primaryCoin.hash,
+            coinToMerge.hash,
+            gas?.hash,
+            gasBudget.toString(),
+          )
           .toTypedArray(),
       )
     when (resp) {
@@ -1061,7 +1067,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_moveCall",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             packageObjectId.hash,
             module,
             function,
@@ -1110,9 +1116,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_pay",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             inputCoins.map { it.hash },
-            recipients.map { it.pubKey },
+            recipients.map { it.toString() },
             amounts.map { it.toString() },
             gas?.hash,
             gasBudget.toString(),
@@ -1151,7 +1157,12 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val resp =
       call<Response<TransactionBlockBytes>>(
         "unsafe_payAllSui",
-        *listOf(signer.pubKey, inputCoins.map { it.hash }, recipient.pubKey, gasBudget.toString())
+        *listOf(
+            signer.toString(),
+            inputCoins.map { it.hash },
+            recipient.toString(),
+            gasBudget.toString(),
+          )
           .toTypedArray(),
       )
     when (resp) {
@@ -1190,9 +1201,9 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_paySui",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             inputCoins.map { it.hash },
-            recipients.map { it.pubKey },
+            recipients.map { it.toString() },
             amounts.map { it.toString() },
             gasBudget.toString(),
           )
@@ -1228,7 +1239,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_publish",
         *listOf(
-            sender.pubKey,
+            sender.toString(),
             compiledModules,
             dependencies.map { it.hash },
             gas?.hash,
@@ -1268,10 +1279,10 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_requestAddStake",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             coins.map { it.hash },
             amount.toString(),
-            validator.pubKey,
+            validator.toString(),
             gas?.hash,
             gasBudget.toString(),
           )
@@ -1304,7 +1315,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val resp =
       call<Response<TransactionBlockBytes>>(
         "unsafe_requestWithdrawStake",
-        *listOf(signer.pubKey, stakedSui.hash, gas?.hash, gasBudget.toString()).toTypedArray(),
+        *listOf(signer.toString(), stakedSui.hash, gas?.hash, gasBudget.toString()).toTypedArray(),
       )
     when (resp) {
       is Response.Ok -> return resp.data
@@ -1335,7 +1346,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_splitCoin",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             coinObjectId.hash,
             splitAmounts.map { it.toString() },
             gas?.hash,
@@ -1372,7 +1383,7 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_splitCoinEqual",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             coinObjectId.hash,
             splitCount.toString(),
             gas?.hash,
@@ -1409,7 +1420,13 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
     val resp =
       call<Response<TransactionBlockBytes>>(
         "unsafe_transferObject",
-        *listOf(signer.pubKey, objectId.hash, gas?.hash, gasBudget.toString(), recipient.pubKey)
+        *listOf(
+            signer.toString(),
+            objectId.hash,
+            gas?.hash,
+            gasBudget.toString(),
+            recipient.toString(),
+          )
           .toTypedArray(),
       )
     when (resp) {
@@ -1441,10 +1458,10 @@ class SuiHttpClient(override val configContainer: ConfigContainer) : SuiClient {
       call<Response<TransactionBlockBytes>>(
         "unsafe_transferSui",
         *listOf(
-            signer.pubKey,
+            signer.toString(),
             suiObjectId.hash,
             gasBudget.toString(),
-            recipient.pubKey,
+            recipient.toString(),
             amount.toString(),
           )
           .toTypedArray(),
