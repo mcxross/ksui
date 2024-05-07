@@ -30,7 +30,7 @@ suspend fun SuiHttpClient.requestTestTokens(owner: SuiAddress): FaucetResponse {
 
       contentType(ContentType.Application.Json)
       setBody(
-        buildJsonObject { putJsonObject("FixedAmountRequest") { put("recipient", owner.pubKey) } }
+        buildJsonObject { putJsonObject("FixedAmountRequest") { put("recipient", owner.toString()) } }
           .toString()
       )
     }

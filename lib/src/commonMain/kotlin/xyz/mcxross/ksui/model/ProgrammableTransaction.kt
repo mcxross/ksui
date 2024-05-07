@@ -2,11 +2,13 @@ package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
-import xyz.mcxross.ksui.util.bcs
+import xyz.mcxross.ksui.model.serializer.AnySerializer
 
 @Serializable
-data class ProgrammableTransaction(val inputs: List<CallArg>, val commands: List<Command>) :
-  TransactionKind()
+data class ProgrammableTransaction(
+  val inputs: List<@Serializable(with = AnySerializer::class) Any>,
+  val commands: List<@Serializable(with = AnySerializer::class) Any>,
+) : TransactionKind()
 
 class ProgrammableTransactionBuilder {
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
@@ -14,7 +16,7 @@ class ProgrammableTransactionBuilder {
 
   private fun input(arg: BuilderArg, value: CallArg): Argument {
     inputs[arg] = value
-    return Argument.Input((inputs.size - 1).toULong())
+    return Argument.Input((inputs.size - 1).toUShort())
   }
 
   fun input(bytes: ByteArray, forceSeparate: Boolean): Argument {
@@ -24,7 +26,7 @@ class ProgrammableTransactionBuilder {
       } else {
         BuilderArg.Pure(bytes)
       }
-    return input(arg, CallArg.Pure(bytes))
+    return input(arg, CallArg.Pure(data = bytes))
   }
 
   inline fun <reified T> input(value: T): Argument {

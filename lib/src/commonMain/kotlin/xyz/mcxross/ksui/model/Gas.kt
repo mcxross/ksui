@@ -19,7 +19,7 @@ data class GasUsed(
 @Serializable
 data class GasData(
   val payment: List<ObjectReference>,
-  val owner: String,
+  val owner: SuiAddress,
   val price: ULong,
   val budget: ULong,
 )

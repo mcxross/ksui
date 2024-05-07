@@ -33,17 +33,17 @@ object TransactionFilterSerializer : KSerializer<TransactionFilter> {
         is TransactionFilter.ChangedObject ->
           buildJsonObject { put("ChangedObject", value.objectId.hash) }
         is TransactionFilter.FromAddress ->
-          buildJsonObject { put("FromAddress", value.address.pubKey) }
-        is TransactionFilter.ToAddress -> buildJsonObject { put("ToAddress", value.address.pubKey) }
+          buildJsonObject { put("FromAddress", value.address.toString()) }
+        is TransactionFilter.ToAddress -> buildJsonObject { put("ToAddress", value.address.toString()) }
         is TransactionFilter.FromAndToAddress ->
           buildJsonObject {
             putJsonObject("FromAndToAddress") {
-              put("from", value.fromAddress.pubKey)
-              put("to", value.toAddress.pubKey)
+              put("from", value.fromAddress.toString())
+              put("to", value.toAddress.toString())
             }
           }
         is TransactionFilter.FromOrToAddress ->
-          buildJsonObject { put("FromOrToAddress", value.suiAddress.pubKey) }
+          buildJsonObject { put("FromOrToAddress", value.suiAddress.toString()) }
         else -> {
           throw Exception("TransactionFilterSerializer: Unknown TransactionFilter type")
         }

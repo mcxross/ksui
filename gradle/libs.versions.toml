@@ -1,4 +1,5 @@
 [versions]
+kase64 = "1.1.1"
 ktor = "2.3.7"
 junit = "5.8.1"
 
@@ -6,6 +7,7 @@ junit = "5.8.1"
 bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.1-SNAPSHOT" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+kase64 = { module = "de.peilicke.sascha:kase64", version.ref = "kase64" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
