@@ -69,15 +69,12 @@ JS:
 implementation("xyz.mcxross.ksui:ksui-js:<$ksui_version>")
 ```
 
-##### RPC HTTP Client
+### Initialization
 
-Create a new instance of the Sui RPC HTTP Client. The client supports both DSL and command-query styles for client
-creation and RPC calls respectively as shown below:
+First, you need to create a new instance of the Sui RPC HTTP Client as shown below:
 
 ```kotlin
 val sui = Sui()
-
-val balance = sui.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
 ```
 
 In case you want to configure the client, you can do so as shown below:
@@ -86,6 +83,44 @@ In case you want to configure the client, you can do so as shown below:
 val config = SuiConfig(settings = SuiSettings(network = Network.MAINNET))
 val sui = Sui(config)
 ```
+
+Now you can use the `sui` instance to interact with the Sui chain for reading and writing.
+
+### Reading from the chain
+
+Once you have initialized the client, you can use it to read from the chain. For example, to get the balance of an address:
+
+```kotlin
+val balance = sui.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
+```
+
+### Writing to the chain (PTBs)
+
+To write to the chain, you need to create a `Transaction` and sign it with the private key of the sender. A transaction, among its metadata,
+is made up of PTBs which are a chain of commands that are executed by the chain. For example, to construct a PTB that *splits* a
+coin and *sends* it to another address, you can do so as shown below:
+
+```kotlin
+val ptb = programmableTx {
+    command {
+        // Split the coin
+        val splitCoins = splitCoins {
+            coin = Argument.GasCoin
+            into = listOf(input(1_000UL)) 
+        }
+        
+        // Send the split coin to the receiver
+        transferObjects { 
+            objects = listOf(splitCoins)
+            to = input(SuiAddress("0xad4c...aeb4")) 
+        }
+    }
+  }
+
+// Now, we can create the transaction data
+val txData = TransactionData.programmable(sender, listOf(senderCoins pick 0), ptb, 5_000_000UL, gasPrice)
+```
+
 
 For more information, please see the [documentation](https://mcxross.github.io/ksui/).
 
