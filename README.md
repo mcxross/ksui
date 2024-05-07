@@ -6,8 +6,10 @@ utilities for interacting with a Sui Full node.
 This library is intended to be the highest quality publicly available library for interacting with Sui on any
 Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
 
-![Version](https://img.shields.io/badge/Version-1.3.2-blue.svg)
+![Build](https://img.shields.io/badge/Build-v2.0.1-blue.svg)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
+![Snapshot](https://img.shields.io/nexus/s/xyz.mcxross.ksui/ksui?server=https%3A%2F%2Fs01.oss.sonatype.org&label=Snapshot)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 ![badge-android](http://img.shields.io/badge/Platform-Android-brightgreen.svg?logo=android)
