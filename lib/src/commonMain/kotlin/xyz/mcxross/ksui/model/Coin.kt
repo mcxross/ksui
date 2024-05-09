@@ -23,11 +23,25 @@ data class CoinData(
   val balance: Long,
   val lockedUntilEpoch: Long? = null,
   val previousTransaction: String?,
-)
+) {
+  fun objectReference() =
+    ObjectReference(Reference(AccountAddress(coinObjectId)), version, ObjectDigest(Digest(digest)))
+}
 
 @Serializable
 data class CoinPage(
   val data: List<CoinData> = emptyList(),
   val nextCursor: String? = null,
   val hasNextPage: Boolean,
-)
+) {
+  fun at(index: Int = 0): ObjectReference {
+    val coin = data.getOrNull(index)
+    if (coin != null) {
+      return coin.objectReference()
+    } else {
+      throw IndexOutOfBoundsException("Index $index is out of bounds.")
+    }
+  }
+
+  infix fun pick(index: Int) = at(index)
+}
