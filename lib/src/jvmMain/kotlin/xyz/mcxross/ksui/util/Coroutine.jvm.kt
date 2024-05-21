@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package xyz.mcxross.kaptos.util
+package xyz.mcxross.ksui.util
 
-import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 
 actual fun <T> runBlocking(context: CoroutineContext, block: suspend CoroutineScope.() -> T) {
   kotlinx.coroutines.runBlocking(context, block)
