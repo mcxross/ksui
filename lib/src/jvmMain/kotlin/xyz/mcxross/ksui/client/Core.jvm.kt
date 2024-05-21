@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.mcxross.kaptos.client
+package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -22,11 +22,8 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.cache.*
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
-import xyz.mcxross.kaptos.model.UserAgent
-import xyz.mcxross.kaptos.util.DEFAULT_CLIENT_HEADERS
 
 /** Create a new Ktor client with the given configuration. */
 actual fun httpClient(clientConfig: ClientConfig) =
@@ -35,9 +32,7 @@ actual fun httpClient(clientConfig: ClientConfig) =
     // Set the follow redirects and SSL redirects.
     followRedirects = clientConfig.followRedirects
 
-    install(DefaultRequest) {
-      headers { DEFAULT_CLIENT_HEADERS.forEach { (key, value) -> append(key, value) } }
-    }
+    install(DefaultRequest) {}
 
     // Set the user agent. If the user wants to use a like agent, use that instead, otherwise use
     // the user's agent.
@@ -45,8 +40,8 @@ actual fun httpClient(clientConfig: ClientConfig) =
       install(UserAgent) { agent = clientConfig.agent }
     } else {
       when (clientConfig.likeAgent) {
-        UserAgent.BROWSER -> BrowserUserAgent()
-        UserAgent.CURL -> CurlUserAgent()
+        xyz.mcxross.ksui.model.UserAgent.BROWSER -> BrowserUserAgent()
+        xyz.mcxross.ksui.model.UserAgent.CURL -> CurlUserAgent()
         else -> {
           install(UserAgent) { agent = clientConfig.agent }
         }
@@ -130,11 +125,11 @@ actual class ClientConfig {
   /** Enables or disables caching. Default is `false`. */
   var cache: Boolean = false
 
-  /** Specifies the user agent. Default is `Kaptos`. */
-  var agent: String = "Kaptos/JVM"
+  /** Specifies the user agent. Default is `Ksui`. */
+  var agent: String = "Ksui/JVM"
 
   /** Use a like agent. If this is set, the `agent` field will be ignored. */
-  var likeAgent: UserAgent? = null
+  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null
 
   /** Specifies a timeout for a whole HTTP call, from sending a request to receiving a response. */
   var requestTimeout = 10000L
