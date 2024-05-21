@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.mcxross.kaptos.client
+package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -22,10 +22,8 @@ import io.ktor.client.engine.js.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.cache.*
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
-import xyz.mcxross.kaptos.util.DEFAULT_CLIENT_HEADERS
 
 actual fun httpClient(clientConfig: ClientConfig) =
   HttpClient(Js) {
@@ -34,7 +32,7 @@ actual fun httpClient(clientConfig: ClientConfig) =
     followRedirects = clientConfig.followRedirects
 
     install(DefaultRequest) {
-      headers { DEFAULT_CLIENT_HEADERS.forEach { (key, value) -> append(key, value) } }
+      // headers { DEFAULT_CLIENT_HEADERS.forEach { (key, value) -> append(key, value) } }
     }
 
     // Set the user agent. If the user wants to use a like agent, use that instead, otherwise use
@@ -43,8 +41,8 @@ actual fun httpClient(clientConfig: ClientConfig) =
       install(UserAgent) { agent = clientConfig.agent }
     } else {
       when (clientConfig.likeAgent) {
-        xyz.mcxross.kaptos.model.UserAgent.BROWSER -> BrowserUserAgent()
-        xyz.mcxross.kaptos.model.UserAgent.CURL -> CurlUserAgent()
+        xyz.mcxross.ksui.model.UserAgent.BROWSER -> BrowserUserAgent()
+        xyz.mcxross.ksui.model.UserAgent.CURL -> CurlUserAgent()
         else -> {
           install(UserAgent) { agent = clientConfig.agent }
         }
@@ -77,9 +75,9 @@ actual class ClientConfig {
 
   var followRedirects: Boolean = true
 
-  var likeAgent: xyz.mcxross.kaptos.model.UserAgent? = null
+  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null
 
-  var agent: String = "Kaptos/Js"
+  var agent: String = "Ksui/Js"
 
   var requestTimeout = 10000L
 
