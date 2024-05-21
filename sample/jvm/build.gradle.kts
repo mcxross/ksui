@@ -16,6 +16,7 @@ kotlin { jvmToolchain(17) }
 
 dependencies {
   implementation(project(":ksui"))
+  implementation(libs.ktor.serialization.kotlinx.json)
   testImplementation(libs.junit.jupiter.api)
   testRuntimeOnly(libs.junit.jupiter.engine)
 }

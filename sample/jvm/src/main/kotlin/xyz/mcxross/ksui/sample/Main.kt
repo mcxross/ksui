@@ -1,15 +1,16 @@
 package xyz.mcxross.ksui.sample
 
-import xyz.mcxross.ksui.client.EndPoint
-import xyz.mcxross.ksui.client.suiHttpClient
-import xyz.mcxross.ksui.model.SuiAddress
+import xyz.mcxross.ksui.Sui
+import xyz.mcxross.ksui.model.Network
+import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.SuiSettings
 
 suspend fun main() {
-  val suiRpcClient = suiHttpClient {
-    endpoint = EndPoint.DEVNET
-    agentName = "KSUI/0.0.1"
-    maxRetries = 10
-  }
-  println("Balance: " + suiRpcClient.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b")))
-  println("Coin meta data: " + suiRpcClient.getCoinMetadata("0x2::sui::SUI"))
+
+  // Create a new instance of Sui with the testnet network. Defaults to DEVNET if not specified.
+  val sui = Sui(config = SuiConfig(settings = SuiSettings(Network.TESTNET)))
+
+  val committeeInfo = sui.getCommitteeInfo()
+
+  println("Committee Info for current epoch: $committeeInfo")
 }
