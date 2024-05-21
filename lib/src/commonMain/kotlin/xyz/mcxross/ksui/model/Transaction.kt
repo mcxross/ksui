@@ -185,7 +185,7 @@ data class TransactionBlockData(
 
 @Serializable
 data class DryRunTransactionBlockResponse(
-  // val effects: TransactionBlockEffects,
+  val effects: TransactionBlockEffects,
   val events: List<Event>,
   @Serializable(with = ObjectChangeSerializer::class) val objectChanges: List<ObjectChange>,
   @Serializable(with = ObjectChangeSerializer::class) val balanceChanges: List<BalanceChange>,
