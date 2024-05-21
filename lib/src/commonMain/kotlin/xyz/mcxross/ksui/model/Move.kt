@@ -1,28 +1,31 @@
+/*
+ * Copyright 2024 McXross
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package xyz.mcxross.ksui.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.model.serializer.ModuleExposedFunctionsSerializer
-import xyz.mcxross.ksui.model.serializer.MoveFunctionArgTypeSerializer
-import xyz.mcxross.ksui.model.serializer.MoveNormalizedFunctionParameterSerializer
-import xyz.mcxross.ksui.model.serializer.ToStringSerializer
+import xyz.mcxross.ksui.serializer.MoveFunctionArgTypeSerializer
+import xyz.mcxross.ksui.serializer.MoveNormalizedFunctionParameterSerializer
 
 @Serializable(with = MoveFunctionArgTypeSerializer::class)
 abstract class MoveFunctionArgType {
-  @Serializable
-  data class MoveFunctionArgDefault(
-    val default: String,
-  ) : MoveFunctionArgType()
+  @Serializable data class MoveFunctionArgDefault(val default: String) : MoveFunctionArgType()
 
-  @Serializable
-  data class MoveFunctionArgObject(
-    val objekt: String,
-  ) : MoveFunctionArgType()
+  @Serializable data class MoveFunctionArgObject(val objekt: String) : MoveFunctionArgType()
 
-  @Serializable
-  data class MoveFunctionArgString(
-    val str: String,
-  ) : MoveFunctionArgType()
+  @Serializable data class MoveFunctionArgString(val str: String) : MoveFunctionArgType()
 }
 
 @Serializable(with = MoveNormalizedFunctionParameterSerializer::class)
@@ -64,11 +67,8 @@ abstract class MoveFunctionParameter {
   }
 
   @Serializable
-  data class Struct(
-    val address: String,
-    val module: String,
-    val name: String,
-  ) : MoveFunctionParameter()
+  data class Struct(val address: String, val module: String, val name: String) :
+    MoveFunctionParameter()
 
   @Serializable
   class MutableReference : MoveFunctionParameter() {
@@ -94,10 +94,7 @@ abstract class MoveFunctionParameter {
     }
   }
 
-  @Serializable
-  data class Vector(
-    val of: MoveFunctionParameter,
-  ) : MoveFunctionParameter()
+  @Serializable data class Vector(val of: MoveFunctionParameter) : MoveFunctionParameter()
 
   @Serializable
   class Address : MoveFunctionParameter() {
@@ -110,34 +107,3 @@ abstract class MoveFunctionParameter {
     return "MoveFunctionParameter"
   }
 }
-
-@Serializable data class SuiMoveAbilitySet(val abilities: List<String> = emptyList())
-
-@Serializable
-data class MoveNormalizedFunction(
-  val visibility: String,
-  val isEntry: Boolean,
-  val typeParameters: List<SuiMoveAbilitySet> = emptyList(),
-  val parameters: List<MoveFunctionParameter> = emptyList(),
-  @SerialName("return") val returnType: List<MoveFunctionParameter>,
-)
-
-@Serializable
-data class Friend(
-  val address: String,
-  val name: String,
-)
-
-@Serializable
-data class ModuleExposedFunction(val name: String, val normalized: MoveNormalizedFunction)
-
-@Serializable
-data class MoveNormalizedModule(
-  val fileFormatVersion: Long,
-  val address: String,
-  val name: String,
-  val friends: List<Friend> = emptyList(),
-  @Serializable(with = ToStringSerializer::class) val structs: String,
-  @Serializable(with = ModuleExposedFunctionsSerializer::class)
-  val exposedFunctions: List<ModuleExposedFunction> = emptyList(),
-)
