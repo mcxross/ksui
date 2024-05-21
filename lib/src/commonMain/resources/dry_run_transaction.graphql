@@ -1,0 +1,48 @@
+query DryRunTransaction($txBytes: String!, $txMeta: TransactionMetadata, $skipChecks: Boolean = false) {
+    dryRunTransactionBlock(txBytes: $txBytes, txMeta: $txMeta, skipChecks: $skipChecks) {
+        transaction {
+            digest
+            sender {
+                address
+            }
+            kind {
+                __typename
+                ... on ProgrammableTransactionBlock {
+                    transactions {
+                        nodes {
+                            __typename
+                            ... on MoveCallTransaction {
+                                functionName
+                                module
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        error
+        results {
+            returnValues {
+                bcs
+            }
+            mutatedReferences {
+                bcs
+                input {
+                    __typename
+                    ... on GasCoin {
+                        _
+                    }
+                    ... on Input {
+                        ix
+                    }
+                    ... on Result {
+                        cmd
+                    }
+                }
+                type {
+                    repr
+                }
+            }
+        }
+    }
+}

@@ -52,7 +52,6 @@ kotlin {
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
   linuxX64()
-  linuxArm64()
   macosArm64()
   macosX64()
   tvosX64()
@@ -65,6 +64,8 @@ kotlin {
   applyDefaultHierarchyTemplate()
 
   sourceSets {
+    appleMain.dependencies { implementation(libs.ktor.client.darwin) }
+    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
     commonMain.dependencies {
       implementation(libs.ktor.client.core)
       implementation(libs.ktor.client.content.negotiation)
@@ -75,19 +76,14 @@ kotlin {
       implementation(libs.bcs)
       implementation(libs.graphql.multiplatform.client)
     }
-
     commonTest.dependencies {
       implementation(libs.ktor.client.mock)
       implementation(libs.kotlin.test)
     }
-
     jsMain.dependencies { implementation(libs.ktor.client.js) }
-
     jvmMain.dependencies { implementation(libs.ktor.client.cio) }
-
-    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
-
-    iosMain.dependencies { implementation(libs.ktor.client.darwin) }
+    linuxMain.dependencies { implementation(libs.ktor.client.curl) }
+    mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
   }
 }
 
