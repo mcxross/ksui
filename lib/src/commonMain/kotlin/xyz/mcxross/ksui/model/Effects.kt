@@ -28,7 +28,7 @@ data class TransactionBlockEffects(
   val gasUsed: GasUsed,
   val modifiedAtVersions: List<AtVersion>,
   val transactionDigest: String,
-  val mutated: List<Object> = emptyList(),
-  // val gasObject: GasObject,
+  //val mutated: List<Object> = emptyList(),
+  //val gasObject: GasObject,
   val dependencies: List<String>,
 )
