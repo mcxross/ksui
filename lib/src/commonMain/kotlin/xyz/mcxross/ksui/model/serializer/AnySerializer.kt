@@ -117,7 +117,7 @@ object AnySerializer : kotlinx.serialization.KSerializer<Any> {
       while (true) {
         when (val index = decodeElementIndex(descriptor)) {
           CompositeDecoder.DECODE_DONE -> break
-          0 -> result = decodeSerializableElement(descriptor, 0, CallArg.Pure.serializer())
+          0 -> result = decodeSerializableElement(descriptor, 0, kotlinx.serialization.serializer())
           else -> throw SerializationException("Unexpected index $index")
         }
       }

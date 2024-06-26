@@ -13,9 +13,9 @@ data class Effects(
   val modifiedAtVersions: List<AtVersion> = emptyList(),
   val sharedObjects: List<SharedObject> = emptyList(),
   val transactionDigest: String,
-  val created: List<Object> = emptyList(),
-  val mutated: List<Object> = emptyList(),
-  val gasObject: GasObject,
+  //val created: List<Object> = emptyList(),
+  //val mutated: List<Object> = emptyList(),
+  //val gasObject: GasObject,
   val eventsDigest: String = "",
   val dependencies: List<String> = emptyList(),
 )
