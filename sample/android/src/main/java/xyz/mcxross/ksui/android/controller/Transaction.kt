@@ -1,16 +1,15 @@
 package xyz.mcxross.ksui.android.controller
 
 import android.util.Log
-import xyz.mcxross.ksui.client.EndPoint
 import xyz.mcxross.ksui.client.suiHttpClient
 import xyz.mcxross.ksui.extension.asObjectReference
-import xyz.mcxross.ksui.model.Argument
+import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.IntentType
 import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.TransactionDataComposer
-import xyz.mcxross.ksui.model.programmableTx
-import xyz.mcxross.ksui.util.bcs
+import xyz.mcxross.ksui.ptb.programmableTx
+import xyz.mcxross.ksui.util.bcsEncode
 import xyz.mcxross.ksui.util.fullTxBlockResponseOptions
 import xyz.mcxross.ksui.util.inputs
 import xyz.mcxross.sc.SuiCommons
@@ -55,7 +54,7 @@ suspend fun send(sk: String, from: SuiAddress, toSuiAddress: SuiAddress) {
 
   val intentMessage = IntentMessage(IntentType.SUI_TX.intent(), txData)
 
-  val sig = SuiCommons.utils.suiSign(bcs(intentMessage), sk)
+  val sig = SuiCommons.utils.suiSign(bcsEncode(intentMessage), sk)
 
   Log.d("MainActivity", "Signature: $sig")
 
@@ -63,7 +62,7 @@ suspend fun send(sk: String, from: SuiAddress, toSuiAddress: SuiAddress) {
 
   val result =
     suiRpcClient.executeTransactionBlock(
-      SuiCommons.encode.encodeBase64(bcs(intentMessage)),
+      SuiCommons.encode.encodeBase64(bcsEncode(intentMessage)),
       listOf(sig),
       fullTxBlockResponseOptions(),
     )

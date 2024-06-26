@@ -2,12 +2,18 @@ package xyz.mcxross.ksui.sample
 
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import org.bouncycastle.jcajce.provider.digest.Blake2b
 import xyz.mcxross.ksui.client.EndPoint
 import xyz.mcxross.ksui.client.suiHttpClient
 import xyz.mcxross.ksui.model.Argument
+import xyz.mcxross.ksui.model.Intent
+import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.SuiAddress
+import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionData
+import xyz.mcxross.ksui.model.content
 import xyz.mcxross.ksui.model.programmableTx
+import xyz.mcxross.ksui.model.with
 import xyz.mcxross.ksui.util.bcsEncode
 import xyz.mcxross.ksui.util.requestTestTokens
 
@@ -17,14 +23,21 @@ fun isTestTokensAvailable(endpoint: EndPoint): Boolean {
 
 @OptIn(ExperimentalEncodingApi::class)
 suspend fun main() {
+
   val sui = suiHttpClient {
     endpoint = EndPoint.DEVNET
     agentName = "KSUI/0.0.1"
     maxRetries = 10
   }
 
+  val suiKeyPair =
+    importFromMnemonic(
+      "share usual miss chair champion issue rally rifle train talent among endless"
+    )
+
   // Transaction sender
-  val sender = SuiAddress("0x8ed3c0fc6eb702973e835bc12067999bee650bb0c0dfa0275781fcfa2dd64a6b")
+  val sender = SuiAddress(suiKeyPair.address())
+  println("Sender balance: ${sui.getBalance(sender)}")
 
   val senderCoins = sui.getCoins(sender)
 
@@ -46,11 +59,11 @@ suspend fun main() {
     command {
       val splitCoins = splitCoins {
         coin = Argument.GasCoin
-        into = listOf(input(1_000UL))
+        into = listOf(input(1_000_000_000UL))
       }
       transferObjects {
         objects = listOf(splitCoins)
-        to = input("0xad4c540df24b7dd907bc0ed2ac957aece5a5710a6413a492c678957c10edgeb4")
+        to = inputStr("0xa087ff13a8e27a85a54db187c01de5b6f6a10f9ae74c86ce25620374a05f2f1f")
       }
     }
   }
@@ -65,7 +78,41 @@ suspend fun main() {
       gasPrice.cost.toULong(),
     )
 
-  val dryRunTransactionBlockResponse = sui.dryRunTransactionBlock(Base64.encode(bcsEncode(data)))
+  // val d = sui.dryRunTransactionBlock(Base64.encode(bcsEncode(data)))
 
-  println("Dry run transaction block response: $dryRunTransactionBlockResponse")
+  // println(d)
+
+  // We sign the intent message
+  val intentMessage = IntentMessage(Intent.suiTransaction(), data)
+
+  val sig = suiKeyPair.sign(Blake2b.Blake2b256().digest(bcsEncode(intentMessage)))
+
+  val serializedSignatureBytes = byteArrayOf(0) + sig + suiKeyPair.publicKeyBytes()!!
+
+  val sigBase64 = Base64.encode(serializedSignatureBytes)
+
+  val tx = data with listOf(sigBase64)
+
+  val content = tx.content()
+
+  val transactionBlockResponse =
+    sui.executeTransactionBlock(
+      content.first,
+      content.second,
+      TransactionBlockResponseOptions(
+        showInput = true,
+        showRawInput = true,
+        showEffects = true,
+        showEvents = true,
+        showObjectChanges = true,
+        showBalanceChanges = true,
+      ),
+    )
+
+  println("Transaction block response: $transactionBlockResponse")
+
+  val receiptBalance =
+    sui.getBalance(SuiAddress("0xa087ff13a8e27a85a54db187c01de5b6f6a10f9ae74c86ce25620374a05f2f1f"))
+
+  println("Receiver balance: $receiptBalance")
 }

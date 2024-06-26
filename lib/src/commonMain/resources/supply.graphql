@@ -1,0 +1,5 @@
+query GetCoinSupply($coinType: String!) {
+    coinMetadata(coinType: $coinType) {
+        supply
+    }
+}

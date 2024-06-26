@@ -1,0 +1,22 @@
+query GetCommitteeInfoByEpoch($epochId: Int) {
+    epoch(id: $epochId) {
+        validatorSet {
+            activeValidators {
+                edges {
+                    node {
+                        address {
+                            address
+                        }
+                        apy
+                        commissionRate
+                        description
+                        imageUrl
+                        name
+                        votingPower
+                    }
+                }
+            }
+            totalStake
+        }
+    }
+}

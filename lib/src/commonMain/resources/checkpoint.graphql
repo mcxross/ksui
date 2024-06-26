@@ -1,0 +1,19 @@
+query GetCheckpoint($digest: String, $sequenceNumber: Int) {
+    checkpoint(id: {digest: $digest, sequenceNumber: $sequenceNumber }) {
+        digest
+        sequenceNumber
+        timestamp
+        validatorSignatures
+        previousCheckpointDigest
+        networkTotalTransactions
+        rollingGasSummary {
+            computationCost
+            storageCost
+            storageRebate
+            nonRefundableStorageFee
+        }
+        epoch {
+            epochId
+        }
+    }
+}
