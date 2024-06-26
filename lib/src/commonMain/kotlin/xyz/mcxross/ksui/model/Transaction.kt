@@ -124,15 +124,15 @@ sealed class ObjectArg {
 @Serializable
 data class TransactionBlockResponse(
   val digest: String,
-  val transaction: Transaction? = null,
+  //val transaction: Transaction? = null,
   val rawTransaction: String = "",
   val effects: Effects? = null,
   val events: List<Event> = emptyList(),
   @Serializable(with = ObjectChangeSerializer::class)
   val objectChanges: List<ObjectChange> = emptyList(),
   val balanceChanges: List<BalanceChange> = emptyList(),
-  val timestampMs: Long,
-  val checkpoint: Long,
+  val timestampMs: Long? = null,
+  val checkpoint: Long? = null,
   val errors: List<String> = emptyList(),
 )
 
@@ -446,29 +446,3 @@ sealed class TransactionExpiration {
 
   @Serializable data class Epoch(val epochId: EpochId) : TransactionExpiration()
 }
-
-@Serializable
-data class SenderSignedData(val senderSignedTransactions: List<SenderSignedTransaction>)
-
-@Serializable
-data class SenderSignedTransaction(
-  val intentMessage: IntentMessage<TransactionData>,
-  val txSignatures: List<String>,
-)
-
-typealias Txn = Envelope<SenderSignedData>
-
-fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
-  Envelope(
-    SenderSignedData(
-      listOf(SenderSignedTransaction(IntentMessage(Intent.suiTransaction(), this), txSignatures))
-    )
-  )
-
-infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
-
-@OptIn(ExperimentalEncodingApi::class) fun Txn.data(): String = Base64.encode(bcsEncode(this.data))
-
-fun Txn.signatures(): List<String> = this.data.senderSignedTransactions.first().txSignatures
-
-fun Txn.content(): Pair<String, List<String>> = this.data() to this.signatures()
