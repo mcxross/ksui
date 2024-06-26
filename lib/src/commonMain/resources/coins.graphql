@@ -1,0 +1,19 @@
+query GetCoinsByTypeAndOwner($ownerAddress: String!, $coinType: String!, $first: Int!) {
+    address(address: $ownerAddress) {
+        coins(type: $coinType, first: $first) {
+            edges {
+                node {
+                    address
+                    coinBalance
+                    digest
+                    status
+                    version
+                }
+            }
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+        }
+    }
+}

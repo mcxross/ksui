@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import java.util.*
 import kotlinx.coroutines.launch
 import xyz.mcxross.ksui.android.controller.send
-import xyz.mcxross.ksui.client.EndPoint
 import xyz.mcxross.ksui.client.suiHttpClient
 import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.util.requestTestTokens

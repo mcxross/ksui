@@ -1,6 +1,6 @@
 group = "xyz.mcxross.ksui"
 
-version = "1.3.2"
+version = "1.3.4"
 
 plugins {
   kotlin("jvm") apply false

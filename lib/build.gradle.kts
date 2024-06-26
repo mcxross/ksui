@@ -15,7 +15,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "1.3.2"
+version = "1.3.4"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -70,7 +70,6 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
-      implementation(libs.kase64)
     }
 
     commonTest.dependencies {

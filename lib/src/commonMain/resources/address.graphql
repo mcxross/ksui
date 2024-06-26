@@ -1,0 +1,21 @@
+query GetAddressBalanceAndCoins($address: String!) {
+  address(address: $address) {
+    address
+    balance {
+      coinType {
+        repr
+      }
+      coinObjectCount
+      totalBalance
+    }
+    coins {
+      nodes {
+        contents {
+          type {
+            repr
+          }
+        }
+      }
+    }
+  }
+}
