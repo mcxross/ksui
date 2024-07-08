@@ -17,18 +17,57 @@
 package xyz.mcxross.ksui.api
 
 import xyz.mcxross.ksui.generated.getcheckpoint.Checkpoint
+import xyz.mcxross.ksui.internal.getChainIdentifier
+import xyz.mcxross.ksui.internal.getCheckpoint
+import xyz.mcxross.ksui.internal.getLatestSuiSystemState
+import xyz.mcxross.ksui.internal.getProtocolConfig
+import xyz.mcxross.ksui.internal.getReferenceGasPrice
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.LatestSuiSystemState
 import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.ProtocolConfig
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.General
 
 class General(val config: SuiConfig) : General {
-  override suspend fun getChainIdentifier(): Option<String> =
-    xyz.mcxross.ksui.internal.getChainIdentifier(config)
 
-  override suspend fun getReferenceGasPrice(): Option<String?> =
-    xyz.mcxross.ksui.internal.getReferenceGasPrice(config)
+  /**
+   * Get the chain identifier
+   *
+   * @return An [Option] of nullable [String]
+   */
+  override suspend fun getChainIdentifier(): Option<String> = getChainIdentifier(config)
 
+  /**
+   * Get the reference gas price of the current epoch
+   *
+   * @return An [Option] of nullable [String]
+   */
+  override suspend fun getReferenceGasPrice(): Option<String?> = getReferenceGasPrice(config)
+
+  /**
+   * Get a checkpoint by ID
+   *
+   * @param checkpointId The ID of the checkpoint to get
+   * @return An [Option] of nullable [Checkpoint]
+   */
   override suspend fun getCheckpoint(checkpointId: CheckpointId?): Option<Checkpoint?> =
-    xyz.mcxross.ksui.internal.getCheckpoint(config, checkpointId)
+    getCheckpoint(config, checkpointId)
+
+  /**
+   * Get the latest Sui system state
+   *
+   * @return An [Option] of nullable [LatestSuiSystemState]
+   */
+  override suspend fun getLatestSuiSystemState(): Option<LatestSuiSystemState> =
+    getLatestSuiSystemState(config)
+
+  /**
+   * Get the protocol config
+   *
+   * @param protocolVersion The version of the protocol to get
+   * @return An [Option] of nullable [ProtocolConfig]
+   */
+  override suspend fun getProtocolConfig(protocolVersion: Int?): Option<ProtocolConfig> =
+    getProtocolConfig(config, protocolVersion)
 }

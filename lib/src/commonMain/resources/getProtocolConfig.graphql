@@ -1,0 +1,13 @@
+query getProtocolConfig($protocolVersion: Int) {
+	protocolConfig(protocolVersion: $protocolVersion) {
+		protocolVersion
+		configs {
+			key
+			value
+		}
+		featureFlags {
+			key
+			value
+		}
+	}
+}

@@ -15,13 +15,67 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.generated.getcommitteeinfobyepoch.Epoch
 import xyz.mcxross.ksui.internal.getCommitteeInfo
+import xyz.mcxross.ksui.internal.getStakes
+import xyz.mcxross.ksui.internal.getStakesById
+import xyz.mcxross.ksui.internal.getValidatorsApy
+import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.Stake
+import xyz.mcxross.ksui.model.Stakes
+import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.ValidatorsApy
 import xyz.mcxross.ksui.protocol.Governance
 
+/**
+ * Governance API implementation
+ *
+ * This namespace contains all the functions related to governance
+ *
+ * @property config The SuiConfig to use
+ */
 class Governance(val config: SuiConfig) : Governance {
-  override suspend fun getCommitteeInfo(epoch: Long?): Option<Epoch?> =
-    getCommitteeInfo(config, epoch)
+
+  /**
+   * Get the committee info
+   *
+   * @param epochId The epoch ID to get the committee info for
+   * @param after The cursor to get the committee info from
+   * @return An [Option] of nullable [CommitteeInfo]
+   */
+  override suspend fun getCommitteeInfo(epochId: Long?, after: String?): Option<CommitteeInfo> =
+    getCommitteeInfo(config, epochId, after)
+
+  /**
+   * Get stakes for an address
+   *
+   * @param owner The address to get stakes for
+   * @param limit The limit of stakes to get
+   * @param cursor The cursor to get stakes from
+   * @return An [Option] of nullable [Stake]
+   */
+  override suspend fun getStakes(owner: SuiAddress, limit: Int?, cursor: String?): Option<Stake> =
+    getStakes(config, owner, limit, cursor)
+
+  /**
+   * Get stakes by IDs
+   *
+   * @param ids The IDs of the stakes to get
+   * @param limit The limit of stakes to get
+   * @param cursor The cursor to get stakes from
+   * @return An [Option] of nullable [Stakes]
+   */
+  override suspend fun getStakesByIds(
+    ids: List<String>,
+    limit: Int?,
+    cursor: String?,
+  ): Option<Stakes> = getStakesById(config, ids, limit, cursor)
+
+  /**
+   * Get the validators APY
+   *
+   * @return An [Option] of nullable [ValidatorsApy]
+   */
+  override suspend fun getValidatorApy(): Option<ValidatorsApy> = getValidatorsApy(config)
 }

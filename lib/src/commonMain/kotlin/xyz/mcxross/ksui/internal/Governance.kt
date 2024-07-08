@@ -15,21 +15,96 @@
  */
 package xyz.mcxross.ksui.internal
 
-import xyz.mcxross.graphql.client.DefaultGraphQLClient
-import xyz.mcxross.ksui.generated.GetCommitteeInfoByEpoch
-import xyz.mcxross.ksui.generated.getcommitteeinfobyepoch.Epoch
+import xyz.mcxross.ksui.client.getGraphqlClient
+import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.generated.GetCommitteeInfo
+import xyz.mcxross.ksui.generated.GetStakes
+import xyz.mcxross.ksui.generated.GetStakesByIds
+import xyz.mcxross.ksui.generated.GetValidatorsApy
+import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiApiType
+import xyz.mcxross.ksui.model.Stake
+import xyz.mcxross.ksui.model.Stakes
+import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.ValidatorsApy
 
-internal suspend fun getCommitteeInfo(config: SuiConfig, epoch: Long?): Option<Epoch?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request = GetCommitteeInfoByEpoch(GetCommitteeInfoByEpoch.Variables(epoch?.toInt()))
-  val response = client.execute(request)
+internal suspend fun getCommitteeInfo(
+  config: SuiConfig,
+  epochId: Long?,
+  after: String?,
+): Option<CommitteeInfo> {
+  val response =
+    getGraphqlClient(config)
+      .execute(
+        GetCommitteeInfo(GetCommitteeInfo.Variables(epochId = epochId?.toInt(), after = after))
+      )
 
   if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.epoch)
+  return Option.Some(response.data)
+}
+
+internal suspend fun getStakes(
+  config: SuiConfig,
+  address: SuiAddress,
+  limit: Int?,
+  cursor: String?,
+): Option<Stake> {
+  val response =
+    getGraphqlClient(config)
+      .execute(
+        GetStakes(GetStakes.Variables(owner = address.toString(), limit = limit, cursor = cursor))
+      )
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data)
+}
+
+internal suspend fun getStakesById(
+  config: SuiConfig,
+  ids: List<String>,
+  limit: Int?,
+  cursor: String?,
+): Option<Stakes> {
+  val query = GetStakesByIds(GetStakesByIds.Variables(ids = ids, limit = limit, cursor = cursor))
+
+  val response = getGraphqlClient(config).execute(query)
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data)
+}
+
+internal suspend fun getValidatorsApy(config: SuiConfig): Option<ValidatorsApy> {
+  val response = getGraphqlClient(config).execute(GetValidatorsApy())
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data)
 }
