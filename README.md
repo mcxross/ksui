@@ -1,10 +1,11 @@
-<h1 align="center">Ksui - KMP Library for Sui</h1>
+<h1 align="center">Ksui - Multiplatform SDK for Sui</h1>
 
-Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a collection of Kotlin Multiplatform JSON-RPC wrapper and crypto
-utilities for interacting with a Sui Full node.
+Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a Kotlin Multiplatform (KMP) SDK for integrating with the Sui
+blockchain.
 
-This library is intended to be the highest quality publicly available library for interacting with Sui on any
-Kotlin-supported platform by epitomizing expressiveness, conciseness and aesthetics
+It is designed to be a type-safe, client-configurable, and multiplatform SDK that can be used across
+different platforms such as Android, iOS, JS, and JVM. It is built on top of the KMM toolchain and is designed to be
+extensible and easy to use.
 
 ![Build](https://img.shields.io/badge/Build-v2.0.1-blue.svg)
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
@@ -90,7 +91,8 @@ Now you can use the `sui` instance to interact with the Sui chain for reading an
 
 ### Reading from the chain
 
-Once you have initialized the client, you can use it to read from the chain. For example, to get the balance of an address:
+Once you have initialized the client, you can use it to read from the chain. For example, to get the balance of an
+address:
 
 ```kotlin
 val balance = sui.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
@@ -98,8 +100,10 @@ val balance = sui.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d5
 
 ### Writing to the chain (PTBs)
 
-To write to the chain, you need to create a `Transaction` and sign it with the private key of the sender. A transaction, among its metadata,
-is made up of PTBs which are a chain of commands that are executed by the chain. For example, to construct a PTB that *splits* a
+To write to the chain, you need to create a `Transaction` and sign it with the private key of the sender. A transaction,
+among its metadata,
+is made up of PTBs which are a chain of commands that are executed by the chain. For example, to construct a PTB that
+*splits* a
 coin and *sends* it to another address, you can do so as shown below:
 
 ```kotlin
@@ -108,21 +112,20 @@ val ptb = programmableTx {
         // Split the coin
         val splitCoins = splitCoins {
             coin = Argument.GasCoin
-            into = listOf(input(1_000UL)) 
+            into = listOf(input(1_000UL))
         }
-        
+
         // Send the split coin to the receiver
-        transferObjects { 
+        transferObjects {
             objects = listOf(splitCoins)
-            to = input(SuiAddress("0xad4c...aeb4")) 
+            to = input(SuiAddress("0xad4c...aeb4"))
         }
     }
-  }
+}
 
 // Now, we can create the transaction data
 val txData = TransactionData.programmable(sender, listOf(senderCoins pick 0), ptb, 5_000_000UL, gasPrice)
 ```
-
 
 For more information, please see the [documentation](https://mcxross.github.io/ksui/).
 
