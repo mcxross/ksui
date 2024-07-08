@@ -20,6 +20,8 @@ import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.SuiAddress
+import xyz.mcxross.ksui.util.formatSuiDomain
+import xyz.mcxross.ksui.util.idToParts
 
 fun String.toReference() = Reference(AccountAddress(this))
 
@@ -27,3 +29,11 @@ fun String.toObjectDigest() = ObjectDigest(Digest(this))
 
 /** Extension function to create a [SuiAddress] from a [String]. */
 fun String.toSuiAddress() = SuiAddress(this)
+
+fun String.formatAsSuiDomain() = formatSuiDomain(this)
+
+fun String.asIdParts() = idToParts(this)
+
+data class IdParts(val packageId: String, val module: String, val function: String)
+
+fun Triple<String, String, String>.toId() = IdParts(first, second, third)

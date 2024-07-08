@@ -17,7 +17,6 @@ pluginManagement {
     id("com.android.library").version(extra["agp.version"] as String)
     id("org.jetbrains.dokka").version("1.9.20")
   }
-
 }
 
 rootProject.name = "ksui"

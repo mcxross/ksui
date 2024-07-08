@@ -17,5 +17,56 @@
 package xyz.mcxross.ksui.model
 
 import io.ktor.client.statement.*
+import xyz.mcxross.ksui.generated.GetAllBalances
+import xyz.mcxross.ksui.generated.GetBalance
+import xyz.mcxross.ksui.generated.GetCoinMetadata
+import xyz.mcxross.ksui.generated.GetCoins
+import xyz.mcxross.ksui.generated.GetCommitteeInfo
+import xyz.mcxross.ksui.generated.GetDynamicFieldObject
+import xyz.mcxross.ksui.generated.GetDynamicFields
+import xyz.mcxross.ksui.generated.GetLatestSuiSystemState
+import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypes
+import xyz.mcxross.ksui.generated.GetObject
+import xyz.mcxross.ksui.generated.GetOwnedObjects
+import xyz.mcxross.ksui.generated.GetProtocolConfig
+import xyz.mcxross.ksui.generated.GetStakes
+import xyz.mcxross.ksui.generated.GetStakesByIds
+import xyz.mcxross.ksui.generated.GetValidatorsApy
+import xyz.mcxross.ksui.generated.ResolveNameServiceNames
+import xyz.mcxross.ksui.generated.TryGetPastObject
 
 typealias SuiResponse = HttpResponse
+
+typealias CoinMetadata = GetCoinMetadata.Result?
+
+typealias Balances = GetAllBalances.Result?
+
+typealias Balance = GetBalance.Result?
+
+typealias Coins = GetCoins.Result?
+
+typealias CommitteeInfo = GetCommitteeInfo.Result?
+
+typealias Stake = GetStakes.Result?
+
+typealias Stakes = GetStakesByIds.Result?
+
+typealias ProtocolConfig = GetProtocolConfig.Result?
+
+typealias ValidatorsApy = GetValidatorsApy.Result?
+
+typealias LatestSuiSystemState = GetLatestSuiSystemState.Result?
+
+typealias Page = ResolveNameServiceNames.Result?
+
+typealias DynamicFieldObject = GetDynamicFieldObject.Result?
+
+typealias DynamicFields = GetDynamicFields.Result?
+
+typealias Object = GetObject.Result?
+
+typealias OwnedObjects = GetOwnedObjects.Result?
+
+typealias PastObject = TryGetPastObject.Result?
+
+typealias MoveFunctionArgTypes = GetMoveFunctionArgTypes.Result?

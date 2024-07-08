@@ -18,5 +18,5 @@ package xyz.mcxross.ksui.model
 
 enum class UserAgent {
   BROWSER,
-  CURL
+  CURL,
 }

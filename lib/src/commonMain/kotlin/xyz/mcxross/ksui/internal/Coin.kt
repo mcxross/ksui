@@ -16,32 +16,36 @@
 
 package xyz.mcxross.ksui.internal
 
-import xyz.mcxross.graphql.client.DefaultGraphQLClient
-import xyz.mcxross.ksui.generated.GetAddressBalance
+import xyz.mcxross.ksui.client.getGraphqlClient
+import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.generated.GetAllBalances
+import xyz.mcxross.ksui.generated.GetBalance
 import xyz.mcxross.ksui.generated.GetCoinMetadata
-import xyz.mcxross.ksui.generated.GetCoinSupply
-import xyz.mcxross.ksui.generated.GetCoinsByOwner
-import xyz.mcxross.ksui.generated.GetCoinsByTypeAndOwner
-import xyz.mcxross.ksui.generated.getaddressbalance.Address
-import xyz.mcxross.ksui.generated.getcoinmetadata.CoinMetadata
+import xyz.mcxross.ksui.generated.GetCoins
+import xyz.mcxross.ksui.generated.GetTotalSupply
+import xyz.mcxross.ksui.model.Balance
+import xyz.mcxross.ksui.model.Balances
+import xyz.mcxross.ksui.model.CoinMetadata
+import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiAddress
-import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiConfig
 
-internal suspend fun getAllBalances(config: SuiConfig, address: SuiAddress): Option<Address?> {
+internal suspend fun getAllBalances(config: SuiConfig, address: SuiAddress): Option<Balances?> {
 
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-
-  val request = GetAddressBalance(GetAddressBalance.Variables(address.toString()))
-
+  val client = getGraphqlClient(config)
+  val request by lazy { GetAllBalances(GetAllBalances.Variables(address.toString())) }
   val response = client.execute(request)
 
-  if (response.errors != null) {
+  if (!response.errors.isNullOrEmpty()) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.address)
+  return Option.Some(response.data)
 }
 
 internal suspend fun getAllCoins(
@@ -49,71 +53,76 @@ internal suspend fun getAllCoins(
   address: SuiAddress,
   type: String,
   limit: Int,
-): Option<xyz.mcxross.ksui.generated.getcoinsbytypeandowner.Address?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request =
-    GetCoinsByTypeAndOwner(GetCoinsByTypeAndOwner.Variables(address.toString(), type, limit))
-  val response = client.execute<GetCoinsByTypeAndOwner.Result>(request)
-
-  if (response.errors != null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data!!.address)
+): Option<String> {
+  return Option.None
 }
 
 internal suspend fun getCoins(
   config: SuiConfig,
   address: SuiAddress,
+  first: Int? = null,
   cursor: String? = null,
-  limit: Int? = null,
-): Option<xyz.mcxross.ksui.generated.getcoinsbyowner.Address?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request = GetCoinsByOwner(GetCoinsByOwner.Variables(address.toString(), cursor, limit))
+  type: String? = null,
+): Option<Coins?> {
+  val client = getGraphqlClient(config)
+  val request by lazy { GetCoins(GetCoins.Variables(address.toString(), first, cursor, type)) }
   val response = client.execute(request)
 
-  if (response.errors != null) {
+  if (!response.errors.isNullOrEmpty()) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.address)
+  return Option.Some(response.data)
 }
 
-internal suspend fun getSupply(
-  config: SuiConfig,
-  type: String,
-): Option<xyz.mcxross.ksui.generated.getcoinsupply.CoinMetadata?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request = GetCoinSupply(GetCoinSupply.Variables(type))
+internal suspend fun getTotalSupply(config: SuiConfig, type: String): Option<String> {
+  val client = getGraphqlClient(config)
+  val request by lazy { GetTotalSupply(GetTotalSupply.Variables(type)) }
   val response = client.execute(request)
 
-  if (response.errors != null) {
+  if (!response.errors.isNullOrEmpty()) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.coinMetadata)
+  return Option.Some(response.data!!.coinMetadata?.supply.toString())
 }
 
-internal suspend fun getBalance(config: SuiConfig, address: SuiAddress): Option<Address?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request = GetAddressBalance(GetAddressBalance.Variables(address.toString()))
+internal suspend fun getBalance(config: SuiConfig, address: SuiAddress): Option<Balance?> {
+  val client = getGraphqlClient(config)
+  val request by lazy { GetBalance(GetBalance.Variables(address.toString())) }
   val response = client.execute(request)
 
-  if (response.errors != null) {
+  if (!response.errors.isNullOrEmpty()) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.address)
+  return Option.Some(response.data)
 }
 
 internal suspend fun getCoinMetadata(config: SuiConfig, type: String): Option<CoinMetadata?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val request = GetCoinMetadata(GetCoinMetadata.Variables(type))
+  val client = getGraphqlClient(config)
+  val request by lazy { GetCoinMetadata(GetCoinMetadata.Variables(type)) }
   val response = client.execute(request)
 
-  if (response.errors != null) {
+  if (!response.errors.isNullOrEmpty()) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.coinMetadata)
+  return Option.Some(response.data)
 }

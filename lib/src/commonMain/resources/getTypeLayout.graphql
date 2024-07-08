@@ -1,0 +1,5 @@
+query getTypeLayout($type: String!) {
+    type(type: $type) {
+        layout
+    }
+}

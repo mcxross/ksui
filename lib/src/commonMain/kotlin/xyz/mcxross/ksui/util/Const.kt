@@ -16,3 +16,7 @@
 package xyz.mcxross.ksui.util
 
 const val LENGTH: Int = 32
+
+const val PACKAGE_ID = "packageId"
+const val MODULE = "module"
+const val FUNCTION = "function"

@@ -17,12 +17,51 @@ package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.generated.getcheckpoint.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.LatestSuiSystemState
 import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.ProtocolConfig
 
+/**
+ * General interface
+ *
+ * This interface represents the general API
+ */
 interface General {
+
+  /**
+   * Get the chain identifier
+   *
+   * @return An [Option] of nullable [String]
+   */
   suspend fun getChainIdentifier(): Option<String>
 
+  /**
+   * Get the reference gas price
+   *
+   * @return An [Option] of nullable [String]
+   */
   suspend fun getReferenceGasPrice(): Option<String?>
 
+  /**
+   * Get a checkpoint
+   *
+   * @param checkpointId The checkpoint ID to get
+   * @return An [Option] of nullable [Checkpoint]
+   */
   suspend fun getCheckpoint(checkpointId: CheckpointId? = null): Option<Checkpoint?>
+
+  /**
+   * Get the latest Sui system state
+   *
+   * @return An [Option] of nullable [LatestSuiSystemState]
+   */
+  suspend fun getLatestSuiSystemState(): Option<LatestSuiSystemState>
+
+  /**
+   * Get the protocol config
+   *
+   * @param protocolVersion The protocol version to get the config for
+   * @return An [Option] of nullable [ProtocolConfig]
+   */
+  suspend fun getProtocolConfig(protocolVersion: Int? = null): Option<ProtocolConfig>
 }

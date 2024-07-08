@@ -23,9 +23,9 @@ object TransactionExpirationSerializer : kotlinx.serialization.KSerializer<Trans
 
   override fun serialize(
     encoder: kotlinx.serialization.encoding.Encoder,
-    value: TransactionExpiration
+    value: TransactionExpiration,
   ) {
-    when(value) {
+    when (value) {
       is TransactionExpiration.None -> {
         encoder.encodeEnum(descriptor, 0)
       }
