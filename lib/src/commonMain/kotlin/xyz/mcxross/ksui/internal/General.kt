@@ -16,22 +16,28 @@
 
 package xyz.mcxross.ksui.internal
 
-import xyz.mcxross.graphql.client.DefaultGraphQLClient
-import xyz.mcxross.ksui.generated.DryRunTransaction
+import xyz.mcxross.ksui.client.getGraphqlClient
+import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.generated.GetChainIdentifier
-import xyz.mcxross.ksui.generated.GetCheckpoint
+import xyz.mcxross.ksui.generated.GetLatestSuiSystemState
+import xyz.mcxross.ksui.generated.GetProtocolConfig
 import xyz.mcxross.ksui.generated.GetReferenceGasPrice
 import xyz.mcxross.ksui.generated.getcheckpoint.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.LatestSuiSystemState
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiApiType
+import xyz.mcxross.ksui.model.ProtocolConfig
 import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun getChainIdentifier(config: SuiConfig): Option<String> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
+  val client = getGraphqlClient(config)
   val response = client.execute(GetChainIdentifier())
 
   if (response.errors != null) {
+    throw Exception(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
@@ -39,10 +45,14 @@ internal suspend fun getChainIdentifier(config: SuiConfig): Option<String> {
 }
 
 internal suspend fun getReferenceGasPrice(config: SuiConfig): Option<String?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
+  val client = getGraphqlClient(config)
   val response = client.execute<GetReferenceGasPrice.Result>(GetReferenceGasPrice())
 
   if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
@@ -53,31 +63,41 @@ internal suspend fun getCheckpoint(
   config: SuiConfig,
   checkpoint: CheckpointId?,
 ): Option<Checkpoint?> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val response =
-    client.execute<GetCheckpoint.Result>(
-      GetCheckpoint(
-        GetCheckpoint.Variables(checkpoint?.digest, checkpoint?.sequenceNumber?.toInt())
-      )
-    )
-
-  if (response.errors != null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data!!.checkpoint)
+  return Option.None
 }
 
-internal suspend fun dryRunTransaction(config: SuiConfig, transaction: String): Option<String> {
-  val client = DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-  val response =
-    client.execute<DryRunTransaction.Result>(
-      DryRunTransaction(DryRunTransaction.Variables(transaction))
-    )
+internal suspend fun getLatestSuiSystemState(config: SuiConfig): Option<LatestSuiSystemState?> {
+  val client = getGraphqlClient(config)
+  val response = client.execute<GetLatestSuiSystemState.Result>(GetLatestSuiSystemState())
 
   if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
     return Option.None
   }
 
-  return Option.Some(response.data!!.dryRunTransactionBlock.error ?: "")
+  return Option.Some(response.data!!)
+}
+
+internal suspend fun getProtocolConfig(
+  config: SuiConfig,
+  protocolVersion: Int?,
+): Option<ProtocolConfig> {
+  val client = getGraphqlClient(config)
+  val response =
+    client.execute<GetProtocolConfig.Result>(
+      GetProtocolConfig(variables = GetProtocolConfig.Variables(protocolVersion))
+    )
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data!!)
 }

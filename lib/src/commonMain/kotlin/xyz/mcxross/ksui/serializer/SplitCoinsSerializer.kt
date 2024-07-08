@@ -21,7 +21,10 @@ object SplitCoinsSerializer : kotlinx.serialization.KSerializer<Command.SplitCoi
   override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
     kotlinx.serialization.descriptors.buildClassSerialDescriptor("SplitCoins")
 
-  override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: Command.SplitCoins) {
+  override fun serialize(
+    encoder: kotlinx.serialization.encoding.Encoder,
+    value: Command.SplitCoins,
+  ) {
     val composite = encoder.beginStructure(descriptor)
     composite.encodeSerializableElement(descriptor, 0, kotlinx.serialization.serializer(), value)
     composite.endStructure(descriptor)

@@ -1,0 +1,70 @@
+query getCurrentEpoch {
+	epoch {
+		epochId
+		validatorSet {
+			activeValidators {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				nodes {
+					...RPC_VALIDATOR_FIELDS
+				}
+			}
+		}
+		totalTransactions
+		firstCheckpoint: checkpoints(first: 1) {
+			nodes {
+				sequenceNumber
+			}
+		}
+		startTimestamp
+		endTimestamp
+		referenceGasPrice
+	}
+}
+
+fragment RPC_VALIDATOR_FIELDS on Validator {
+	atRisk
+	commissionRate
+	exchangeRatesSize
+	description
+	gasPrice
+	imageUrl
+	name
+	credentials {
+		...RPC_CREDENTIAL_FIELDS
+	}
+	nextEpochGasPrice
+	nextEpochCredentials {
+		...RPC_CREDENTIAL_FIELDS
+	}
+	nextEpochStake
+	nextEpochCommissionRate
+	operationCap {
+		address
+	}
+	pendingPoolTokenWithdraw
+	pendingStake
+	pendingTotalSuiWithdraw
+	poolTokenBalance
+	projectUrl
+	rewardsPool
+	stakingPoolActivationEpoch
+	stakingPoolSuiBalance
+	address {
+		address
+	}
+	votingPower
+}
+
+fragment RPC_CREDENTIAL_FIELDS on ValidatorCredentials {
+	netAddress
+	networkPubKey
+	p2PAddress
+	primaryAddress
+	workerPubKey
+	workerAddress
+	proofOfPossession
+	protocolPubKey
+}
