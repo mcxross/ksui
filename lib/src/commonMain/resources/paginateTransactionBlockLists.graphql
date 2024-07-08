@@ -1,0 +1,100 @@
+query paginateTransactionBlockLists(
+    $digest: String!
+    $hasMoreEvents: Boolean!
+    $hasMoreBalanceChanges: Boolean!
+    $hasMoreObjectChanges: Boolean!
+    $afterEvents: String
+    $afterBalanceChanges: String
+    $afterObjectChanges: String
+) {
+    transactionBlock(digest: $digest) {
+        ...PAGINATE_TRANSACTION_LISTS
+    }
+}
+
+fragment PAGINATE_TRANSACTION_LISTS on TransactionBlock {
+    effects {
+        events(after: $afterEvents) @include(if: $hasMoreEvents) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                ...RPC_EVENTS_FIELDS
+            }
+        }
+        balanceChanges(after: $afterBalanceChanges) @include(if: $hasMoreBalanceChanges) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                coinType {
+                    repr
+                }
+                owner {
+                    asObject {
+                        address
+                    }
+                    asAddress {
+                        address
+                    }
+                }
+                amount
+            }
+        }
+        objectChanges(after: $afterObjectChanges) @include(if: $hasMoreObjectChanges) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                address
+                inputState {
+                    version
+                    asMoveObject {
+                        contents {
+                            type {
+                                repr
+                            }
+                        }
+                    }
+                }
+                outputState {
+                    asMoveObject {
+                        contents {
+                            type {
+                                repr
+                            }
+                        }
+                    }
+                    asMovePackage {
+                        modules(first: 10) {
+                            nodes {
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fragment RPC_EVENTS_FIELDS on Event {
+    sendingModule {
+        package {
+            address
+        }
+        name
+    }
+    sender {
+        address
+    }
+    type {
+        repr
+    }
+    json
+    bcs
+    timestamp
+}

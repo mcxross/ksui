@@ -49,7 +49,8 @@ object TransactionFilterSerializer : KSerializer<TransactionFilter> {
           buildJsonObject { put("ChangedObject", value.objectId.hash) }
         is TransactionFilter.FromAddress ->
           buildJsonObject { put("FromAddress", value.address.toString()) }
-        is TransactionFilter.ToAddress -> buildJsonObject { put("ToAddress", value.address.toString()) }
+        is TransactionFilter.ToAddress ->
+          buildJsonObject { put("ToAddress", value.address.toString()) }
         is TransactionFilter.FromAndToAddress ->
           buildJsonObject {
             putJsonObject("FromAndToAddress") {

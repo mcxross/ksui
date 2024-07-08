@@ -1,0 +1,5 @@
+query getReferenceGasPrice {
+	epoch {
+		referenceGasPrice
+	}
+}

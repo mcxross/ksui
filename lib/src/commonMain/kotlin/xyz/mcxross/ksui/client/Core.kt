@@ -17,6 +17,9 @@
 package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
+import xyz.mcxross.graphql.client.DefaultGraphQLClient
+import xyz.mcxross.ksui.model.SuiApiType
+import xyz.mcxross.ksui.model.SuiConfig
 
 /**
  * Create a new Ktor client with the given configuration.
@@ -29,3 +32,7 @@ expect fun httpClient(clientConfig: ClientConfig): HttpClient
 expect class ClientConfig()
 
 val client = httpClient(clientConfig = ClientConfig())
+
+fun getGraphqlClient(config: SuiConfig): DefaultGraphQLClient {
+  return DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
+}

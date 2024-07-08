@@ -1,0 +1,13 @@
+query resolveNameServiceNames($address: SuiAddress!, $limit: Int, $cursor: String) {
+    address(address: $address) {
+        suinsRegistrations(first: $limit, after: $cursor) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                domain
+            }
+        }
+    }
+}

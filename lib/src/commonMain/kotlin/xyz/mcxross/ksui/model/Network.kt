@@ -21,5 +21,5 @@ enum class Network {
   TESTNET,
   DEVNET,
   LOCAL,
-  CUSTOM
+  CUSTOM,
 }

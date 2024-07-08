@@ -15,27 +15,75 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.generated.getaddressbalance.Address
-import xyz.mcxross.ksui.generated.getcoinmetadata.CoinMetadata
+import xyz.mcxross.ksui.model.Balance
+import xyz.mcxross.ksui.model.Balances
+import xyz.mcxross.ksui.model.CoinMetadata
+import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiAddress
 
+/**
+ * Coin interface
+ *
+ * This interface represents the coin API
+ */
 interface Coin {
-  suspend fun getAllBalances(address: SuiAddress): Option<Address?>
 
-  suspend fun getAllCoins(address: SuiAddress, type: String, limit: Int): Option<xyz.mcxross.ksui.generated.getcoinsbytypeandowner.Address?>
+  /**
+   * Get all balances for an address
+   *
+   * @param address The address to get balances for
+   * @return An [Option] of nullable [Balances]
+   */
+  suspend fun getAllBalances(address: SuiAddress): Option<Balances>
 
+  /**
+   * Get all coins for an address
+   *
+   * @param address The address to get coins for
+   * @param type The type of coins to get
+   * @param limit The limit of coins to get
+   * @return An [Option] of nullable [String]
+   */
+  suspend fun getAllCoins(address: SuiAddress, type: String, limit: Int): Option<String>
+
+  /**
+   * Get coins for an address
+   *
+   * @param address The address to get coins for
+   * @param first The number of coins to get
+   * @param cursor The cursor to get coins from
+   * @param type The type of coins to get
+   * @return An [Option] of nullable [Coins]
+   */
   suspend fun getCoins(
     address: SuiAddress,
+    first: Int? = null,
     cursor: String? = null,
-    limit: Int? = null,
-  ): Option<xyz.mcxross.ksui.generated.getcoinsbyowner.Address?>
+    type: String? = null,
+  ): Option<Coins>
 
-  suspend fun getSupply(
-    type: String
-  ): Option<xyz.mcxross.ksui.generated.getcoinsupply.CoinMetadata?>
+  /**
+   * Get the total supply of a coin
+   *
+   * @param type The type of coin to get the total supply for
+   * @return An [Option] of nullable [String]
+   */
+  suspend fun getTotalSupply(type: String): Option<String>
 
-  suspend fun getBalance(address: SuiAddress): Option<Address?>
+  /**
+   * Get the balance of an address
+   *
+   * @param address The address to get the balance for
+   * @return An [Option] of nullable [Balance]
+   */
+  suspend fun getBalance(address: SuiAddress): Option<Balance>
 
-  suspend fun getCoinMetadata(type: String): Option<CoinMetadata?>
+  /**
+   * Get the metadata for a coin
+   *
+   * @param type The type of coin to get the metadata for
+   * @return An [Option] of nullable [CoinMetadata]
+   */
+  suspend fun getCoinMetadata(type: String): Option<CoinMetadata>
 }

@@ -48,7 +48,7 @@ object MoveNormalizedFunctionParameterSerializer : KSerializer<MoveFunctionParam
           MoveFunctionParameter.Struct(
             struct?.get("address")?.jsonPrimitive?.content ?: "",
             struct?.get("module")?.jsonPrimitive?.content ?: "",
-            struct?.get("name")?.jsonPrimitive?.content ?: ""
+            struct?.get("name")?.jsonPrimitive?.content ?: "",
           )
         } else if (jsonElement.containsKey("Vector")) {
           if (jsonElement["Vector"] is JsonObject) {

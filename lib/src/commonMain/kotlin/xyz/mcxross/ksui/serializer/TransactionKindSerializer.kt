@@ -22,11 +22,8 @@ object TransactionKindSerializer : kotlinx.serialization.KSerializer<Transaction
   override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
     kotlinx.serialization.descriptors.buildClassSerialDescriptor("TransactionKind")
 
-  override fun serialize(
-    encoder: kotlinx.serialization.encoding.Encoder,
-    value: TransactionKind
-  ) {
-    when(value) {
+  override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: TransactionKind) {
+    when (value) {
       is TransactionKind.ProgrammableTransaction -> {
         encoder.encodeEnum(descriptor, 0)
         encoder.beginStructure(descriptor).apply {

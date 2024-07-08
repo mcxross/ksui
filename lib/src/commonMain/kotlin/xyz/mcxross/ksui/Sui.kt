@@ -20,9 +20,22 @@ import xyz.mcxross.ksui.protocol.Coin
 import xyz.mcxross.ksui.protocol.Faucet
 import xyz.mcxross.ksui.protocol.General
 import xyz.mcxross.ksui.protocol.Governance
+import xyz.mcxross.ksui.protocol.Move
+import xyz.mcxross.ksui.protocol.Object
+import xyz.mcxross.ksui.protocol.Sns
+import xyz.mcxross.ksui.protocol.Transaction
 
+/**
+ * Sui is a class that implements all the interfaces of the Sui API.
+ *
+ * It is the entry point for all the API calls and related operations.
+ */
 class Sui(config: SuiConfig = SuiConfig()) :
   Coin by xyz.mcxross.ksui.api.Coin(config),
   Governance by xyz.mcxross.ksui.api.Governance(config),
   General by xyz.mcxross.ksui.api.General(config),
+  Transaction by xyz.mcxross.ksui.api.Transaction(config),
+  Object by xyz.mcxross.ksui.api.Object(config),
+  Sns by xyz.mcxross.ksui.api.Sns(config),
+  Move by xyz.mcxross.ksui.api.Move(config),
   Faucet by xyz.mcxross.ksui.api.Faucet(config)

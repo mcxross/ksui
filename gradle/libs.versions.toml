@@ -1,7 +1,7 @@
 [versions]
 ktor = "2.3.10"
 junit = "5.8.1"
-graphql-multiplatform-client = "1.0-SNAPSHOT"
+graphql-multiplatform-client = "0.1.0-beta06"
 
 [libraries]
 bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.1-SNAPSHOT" }
