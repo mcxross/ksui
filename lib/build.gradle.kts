@@ -6,12 +6,12 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import xyz.mcxross.graphql.plugin.gradle.graphql
 
 plugins {
-  kotlin("multiplatform")
-  id("com.android.library")
-  kotlin("plugin.serialization")
-  id("org.jetbrains.dokka")
-  id("xyz.mcxross.graphql")
-  id("com.vanniktech.maven.publish")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.dokka)
+  alias(libs.plugins.graphql.multiplatform)
+  alias(libs.plugins.maven.publish)
 }
 
 group = "xyz.mcxross.ksui"
