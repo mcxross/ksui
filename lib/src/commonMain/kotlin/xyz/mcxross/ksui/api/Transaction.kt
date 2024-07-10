@@ -18,6 +18,8 @@ package xyz.mcxross.ksui.api
 import xyz.mcxross.ksui.internal.getTotalTransactionBlocks
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.TransactionBlocks
+import xyz.mcxross.ksui.model.TransactionBlocksOptions
 import xyz.mcxross.ksui.protocol.Transaction
 
 /**
@@ -36,4 +38,15 @@ class Transaction(val config: SuiConfig) : Transaction {
    */
   override suspend fun getTotalTransactionBlocks(): Option<Long?> =
     getTotalTransactionBlocks(config)
+
+  /**
+   * Query transaction blocks for the specified criteria
+   *
+   * @param txnBlocksOptions The options to use
+   * @return An [Option] of nullable [TransactionBlocks]
+   */
+  override suspend fun queryTransactionBlocks(
+    txnBlocksOptions: TransactionBlocksOptions
+  ): Option<TransactionBlocks> =
+    xyz.mcxross.ksui.internal.queryTransactionBlocks(config, txnBlocksOptions)
 }
