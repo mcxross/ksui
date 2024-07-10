@@ -29,7 +29,7 @@ import xyz.mcxross.ksui.model.ProtocolConfig
 interface General {
 
   /**
-   * Get the chain identifier
+   * Get the first 4 bytes of the chain's genesis checkpoint digest.
    *
    * @return An [Option] of nullable [String]
    */
