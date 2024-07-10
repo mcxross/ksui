@@ -32,6 +32,7 @@ import xyz.mcxross.ksui.generated.GetProtocolConfig
 import xyz.mcxross.ksui.generated.GetStakes
 import xyz.mcxross.ksui.generated.GetStakesByIds
 import xyz.mcxross.ksui.generated.GetValidatorsApy
+import xyz.mcxross.ksui.generated.QueryTransactionBlocks
 import xyz.mcxross.ksui.generated.ResolveNameServiceNames
 import xyz.mcxross.ksui.generated.TryGetPastObject
 
@@ -70,3 +71,5 @@ typealias OwnedObjects = GetOwnedObjects.Result?
 typealias PastObject = TryGetPastObject.Result?
 
 typealias MoveFunctionArgTypes = GetMoveFunctionArgTypes.Result?
+
+typealias TransactionBlocks = QueryTransactionBlocks.Result?

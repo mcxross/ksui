@@ -18,8 +18,11 @@ package xyz.mcxross.ksui.internal
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.generated.GetTotalTransactionBlocks
+import xyz.mcxross.ksui.generated.QueryTransactionBlocks
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.TransactionBlocks
+import xyz.mcxross.ksui.model.TransactionBlocksOptions
 
 suspend fun getTotalTransactionBlocks(config: SuiConfig): Option<Long?> {
 
@@ -35,4 +38,40 @@ suspend fun getTotalTransactionBlocks(config: SuiConfig): Option<Long?> {
   }
 
   return Option.Some(response.data?.checkpoint?.networkTotalTransactions?.toLong())
+}
+
+suspend fun queryTransactionBlocks(
+  config: SuiConfig,
+  transactionBlocksOptions: TransactionBlocksOptions,
+): Option<TransactionBlocks> {
+  val response =
+    getGraphqlClient(config)
+      .execute<QueryTransactionBlocks.Result>(
+        QueryTransactionBlocks(
+          QueryTransactionBlocks.Variables(
+            first = transactionBlocksOptions.first,
+            last = transactionBlocksOptions.last,
+            before = transactionBlocksOptions.before,
+            after = transactionBlocksOptions.after,
+            showBalanceChanges = transactionBlocksOptions.showBalanceChanges,
+            showEffects = transactionBlocksOptions.showEffects,
+            showRawEffects = transactionBlocksOptions.showRawEffects,
+            showEvents = transactionBlocksOptions.showEvents,
+            showInput = transactionBlocksOptions.showInput,
+            showObjectChanges = transactionBlocksOptions.showObjectChanges,
+            showRawInput = transactionBlocksOptions.showRawInput,
+            filter = transactionBlocksOptions.filter,
+          )
+        )
+      )
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data)
 }
