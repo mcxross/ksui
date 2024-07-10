@@ -19,6 +19,7 @@ package xyz.mcxross.ksui.internal
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.generated.GetChainIdentifier
+import xyz.mcxross.ksui.generated.GetCheckpoint
 import xyz.mcxross.ksui.generated.GetLatestSuiSystemState
 import xyz.mcxross.ksui.generated.GetProtocolConfig
 import xyz.mcxross.ksui.generated.GetReferenceGasPrice
@@ -63,7 +64,29 @@ internal suspend fun getCheckpoint(
   config: SuiConfig,
   checkpoint: CheckpointId?,
 ): Option<Checkpoint?> {
-  return Option.None
+  val client = getGraphqlClient(config)
+  val response =
+    client.execute<GetCheckpoint.Result>(
+      GetCheckpoint(
+        variables =
+          GetCheckpoint.Variables(
+            xyz.mcxross.ksui.generated.inputs.CheckpointId(
+              checkpoint?.digest,
+              checkpoint?.sequenceNumber?.toInt(),
+            )
+          )
+      )
+    )
+
+  if (response.errors != null) {
+    throw SuiException(response.errors.toString())
+  }
+
+  if (response.data == null) {
+    return Option.None
+  }
+
+  return Option.Some(response.data!!.checkpoint)
 }
 
 internal suspend fun getLatestSuiSystemState(config: SuiConfig): Option<LatestSuiSystemState?> {
