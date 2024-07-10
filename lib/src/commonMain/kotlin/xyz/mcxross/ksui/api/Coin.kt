@@ -19,6 +19,7 @@ package xyz.mcxross.ksui.api
 import xyz.mcxross.ksui.internal.getAllBalances
 import xyz.mcxross.ksui.internal.getBalance
 import xyz.mcxross.ksui.internal.getCoinMetadata
+import xyz.mcxross.ksui.internal.getCoins
 import xyz.mcxross.ksui.internal.getTotalSupply
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Balances
@@ -46,17 +47,6 @@ class Coin(val config: SuiConfig) : Coin {
     getAllBalances(config, address)
 
   /**
-   * Get all coins for an address
-   *
-   * @param address The address to get coins for
-   * @param type The type of coins to get
-   * @param limit The limit of coins to get
-   * @return An [Option] of nullable [String]
-   */
-  override suspend fun getAllCoins(address: SuiAddress, type: String, limit: Int): Option<String> =
-    xyz.mcxross.ksui.internal.getAllCoins(config, address, type, limit)
-
-  /**
    * Get coins for an address
    *
    * @param address The address to get coins for
@@ -70,7 +60,7 @@ class Coin(val config: SuiConfig) : Coin {
     first: Int?,
     cursor: String?,
     type: String?,
-  ): Option<Coins> = xyz.mcxross.ksui.internal.getCoins(config, address, first, cursor, type)
+  ): Option<Coins> = getCoins(config, address, first, cursor, type)
 
   /**
    * Get the total supply of a coin
@@ -81,13 +71,15 @@ class Coin(val config: SuiConfig) : Coin {
   override suspend fun getTotalSupply(type: String): Option<String> = getTotalSupply(config, type)
 
   /**
-   * Get the balance of an address
+   * Get the balance of an address for a specific coin type
+   *
+   * If the type is not provided, the default coin type of `0x2::sui::SUI` will be used
    *
    * @param address The address to get the balance for
    * @return An [Option] of nullable [Balance]
    */
-  override suspend fun getBalance(address: SuiAddress): Option<Balance> =
-    getBalance(config, address)
+  override suspend fun getBalance(address: SuiAddress, type: String?): Option<Balance> =
+    getBalance(config, address, type)
 
   /**
    * Get the metadata for a coin

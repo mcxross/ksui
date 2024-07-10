@@ -38,16 +38,6 @@ interface Coin {
   suspend fun getAllBalances(address: SuiAddress): Option<Balances>
 
   /**
-   * Get all coins for an address
-   *
-   * @param address The address to get coins for
-   * @param type The type of coins to get
-   * @param limit The limit of coins to get
-   * @return An [Option] of nullable [String]
-   */
-  suspend fun getAllCoins(address: SuiAddress, type: String, limit: Int): Option<String>
-
-  /**
    * Get coins for an address
    *
    * @param address The address to get coins for
@@ -72,12 +62,14 @@ interface Coin {
   suspend fun getTotalSupply(type: String): Option<String>
 
   /**
-   * Get the balance of an address
+   * Get the balance of an address for a specific coin type
+   *
+   * If the type is not provided, the default coin type of `0x2::sui::SUI` will be used
    *
    * @param address The address to get the balance for
    * @return An [Option] of nullable [Balance]
    */
-  suspend fun getBalance(address: SuiAddress): Option<Balance>
+  suspend fun getBalance(address: SuiAddress, type: String? = null): Option<Balance>
 
   /**
    * Get the metadata for a coin
