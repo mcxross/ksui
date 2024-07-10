@@ -32,7 +32,7 @@ import xyz.mcxross.ksui.protocol.General
 class General(val config: SuiConfig) : General {
 
   /**
-   * Get the chain identifier
+   * Get the first 4 bytes of the chain's genesis checkpoint digest.
    *
    * @return An [Option] of nullable [String]
    */
