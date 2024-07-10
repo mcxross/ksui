@@ -48,22 +48,13 @@ internal suspend fun getAllBalances(config: SuiConfig, address: SuiAddress): Opt
   return Option.Some(response.data)
 }
 
-internal suspend fun getAllCoins(
-  config: SuiConfig,
-  address: SuiAddress,
-  type: String,
-  limit: Int,
-): Option<String> {
-  return Option.None
-}
-
 internal suspend fun getCoins(
   config: SuiConfig,
   address: SuiAddress,
   first: Int? = null,
   cursor: String? = null,
   type: String? = null,
-): Option<Coins?> {
+): Option<Coins> {
   val client = getGraphqlClient(config)
   val request by lazy { GetCoins(GetCoins.Variables(address.toString(), first, cursor, type)) }
   val response = client.execute(request)
@@ -95,9 +86,13 @@ internal suspend fun getTotalSupply(config: SuiConfig, type: String): Option<Str
   return Option.Some(response.data!!.coinMetadata?.supply.toString())
 }
 
-internal suspend fun getBalance(config: SuiConfig, address: SuiAddress): Option<Balance?> {
+internal suspend fun getBalance(
+  config: SuiConfig,
+  address: SuiAddress,
+  type: String?,
+): Option<Balance> {
   val client = getGraphqlClient(config)
-  val request by lazy { GetBalance(GetBalance.Variables(address.toString())) }
+  val request by lazy { GetBalance(GetBalance.Variables(address.toString(), type)) }
   val response = client.execute(request)
 
   if (!response.errors.isNullOrEmpty()) {
@@ -111,7 +106,7 @@ internal suspend fun getBalance(config: SuiConfig, address: SuiAddress): Option<
   return Option.Some(response.data)
 }
 
-internal suspend fun getCoinMetadata(config: SuiConfig, type: String): Option<CoinMetadata?> {
+internal suspend fun getCoinMetadata(config: SuiConfig, type: String): Option<CoinMetadata> {
   val client = getGraphqlClient(config)
   val request by lazy { GetCoinMetadata(GetCoinMetadata.Variables(type)) }
   val response = client.execute(request)
