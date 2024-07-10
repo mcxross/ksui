@@ -16,6 +16,8 @@
 package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.TransactionBlocks
+import xyz.mcxross.ksui.model.TransactionBlocksOptions
 
 /**
  * Transaction interface
@@ -30,4 +32,14 @@ interface Transaction {
    * @return An [Option] of nullable [Long]
    */
   suspend fun getTotalTransactionBlocks(): Option<Long?>
+
+  /**
+   * Query transaction blocks for the specified criteria
+   *
+   * @param txnBlocksOptions The options to use
+   * @return An [Option] of nullable [TransactionBlocks]
+   */
+  suspend fun queryTransactionBlocks(
+    txnBlocksOptions: TransactionBlocksOptions = TransactionBlocksOptions()
+  ): Option<TransactionBlocks>
 }
