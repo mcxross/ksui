@@ -17,4 +17,4 @@ package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
 
-@Serializable data class CheckpointId(val digest: String, val sequenceNumber: Long)
+@Serializable data class CheckpointId(val digest: String? = null, val sequenceNumber: Long? = null)

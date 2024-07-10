@@ -48,7 +48,7 @@ interface General {
    * @param checkpointId The checkpoint ID to get
    * @return An [Option] of nullable [Checkpoint]
    */
-  suspend fun getCheckpoint(checkpointId: CheckpointId? = null): Option<Checkpoint?>
+  suspend fun getCheckpoint(checkpointId: CheckpointId? = CheckpointId()): Option<Checkpoint?>
 
   /**
    * Get the latest Sui system state
