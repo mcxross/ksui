@@ -42,3 +42,17 @@ suspend inline fun <reified T> postSuiFaucet(
     )
   return response
 }
+
+suspend inline fun <reified T> postSuiIndexer(
+  options: RequestOptions.PostSuiRequestOptions<T>
+): SuiResponse {
+  val response =
+    post<T>(
+      RequestOptions.PostRequestOptions(
+        suiConfig = options.suiConfig,
+        type = SuiApiType.INDEXER,
+        body = options.body,
+      )
+    )
+  return response
+}

@@ -16,7 +16,11 @@
 
 package xyz.mcxross.ksui.internal
 
+import io.ktor.client.call.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import xyz.mcxross.ksui.client.getGraphqlClient
+import xyz.mcxross.ksui.client.postSuiIndexer
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.generated.GetChainIdentifier
 import xyz.mcxross.ksui.generated.GetCheckpoint
@@ -25,10 +29,25 @@ import xyz.mcxross.ksui.generated.GetProtocolConfig
 import xyz.mcxross.ksui.generated.GetReferenceGasPrice
 import xyz.mcxross.ksui.generated.getcheckpoint.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.GraphqlQuery
 import xyz.mcxross.ksui.model.LatestSuiSystemState
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.ProtocolConfig
+import xyz.mcxross.ksui.model.RequestOptions
 import xyz.mcxross.ksui.model.SuiConfig
+
+suspend inline fun <reified T> query(config: SuiConfig, query: GraphqlQuery): T {
+  val response =
+    postSuiIndexer(
+      RequestOptions.PostSuiRequestOptions(suiConfig = config, body = Json.encodeToString(query))
+    )
+
+  if (response.status.value in 400..599) {
+    throw SuiException("Failed to execute query: ${response.status}")
+  }
+
+  return response.body()
+}
 
 internal suspend fun getChainIdentifier(config: SuiConfig): Option<String> {
   val client = getGraphqlClient(config)
