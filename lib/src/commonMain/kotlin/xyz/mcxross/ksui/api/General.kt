@@ -29,7 +29,7 @@ import xyz.mcxross.ksui.model.ProtocolConfig
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.General
 
-class General(val config: SuiConfig) : General {
+class General(override val config: SuiConfig) : General {
 
   /**
    * Get the first 4 bytes of the chain's genesis checkpoint digest.

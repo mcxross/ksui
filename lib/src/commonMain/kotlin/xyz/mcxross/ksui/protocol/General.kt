@@ -17,9 +17,11 @@ package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.generated.getcheckpoint.Checkpoint
 import xyz.mcxross.ksui.model.CheckpointId
+import xyz.mcxross.ksui.model.GraphqlQuery
 import xyz.mcxross.ksui.model.LatestSuiSystemState
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.ProtocolConfig
+import xyz.mcxross.ksui.model.SuiConfig
 
 /**
  * General interface
@@ -27,6 +29,8 @@ import xyz.mcxross.ksui.model.ProtocolConfig
  * This interface represents the general API
  */
 interface General {
+
+  val config: SuiConfig
 
   /**
    * Get the first 4 bytes of the chain's genesis checkpoint digest.
@@ -65,3 +69,6 @@ interface General {
    */
   suspend fun getProtocolConfig(protocolVersion: Int? = null): Option<ProtocolConfig>
 }
+
+suspend inline fun <reified T> General.query(query: GraphqlQuery): T =
+  xyz.mcxross.ksui.internal.query(config, query)
