@@ -29,9 +29,13 @@ import xyz.mcxross.ksui.model.SuiConfig
  */
 expect fun httpClient(clientConfig: ClientConfig): HttpClient
 
-expect class ClientConfig()
+expect class ClientConfig {
+  companion object {
+    val default: ClientConfig
+  }
+}
 
-val client = httpClient(clientConfig = ClientConfig())
+fun getClient(clientConfig: ClientConfig) = httpClient(clientConfig)
 
 fun getGraphqlClient(config: SuiConfig): DefaultGraphQLClient {
   return DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))

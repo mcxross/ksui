@@ -83,59 +83,49 @@ actual fun httpClient(clientConfig: ClientConfig) =
     }
   }
 
-actual class ClientConfig {
-
+actual class ClientConfig(
   /** Specifies whether the client should use pipelining. Default is `false`. */
-  var pipelining = false
-
+  var pipelining: Boolean = false,
   /** Specifies the maximum size of the pipeline. Default is `20`. */
-  var pipelineMaxSize = 20
-
+  var pipelineMaxSize: Int = 20,
   /** Specifies whether the client should follow redirects. Default is `true`. */
-  var followRedirects = true
-
+  var followRedirects: Boolean = true,
   /** Specifies the maximum number of connections per route. Default is `100`. */
-  var maxConnectionsPerRoute = 100
-
+  var maxConnectionsPerRoute: Int = 100,
   /** Specifies the maximum number of connections used to make requests. Default is `1000`. */
-  var maxConnectionsCount = 1000
-
+  var maxConnectionsCount: Int = 1000,
   /** Specifies the connect timeout in milliseconds. Default is `10000L`. */
-  var connectTimeoutMillis = 10000L
-
+  var connectTimeoutMillis: Long = 10000L,
   /** Specifies the keep alive time in milliseconds. Default is `5000L`. */
-  var keepAliveTime = 5000L
-
+  var keepAliveTime: Long = 5000L,
   /** Specifies the number of connect attempts. Default is `5`. */
-  var connectAttempts = 5
-
+  var connectAttempts: Int = 5,
   /**
    * Specifies how many times the client should retry on server errors. Default is `-1`, which means
    * no retries.
    */
-  var retryOnServerErrors = -1
-
+  var retryOnServerErrors: Int = -1,
   /**
    * Specifies how many times the client should retry on connection errors. Default is `-1`, which
    * means no retries.
    */
-  var maxRetries = -1
-
+  var maxRetries: Int = -1,
   /** Enables or disables caching. Default is `false`. */
-  var cache: Boolean = false
-
+  var cache: Boolean = false,
   /** Specifies the user agent. Default is `Ksui`. */
-  var agent: String = "Ksui/JVM"
-
+  var agent: String = "Ksui/JVM",
   /** Use a like agent. If this is set, the `agent` field will be ignored. */
-  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null
-
+  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null,
   /** Specifies a timeout for a whole HTTP call, from sending a request to receiving a response. */
-  var requestTimeout = 10000L
-
+  var requestTimeout: Long = 10000L,
   /** Specifies a timeout for establishing a connection with a node. */
-  var connectTimeout = 10000L
-
+  var connectTimeout: Long = 10000L,
   /** Specifies a proxy for the client to use. */
-  var proxy: String? = null
+  var proxy: String? = null,
+) {
+
+  actual companion object {
+    actual val default: ClientConfig
+      get() = ClientConfig()
+  }
 }

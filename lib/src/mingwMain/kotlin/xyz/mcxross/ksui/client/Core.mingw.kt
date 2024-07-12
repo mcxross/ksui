@@ -74,36 +74,43 @@ actual fun httpClient(clientConfig: ClientConfig) =
     }
   }
 
-actual class ClientConfig {
-  var followRedirects: Boolean = true
+actual class ClientConfig(
 
-  /** Specifies the user agent. Default is `Ksui`. */
-  var agent: String = "Ksui/Win"
+  /** Specifies whether the client should follow redirects. Default is `true`. */
+  var followRedirects: Boolean = true,
+
+  /** Specifies the user agent. Default is `Ksui/Win`. */
+  var agent: String = "Ksui/Win",
 
   /** Use a like agent. If this is set, the `agent` field will be ignored. */
-  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null
+  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null,
 
   /** Specifies a timeout for a whole HTTP call, from sending a request to receiving a response. */
-  var requestTimeout = 10000L
+  var requestTimeout: Long = 10000,
 
   /** Specifies a timeout for establishing a connection with a node. */
-  var connectTimeout = 10000L
+  var connectTimeout: Long = 10000,
 
   /**
    * Specifies how many times the client should retry on server errors. Default is `-1`, which means
    * no retries.
    */
-  var retryOnServerErrors = -1
+  var retryOnServerErrors: Int = -1,
 
   /**
    * Specifies how many times the client should retry on connection errors. Default is `-1`, which
    * means no retries.
    */
-  var maxRetries = -1
+  var maxRetries: Int = -1,
 
   /** Enables or disables caching. Default is `false`. */
-  var cache: Boolean = false
+  var cache: Boolean = false,
 
   /** Specifies the proxy to use. Default is `null`. */
-  var proxy: String? = null
+  var proxy: String? = null,
+) {
+  actual companion object {
+    actual val default: ClientConfig
+      get() = ClientConfig()
+  }
 }
