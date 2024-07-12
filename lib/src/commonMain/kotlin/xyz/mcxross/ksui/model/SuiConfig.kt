@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.model
 
+import xyz.mcxross.ksui.client.ClientConfig
 import xyz.mcxross.ksui.util.NetworkToFaucetAPI
 import xyz.mcxross.ksui.util.NetworkToIndexerAPI
 import xyz.mcxross.ksui.util.NetworkToNodeAPI
@@ -25,6 +26,7 @@ class SuiConfig(settings: SuiSettings? = null) {
   val fullNode: String? = settings?.fullNode
   val faucet: String? = settings?.faucet
   val indexer: String? = settings?.indexer
+  val clientConfig: ClientConfig = settings?.clientConfig ?: ClientConfig.default
   val fullNodeConfig: FullNodeConfig = settings?.fullNodeConfig ?: FullNodeConfig()
   val indexerConfig: IndexerConfig = settings?.indexerConfig ?: IndexerConfig()
   val faucetConfig: FaucetConfig = settings?.faucetConfig ?: FaucetConfig()
