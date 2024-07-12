@@ -15,11 +15,14 @@
  */
 package xyz.mcxross.ksui.model
 
+import xyz.mcxross.ksui.client.ClientConfig
+
 data class SuiSettings(
   val network: Network? = null,
   val fullNode: String? = null,
   val faucet: String? = null,
   val indexer: String? = null,
+  val clientConfig: ClientConfig = ClientConfig.default,
   val fullNodeConfig: FullNodeConfig? = null,
   val indexerConfig: IndexerConfig? = null,
   val faucetConfig: FaucetConfig? = null,

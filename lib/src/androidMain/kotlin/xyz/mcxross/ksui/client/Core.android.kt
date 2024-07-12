@@ -74,44 +74,49 @@ actual fun httpClient(clientConfig: ClientConfig) =
     }
   }
 
-actual class ClientConfig {
-
+actual class ClientConfig(
   /** Specifies whether the client should follow redirects. Default is `true`. */
-  var followRedirects: Boolean = true
+  var followRedirects: Boolean = true,
 
   /** Specifies whether the client should follow SSL redirects. Default is `true`. */
-  var followSslRedirects: Boolean = true
+  var followSslRedirects: Boolean = true,
 
   /** Specifies the connection timeout in milliseconds. Default is `10000`. */
-  var connectTimeoutMillis: Long = 10000
+  var connectTimeoutMillis: Long = 10000,
 
   /** Specifies the read timeout in milliseconds. Default is `10000`. */
-  var readTimeoutMillis: Long = 10000
+  var readTimeoutMillis: Long = 10000,
 
   /** Specifies the write timeout in milliseconds. Default is `10000`. */
-  var writeTimeoutMillis: Long = 10000
+  var writeTimeoutMillis: Long = 10000,
 
   /** Specifies the proxy to use. Default is `null`. */
-  var proxy: String? = null
+  var proxy: String? = null,
 
   /** Specifies the agent the node sees. Default is `Ksui`. */
-  var agent: String = "Ksui/Android"
+  var agent: String = "Ksui/Android",
 
   /** Use a like agent. If this is set, the `agent` field will be ignored. */
-  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null
+  var likeAgent: xyz.mcxross.ksui.model.UserAgent? = null,
 
   /**
    * Specifies how many times the client should retry on server errors. Default is `-1`, which means
    * no retries.
    */
-  var retryOnServerErrors = -1
+  var retryOnServerErrors: Int = -1,
 
   /**
    * Specifies how many times the client should retry on connection errors. Default is `-1`, which
    * means no retries.
    */
-  var maxRetries = -1
+  var maxRetries: Int = -1,
 
   /** Enables or disables caching. Default is `false`. */
-  var cache: Boolean = false
+  var cache: Boolean = false,
+) {
+
+  actual companion object {
+    actual val default: ClientConfig
+      get() = ClientConfig()
+  }
 }

@@ -23,7 +23,9 @@ import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiResponse
 
 suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>): SuiResponse {
-  return client.post(options.suiConfig.getRequestUrl(options.type)) {
+  return getClient(options.suiConfig.clientConfig).post(
+    options.suiConfig.getRequestUrl(options.type)
+  ) {
     contentType(ContentType.Application.Json)
     setBody(options.body)
   }
