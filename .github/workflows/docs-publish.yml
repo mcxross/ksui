@@ -7,12 +7,7 @@ on:
     branches: [ "master" ]
 
 permissions:
-  contents: read
-
-concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
-
+  contents: write
 
 jobs:
   deploy-gh-pages:
@@ -31,11 +26,14 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
         shell: bash
+      - name: Generate GraphQL Client
+        run: ./gradlew graphqlGenerateClient
+        shell: bash
       - name: Generate HTML docs
         run: ./gradlew dokkaHtml
         shell: bash
       - name: Deploy docs to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
           branch: gh-pages
           folder: lib/build/dokka
