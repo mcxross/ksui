@@ -6,7 +6,7 @@ junit = "5.8.1"
 graphql-multiplatform = "0.1.0-beta07"
 
 [libraries]
-bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.1-SNAPSHOT" }
+bcs = { module = "xyz.mcxross.bcs:bcs", version = "0.1.2" }
 graphql-multiplatform-client = { module = "xyz.mcxross.graphql.client:graphql-multiplatform-client", version.ref = "graphql-multiplatform" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
