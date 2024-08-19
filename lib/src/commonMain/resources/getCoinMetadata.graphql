@@ -1,0 +1,10 @@
+query getCoinMetadata($coinType: String!) {
+	coinMetadata(coinType: $coinType) {
+		decimals
+		name
+		symbol
+		description
+		iconUrl
+		address
+	}
+}

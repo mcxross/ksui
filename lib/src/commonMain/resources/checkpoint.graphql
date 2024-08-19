@@ -1,19 +1,70 @@
-query GetCheckpoint($digest: String, $sequenceNumber: Int) {
-    checkpoint(id: {digest: $digest, sequenceNumber: $sequenceNumber }) {
-        digest
-        sequenceNumber
-        timestamp
-        validatorSignatures
-        previousCheckpointDigest
-        networkTotalTransactions
-        rollingGasSummary {
-            computationCost
-            storageCost
-            storageRebate
-            nonRefundableStorageFee
+query getCheckpoint($id: CheckpointId) {
+    checkpoint(id: $id) {
+        ...RPC_Checkpoint_Fields
+    }
+}
+
+fragment RPC_Checkpoint_Fields on Checkpoint {
+    # checkpointCommitments
+    digest
+    epoch {
+        epochId
+    }
+
+    rollingGasSummary {
+        computationCost
+        storageCost
+        storageRebate
+        nonRefundableStorageFee
+    }
+    networkTotalTransactions
+    previousCheckpointDigest
+    sequenceNumber
+    timestamp
+    validatorSignatures
+    transactionBlocks {
+        pageInfo {
+            hasNextPage
+            endCursor
         }
-        epoch {
-            epochId
+        nodes {
+            digest
+        }
+    }
+    endOfEpoch: transactionBlocks(last: 1, filter: { kind: SYSTEM_TX }) {
+        nodes {
+            kind {
+                __typename
+                ... on EndOfEpochTransaction {
+                    transactions(last: 1) {
+                        nodes {
+                            __typename
+                            ... on ChangeEpochTransaction {
+                                epoch {
+                                    validatorSet {
+                                        activeValidators {
+                                            pageInfo {
+                                                hasNextPage
+                                                endCursor
+                                            }
+                                            nodes {
+                                                credentials {
+                                                    protocolPubKey
+                                                }
+                                                votingPower
+                                            }
+                                        }
+                                    }
+                                    protocolConfigs {
+                                        protocolVersion
+                                    }
+                                    epochId
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

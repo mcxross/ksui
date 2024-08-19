@@ -1,0 +1,19 @@
+query getValidatorsApy {
+	epoch {
+		epochId
+		validatorSet {
+			activeValidators {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				nodes {
+					address {
+						address
+					}
+					apy
+				}
+			}
+		}
+	}
+}

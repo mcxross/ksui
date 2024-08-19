@@ -1,0 +1,13 @@
+query paginateCheckpointTransactionBlocks($id: CheckpointId, $after: String) {
+    checkpoint(id: $id) {
+        transactionBlocks(after: $after) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                digest
+            }
+        }
+    }
+}
