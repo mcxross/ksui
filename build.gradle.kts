@@ -1,14 +1,16 @@
 group = "xyz.mcxross.ksui"
 
-version = "1.3.4"
+version = "2.1.1-SNAPSHOT"
 
 plugins {
-  kotlin("jvm") apply false
-  id("com.android.library") apply false
-  id("com.android.application") apply false
-  kotlin("multiplatform") apply false
-  kotlin("plugin.serialization") apply false
-  id("org.jetbrains.dokka") version "1.9.10" apply false
+  alias(libs.plugins.jvm) apply false
+  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.kotlin.multiplatform) apply false
+  alias(libs.plugins.kotlin.serialization) apply false
+  alias(libs.plugins.dokka) apply false
+  alias(libs.plugins.graphql.multiplatform) apply false
+  alias(libs.plugins.maven.publish) apply false
 }
 
 repositories {

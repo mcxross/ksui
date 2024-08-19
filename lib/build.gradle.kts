@@ -1,21 +1,22 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.SonatypeHost
 import java.net.URL
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.kotlin.dsl.signing
 import org.jetbrains.dokka.gradle.DokkaTask
+import xyz.mcxross.graphql.plugin.gradle.graphql
 
 plugins {
-  kotlin("multiplatform")
-  id("com.android.library")
-  kotlin("plugin.serialization")
-  id("org.jetbrains.dokka")
-  id("maven-publish")
-  id("signing")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.dokka)
+  alias(libs.plugins.graphql.multiplatform)
+  alias(libs.plugins.maven.publish)
 }
 
 group = "xyz.mcxross.ksui"
 
-version = "1.3.4"
+version = "2.1.1-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -49,7 +50,6 @@ kotlin {
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
   linuxX64()
-  linuxArm64()
   macosArm64()
   macosX64()
   tvosX64()
@@ -62,6 +62,8 @@ kotlin {
   applyDefaultHierarchyTemplate()
 
   sourceSets {
+    appleMain.dependencies { implementation(libs.ktor.client.darwin) }
+    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
     commonMain.dependencies {
       implementation(libs.ktor.client.core)
       implementation(libs.ktor.client.content.negotiation)
@@ -70,27 +72,30 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
+      implementation(libs.graphql.multiplatform.client)
     }
-
     commonTest.dependencies {
       implementation(libs.ktor.client.mock)
       implementation(libs.kotlin.test)
     }
-
     jsMain.dependencies { implementation(libs.ktor.client.js) }
-
     jvmMain.dependencies { implementation(libs.ktor.client.cio) }
-
-    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
-
-    iosMain.dependencies { implementation(libs.ktor.client.darwin) }
+    linuxMain.dependencies { implementation(libs.ktor.client.curl) }
+    mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
   }
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
+graphql {
+  client {
+    endpoint = "https://sui-devnet.mystenlabs.com/graphql"
+    packageName = "xyz.mcxross.ksui.generated"
+  }
+}
+
 android {
-  namespace = "mcxross.ksui"
+  namespace = "xyz.mcxross.ksui"
   defaultConfig {
     minSdk = 24
     compileSdk = 33
@@ -102,6 +107,10 @@ android {
       res.srcDirs("src/androidMain/res", "src/commonMain/resources")
     }
   }
+}
+
+tasks.withType<DokkaTask>().configureEach {
+  notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
 }
 
 tasks.getByName<DokkaTask>("dokkaHtml") {
@@ -119,74 +128,45 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
   }
 }
 
-tasks.withType<DokkaTask>().configureEach {
-  notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
-}
+mavenPublishing {
+  coordinates("xyz.mcxross.ksui", "ksui", version.toString())
 
-val javadocJar =
-  tasks.register<Jar>("javadocJar") {
-    archiveClassifier.set("javadoc")
-    dependsOn("dokkaHtml")
-    from(buildDir.resolve("dokka"))
-  }
+  configure(
+    KotlinMultiplatform(
+      javadocJar = JavadocJar.Dokka("dokkaHtml"),
+      sourcesJar = true,
+      androidVariantsToPublish = listOf("debug", "release"),
+    )
+  )
 
-fun getExtraString(name: String) = ext[name]?.toString()
-
-publishing {
-  if (hasProperty("sonatypeUser") && hasProperty("sonatypePass")) {
-    repositories {
-      maven {
-        name = "sonatype"
-        val isSnapshot = version.toString().endsWith("-SNAPSHOT")
-        setUrl(
-          if (isSnapshot) {
-            "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-          } else {
-            "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-          }
-        )
-        credentials {
-          username = property("sonatypeUser") as String
-          password = property("sonatypePass") as String
-        }
+  pom {
+    name.set("Ksui")
+    description.set("Multiplatform SDK for the SUI blockchain")
+    inceptionYear.set("2023")
+    url.set("https://github.com/mcxross")
+    licenses {
+      license {
+        name.set("The Apache License, Version 2.0")
+        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+        distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
       }
+    }
+    developers {
+      developer {
+        id.set("mcxross")
+        name.set("Mcxross")
+        email.set("oss@mcxross.xyz")
+        url.set("https://mcxross.xyz/")
+      }
+    }
+    scm {
+      url.set("https://github.com/mcxross/ksui")
+      connection.set("scm:git:ssh://github.com/mcxross/ksui.git")
+      developerConnection.set("scm:git:ssh://github.com/mcxross/ksui.git")
     }
   }
 
-  publications.withType<MavenPublication> {
-    artifact(javadocJar.get())
+  publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
 
-    pom {
-      name.set("KMP Sui library")
-      description.set(
-        "Multiplatform Kotlin language JSON-RPC wrapper and crypto utilities for interacting with a Sui Full node."
-      )
-      url.set("https://github.com/mcxross")
-
-      licenses {
-        license {
-          name.set("Apache License, Version 2.0")
-          url.set("https://opensource.org/licenses/APACHE-2.0")
-        }
-      }
-      developers {
-        developer {
-          id.set("mcxross")
-          name.set("Mcxross")
-          email.set("oss@mcxross.xyz")
-        }
-      }
-      scm { url.set("https://github.com/mcxross/ksui") }
-    }
-  }
-}
-
-signing {
-  val sonatypeGpgKey = System.getenv("SONATYPE_GPG_KEY")
-  val sonatypeGpgKeyPassword = System.getenv("SONATYPE_GPG_KEY_PASSWORD")
-  when {
-    sonatypeGpgKey == null || sonatypeGpgKeyPassword == null -> useGpgCmd()
-    else -> useInMemoryPgpKeys(sonatypeGpgKey, sonatypeGpgKeyPassword)
-  }
-  // sign(publishing.publications)
+  signAllPublications()
 }

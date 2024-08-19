@@ -1,20 +1,21 @@
+/*
+ * Copyright 2024 McXross
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package xyz.mcxross.ksui.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.model.serializer.FaucetResponseSerializer
-
-@Serializable data class Gas(val objectId: String, val version: Int, val digest: String)
-
-@Serializable
-data class GasUsed(
-  val computationCost: String,
-  val storageCost: String,
-  val storageRebate: String,
-  val nonRefundableStorageFee: String,
-)
-
-@Serializable data class GasObject(val owner: Owner.AddressOwner, val reference: ObjectReference)
 
 @Serializable
 data class GasData(
@@ -23,19 +24,3 @@ data class GasData(
   val price: ULong,
   val budget: ULong,
 )
-
-@Serializable
-data class GasCostSummary(
-  val computationCost: Long,
-  val storageCost: Long,
-  val storageRebate: Long,
-)
-
-@Serializable data class GasPrice(@SerialName("result") val cost: Long)
-
-@Serializable(with = FaucetResponseSerializer::class)
-sealed class FaucetResponse {
-  data class Ok(val transferredGasObjects: List<TransferredGasObject>) : FaucetResponse()
-
-  data class Error(val code: Int, val message: String) : FaucetResponse()
-}

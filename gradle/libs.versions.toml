@@ -1,13 +1,15 @@
 [versions]
-kase64 = "1.1.1"
+agp = "8.1.0-rc01"
+kotlin = "1.9.23"
 ktor = "2.3.7"
 junit = "5.8.1"
+graphql-multiplatform = "0.1.0-beta07"
 
 [libraries]
 bcs = { module = "xyz.mcxross.bcs:bcs", version = "1.0.1-SNAPSHOT" }
+graphql-multiplatform-client = { module = "xyz.mcxross.graphql.client:graphql-multiplatform-client", version.ref = "graphql-multiplatform" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-kase64 = { module = "de.peilicke.sascha:kase64", version.ref = "kase64" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
@@ -16,8 +18,19 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-winhttp = { module = "io.ktor:ktor-client-winhttp", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.3" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version = "1.9.22" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+dokka = { id = "org.jetbrains.dokka", version = "1.9.10" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+graphql-multiplatform = { id = "xyz.mcxross.graphql", version.ref = "graphql-multiplatform" }
+maven-publish = { id = "com.vanniktech.maven.publish", version = "0.29.0"}
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
