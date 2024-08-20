@@ -7,8 +7,9 @@ It is designed to be a type-safe, client-configurable, and multiplatform SDK tha
 different platforms such as Android, iOS, JS, and JVM. It is built on top of the KMM toolchain and is designed to be
 extensible and easy to use.
 
-![Build](https://img.shields.io/badge/Build-v2.0.1-blue.svg)
+
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
+[![Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 ![Snapshot](https://img.shields.io/nexus/s/xyz.mcxross.ksui/ksui?server=https%3A%2F%2Fs01.oss.sonatype.org&label=Snapshot)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
