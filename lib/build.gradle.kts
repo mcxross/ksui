@@ -89,7 +89,7 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 graphql {
   client {
-    endpoint = "https://sui-devnet.mystenlabs.com/graphql"
+    endpoint = "https://sui-mainnet.mystenlabs.com/graphql"
     packageName = "xyz.mcxross.ksui.generated"
   }
 }
