@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Sui</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Ksui
+                    </a>
+            </div>
+            <div class="library-version">
+2.1.1-SNAPSHOT            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":ksui:dokkaHtml/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui/Sui///PointingToDeclaration//1931646062">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui</a><span class="delimiter">/</span><span class="current">Sui</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Sui</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Sui</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-config/index.html">SuiConfig</a><span class="token operator"> = </span>SuiConfig()</span></span><span class="token punctuation">)</span> : <a href="../../xyz.mcxross.ksui.protocol/-coin/index.html">Coin</a>, <a href="../../xyz.mcxross.ksui.protocol/-governance/index.html">Governance</a>, <a href="../../xyz.mcxross.ksui.protocol/-general/index.html">General</a>, <a href="../../xyz.mcxross.ksui.protocol/-transaction/index.html">Transaction</a>, <a href="../../xyz.mcxross.ksui.protocol/-object/index.html">Object</a>, <a href="../../xyz.mcxross.ksui.protocol/-sns/index.html">Sns</a>, <a href="../../xyz.mcxross.ksui.protocol/-move/index.html">Move</a>, <a href="../../xyz.mcxross.ksui.protocol/-faucet/index.html">Faucet</a></div><p class="paragraph">Sui is a class that implements all the interfaces of the Sui API.</p><p class="paragraph">It is the entry point for all the API calls and related operations.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1733084791%2FConstructors%2F1931646062" anchor-label="Sui" id="1733084791%2FConstructors%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sui.html"><span><span>Sui</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1733084791%2FConstructors%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-config/index.html">SuiConfig</a><span class="token operator"> = </span>SuiConfig()</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-762116501%2FProperties%2F1931646062" anchor-label="config" id="-762116501%2FProperties%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/config.html"><span><span>config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-762116501%2FProperties%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="../../xyz.mcxross.ksui.protocol/-general/config.html">config</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-config/index.html">SuiConfig</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="98814012%2FFunctions%2F1931646062" anchor-label="getAllBalances" id="98814012%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-coin/get-all-balances.html"><span>get</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Balances</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="98814012%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-coin/get-all-balances.html"><span class="token function">getAllBalances</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">address<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-balances/index.html">Balances</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get all balances for an address</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1674992930%2FFunctions%2F1931646062" anchor-label="getBalance" id="-1674992930%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-coin/get-balance.html"><span>get</span><wbr></wbr><span><span>Balance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1674992930%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-coin/get-balance.html"><span class="token function">getBalance</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">address<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-balance/index.html">Balance</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the balance of an address for a specific coin type</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1108950489%2FFunctions%2F1931646062" anchor-label="getChainIdentifier" id="1108950489%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/get-chain-identifier.html"><span>get</span><wbr></wbr><span>Chain</span><wbr></wbr><span><span>Identifier</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1108950489%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-general/get-chain-identifier.html"><span class="token function">getChainIdentifier</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the first 4 bytes of the chain's genesis checkpoint digest.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="154980262%2FFunctions%2F1931646062" anchor-label="getCheckpoint" id="154980262%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/get-checkpoint.html"><span>get</span><wbr></wbr><span><span>Checkpoint</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="154980262%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-general/get-checkpoint.html"><span class="token function">getCheckpoint</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">checkpointId<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-checkpoint-id/index.html">CheckpointId</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="xyz.mcxross.ksui.generated.getcheckpoint/Checkpoint///PointingToDeclaration/">Checkpoint</span><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get a checkpoint</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1520876536%2FFunctions%2F1931646062" anchor-label="getCoinMetadata" id="-1520876536%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-coin/get-coin-metadata.html"><span>get</span><wbr></wbr><span>Coin</span><wbr></wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1520876536%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-coin/get-coin-metadata.html"><span class="token function">getCoinMetadata</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-coin-metadata/index.html">CoinMetadata</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the metadata for a coin</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1643367564%2FFunctions%2F1931646062" anchor-label="getCoins" id="1643367564%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-coin/get-coins.html"><span>get</span><wbr></wbr><span><span>Coins</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1643367564%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-coin/get-coins.html"><span class="token function">getCoins</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">address<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">first<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-coins/index.html">Coins</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get coins for an address</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-114993104%2FFunctions%2F1931646062" anchor-label="getCommitteeInfo" id="-114993104%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-governance/get-committee-info.html"><span>get</span><wbr></wbr><span>Committee</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-114993104%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-governance/get-committee-info.html"><span class="token function">getCommitteeInfo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">epochId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">after<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-committee-info/index.html">CommitteeInfo</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the committee info</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1511169999%2FFunctions%2F1931646062" anchor-label="getDynamicFieldObject" id="-1511169999%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-object/get-dynamic-field-object.html"><span>get</span><wbr></wbr><span>Dynamic</span><wbr></wbr><span>Field</span><wbr></wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1511169999%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-object/get-dynamic-field-object.html"><span class="token function">getDynamicFieldObject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parentId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><span data-unresolved-link="xyz.mcxross.ksui.generated.inputs/DynamicFieldName///PointingToDeclaration/">DynamicFieldName</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-dynamic-field-object/index.html">DynamicFieldObject</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get a dynamic field object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1487304615%2FFunctions%2F1931646062" anchor-label="getDynamicFields" id="1487304615%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-object/get-dynamic-fields.html"><span>get</span><wbr></wbr><span>Dynamic</span><wbr></wbr><span><span>Fields</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1487304615%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-object/get-dynamic-fields.html"><span class="token function">getDynamicFields</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parentId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-dynamic-fields/index.html">DynamicFields</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get dynamic fields</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1487465899%2FFunctions%2F1931646062" anchor-label="getLatestSuiSystemState" id="-1487465899%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/get-latest-sui-system-state.html"><span>get</span><wbr></wbr><span>Latest</span><wbr></wbr><span>Sui</span><wbr></wbr><span>System</span><wbr></wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1487465899%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-general/get-latest-sui-system-state.html"><span class="token function">getLatestSuiSystemState</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-latest-sui-system-state/index.html">LatestSuiSystemState</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the latest Sui system state</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="178691092%2FFunctions%2F1931646062" anchor-label="getMoveFunctionArgTypes" id="178691092%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-move/get-move-function-arg-types.html"><span>get</span><wbr></wbr><span>Move</span><wbr></wbr><span>Function</span><wbr></wbr><span>Arg</span><wbr></wbr><span><span>Types</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="178691092%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-move/get-move-function-arg-types.html"><span class="token function">getMoveFunctionArgTypes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-move-function-arg-types/index.html">MoveFunctionArgTypes</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the Move function argument types</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="120477064%2FFunctions%2F1931646062" anchor-label="getObject" id="120477064%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-object/get-object.html"><span>get</span><wbr></wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="120477064%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-object/get-object.html"><span class="token function">getObject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">option<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-object-data-options/index.html">ObjectDataOptions</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-object/index.html">Object</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get an object by ID</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1910269720%2FFunctions%2F1931646062" anchor-label="getOwnedObjects" id="-1910269720%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-object/get-owned-objects.html"><span>get</span><wbr></wbr><span>Owned</span><wbr></wbr><span><span>Objects</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1910269720%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-object/get-owned-objects.html"><span class="token function">getOwnedObjects</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">option<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-object-data-options/index.html">ObjectDataOptions</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-owned-objects/index.html">OwnedObjects</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get owned objects</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-778577464%2FFunctions%2F1931646062" anchor-label="getProtocolConfig" id="-778577464%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/get-protocol-config.html"><span>get</span><wbr></wbr><span>Protocol</span><wbr></wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-778577464%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-general/get-protocol-config.html"><span class="token function">getProtocolConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">protocolVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-protocol-config/index.html">ProtocolConfig</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the protocol config</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-128124568%2FFunctions%2F1931646062" anchor-label="getReferenceGasPrice" id="-128124568%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-general/get-reference-gas-price.html"><span>get</span><wbr></wbr><span>Reference</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Price</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-128124568%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-general/get-reference-gas-price.html"><span class="token function">getReferenceGasPrice</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the reference gas price</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1691431448%2FFunctions%2F1931646062" anchor-label="getStakes" id="-1691431448%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-governance/get-stakes.html"><span>get</span><wbr></wbr><span><span>Stakes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1691431448%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-governance/get-stakes.html"><span class="token function">getStakes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-stake/index.html">Stake</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the stakes</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-944412441%2FFunctions%2F1931646062" anchor-label="getStakesByIds" id="-944412441%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-governance/get-stakes-by-ids.html"><span>get</span><wbr></wbr><span>Stakes</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Ids</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-944412441%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-governance/get-stakes-by-ids.html"><span class="token function">getStakesByIds</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ids<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-stakes/index.html">Stakes</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the stakes by IDs</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-668519%2FFunctions%2F1931646062" anchor-label="getTotalSupply" id="-668519%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-coin/get-total-supply.html"><span>get</span><wbr></wbr><span>Total</span><wbr></wbr><span><span>Supply</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-668519%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-coin/get-total-supply.html"><span class="token function">getTotalSupply</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">type<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the total supply of a coin</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-293594495%2FFunctions%2F1931646062" anchor-label="getTotalTransactionBlocks" id="-293594495%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-transaction/get-total-transaction-blocks.html"><span>get</span><wbr></wbr><span>Total</span><wbr></wbr><span>Transaction</span><wbr></wbr><span><span>Blocks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-293594495%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-transaction/get-total-transaction-blocks.html"><span class="token function">getTotalTransactionBlocks</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the total transaction blocks</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1650174835%2FFunctions%2F1931646062" anchor-label="getValidatorApy" id="1650174835%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-governance/get-validator-apy.html"><span>get</span><wbr></wbr><span>Validator</span><wbr></wbr><span><span>Apy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1650174835%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-governance/get-validator-apy.html"><span class="token function">getValidatorApy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-validators-apy/index.html">ValidatorsApy</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the validator APY</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="746489615%2FFunctions%2F1931646062" anchor-label="query" id="746489615%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/query.html"><span><span>query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="746489615%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.protocol/query.html">T</a><span class="token operator">&gt; </span><a href="../../xyz.mcxross.ksui.protocol/-general/index.html">General</a><span class="token punctuation">.</span><a href="../../xyz.mcxross.ksui.protocol/query.html"><span class="token function">query</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-graphql-query/index.html">GraphqlQuery</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.protocol/query.html">T</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1334106958%2FFunctions%2F1931646062" anchor-label="queryTransactionBlocks" id="1334106958%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-transaction/query-transaction-blocks.html"><span>query</span><wbr></wbr><span>Transaction</span><wbr></wbr><span><span>Blocks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1334106958%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-transaction/query-transaction-blocks.html"><span class="token function">queryTransactionBlocks</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">txnBlocksOptions<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-transaction-blocks-options/index.html">TransactionBlocksOptions</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-transaction-blocks/index.html">TransactionBlocks</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Query transaction blocks for the specified criteria</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-367153166%2FFunctions%2F1931646062" anchor-label="requestTestTokens" id="-367153166%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-faucet/request-test-tokens.html"><span>request</span><wbr></wbr><span>Test</span><wbr></wbr><span><span>Tokens</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-367153166%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-faucet/request-test-tokens.html"><span class="token function">requestTestTokens</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">accountAddress<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-transferred-gas-object/index.html">TransferredGasObject</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1680050589%2FFunctions%2F1931646062" anchor-label="resolveNameServiceAddress" id="1680050589%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-sns/resolve-name-service-address.html"><span>resolve</span><wbr></wbr><span>Name</span><wbr></wbr><span>Service</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1680050589%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-sns/resolve-name-service-address.html"><span class="token function">resolveNameServiceAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">domain<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Resolve name service address</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-100509818%2FFunctions%2F1931646062" anchor-label="resolveNameServiceNames" id="-100509818%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-sns/resolve-name-service-names.html"><span>resolve</span><wbr></wbr><span>Name</span><wbr></wbr><span>Service</span><wbr></wbr><span><span>Names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-100509818%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-sns/resolve-name-service-names.html"><span class="token function">resolveNameServiceNames</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">address<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-sui-address/index.html">SuiAddress</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-page/index.html">Page</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Resolve name service names</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="638915552%2FFunctions%2F1931646062" anchor-label="tryGetPastObject" id="638915552%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../xyz.mcxross.ksui.protocol/-object/try-get-past-object.html"><span>try</span><wbr></wbr><span>Get</span><wbr></wbr><span>Past</span><wbr></wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="638915552%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="../../xyz.mcxross.ksui.protocol/-object/try-get-past-object.html"><span class="token function">tryGetPastObject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">version<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-option/index.html">Option</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../xyz.mcxross.ksui.model/-past-object/index.html">PastObject</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Try to get a past object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
