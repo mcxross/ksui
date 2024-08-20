@@ -1,5 +1,0 @@
-query GetReferenceGasPrice {
-    epoch {
-        referenceGasPrice
-    }
-}
