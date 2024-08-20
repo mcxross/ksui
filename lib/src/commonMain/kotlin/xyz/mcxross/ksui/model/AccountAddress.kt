@@ -18,6 +18,9 @@ package xyz.mcxross.ksui.model
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.serializer.SuiAddressSerializer
 
+/**
+ * Represents an account address.
+ */
 @Serializable
 data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val data: ByteArray) {
 
