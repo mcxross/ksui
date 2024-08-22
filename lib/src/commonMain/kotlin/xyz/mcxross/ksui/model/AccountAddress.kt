@@ -16,6 +16,9 @@
 package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.core.Hex
+import xyz.mcxross.ksui.core.crypto.Hash
+import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.serializer.SuiAddressSerializer
 
 /**
@@ -40,7 +43,7 @@ data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val 
   }
 
   override fun toString(): String {
-    return data.toString()
+    return Hex(hash(Hash.BLAKE2B256, data)).toString()
   }
 
   companion object {
@@ -48,6 +51,11 @@ data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val 
     private const val LENGTH: Int = 32
 
     val EMPTY = AccountAddress(ByteArray(LENGTH))
+
+    fun from(data: ByteArray): AccountAddress {
+      require(data.size == LENGTH + 1) { "Address must be $LENGTH bytes long, but was ${data.size}" }
+      return AccountAddress(data)
+    }
 
     fun fromString(s: String): AccountAddress {
       return try {
