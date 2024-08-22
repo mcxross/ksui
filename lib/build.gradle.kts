@@ -62,8 +62,19 @@ kotlin {
   applyDefaultHierarchyTemplate()
 
   sourceSets {
+    val androidJvmMain by creating {
+      dependsOn(commonMain.get())
+      dependencies {
+        implementation(libs.bitcoinj.core)
+      }
+    }
     appleMain.dependencies { implementation(libs.ktor.client.darwin) }
-    androidMain.dependencies { implementation(libs.ktor.client.okhttp) }
+    val androidMain by getting {
+      dependsOn(androidJvmMain)
+      dependencies {
+        implementation(libs.ktor.client.okhttp)
+      }
+    }
     commonMain.dependencies {
       implementation(libs.ktor.client.core)
       implementation(libs.ktor.client.content.negotiation)
@@ -79,7 +90,12 @@ kotlin {
       implementation(libs.kotlin.test)
     }
     jsMain.dependencies { implementation(libs.ktor.client.js) }
-    jvmMain.dependencies { implementation(libs.ktor.client.cio) }
+    val jvmMain by getting {
+      dependsOn(androidJvmMain)
+      dependencies {
+        implementation(libs.ktor.client.cio)
+      }
+    }
     linuxMain.dependencies { implementation(libs.ktor.client.curl) }
     mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
   }
@@ -136,7 +152,7 @@ mavenPublishing {
       javadocJar = JavadocJar.Dokka("dokkaHtml"),
       sourcesJar = true,
       androidVariantsToPublish = listOf("debug", "release"),
-    )
+    ),
   )
 
   pom {
