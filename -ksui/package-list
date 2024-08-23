@@ -1,11 +1,32 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:org.komputing.kbech32////PointingToDeclaration/-ksui/org.komputing.kbech32/index.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidCharacter///PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-character/index.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidCharacter/InvalidCharacter/#kotlin.Char#kotlin.Int/PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-character/-invalid-character.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidChecksum///PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-checksum/index.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidChecksum/InvalidChecksum/#/PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-checksum/-invalid-checksum.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidDataLength///PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-data-length/index.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidDataLength/InvalidDataLength/#kotlin.String/PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-data-length/-invalid-data-length.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidPrefix///PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-prefix/index.html
+$dokka.location:org.komputing.kbech32/AddressFormatException.InvalidPrefix/InvalidPrefix/#kotlin.String/PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/-invalid-prefix/-invalid-prefix.html
+$dokka.location:org.komputing.kbech32/AddressFormatException///PointingToDeclaration/-ksui/org.komputing.kbech32/-address-format-exception/index.html
+$dokka.location:org.komputing.kbech32/Bech32///PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32/index.html
+$dokka.location:org.komputing.kbech32/Bech32/decode/#kotlin.String/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32/decode.html
+$dokka.location:org.komputing.kbech32/Bech32/encode/#kotlin.String#kotlin.ByteArray/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32/encode.html
+$dokka.location:org.komputing.kbech32/Bech32/encode/#org.komputing.kbech32.Bech32Data/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32/encode.html
+$dokka.location:org.komputing.kbech32/Bech32Data///PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/index.html
+$dokka.location:org.komputing.kbech32/Bech32Data/Bech32Data/#kotlin.String#kotlin.ByteArray/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/-bech32-data.html
+$dokka.location:org.komputing.kbech32/Bech32Data/data/#/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/data.html
+$dokka.location:org.komputing.kbech32/Bech32Data/equals/#kotlin.Any?/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/equals.html
+$dokka.location:org.komputing.kbech32/Bech32Data/hashCode/#/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/hash-code.html
+$dokka.location:org.komputing.kbech32/Bech32Data/humanReadablePart/#/PointingToDeclaration/-ksui/org.komputing.kbech32/-bech32-data/human-readable-part.html
 $dokka.location:xyz.mcxross.ksui.account////PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/index.html
 $dokka.location:xyz.mcxross.ksui.account/Account.Companion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/index.html
 $dokka.location:xyz.mcxross.ksui.account/Account.Companion/create/#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/create.html
 $dokka.location:xyz.mcxross.ksui.account/Account.Companion/import/#kotlin.ByteArray#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/import.html
 $dokka.location:xyz.mcxross.ksui.account/Account.Companion/import/#kotlin.String#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/import.html
 $dokka.location:xyz.mcxross.ksui.account/Account.Companion/import/#kotlin.collections.List[kotlin.String]#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/import.html
+$dokka.location:xyz.mcxross.ksui.account/Account.Companion/import/#xyz.mcxross.ksui.core.crypto.PrivateKey/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-companion/import.html
 $dokka.location:xyz.mcxross.ksui.account/Account///PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/index.html
 $dokka.location:xyz.mcxross.ksui.account/Account/Account/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/-account.html
 $dokka.location:xyz.mcxross.ksui.account/Account/address/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-account/address.html
@@ -105,6 +126,7 @@ $dokka.location:xyz.mcxross.ksui.core.crypto////PointingToDeclaration/-ksui/xyz
 $dokka.location:xyz.mcxross.ksui.core.crypto//derivePublicKey/#xyz.mcxross.ksui.core.crypto.PrivateKey#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/derive-public-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//generateKeyPair/#kotlin.ByteArray#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-key-pair.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//generateMnemonic/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-mnemonic.html
+$dokka.location:xyz.mcxross.ksui.core.crypto//generatePrivateKey/#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-private-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//generateSeed/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-seed.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//hash/#xyz.mcxross.ksui.core.crypto.Hash#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/hash.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//importFromMnemonic/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/import-from-mnemonic.html
@@ -120,6 +142,8 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/ED25519KeyDerive/deriveFromPath/#ko
 $dokka.location:xyz.mcxross.ksui.core.crypto/ED25519KeyDerive/key/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-e-d25519-key-derive/key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey/Ed25519PrivateKey/#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/-ed25519-private-key.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey/Ed25519PrivateKey/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/-ed25519-private-key.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey/Ed25519PrivateKey/#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/-ed25519-private-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey/data/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/data.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PrivateKey/publicKey/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-private-key/public-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PublicKey///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-public-key/index.html
@@ -139,8 +163,11 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/equals/#kotlin.Any?/Pointin
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/hashCode/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-key-pair/hash-code.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/privateKey/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-key-pair/private-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/publicKey/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-key-pair/public-key.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey.Companion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/-companion/index.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey.Companion/fromEncoded/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/-companion/from-encoded.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey/data/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/data.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey/export/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/export.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey/publicKey/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-private-key/public-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PublicKey///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-public-key/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme.BLS12381///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/-b-l-s12381/index.html
@@ -980,8 +1007,10 @@ $dokka.location:xyz.mcxross.ksui.util//NetworkToIndexerAPI/#/PointingToDeclarati
 $dokka.location:xyz.mcxross.ksui.util//NetworkToNetworkName/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-network-to-network-name.html
 $dokka.location:xyz.mcxross.ksui.util//NetworkToNodeAPI/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-network-to-node-a-p-i.html
 $dokka.location:xyz.mcxross.ksui.util//PACKAGE_ID/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-p-a-c-k-a-g-e_-i-d.html
+$dokka.location:xyz.mcxross.ksui.util//SUI_PRIVATE_KEY_PREFIX/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-s-u-i_-p-r-i-v-a-t-e_-k-e-y_-p-r-e-f-i-x.html
 $dokka.location:xyz.mcxross.ksui.util//bcsDecode/#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/bcs-decode.html
 $dokka.location:xyz.mcxross.ksui.util//bcsEncode/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/bcs-encode.html
+$dokka.location:xyz.mcxross.ksui.util//convertBits/#kotlin.ByteArray#kotlin.Int#kotlin.Int#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/convert-bits.html
 $dokka.location:xyz.mcxross.ksui.util//decodeBase58/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/decode-base58.html
 $dokka.location:xyz.mcxross.ksui.util//encodeToBase58String/kotlin.ByteArray#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/encode-to-base58-string.html
 $dokka.location:xyz.mcxross.ksui.util//formatSuiDomain/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/format-sui-domain.html
@@ -1011,6 +1040,7 @@ $dokka.location:xyz.mcxross.ksui.util/Logger/values/#/PointingToDeclaration/-ks
 $dokka.location:xyz.mcxross.ksui////PointingToDeclaration/-ksui/xyz.mcxross.ksui/index.html
 $dokka.location:xyz.mcxross.ksui/Sui///PointingToDeclaration/-ksui/xyz.mcxross.ksui/-sui/index.html
 $dokka.location:xyz.mcxross.ksui/Sui/Sui/#xyz.mcxross.ksui.model.SuiConfig/PointingToDeclaration/-ksui/xyz.mcxross.ksui/-sui/-sui.html
+org.komputing.kbech32
 xyz.mcxross.ksui
 xyz.mcxross.ksui.account
 xyz.mcxross.ksui.api
