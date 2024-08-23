@@ -16,6 +16,7 @@
 package xyz.mcxross.ksui.account
 
 import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
+import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.PublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.importFromMnemonic
@@ -88,20 +89,25 @@ abstract class Account {
     /**
      * Imports an account using the provided mnemonic phrase and signature scheme.
      *
-     * @param phrase The mnemonic phrase of the account.
+     * @param str The mnemonic phrase of the account or the private key. And in which case, the
+     *   private key is expected to be in the format of a Bech32 encoded string.
      * @param scheme The signature scheme to use. Defaults to ED25519.
      * @return The imported account.
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
-    fun import(phrase: String, scheme: SignatureScheme = SignatureScheme.ED25519): Account {
-      return when (scheme) {
-        SignatureScheme.ED25519 -> {
-          val keyPair = importFromMnemonic(phrase)
-          Ed25519Account(Ed25519PrivateKey(keyPair.privateKey), phrase)
+    fun import(str: String, scheme: SignatureScheme = SignatureScheme.ED25519): Account {
+      if (str.contains(" ")) {
+        return when (scheme) {
+          SignatureScheme.ED25519 -> {
+            val keyPair = importFromMnemonic(str)
+            Ed25519Account(Ed25519PrivateKey(keyPair.privateKey), str)
+          }
+          else -> throw SignatureSchemeNotSupportedException()
         }
-        else -> throw SignatureSchemeNotSupportedException()
       }
+
+      return import(PrivateKey.fromEncoded(str))
     }
 
     /**
@@ -118,6 +124,21 @@ abstract class Account {
         SignatureScheme.ED25519 -> {
           import(phrases.joinToString(" "))
         }
+        else -> throw SignatureSchemeNotSupportedException()
+      }
+    }
+
+    /**
+     * Imports an account using the provided private key.
+     *
+     * @param privateKey The private key of the account.
+     * @return The imported account.
+     * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
+     *   supported.
+     */
+    fun import(privateKey: PrivateKey): Account {
+      return when (privateKey) {
+        is Ed25519PrivateKey -> Ed25519Account(privateKey)
         else -> throw SignatureSchemeNotSupportedException()
       }
     }
