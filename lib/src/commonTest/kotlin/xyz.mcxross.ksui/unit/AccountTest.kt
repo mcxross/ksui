@@ -17,9 +17,11 @@ package xyz.mcxross.ksui.unit
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import xyz.mcxross.ksui.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.account.Ed25519Account
 import xyz.mcxross.ksui.core.crypto.Ed25519PublicKey
+import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 
 class AccountTest {
@@ -51,7 +53,7 @@ class AccountTest {
   }
 
   @Test
-  fun testAccountImport() {
+  fun testAccountImportPhrase() {
     val account =
       Account.import("dry clock defense build educate lonely cycle hand phrase kitchen enemy seed")
     assertTrue(
@@ -73,6 +75,24 @@ class AccountTest {
     }
     assertTrue("Account import failed. Invalid address length.") {
       account.address.toString().length == 66
+    }
+  }
+
+  @Test
+  fun testAccountImportPrivateKeyString() {
+    val account = Account.import(PRIVATE_KEY_DATA)
+    assertTrue {
+      account.address.toString() ==
+        "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
+    }
+  }
+
+  @Test
+  fun testAccountImportPrivateKeyInstance() {
+    val account = Account.import(PrivateKey.fromEncoded(PRIVATE_KEY_DATA))
+    assertTrue {
+      account.address.toString() ==
+        "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
     }
   }
 }

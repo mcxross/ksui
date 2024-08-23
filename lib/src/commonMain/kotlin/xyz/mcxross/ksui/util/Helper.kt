@@ -44,3 +44,27 @@ fun idToParts(id: String): Triple<String, String, String> {
   }
   return Triple(parts[0], parts[1], parts[2])
 }
+
+fun convertBits(data: ByteArray, fromBits: Int, toBits: Int, pad: Boolean): ByteArray {
+  var acc = 0
+  var bits = 0
+  val maxv = (1 shl toBits) - 1
+  val result = mutableListOf<Byte>()
+
+  for (value in data) {
+    acc = (acc shl fromBits) or (value.toInt() and 0xff)
+    bits += fromBits
+    while (bits >= toBits) {
+      bits -= toBits
+      result.add(((acc shr bits) and maxv).toByte())
+    }
+  }
+
+  if (pad && bits > 0) {
+    result.add(((acc shl (toBits - bits)) and maxv).toByte())
+  } else if (bits >= fromBits || ((acc shl (toBits - bits)) and maxv) != 0) {
+    throw IllegalArgumentException("Invalid bits!")
+  }
+
+  return result.toByteArray()
+}
