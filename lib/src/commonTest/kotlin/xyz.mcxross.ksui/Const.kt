@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.util
+package xyz.mcxross.ksui
 
-const val LENGTH: Int = 32
 
-const val PACKAGE_ID = "packageId"
-const val MODULE = "module"
-const val FUNCTION = "function"
-
-const val SUI_PRIVATE_KEY_PREFIX = "suiprivkey"
+const val PRIVATE_KEY_DATA = "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
