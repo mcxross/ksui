@@ -5,7 +5,6 @@ query getOwnedObjects(
 	$showBcs: Boolean = false
 	$showContent: Boolean = false
 	$showDisplay: Boolean = false
-	$showType: Boolean = false
 	$showOwner: Boolean = false
 	$showPreviousTransaction: Boolean = false
 	$showStorageRebate: Boolean = false

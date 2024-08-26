@@ -16,6 +16,7 @@
 package xyz.mcxross.ksui.ptb
 
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.serializer.ArgumentSerializer
@@ -118,10 +119,25 @@ open class Command {
    * @param block to build the command.
    * @return The [MoveCall] command.
    */
-  fun moveCall(block: MoveCallBuilder.() -> Unit): MoveCall {
+  fun moveCall(block: MoveCallBuilder.() -> Unit): Argument.Result {
     val builder = MoveCallBuilder().apply(block)
     require(builder.isValid()) { "moveCall must not be null" }
-    return MoveCall(builder.moveCall!!)
+    val parts = builder.target.split("::")
+    require(parts.size == 3) { "target must be in the format of `package::module::function`" }
+    commands.add(
+      MoveCall(
+        ProgrammableMoveCall(
+          ObjectId(AccountAddress(parts[0])),
+          parts[1],
+          parts[2],
+          builder.typeArguments,
+          builder.arguments,
+        )
+      )
+    )
+    // return MoveCall(ProgrammableMoveCall(builder.pakage, builder.module, builder.function,
+    // builder.typeArguments, builder.arguments))
+    return Argument.Result((commands.size - 1).toUShort())
   }
 
   /**
@@ -231,9 +247,12 @@ interface Builder {
 }
 
 class MoveCallBuilder : Builder {
-  var moveCall: ProgrammableMoveCall? = null
+  lateinit var target: String
+  lateinit var typeArguments: List<TypeTag>
+  lateinit var arguments: List<Argument>
 
-  override fun isValid(): Boolean = moveCall != null
+  // TODO: check on `Identifier` type
+  override fun isValid(): Boolean = true
 }
 
 class TransferObjectsBuilder : Builder {

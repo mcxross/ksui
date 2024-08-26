@@ -128,12 +128,12 @@ object TransactionDataComposer {
     sponsor: SuiAddress,
   ): TransactionData =
     withGasCoinsAllowSponsor(
-      TransactionKind.ProgrammableTransaction(pt),
-      sender,
-      gapPayment,
-      gasBudget,
-      gasPrice,
-      sponsor,
+      kind = TransactionKind.ProgrammableTransaction(pt),
+      sender = sender,
+      gapPayment = gapPayment,
+      gasBudget = gasBudget,
+      gasPrice = gasPrice,
+      sponsor = sponsor,
     )
 
   fun withGasCoinsAllowSponsor(
@@ -146,10 +146,10 @@ object TransactionDataComposer {
   ): TransactionData =
     TransactionData.V1(
       TransactionDataV1(
-        kind,
-        sender,
-        GasData(gapPayment, sponsor, gasBudget, gasPrice),
-        TransactionExpiration.None,
+        kind = kind,
+        sender = sender,
+        gasData = GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
+        expiration = TransactionExpiration.None,
       )
     )
 }
@@ -199,10 +199,10 @@ sealed class TransactionData {
     ): TransactionData =
       (TransactionData::V1)(
         TransactionDataV1(
-          kind,
-          sender,
-          GasData(gasPayment, gasSponsor, gasPrice, gasBudget),
-          TransactionExpiration.None,
+          kind = kind,
+          sender = sender,
+          gasData = GasData(gasPayment, gasSponsor, gasPrice, gasBudget),
+          expiration = TransactionExpiration.None,
         )
       )
   }
@@ -213,8 +213,15 @@ sealed class TransactionData {
   }
 }
 
+// TODO: This is a placeholder for now, look back at this later
+
+enum class B{
+  A
+}
+
 @Serializable
 data class TransactionDataV1(
+  val a : B = B.A,
   val kind: TransactionKind,
   val sender: SuiAddress,
   val gasData: GasData,
@@ -250,7 +257,7 @@ fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
 
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
 
-@OptIn(ExperimentalEncodingApi::class) fun Txn.data(): String = Base64.encode(bcsEncode(this.data))
+@OptIn(ExperimentalEncodingApi::class) fun Txn.data(): String = Base64.encode(bcsEncode(this.data.senderSignedTransactions[0].intentMessage.value))
 
 fun Txn.signatures(): List<String> = this.data.senderSignedTransactions.first().txSignatures
 

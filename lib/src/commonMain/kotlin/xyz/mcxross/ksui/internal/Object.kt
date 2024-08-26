@@ -84,7 +84,6 @@ internal suspend fun getOwnedObjects(
             showBcs = option.showBcs,
             showContent = option.showContent,
             showDisplay = option.showDisplay,
-            showType = option.showType,
             showOwner = option.showOwner,
             showPreviousTransaction = option.showPreviousTransaction,
             showStorageRebate = option.showStorageRebate,

@@ -31,6 +31,8 @@ expect fun importFromMnemonic(mnemonic: String): KeyPair
 
 expect fun importFromMnemonic(mnemonic: List<String>): KeyPair
 
+expect fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray
+
 fun generatePrivateKey(scheme: SignatureScheme): ByteArray {
   return when (scheme) {
     SignatureScheme.ED25519 -> {

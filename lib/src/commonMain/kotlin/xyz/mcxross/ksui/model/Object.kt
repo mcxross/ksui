@@ -18,7 +18,7 @@ package xyz.mcxross.ksui.model
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.util.decodeBase58
 
-@Serializable data class ObjectId(val hash: String)
+@Serializable data class ObjectId(val hash: AccountAddress)
 
 @Serializable
 data class ObjectReference(val reference: Reference, val version: Long, val digest: ObjectDigest)

@@ -15,4 +15,6 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-interface PublicKey
+interface PublicKey {
+  val data: ByteArray
+}

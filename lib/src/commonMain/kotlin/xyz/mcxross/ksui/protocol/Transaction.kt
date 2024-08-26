@@ -15,9 +15,14 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.generated.DryRunTransactionBlock
+import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlocks
-import xyz.mcxross.ksui.model.TransactionBlocksOptions
+import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
 /**
  * Transaction interface
@@ -25,6 +30,36 @@ import xyz.mcxross.ksui.model.TransactionBlocksOptions
  * This interface represents the transaction API
  */
 interface Transaction {
+
+  /**
+   * Execute a transaction block
+   *
+   * This function will execute a transaction block with the given transaction bytes and signatures.
+   *
+   * @param txnBytes The transaction bytes
+   * @param signatures The signatures
+   * @param option The options to use for response
+   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   */
+  suspend fun executeTransactionBlock(
+    txnBytes: String,
+    signatures: List<String>,
+    option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
+  ): Option.Some<ExecuteTransactionBlock.Result?>
+
+  /**
+   * Dry run a transaction block
+   *
+   * This function will dry run a transaction block with the given transaction bytes.
+   *
+   * @param txnBytes The transaction bytes
+   * @param option The options to use for response
+   * @return An [Option] of nullable [DryRunTransactionBlock.Result]
+   */
+  suspend fun dryRunTransactionBlock(
+    txnBytes: String,
+    option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
+  ): Option.Some<DryRunTransactionBlock.Result?>
 
   /**
    * Get the total transaction blocks
@@ -40,6 +75,34 @@ interface Transaction {
    * @return An [Option] of nullable [TransactionBlocks]
    */
   suspend fun queryTransactionBlocks(
-    txnBlocksOptions: TransactionBlocksOptions = TransactionBlocksOptions()
+    txnBlocksOptions: TransactionBlockResponseOptions = TransactionBlockResponseOptions()
   ): Option<TransactionBlocks>
+
+  /**
+   * Sign a transaction
+   *
+   * This function will sign a transaction with the given message and signer.
+   *
+   * @param message The message to sign
+   * @param signer The signer
+   * @return The signed transaction
+   */
+  fun signTransaction(message: ByteArray, signer: Account): ByteArray
+
+  /**
+   * Sign and execute a transaction block
+   *
+   * This function will sign and execute a transaction block with the given programmable transaction
+   * and signer.
+   *
+   * @param ptb The programmable transaction
+   * @param signer The signer
+   * @param gasBudget The gas budget
+   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   */
+  suspend fun signAndExecuteTransactionBlock(
+    ptb: ProgrammableTransaction,
+    signer: Account,
+    gasBudget: ULong = 5_000_000UL,
+  ): Option.Some<ExecuteTransactionBlock.Result?>
 }
