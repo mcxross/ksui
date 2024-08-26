@@ -1,0 +1,26 @@
+mutation executeTransactionBlock(
+    $txBytes: String!
+    $signatures: [String!]!
+) {
+    executeTransactionBlock(txBytes: $txBytes, signatures: $signatures) {
+        errors
+        effects {
+            transactionBlock {
+                digest
+
+                sender {
+                    address
+                }
+
+                signatures
+
+                effects {
+                    checkpoint {
+                        sequenceNumber
+                    }
+                    timestamp
+                }
+            }
+        }
+    }
+}

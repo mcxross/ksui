@@ -38,15 +38,17 @@ object TransactionFilterSerializer : KSerializer<TransactionFilter> {
         is TransactionFilter.MoveFunction ->
           buildJsonObject {
             putJsonObject("MoveFunction") {
-              put("package", value.pakage.hash)
+              //put("package", value.pakage.hash)
               put("module", value.module)
               put("function", value.function)
             }
           }
         is TransactionFilter.InputObject ->
-          buildJsonObject { put("InputObject", value.objectId.hash) }
+          throw Exception("TransactionFilterSerializer: InputObject is not supported")
+          //buildJsonObject { put("InputObject", value.objectId.hash) }
         is TransactionFilter.ChangedObject ->
-          buildJsonObject { put("ChangedObject", value.objectId.hash) }
+          throw Exception("TransactionFilterSerializer: ChangedObject is not supported")
+          //buildJsonObject { put("ChangedObject", value.objectId.hash) }
         is TransactionFilter.FromAddress ->
           buildJsonObject { put("FromAddress", value.address.toString()) }
         is TransactionFilter.ToAddress ->

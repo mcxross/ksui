@@ -15,12 +15,20 @@
  */
 package xyz.mcxross.ksui.api
 
+import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.generated.DryRunTransactionBlock
+import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
+import xyz.mcxross.ksui.internal.dryRunTransactionBlock
+import xyz.mcxross.ksui.internal.executeTransactionBlock
 import xyz.mcxross.ksui.internal.getTotalTransactionBlocks
+import xyz.mcxross.ksui.internal.signAndSubmitTransaction
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlocks
-import xyz.mcxross.ksui.model.TransactionBlocksOptions
 import xyz.mcxross.ksui.protocol.Transaction
+import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
 /**
  * Transaction API implementation
@@ -30,6 +38,37 @@ import xyz.mcxross.ksui.protocol.Transaction
  * @property config The SuiConfig to use
  */
 class Transaction(val config: SuiConfig) : Transaction {
+
+  /**
+   * Execute a transaction block
+   *
+   * This function will execute a transaction block with the given transaction bytes and signatures.
+   *
+   * @param txnBytes The transaction bytes
+   * @param signatures The signatures
+   * @param option The options to use for response
+   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   */
+  override suspend fun executeTransactionBlock(
+    txnBytes: String,
+    signatures: List<String>,
+    option: ExecuteTransactionBlockResponseOptions,
+  ): Option.Some<ExecuteTransactionBlock.Result?> =
+    executeTransactionBlock(config, txnBytes, signatures, option)
+
+  /**
+   * Dry run a transaction block
+   *
+   * This function will dry run a transaction block with the given transaction bytes.
+   *
+   * @param txnBytes The transaction bytes
+   * @param option The options to use for response
+   * @return An [Option] of nullable [DryRunTransactionBlock.Result]
+   */
+  override suspend fun dryRunTransactionBlock(
+    txnBytes: String,
+    option: ExecuteTransactionBlockResponseOptions,
+  ): Option.Some<DryRunTransactionBlock.Result?> = dryRunTransactionBlock(config, txnBytes, option)
 
   /**
    * Get the total transaction blocks
@@ -46,7 +85,37 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @return An [Option] of nullable [TransactionBlocks]
    */
   override suspend fun queryTransactionBlocks(
-    txnBlocksOptions: TransactionBlocksOptions
+    txnBlocksOptions: TransactionBlockResponseOptions
   ): Option<TransactionBlocks> =
     xyz.mcxross.ksui.internal.queryTransactionBlocks(config, txnBlocksOptions)
+
+  /**
+   * Sign a transaction
+   *
+   * This function will sign a transaction with the given message and signer.
+   *
+   * @param message The message
+   * @param signer The signer
+   * @return The signed transaction
+   */
+  override fun signTransaction(message: ByteArray, signer: Account): ByteArray =
+    xyz.mcxross.ksui.internal.signTransaction(message, signer)
+
+  /**
+   * Sign and execute a transaction block
+   *
+   * This function will sign and execute a transaction block with the given programmable transaction
+   * and signer.
+   *
+   * @param ptb The programmable transaction
+   * @param signer The signer
+   * @param gasBudget The gas budget
+   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   */
+  override suspend fun signAndExecuteTransactionBlock(
+    ptb: ProgrammableTransaction,
+    signer: Account,
+    gasBudget: ULong,
+  ): Option.Some<ExecuteTransactionBlock.Result?> =
+    signAndSubmitTransaction(config, ptb, signer, gasBudget)
 }

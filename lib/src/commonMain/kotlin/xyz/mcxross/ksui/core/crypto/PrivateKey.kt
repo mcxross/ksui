@@ -58,6 +58,8 @@ interface PrivateKey {
     )
   }
 
+  fun sign(data: ByteArray): ByteArray
+
   companion object {
 
     /**

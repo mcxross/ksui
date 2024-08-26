@@ -53,9 +53,13 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    * @throws IllegalArgumentException If the private key is invalid.
    */
   constructor(privateKey: String) : this(PrivateKey.fromEncoded(privateKey).data)
+
+  override fun sign(data: ByteArray): ByteArray {
+    return sign(data, this)
+  }
 }
 
-class Ed25519PublicKey(val data: ByteArray) : PublicKey {
+class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
