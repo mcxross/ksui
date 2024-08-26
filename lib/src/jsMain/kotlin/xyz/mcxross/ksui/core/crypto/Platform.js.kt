@@ -42,3 +42,10 @@ actual fun importFromMnemonic(mnemonic: String): KeyPair {
 actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
   TODO("Not yet implemented")
 }
+
+actual fun sign(
+  message: ByteArray,
+  privateKey: PrivateKey
+): ByteArray {
+  TODO("Not yet implemented")
+}

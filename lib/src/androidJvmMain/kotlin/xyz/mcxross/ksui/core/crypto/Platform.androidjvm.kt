@@ -79,3 +79,16 @@ actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
   val seed = MnemonicCode.toSeed(mnemonic, "")
   return generateKeyPair(seed, SignatureScheme.ED25519)
 }
+
+actual fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray {
+  when (privateKey) {
+    is Ed25519PrivateKey -> {
+      val signer = org.bouncycastle.crypto.signers.Ed25519Signer()
+      val privateKeyParameters = Ed25519PrivateKeyParameters(privateKey.data, 0)
+      signer.init(true, privateKeyParameters)
+      signer.update(message, 0, message.size)
+      return signer.generateSignature()
+    }
+    else -> throw SignatureSchemeNotSupportedException()
+  }
+}
