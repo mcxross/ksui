@@ -17,7 +17,7 @@ import xyz.mcxross.ksui.generated.inputs.TransactionBlockFilter
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-data class TransactionBlocksOptions(
+data class TransactionBlockResponseOptions(
   val first: Int? = null,
   val last: Int? = null,
   val before: String? = null,
@@ -30,4 +30,14 @@ data class TransactionBlocksOptions(
   val showObjectChanges: Boolean? = null,
   val showRawInput: Boolean? = null,
   val filter: TransactionBlockFilter? = null,
+)
+
+data class ExecuteTransactionBlockResponseOptions(
+  val showBalanceChanges: Boolean = false,
+  val showEffects: Boolean = false,
+  val showRawEffects: Boolean = false,
+  val showEvents: Boolean = false,
+  val showInput: Boolean = false,
+  val showObjectChanges: Boolean = false,
+  val showRawInput: Boolean = false,
 )

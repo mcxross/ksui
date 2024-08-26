@@ -55,6 +55,10 @@ class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
   override val scheme: SignatureScheme
     get() = SignatureScheme.ED25519
 
+  override fun sign(message: ByteArray): ByteArray {
+    return privateKey.sign(message)
+  }
+
   constructor(privateKey: Ed25519PrivateKey, mnemonic: String) : this(privateKey) {
     this.mnemonic = mnemonic
   }

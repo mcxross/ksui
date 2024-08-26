@@ -53,6 +53,8 @@ abstract class Account {
 
   abstract val scheme: SignatureScheme
 
+  abstract fun sign(message: ByteArray): ByteArray
+
   companion object {
 
     /**
