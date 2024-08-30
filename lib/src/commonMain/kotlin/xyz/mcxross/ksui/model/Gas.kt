@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GasData(
   val payment: List<ObjectReference>,
-  val owner: SuiAddress,
+  val owner: AccountAddress,
   val price: ULong,
   val budget: ULong,
 )

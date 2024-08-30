@@ -20,15 +20,15 @@ import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.extension.formatAsSuiDomain
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddress
 import xyz.mcxross.ksui.generated.ResolveNameServiceNames
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Page
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun resolveNameServiceAddress(
   config: SuiConfig,
   domain: String,
-): Option<SuiAddress?> {
+): Option<AccountAddress?> {
   val response =
     getGraphqlClient(config)
       .execute(
@@ -45,12 +45,12 @@ internal suspend fun resolveNameServiceAddress(
     return Option.None
   }
 
-  return Option.Some(response.data!!.resolveSuinsAddress?.let { SuiAddress.fromString(it.address) })
+  return Option.Some(response.data!!.resolveSuinsAddress?.let { AccountAddress.fromString(it.address) })
 }
 
 internal suspend fun resolveNameServiceNames(
   config: SuiConfig,
-  address: SuiAddress,
+  address: AccountAddress,
   limit: UInt? = null,
   cursor: String? = null,
 ): Option<Page?> {

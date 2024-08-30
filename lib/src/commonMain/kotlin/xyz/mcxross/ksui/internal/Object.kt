@@ -23,6 +23,7 @@ import xyz.mcxross.ksui.generated.GetObject
 import xyz.mcxross.ksui.generated.GetOwnedObjects
 import xyz.mcxross.ksui.generated.TryGetPastObject
 import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.DynamicFieldObject
 import xyz.mcxross.ksui.model.DynamicFields
 import xyz.mcxross.ksui.model.Object
@@ -30,7 +31,6 @@ import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.OwnedObjects
 import xyz.mcxross.ksui.model.PastObject
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun getObject(
@@ -68,7 +68,7 @@ internal suspend fun getObject(
 
 internal suspend fun getOwnedObjects(
   config: SuiConfig,
-  owner: SuiAddress,
+  owner: AccountAddress,
   limit: Int?,
   cursor: String?,
   option: ObjectDataOptions,

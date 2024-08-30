@@ -19,13 +19,13 @@ import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
 import xyz.mcxross.ksui.internal.getDynamicFieldObject
 import xyz.mcxross.ksui.internal.getDynamicFields
 import xyz.mcxross.ksui.internal.getOwnedObjects
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.DynamicFieldObject
 import xyz.mcxross.ksui.model.DynamicFields
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.OwnedObjects
 import xyz.mcxross.ksui.model.PastObject
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Object
 
@@ -60,7 +60,7 @@ class Object(val config: SuiConfig) : Object {
    * @return An [Option] of nullable [OwnedObjects]
    */
   override suspend fun getOwnedObjects(
-    owner: SuiAddress,
+    owner: AccountAddress,
     limit: Int?,
     cursor: String?,
     option: ObjectDataOptions,

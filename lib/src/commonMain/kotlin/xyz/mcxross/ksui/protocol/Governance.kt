@@ -15,11 +15,11 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Stake
 import xyz.mcxross.ksui.model.Stakes
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.ValidatorsApy
 
 /**
@@ -47,7 +47,7 @@ interface Governance {
    * @return An [Option] of nullable [Stake]
    */
   suspend fun getStakes(
-    owner: SuiAddress,
+    owner: AccountAddress,
     limit: Int? = null,
     cursor: String? = null,
   ): Option<Stake>

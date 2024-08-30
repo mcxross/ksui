@@ -18,14 +18,13 @@ package xyz.mcxross.ksui.model
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.Hex
 import xyz.mcxross.ksui.core.crypto.Hash
+import xyz.mcxross.ksui.core.crypto.PublicKey
 import xyz.mcxross.ksui.core.crypto.hash
-import xyz.mcxross.ksui.serializer.SuiAddressSerializer
+import xyz.mcxross.ksui.serializer.AccountAddressSerializer
 
-/**
- * Represents an account address.
- */
-@Serializable
-data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val data: ByteArray) {
+/** Represents an account address. */
+@Serializable(with = AccountAddressSerializer::class)
+data class AccountAddress(val data: ByteArray) {
 
   constructor(s: String) : this(fromString(s).data)
 
@@ -43,7 +42,7 @@ data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val 
   }
 
   override fun toString(): String {
-    return Hex(hash(Hash.BLAKE2B256, data)).toString()
+    return Hex(data).toString()
   }
 
   companion object {
@@ -53,7 +52,9 @@ data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val 
     val EMPTY = AccountAddress(ByteArray(LENGTH))
 
     fun from(data: ByteArray): AccountAddress {
-      require(data.size == LENGTH + 1) { "Address must be $LENGTH bytes long, but was ${data.size}" }
+      require(data.size == LENGTH + 1) {
+        "Address must be $LENGTH bytes long, but was ${data.size}"
+      }
       return AccountAddress(data)
     }
 
@@ -63,6 +64,16 @@ data class AccountAddress(@Serializable(with = SuiAddressSerializer::class) val 
       } catch (e: Exception) {
         fromHex(s)
       }
+    }
+
+    fun fromPublicKey(publicKey: PublicKey): AccountAddress {
+      require(publicKey.data.size == LENGTH) {
+        "Public key must be $LENGTH bytes long, but was ${publicKey.data.size}"
+      }
+      return AccountAddress(
+        Hex(hash(Hash.BLAKE2B256, byteArrayOf(publicKey.scheme().scheme) + publicKey.data))
+          .toByteArray()
+      )
     }
 
     private fun fromHexLiteral(literal: String): AccountAddress {

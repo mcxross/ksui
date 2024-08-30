@@ -21,12 +21,12 @@ import xyz.mcxross.ksui.internal.getBalance
 import xyz.mcxross.ksui.internal.getCoinMetadata
 import xyz.mcxross.ksui.internal.getCoins
 import xyz.mcxross.ksui.internal.getTotalSupply
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Balances
 import xyz.mcxross.ksui.model.CoinMetadata
 import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 
@@ -43,7 +43,7 @@ class Coin(val config: SuiConfig) : Coin {
    * @param address The address to get balances for
    * @return An [Option] of nullable [Balances]
    */
-  override suspend fun getAllBalances(address: SuiAddress): Option<Balances> =
+  override suspend fun getAllBalances(address: AccountAddress): Option<Balances> =
     getAllBalances(config, address)
 
   /**
@@ -56,7 +56,7 @@ class Coin(val config: SuiConfig) : Coin {
    * @return An [Option] of nullable [Coins]
    */
   override suspend fun getCoins(
-    address: SuiAddress,
+    address: AccountAddress,
     first: Int?,
     cursor: String?,
     type: String?,
@@ -78,7 +78,7 @@ class Coin(val config: SuiConfig) : Coin {
    * @param address The address to get the balance for
    * @return An [Option] of nullable [Balance]
    */
-  override suspend fun getBalance(address: SuiAddress, type: String?): Option<Balance> =
+  override suspend fun getBalance(address: AccountAddress, type: String?): Option<Balance> =
     getBalance(config, address, type)
 
   /**

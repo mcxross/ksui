@@ -15,12 +15,12 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Balances
 import xyz.mcxross.ksui.model.CoinMetadata
 import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiAddress
 
 /**
  * Coin interface
@@ -35,7 +35,7 @@ interface Coin {
    * @param address The address to get balances for
    * @return An [Option] of nullable [Balances]
    */
-  suspend fun getAllBalances(address: SuiAddress): Option<Balances>
+  suspend fun getAllBalances(address: AccountAddress): Option<Balances>
 
   /**
    * Get coins for an address
@@ -47,7 +47,7 @@ interface Coin {
    * @return An [Option] of nullable [Coins]
    */
   suspend fun getCoins(
-    address: SuiAddress,
+    address: AccountAddress,
     first: Int? = null,
     cursor: String? = null,
     type: String? = null,
@@ -69,7 +69,7 @@ interface Coin {
    * @param address The address to get the balance for
    * @return An [Option] of nullable [Balance]
    */
-  suspend fun getBalance(address: SuiAddress, type: String? = null): Option<Balance>
+  suspend fun getBalance(address: AccountAddress, type: String? = null): Option<Balance>
 
   /**
    * Get the metadata for a coin

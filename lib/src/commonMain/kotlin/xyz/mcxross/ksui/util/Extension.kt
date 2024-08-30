@@ -25,6 +25,4 @@ fun String.toTxnDigest(): TransactionDigest = TransactionDigest(this)
 /** Extension functions to create [Argument.Input]s from various types. */
 inline fun <reified T : Any> ProgrammableTransactionBuilder.inputs(
   vararg inputs: T
-): List<Argument> {
-  return inputs.map { input(it) }
-}
+): List<Argument> = inputs.map { it as? Argument.Result ?: input(it) }

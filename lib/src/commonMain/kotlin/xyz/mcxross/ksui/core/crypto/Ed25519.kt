@@ -60,6 +60,9 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
 }
 
 class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
+  override fun scheme(): SignatureScheme {
+    return SignatureScheme.ED25519
+  }
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
