@@ -22,21 +22,22 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import xyz.mcxross.ksui.model.AccountAddress
 
-object SuiAddressSerializer : KSerializer<ByteArray> {
+object AccountAddressSerializer : KSerializer<AccountAddress> {
   override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("SuiAddress") {
+    buildClassSerialDescriptor("AccountAddress") {
       element("data", PrimitiveSerialDescriptor("data", PrimitiveKind.BYTE))
     }
 
-  override fun serialize(encoder: Encoder, value: ByteArray) {
+  override fun serialize(encoder: Encoder, value: AccountAddress) {
     encoder.beginStructure(descriptor).apply {
-      value.forEachIndexed { index, byte -> encodeByteElement(descriptor, index, byte) }
+      value.data.forEachIndexed { index, byte -> encodeByteElement(descriptor, index, byte) }
       endStructure(descriptor)
     }
   }
 
-  override fun deserialize(decoder: Decoder): ByteArray {
+  override fun deserialize(decoder: Decoder): AccountAddress {
     TODO()
   }
 }

@@ -19,11 +19,11 @@ import xyz.mcxross.ksui.internal.getCommitteeInfo
 import xyz.mcxross.ksui.internal.getStakes
 import xyz.mcxross.ksui.internal.getStakesById
 import xyz.mcxross.ksui.internal.getValidatorsApy
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Stake
 import xyz.mcxross.ksui.model.Stakes
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.ValidatorsApy
 import xyz.mcxross.ksui.protocol.Governance
@@ -55,7 +55,7 @@ class Governance(val config: SuiConfig) : Governance {
    * @param cursor The cursor to get stakes from
    * @return An [Option] of nullable [Stake]
    */
-  override suspend fun getStakes(owner: SuiAddress, limit: Int?, cursor: String?): Option<Stake> =
+  override suspend fun getStakes(owner: AccountAddress, limit: Int?, cursor: String?): Option<Stake> =
     getStakes(config, owner, limit, cursor)
 
   /**

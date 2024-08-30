@@ -19,18 +19,18 @@ package xyz.mcxross.ksui.internal
 import io.ktor.client.call.*
 import io.ktor.http.*
 import xyz.mcxross.ksui.client.postSuiFaucet
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.FaucetRequest
 import xyz.mcxross.ksui.model.FaucetResponse
 import xyz.mcxross.ksui.model.FixedAmountRequest
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.RequestOptions
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransferredGasObject
 
 internal suspend fun requestTestTokens(
   config: SuiConfig,
-  accountAddress: SuiAddress,
+  accountAddress: AccountAddress,
 ): Option<List<TransferredGasObject>> {
   val response =
     postSuiFaucet(

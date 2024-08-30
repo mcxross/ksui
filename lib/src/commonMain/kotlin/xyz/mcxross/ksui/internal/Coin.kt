@@ -23,15 +23,15 @@ import xyz.mcxross.ksui.generated.GetBalance
 import xyz.mcxross.ksui.generated.GetCoinMetadata
 import xyz.mcxross.ksui.generated.GetCoins
 import xyz.mcxross.ksui.generated.GetTotalSupply
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Balances
 import xyz.mcxross.ksui.model.CoinMetadata
 import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 
-internal suspend fun getAllBalances(config: SuiConfig, address: SuiAddress): Option<Balances?> {
+internal suspend fun getAllBalances(config: SuiConfig, address: AccountAddress): Option<Balances?> {
 
   val client = getGraphqlClient(config)
   val request by lazy { GetAllBalances(GetAllBalances.Variables(address.toString())) }
@@ -50,7 +50,7 @@ internal suspend fun getAllBalances(config: SuiConfig, address: SuiAddress): Opt
 
 internal suspend fun getCoins(
   config: SuiConfig,
-  address: SuiAddress,
+  address: AccountAddress,
   first: Int? = null,
   cursor: String? = null,
   type: String? = null,
@@ -88,7 +88,7 @@ internal suspend fun getTotalSupply(config: SuiConfig, type: String): Option<Str
 
 internal suspend fun getBalance(
   config: SuiConfig,
-  address: SuiAddress,
+  address: AccountAddress,
   type: String?,
 ): Option<Balance> {
   val client = getGraphqlClient(config)

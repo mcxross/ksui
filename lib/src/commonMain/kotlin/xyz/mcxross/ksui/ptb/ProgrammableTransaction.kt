@@ -51,10 +51,6 @@ class ProgrammableTransactionBuilder {
     return input(bcs.encodeToByteArray(value), false)
   }
 
-  fun inputStr(address: String): Argument {
-    return input(hexStringToByteArray(address), false)
-  }
-
   inline fun <reified T> forceSeparateInput(value: T): Argument {
     val bcs = Bcs {}
     return input(bcs.encodeToByteArray(value), true)

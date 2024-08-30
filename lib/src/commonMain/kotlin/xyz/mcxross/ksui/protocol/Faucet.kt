@@ -16,12 +16,12 @@
 
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.TransferredGasObject
 
 /** Faucet API namespace. This class provides functionality to create and fund accounts. */
 interface Faucet {
 
-  suspend fun requestTestTokens(accountAddress: SuiAddress): Option<List<TransferredGasObject>>
+  suspend fun requestTestTokens(accountAddress: AccountAddress): Option<List<TransferredGasObject>>
 }
