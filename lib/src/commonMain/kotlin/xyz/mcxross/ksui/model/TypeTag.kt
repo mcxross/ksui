@@ -16,74 +16,91 @@
 package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.serializer.TypeTagSerializer
 
-@Serializable
+@Serializable(with = TypeTagSerializer::class)
 sealed class TypeTag {
   abstract fun asMoveType(): String
-}
 
-object U8 : TypeTag() {
-  override fun asMoveType(): String = toString()
+  object U8 : TypeTag() {
+    override fun asMoveType(): String = toString()
 
-  override fun toString(): String = "u8"
-}
-
-object U16 : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "u16"
-}
-
-object U32 : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "u32"
-}
-
-object U64 : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "u64"
-}
-
-object U128 : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "u128"
-}
-
-object U256 : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "u256"
-}
-
-object Bool : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "bool"
-}
-
-object Address : TypeTag() {
-  override fun asMoveType(): String = toString()
-
-  override fun toString(): String = "address"
-}
-
-class Vector : TypeTag() {
-
-  private var of: TypeTag? = null
-
-  fun of(typeTag: TypeTag): Vector {
-    of = typeTag
-    return this
+    override fun toString(): String = "u8"
   }
 
-  override fun asMoveType(): String = toString()
+  object U16 : TypeTag() {
+    override fun asMoveType(): String = toString()
 
-  override fun toString(): String = "vector<$of>"
-}
+    override fun toString(): String = "u16"
+  }
 
-fun vectorOf(typeTag: TypeTag): Vector {
-  return Vector().of(typeTag)
+  object U32 : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "u32"
+  }
+
+  object U64 : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "u64"
+  }
+
+  object U128 : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "u128"
+  }
+
+  object U256 : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "u256"
+  }
+
+  object Bool : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "bool"
+  }
+
+  object Address : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "address"
+  }
+
+  class Vector : TypeTag() {
+
+    private var of: TypeTag? = null
+
+    fun of(typeTag: TypeTag): Vector {
+      of = typeTag
+      return this
+    }
+
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "vector<$of>"
+  }
+
+  @Serializable
+  data class Struct(
+    val address: AccountAddress,
+    val module: Identifier,
+    val name: Identifier,
+    val typeParams: List<TypeTag> = emptyList(),
+  ) : TypeTag() {
+    override fun asMoveType(): String = toString()
+
+    override fun toString(): String = "struct<$address::${module}::${name}>"
+
+    companion object {
+      fun from(str: String): Struct {
+        val parts = str.split("::")
+        require(parts.size == 3) { "Invalid struct type tag: $str" }
+        return Struct(AccountAddress.fromString(parts[0]), parts[1], parts[2])
+      }
+    }
+  }
 }
