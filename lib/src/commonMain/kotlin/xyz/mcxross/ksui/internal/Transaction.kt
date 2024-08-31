@@ -142,8 +142,8 @@ internal fun signTransaction(message: ByteArray, signer: Account): ByteArray {
 @OptIn(ExperimentalEncodingApi::class)
 internal suspend fun signAndSubmitTransaction(
   config: SuiConfig,
-  ptb: ProgrammableTransaction,
   signer: Account,
+  ptb: ProgrammableTransaction,
   gasBudget: ULong,
 ): Option.Some<ExecuteTransactionBlock.Result?> {
 
