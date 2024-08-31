@@ -18,7 +18,7 @@ package xyz.mcxross.ksui.ptb
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.model.CallArg
-import xyz.mcxross.ksui.model.ObjectId
+import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.serializer.AnySerializer
 
 @Serializable
@@ -47,8 +47,16 @@ class ProgrammableTransactionBuilder {
   }
 
   inline fun <reified T> input(value: T): Argument {
-    val bcs = Bcs {}
-    return input(bcs.encodeToByteArray(value), false)
+
+    if (value is ObjectArg) {
+      return `object`(value)
+    }
+
+    return input(Bcs.encodeToByteArray(value), false)
+  }
+
+  fun `object`(objectArg: ObjectArg): Argument {
+    return input(BuilderArg.Object, CallArg.Object(objectArg))
   }
 
   inline fun <reified T> forceSeparateInput(value: T): Argument {
@@ -68,7 +76,7 @@ class ProgrammableTransactionBuilder {
 @Serializable
 sealed class BuilderArg {
 
-  @Serializable data class Object(val objectId: ObjectId) : BuilderArg()
+  @Serializable data object Object : BuilderArg()
 
   @Serializable
   data class Pure(val data: ByteArray) : BuilderArg() {

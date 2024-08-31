@@ -85,6 +85,11 @@ sealed class ObjectArg {
   @Serializable
   data class SharedObject(val id: ObjectId, val initialSharedVersion: Long, val mutable: Boolean) :
     ObjectArg()
+
+  @Serializable
+  data class Receiving(
+   val objectRef: ObjectReference,
+  ) : ObjectArg()
 }
 
 @Serializable(with = TransactionFilterSerializer::class)
