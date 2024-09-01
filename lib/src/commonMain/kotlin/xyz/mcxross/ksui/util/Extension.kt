@@ -16,6 +16,7 @@
 package xyz.mcxross.ksui.util
 
 import xyz.mcxross.ksui.model.TransactionDigest
+import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder
 
@@ -25,6 +26,8 @@ fun String.toTxnDigest(): TransactionDigest = TransactionDigest(this)
 /** Extension functions to create [Argument.Input]s from various types. */
 inline fun <reified T : Any> ProgrammableTransactionBuilder.inputs(
   vararg inputs: T
-): List<Argument> {
-  return inputs.map { input(it) }
-}
+): List<Argument> = inputs.map { it as? Argument.Result ?: input(it) }
+
+inline fun <reified T: TypeTag> ProgrammableTransactionBuilder.types(
+  vararg types: T
+): List<TypeTag> = types.toList()

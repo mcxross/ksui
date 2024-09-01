@@ -17,14 +17,14 @@
 package xyz.mcxross.ksui.api
 
 import xyz.mcxross.ksui.internal.requestTestTokens
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransferredGasObject
 import xyz.mcxross.ksui.protocol.Faucet
 
 class Faucet(val config: SuiConfig) : Faucet {
   override suspend fun requestTestTokens(
-    accountAddress: SuiAddress
+    accountAddress: AccountAddress
   ): Option<List<TransferredGasObject>> = requestTestTokens(config, accountAddress)
 }

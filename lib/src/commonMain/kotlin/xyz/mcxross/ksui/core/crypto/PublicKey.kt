@@ -17,4 +17,5 @@ package xyz.mcxross.ksui.core.crypto
 
 interface PublicKey {
   val data: ByteArray
+  fun scheme(): SignatureScheme
 }

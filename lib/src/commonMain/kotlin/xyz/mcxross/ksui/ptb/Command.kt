@@ -248,8 +248,8 @@ interface Builder {
 
 class MoveCallBuilder : Builder {
   lateinit var target: String
-  lateinit var typeArguments: List<TypeTag>
-  lateinit var arguments: List<Argument>
+  var typeArguments: List<TypeTag> = emptyList()
+  var arguments: List<Argument> = emptyList()
 
   // TODO: check on `Identifier` type
   override fun isValid(): Boolean = true

@@ -85,6 +85,11 @@ sealed class ObjectArg {
   @Serializable
   data class SharedObject(val id: ObjectId, val initialSharedVersion: Long, val mutable: Boolean) :
     ObjectArg()
+
+  @Serializable
+  data class Receiving(
+   val objectRef: ObjectReference,
+  ) : ObjectArg()
 }
 
 @Serializable(with = TransactionFilterSerializer::class)
@@ -99,20 +104,20 @@ open class TransactionFilter {
 
   @Serializable data class ChangedObject(val objectId: ObjectId) : TransactionFilter()
 
-  @Serializable data class FromAddress(val address: SuiAddress) : TransactionFilter()
+  @Serializable data class FromAddress(val address: AccountAddress) : TransactionFilter()
 
-  @Serializable data class ToAddress(val address: SuiAddress) : TransactionFilter()
+  @Serializable data class ToAddress(val address: AccountAddress) : TransactionFilter()
 
   @Serializable
-  data class FromAndToAddress(val fromAddress: SuiAddress, val toAddress: SuiAddress) :
+  data class FromAndToAddress(val fromAddress: AccountAddress, val toAddress: AccountAddress) :
     TransactionFilter()
 
-  @Serializable data class FromOrToAddress(val suiAddress: SuiAddress) : TransactionFilter()
+  @Serializable data class FromOrToAddress(val suiAddress: AccountAddress) : TransactionFilter()
 }
 
 object TransactionDataComposer {
   fun programmable(
-    sender: SuiAddress,
+    sender: AccountAddress,
     gapPayment: List<ObjectReference>,
     pt: ProgrammableTransaction,
     gasBudget: ULong,
@@ -120,12 +125,12 @@ object TransactionDataComposer {
   ): TransactionData = programmableAllowSponsor(sender, gapPayment, pt, gasBudget, gasPrice, sender)
 
   fun programmableAllowSponsor(
-    sender: SuiAddress,
+    sender: AccountAddress,
     gapPayment: List<ObjectReference>,
     pt: ProgrammableTransaction,
     gasBudget: ULong,
     gasPrice: ULong,
-    sponsor: SuiAddress,
+    sponsor: AccountAddress,
   ): TransactionData =
     withGasCoinsAllowSponsor(
       kind = TransactionKind.ProgrammableTransaction(pt),
@@ -138,11 +143,11 @@ object TransactionDataComposer {
 
   fun withGasCoinsAllowSponsor(
     kind: TransactionKind,
-    sender: SuiAddress,
+    sender: AccountAddress,
     gapPayment: List<ObjectReference>,
     gasBudget: ULong,
     gasPrice: ULong,
-    sponsor: SuiAddress,
+    sponsor: AccountAddress,
   ): TransactionData =
     TransactionData.V1(
       TransactionDataV1(
@@ -166,10 +171,10 @@ sealed class TransactionData {
       pt: ProgrammableTransaction,
       gasBudget: ULong,
       gasPrice: ULong,
-    ): TransactionData = programmable(SuiAddress(sender), gasPayment, pt, gasBudget, gasPrice)
+    ): TransactionData = programmable(AccountAddress(sender), gasPayment, pt, gasBudget, gasPrice)
 
     fun programmable(
-      sender: SuiAddress,
+      sender: AccountAddress,
       gasPayment: List<ObjectReference>,
       pt: ProgrammableTransaction,
       gasBudget: ULong,
@@ -178,12 +183,12 @@ sealed class TransactionData {
       programmableAllowSponsor(sender, gasPayment, pt, gasBudget, gasPrice, sender)
 
     fun programmableAllowSponsor(
-      sender: SuiAddress,
+      sender: AccountAddress,
       gasPayment: List<ObjectReference>,
       pt: ProgrammableTransaction,
       gasBudget: ULong,
       gasPrice: ULong,
-      gasSponsor: SuiAddress,
+      gasSponsor: AccountAddress,
     ): TransactionData {
       val kind = (TransactionKind::ProgrammableTransaction)(pt)
       return newWithGasCoinsAllowSponsor(kind, sender, gasPayment, gasBudget, gasPrice, gasSponsor)
@@ -191,11 +196,11 @@ sealed class TransactionData {
 
     fun newWithGasCoinsAllowSponsor(
       kind: TransactionKind,
-      sender: SuiAddress,
+      sender: AccountAddress,
       gasPayment: List<ObjectReference>,
       gasBudget: ULong,
       gasPrice: ULong,
-      gasSponsor: SuiAddress,
+      gasSponsor: AccountAddress,
     ): TransactionData =
       (TransactionData::V1)(
         TransactionDataV1(
@@ -223,7 +228,7 @@ enum class B{
 data class TransactionDataV1(
   val a : B = B.A,
   val kind: TransactionKind,
-  val sender: SuiAddress,
+  val sender: AccountAddress,
   val gasData: GasData,
   val expiration: TransactionExpiration,
 ) : TransactionDataVersion

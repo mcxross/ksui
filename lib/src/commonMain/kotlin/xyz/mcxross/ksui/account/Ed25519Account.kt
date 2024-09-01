@@ -50,7 +50,7 @@ class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
     get() = privateKey.publicKey
 
   override val address: AccountAddress
-    get() = AccountAddress.from(byteArrayOf(scheme.scheme) + publicKey.data)
+    get() = AccountAddress.fromPublicKey(publicKey)
 
   override val scheme: SignatureScheme
     get() = SignatureScheme.ED25519

@@ -32,10 +32,13 @@ extensible and easy to use.
 
 ## Features
 
-- Implements all functions
-- Type-safe
-- Client Configurable
-- Multiplatform
+- Multiplatform (Android, iOS, JS, JVM)
+- Type-safe API
+- Expressive DSL for PTB construction
+- Client Configurable (Retries, Timeout, etc)
+- Batteries included
+  - DeepBook client
+  - SuiNS client
 
 ## Quick Start
 
@@ -67,10 +70,46 @@ Android:
 implementation("xyz.mcxross.ksui:ksui-android:<$ksui_version>")
 ```
 
-JS:
+### Account Management
+
+#### Generating a new account
+
+To generate a new Sui account, simply call the static `create` method on the `Account` class as shown below:
 
 ```kotlin
-implementation("xyz.mcxross.ksui:ksui-js:<$ksui_version>")
+val yourAccount = Account.create()
+```
+
+This generates a new account with a random mnemonic, public key, and address.
+
+#### Importing an existing account
+
+##### From a private key
+
+There are a couple of ways to import an existing account. One way is to import an account from a private key as a
+private key object:
+
+```kotlin
+val privateKey = PrivateKey.fromEncoded("suipri...8cpv0g")
+
+val yourAccount = Account.import(privateKey)
+```
+
+or as a string:
+
+```kotlin
+val yourAccount = Account.import("suipri...8cpv0g")
+```
+
+> [!NOTE]
+> **Ksui** adheres to the standard Sui private key format of encoding the private key in Bech32 format as
+> proposed in [SIP-15](https://github.com/sui-foundation/sips/blob/main/sips/sip-15.md).
+
+You can also import an account from a mnemonic:
+
+```kotlin
+val mnemonic = "abandon salad ..."
+val yourAccount = Account.import(mnemonic)
 ```
 
 ### Initialization
@@ -96,7 +135,7 @@ Once you have initialized the client, you can use it to read from the chain. For
 address:
 
 ```kotlin
-val balance = sui.getBalance(SuiAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
+val balance = sui.getBalance(AccountAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
 ```
 
 ### Writing to the chain (PTBs)
@@ -108,27 +147,33 @@ is made up of PTBs which are a chain of commands that are executed by the chain.
 coin and *sends* it to another address, you can do so as shown below:
 
 ```kotlin
+
+// Assuming you have an account object
+val alice = Account.import("suipri...8cpv0g")
+
+// Create a programmable transaction
 val ptb = programmableTx {
     command {
         // Split the coin
         val splitCoins = splitCoins {
             coin = Argument.GasCoin
-            into = listOf(input(1_000UL))
+            into = inputs(1_000_000UL)
         }
 
         // Send the split coin to the receiver
         transferObjects {
-            objects = listOf(splitCoins)
-            to = input(SuiAddress("0xad4c...aeb4"))
+            objects = inputs(splitCoins)
+            to = input(alice.address)
         }
     }
 }
 
-// Now, we can create the transaction data
-val txData = TransactionData.programmable(sender, listOf(senderCoins pick 0), ptb, 5_000_000UL, gasPrice)
+// Sign the transaction and execute it
+val txn = sui.signAndExecuteTransactionBlock(alice, pt)
+
 ```
 
-For more information, please see the [documentation](https://mcxross.github.io/ksui/).
+For more information, please see the [documentation](https://suicookbook.com).
 
 ## What's included
 
@@ -136,10 +181,6 @@ For more information, please see the [documentation](https://mcxross.github.io/k
 |------------------|---------------------------------------------------------------------------------------------------------|
 | [lib](lib)       | Library implementation folder. It contains the code for Ksui that can be used across multiple platforms |
 | [sample](sample) | Samples on how to use the exported APIs                                                                 |
-
-## Projects using Ksui
-
-- [Sui Cohesive](https://github.com/mcxross/sui-cohesive)
 
 ## Contribution
 

@@ -16,13 +16,13 @@
 package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.DynamicFieldObject
 import xyz.mcxross.ksui.model.DynamicFields
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.OwnedObjects
 import xyz.mcxross.ksui.model.PastObject
-import xyz.mcxross.ksui.model.SuiAddress
 
 /**
  * Object interface
@@ -53,7 +53,7 @@ interface Object {
    * @return An [Option] of nullable [OwnedObjects]
    */
   suspend fun getOwnedObjects(
-    owner: SuiAddress,
+    owner: AccountAddress,
     limit: Int? = null,
     cursor: String? = null,
     option: ObjectDataOptions = ObjectDataOptions(),

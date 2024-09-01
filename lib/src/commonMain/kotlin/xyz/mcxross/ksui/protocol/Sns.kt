@@ -15,9 +15,9 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Page
-import xyz.mcxross.ksui.model.SuiAddress
 
 /**
  * Sns interface
@@ -32,7 +32,7 @@ interface Sns {
    * @param domain The domain to resolve
    * @return An [Option] of nullable [SuiAddress]
    */
-  suspend fun resolveNameServiceAddress(domain: String): Option<SuiAddress?>
+  suspend fun resolveNameServiceAddress(domain: String): Option<AccountAddress?>
 
   /**
    * Resolve name service names
@@ -43,7 +43,7 @@ interface Sns {
    * @return An [Option] of nullable [Page]
    */
   suspend fun resolveNameServiceNames(
-    address: SuiAddress,
+    address: AccountAddress,
     limit: UInt? = null,
     cursor: String? = null,
   ): Option<Page>

@@ -21,11 +21,11 @@ import xyz.mcxross.ksui.generated.GetCommitteeInfo
 import xyz.mcxross.ksui.generated.GetStakes
 import xyz.mcxross.ksui.generated.GetStakesByIds
 import xyz.mcxross.ksui.generated.GetValidatorsApy
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.CommitteeInfo
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Stake
 import xyz.mcxross.ksui.model.Stakes
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.ValidatorsApy
 
@@ -53,7 +53,7 @@ internal suspend fun getCommitteeInfo(
 
 internal suspend fun getStakes(
   config: SuiConfig,
-  address: SuiAddress,
+  address: AccountAddress,
   limit: Int?,
   cursor: String?,
 ): Option<Stake> {

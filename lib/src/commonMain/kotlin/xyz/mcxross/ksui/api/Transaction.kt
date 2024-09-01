@@ -113,9 +113,9 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
    */
   override suspend fun signAndExecuteTransactionBlock(
-    ptb: ProgrammableTransaction,
     signer: Account,
+    ptb: ProgrammableTransaction,
     gasBudget: ULong,
   ): Option.Some<ExecuteTransactionBlock.Result?> =
-    signAndSubmitTransaction(config, ptb, signer, gasBudget)
+    signAndSubmitTransaction(config, signer, ptb, gasBudget)
 }
