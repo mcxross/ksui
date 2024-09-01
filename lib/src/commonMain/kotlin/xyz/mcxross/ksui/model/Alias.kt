@@ -73,3 +73,7 @@ typealias PastObject = TryGetPastObject.Result?
 typealias MoveFunctionArgTypes = GetMoveFunctionArgTypes.Result?
 
 typealias TransactionBlocks = QueryTransactionBlocks.Result?
+
+typealias Identifier = String
+
+typealias Struct = TypeTag.Struct

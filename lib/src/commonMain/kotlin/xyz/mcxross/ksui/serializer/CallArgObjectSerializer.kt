@@ -17,13 +17,47 @@ package xyz.mcxross.ksui.serializer
 
 import kotlinx.serialization.KSerializer
 import xyz.mcxross.ksui.model.CallArg
+import xyz.mcxross.ksui.model.ObjectArg
 
 object CallArgObjectSerializer : KSerializer<CallArg.Object> {
   override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
     kotlinx.serialization.descriptors.buildClassSerialDescriptor("CallArg.Object") {}
 
   override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: CallArg.Object) {
-    encoder.encodeByte(1)
+    encoder.encodeEnum(descriptor, 1)
+    when (value.arg) {
+      is ObjectArg.ImmOrOwnedObject -> {
+        encoder.encodeEnum(descriptor, 0)
+        val composite = encoder.beginStructure(descriptor)
+        composite.encodeSerializableElement(
+          descriptor,
+          0,
+          ObjectArg.ImmOrOwnedObject.serializer(),
+          value.arg,
+        )
+      }
+      is ObjectArg.SharedObject -> {
+        encoder.encodeEnum(descriptor, 1)
+        val composite = encoder.beginStructure(descriptor)
+        composite.encodeSerializableElement(
+          descriptor,
+          0,
+          ObjectArg.SharedObject.serializer(),
+          value.arg,
+        )
+      }
+
+      is ObjectArg.Receiving -> {
+        encoder.encodeEnum(descriptor, 2)
+        val composite = encoder.beginStructure(descriptor)
+        composite.encodeSerializableElement(
+          descriptor,
+          0,
+          ObjectArg.Receiving.serializer(),
+          value.arg,
+        )
+      }
+    }
   }
 
   override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): CallArg.Object {

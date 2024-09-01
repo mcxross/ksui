@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.extension
+package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.ObjectDigest
-import xyz.mcxross.ksui.model.Reference
-import xyz.mcxross.ksui.util.formatSuiDomain
-import xyz.mcxross.ksui.util.idToParts
+import xyz.mcxross.ksui.model.TypeTag
+import xyz.mcxross.ksui.ptb.Argument
+import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
-fun String.toReference() = Reference(AccountAddress(this))
+interface Extended {
+  fun moveCall(
+    target: String,
+    typeArguments: List<TypeTag> = emptyList(),
+    args: List<Argument> = emptyList(),
+  ): ProgrammableTransaction
 
-fun String.toObjectDigest() = ObjectDigest(Digest(this))
+  fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction
 
-fun String.formatAsSuiDomain() = formatSuiDomain(this)
-
-fun String.asIdParts() = idToParts(this)
-
-data class IdParts(val packageId: String, val module: String, val function: String)
-
-fun Triple<String, String, String>.toId() = IdParts(first, second, third)
+  fun transferObject(objs: List<Argument>, to: AccountAddress) : ProgrammableTransaction
+}

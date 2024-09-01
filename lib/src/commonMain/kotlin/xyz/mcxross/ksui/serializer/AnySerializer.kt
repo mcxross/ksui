@@ -37,6 +37,16 @@ object AnySerializer : kotlinx.serialization.KSerializer<Any> {
         )
         composite.endStructure(descriptor)
       }
+      is CallArg.Object -> {
+        val composite = encoder.beginStructure(descriptor)
+        composite.encodeSerializableElement(
+          descriptor,
+          0,
+          kotlinx.serialization.serializer(),
+          value,
+        )
+        composite.endStructure(descriptor)
+      }
       is Command.MoveCall -> {
         encoder.encodeEnum(descriptor, 0)
         val composite = encoder.beginStructure(descriptor)

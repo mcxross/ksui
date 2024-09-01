@@ -101,8 +101,8 @@ interface Transaction {
    * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
    */
   suspend fun signAndExecuteTransactionBlock(
-    ptb: ProgrammableTransaction,
     signer: Account,
+    ptb: ProgrammableTransaction,
     gasBudget: ULong = 5_000_000UL,
   ): Option.Some<ExecuteTransactionBlock.Result?>
 }

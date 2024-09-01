@@ -36,7 +36,6 @@ import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Reference
-import xyz.mcxross.ksui.model.SuiAddress
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlocks
@@ -143,8 +142,8 @@ internal fun signTransaction(message: ByteArray, signer: Account): ByteArray {
 @OptIn(ExperimentalEncodingApi::class)
 internal suspend fun signAndSubmitTransaction(
   config: SuiConfig,
-  ptb: ProgrammableTransaction,
   signer: Account,
+  ptb: ProgrammableTransaction,
   gasBudget: ULong,
 ): Option.Some<ExecuteTransactionBlock.Result?> {
 
@@ -155,7 +154,7 @@ internal suspend fun signAndSubmitTransaction(
     }
 
   val paymentObject =
-    when (val po = getCoins(config, SuiAddress.fromString(signer.address.toString()))) {
+    when (val po = getCoins(config, signer.address)) {
       is Option.Some -> po.value
       is Option.None -> throw SuiException("Failed to get payment object")
     }
@@ -169,7 +168,7 @@ internal suspend fun signAndSubmitTransaction(
 
   val txData =
     TransactionDataComposer.programmable(
-      sender = SuiAddress.fromString(signer.address.toString()),
+      sender = signer.address,
       gapPayment =
         listOf(
           ObjectReference(
