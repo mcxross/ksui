@@ -15,10 +15,12 @@
  */
 package xyz.mcxross.ksui.api
 
+import xyz.mcxross.ksui.generated.getownedobjects.MoveObject
 import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
 import xyz.mcxross.ksui.internal.getDynamicFieldObject
 import xyz.mcxross.ksui.internal.getDynamicFields
 import xyz.mcxross.ksui.internal.getOwnedObjects
+import xyz.mcxross.ksui.internal.getOwnedObjectsByType
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.DynamicFieldObject
 import xyz.mcxross.ksui.model.DynamicFields
@@ -65,6 +67,31 @@ class Object(val config: SuiConfig) : Object {
     cursor: String?,
     option: ObjectDataOptions,
   ): Option<OwnedObjects> = getOwnedObjects(config, owner, limit, cursor, option)
+
+  /**
+   * Retrieves owned objects of a specified type for a given owner.
+   *
+   * This function fetches objects owned by the specified owner and of the specified type. It uses
+   * pagination to efficiently retrieve objects up to the specified limit. If the number of objects
+   * on the current page is less than the limit, it will fetch the next page until either the limit
+   * is reached or all objects have been retrieved.
+   *
+   * @param owner The address or identifier of the owner whose objects are to be retrieved.
+   * @param type The specific type of objects to fetch. This should match the object's type in the
+   *   system.
+   * @param limit The maximum number of objects to retrieve. If null, all objects will be fetched.
+   * @param option Additional options to customize the object data retrieval process. This could
+   *   include filters, sorting preferences, or data inclusion/exclusion flags.
+   * @return An [Option] wrapping a nullable [List] of [MoveObject].
+   *     - If objects are found, returns Some(List<MoveObject>).
+   *     - If no objects are found, returns None.
+   */
+  override suspend fun getOwnedObjectsByType(
+    owner: AccountAddress,
+    type: String,
+    limit: Int,
+    option: ObjectDataOptions,
+  ): Option<List<MoveObject>> = getOwnedObjectsByType(config, owner, type, limit, option)
 
   /**
    * Try to get a past object

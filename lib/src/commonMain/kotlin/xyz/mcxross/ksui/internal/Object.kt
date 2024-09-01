@@ -22,6 +22,7 @@ import xyz.mcxross.ksui.generated.GetDynamicFields
 import xyz.mcxross.ksui.generated.GetObject
 import xyz.mcxross.ksui.generated.GetOwnedObjects
 import xyz.mcxross.ksui.generated.TryGetPastObject
+import xyz.mcxross.ksui.generated.getownedobjects.MoveObject
 import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.DynamicFieldObject
@@ -100,6 +101,61 @@ internal suspend fun getOwnedObjects(
   }
 
   return Option.Some(response.data)
+}
+
+internal suspend fun getOwnedObjectsByType(
+  config: SuiConfig,
+  owner: AccountAddress,
+  type: String,
+  limit: Int,
+  option: ObjectDataOptions,
+): Option<List<MoveObject>> {
+  var cursor: String? = null
+  val ownedObjects = mutableListOf<MoveObject>()
+
+  do {
+    // Retrieve owned objects with the current cursor
+    when (
+      val objs =
+        getOwnedObjects(config, owner = owner, cursor = cursor, limit = null, option = option)
+    ) {
+      is Option.Some -> {
+        val a = objs.value?.address?.objects
+
+        // If the objects are null, continue to the next page
+        if (a == null) {
+          cursor = null
+          continue
+        }
+
+        // Update the cursor for the next iteration
+        cursor =
+          if (a.pageInfo.hasNextPage) {
+            a.pageInfo.endCursor
+          } else {
+            null
+          }
+
+        // Filter objects based on the type and take only the remaining needed
+        val remaining = (limit - ownedObjects.size)
+        if (remaining > 0) {
+          val filteredObjects =
+            a.nodes
+              .filter {
+                val objectType = it.contents?.type?.repr ?: ""
+                objectType == type
+              }
+              .take(remaining)
+
+          // Add filtered objects to the final list
+          ownedObjects.addAll(filteredObjects)
+        }
+      }
+      is Option.None -> cursor = null
+    }
+  } while (cursor != null && ownedObjects.size < limit)
+
+  return Option.Some(ownedObjects)
 }
 
 suspend fun tryGetPastObject(config: SuiConfig, id: String, version: Int?): Option<PastObject> {
