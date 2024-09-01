@@ -32,12 +32,13 @@ extensible and easy to use.
 
 ## Features
 
-- Type-safe
-- Client Configurable
-- Expressive DSL for PTBs
-- DeepBook abstraction
-- SuiNS abstraction
 - Multiplatform (Android, iOS, JS, JVM)
+- Type-safe API
+- Expressive DSL for PTB construction
+- Client Configurable (Retries, Timeout, etc)
+- Batteries included
+  - DeepBook client
+  - SuiNS client
 
 ## Quick Start
 
@@ -104,6 +105,12 @@ val yourAccount = Account.import("suipri...8cpv0g")
 > **Ksui** adheres to the standard Sui private key format of encoding the private key in Bech32 format as
 > proposed in [SIP-15](https://github.com/sui-foundation/sips/blob/main/sips/sip-15.md).
 
+You can also import an account from a mnemonic:
+
+```kotlin
+val mnemonic = "abandon salad ..."
+val yourAccount = Account.import(mnemonic)
+```
 
 ### Initialization
 
