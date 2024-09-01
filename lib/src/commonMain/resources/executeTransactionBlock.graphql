@@ -20,7 +20,28 @@ mutation executeTransactionBlock(
                     }
                     timestamp
                 }
+                expiration {
+                    epochId
+                    referenceGasPrice
+                    startTimestamp
+                    endTimestamp
+                    totalCheckpoints
+                }
             }
+            status
+            lamportVersion
+            errors
+            gasEffects {
+                gasObject {
+                    address
+                    balance {
+                        coinObjectCount
+                        totalBalance
+                    }
+                }
+            }
+            timestamp
+            bcs
         }
     }
 }
