@@ -168,8 +168,8 @@ val ptb = programmableTx {
     }
 }
 
-// Sign the transaction and execute it
-val txn = sui.signAndExecuteTransactionBlock(alice, pt)
+// Sign and execute txn
+val txn = sui.signAndExecuteTransactionBlock(alice, ptb)
 
 ```
 
