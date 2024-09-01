@@ -1,11 +1,7 @@
 query getObject(
     $id: SuiAddress!
-    $showBcs: Boolean = false
-    $showOwner: Boolean = false
     $showPreviousTransaction: Boolean = false
-    $showContent: Boolean = false
     $showDisplay: Boolean = false
-    $showType: Boolean = false
     $showStorageRebate: Boolean = false
 ) {
     object(address: $id) {
@@ -16,20 +12,6 @@ query getObject(
 fragment RPC_OBJECT_FIELDS on Object {
     objectId: address
     version
-    asMoveObject @include(if: $showContent) {
-        hasPublicTransfer
-        contents {
-            data
-            type {
-                repr
-                layout
-                signature
-            }
-        }
-    }
-    owner @include(if: $showOwner) {
-        ...RPC_OBJECT_OWNER_FIELDS
-    }
     previousTransactionBlock @include(if: $showPreviousTransaction) {
         digest
     }
@@ -40,27 +22,5 @@ fragment RPC_OBJECT_FIELDS on Object {
         key
         value
         error
-    }
-}
-
-fragment RPC_OBJECT_OWNER_FIELDS on ObjectOwner {
-    __typename
-    ... on AddressOwner {
-        owner {
-            asObject {
-                address
-            }
-            asAddress {
-                address
-            }
-        }
-    }
-    ... on Parent {
-        parent {
-            address
-        }
-    }
-    ... on Shared {
-        initialSharedVersion
     }
 }
