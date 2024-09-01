@@ -44,12 +44,12 @@ internal suspend fun getObject(
     GetObject(
       GetObject.Variables(
         id = id,
-        showBcs = option.showBcs,
-        showOwner = option.showOwner,
+        // showBcs = option.showBcs,
+        // showOwner = option.showOwner,
         showPreviousTransaction = option.showPreviousTransaction,
-        showContent = option.showContent,
+        // showContent = option.showContent,
         showDisplay = option.showDisplay,
-        showType = option.showType,
+        // showType = option.showType,
         showStorageRebate = option.showStorageRebate,
       )
     )
@@ -85,7 +85,7 @@ internal suspend fun getOwnedObjects(
             showBcs = option.showBcs,
             showContent = option.showContent,
             showDisplay = option.showDisplay,
-            showOwner = option.showOwner,
+            // showOwner = option.showOwner,
             showPreviousTransaction = option.showPreviousTransaction,
             showStorageRebate = option.showStorageRebate,
           )
