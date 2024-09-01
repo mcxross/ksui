@@ -21,6 +21,7 @@ import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.SuiSettings
 import xyz.mcxross.ksui.ptb.programmableTx
+import xyz.mcxross.ksui.util.inputs
 import xyz.mcxross.ksui.util.runBlocking
 
 const val HELLO_WORLD =
@@ -42,7 +43,14 @@ fun main() = runBlocking {
   println("Transferred gas: $transferredGasObjs")
 
   // Programmable transaction block
-  val ptb = programmableTx { command { moveCall { target = HELLO_WORLD } } }
+  val ptb = programmableTx {
+    command {
+      moveCall {
+        target = HELLO_WORLD
+        arguments = inputs(0UL)
+      }
+    }
+  }
 
   // Sign and execute the transaction block
   val res = sui.signAndExecuteTransactionBlock(signer = alice, ptb = ptb)
