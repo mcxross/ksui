@@ -56,7 +56,7 @@ class ProgrammableTransactionBuilder {
   }
 
   fun `object`(objectArg: ObjectArg): Argument {
-    return input(BuilderArg.Object, CallArg.Object(objectArg))
+    return input(BuilderArg.Object(objectArg.toString()), CallArg.Object(objectArg))
   }
 
   inline fun <reified T> forceSeparateInput(value: T): Argument {
@@ -76,7 +76,7 @@ class ProgrammableTransactionBuilder {
 @Serializable
 sealed class BuilderArg {
 
-  @Serializable data object Object : BuilderArg()
+  @Serializable data class Object(val id: String) : BuilderArg()
 
   @Serializable
   data class Pure(val data: ByteArray) : BuilderArg() {
@@ -102,16 +102,4 @@ fun programmableTx(block: ProgrammableTransactionBuilder.() -> Unit): Programmab
   val builder = ProgrammableTransactionBuilder()
   builder.block()
   return builder.build()
-}
-
-fun hexStringToByteArray(hexString: String): ByteArray {
-  val cleanedHexString = hexString.removePrefix("0x").replace(Regex("[^0-9A-Fa-f]"), "")
-  val len = cleanedHexString.length
-
-  require(len % 2 == 0) { "Hex string must have an even length" }
-
-  return ByteArray(len / 2) { i ->
-    val index = i * 2
-    cleanedHexString.substring(index, index + 2).toInt(16).toByte()
-  }
 }
