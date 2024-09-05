@@ -28,14 +28,11 @@ import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.generated.GetTotalTransactionBlocks
 import xyz.mcxross.ksui.generated.QueryTransactionBlocks
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.Intent
 import xyz.mcxross.ksui.model.IntentMessage
-import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlocks
@@ -153,30 +150,21 @@ internal suspend fun signAndSubmitTransaction(
       is Option.None -> throw SuiException("Failed to get gas price")
     }
 
-  val paymentObject =
-    when (val po = getCoins(config, signer.address)) {
-      is Option.Some -> po.value
-      is Option.None -> throw SuiException("Failed to get payment object")
+  val coins = getCoins(config, signer.address).expect("Failed to get payment coins")
+
+  val paymentCoins =
+    coins.map {
+      ObjectReference.from(
+        id = AccountAddress.fromString(it.address),
+        version = it.version,
+        digest = it.digest ?: throw SuiException("Failed to get digest"),
+      )
     }
-
-  val sightedCoin = paymentObject?.address?.coins?.nodes?.get(0)
-
-  val address = sightedCoin?.address ?: throw SuiException("Failed to get address")
-
-  val digest =
-    ObjectDigest(Digest(sightedCoin.digest ?: throw SuiException("Failed to get digest")))
 
   val txData =
     TransactionDataComposer.programmable(
       sender = signer.address,
-      gapPayment =
-        listOf(
-          ObjectReference(
-            Reference(AccountAddress.fromString(address)),
-            sightedCoin.version.toLong(),
-            digest,
-          )
-        ),
+      gapPayment = paymentCoins,
       pt = ptb,
       gasBudget = gasBudget,
       gasPrice = gasPrice?.toULong() ?: throw SuiException("Failed to get gas price"),
