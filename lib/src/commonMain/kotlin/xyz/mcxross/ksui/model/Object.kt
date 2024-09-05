@@ -21,7 +21,13 @@ import xyz.mcxross.ksui.util.decodeBase58
 @Serializable data class ObjectId(val hash: AccountAddress)
 
 @Serializable
-data class ObjectReference(val reference: Reference, val version: Long, val digest: ObjectDigest)
+data class ObjectReference(val reference: Reference, val version: Long, val digest: ObjectDigest) {
+  companion object {
+    fun from(id: AccountAddress, version: Int, digest: String): ObjectReference {
+      return ObjectReference(Reference(id), version.toLong(), ObjectDigest(Digest(digest)))
+    }
+  }
+}
 
 @Serializable data class Reference(val accountAddress: AccountAddress)
 

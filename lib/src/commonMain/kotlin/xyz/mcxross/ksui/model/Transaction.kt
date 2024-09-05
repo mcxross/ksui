@@ -80,16 +80,25 @@ sealed class CallArg {
 @Serializable
 sealed class ObjectArg {
 
-  @Serializable data class ImmOrOwnedObject(val objectRef: ObjectReference) : ObjectArg()
+  @Serializable
+  data class ImmOrOwnedObject(val objectRef: ObjectReference) : ObjectArg() {
+    companion object {
+      fun from(accountAddress: AccountAddress, version: Int, digest: String) =
+        ImmOrOwnedObject(
+          ObjectReference(
+            Reference(accountAddress),
+            version.toLong(),
+            digest = ObjectDigest(digest = Digest(digest)),
+          )
+        )
+    }
+  }
 
   @Serializable
   data class SharedObject(val id: ObjectId, val initialSharedVersion: Long, val mutable: Boolean) :
     ObjectArg()
 
-  @Serializable
-  data class Receiving(
-   val objectRef: ObjectReference,
-  ) : ObjectArg()
+  @Serializable data class Receiving(val objectRef: ObjectReference) : ObjectArg()
 }
 
 @Serializable(with = TransactionFilterSerializer::class)
@@ -153,7 +162,8 @@ object TransactionDataComposer {
       TransactionDataV1(
         kind = kind,
         sender = sender,
-        gasData = GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
+        gasData =
+          GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
         expiration = TransactionExpiration.None,
       )
     )
@@ -220,13 +230,13 @@ sealed class TransactionData {
 
 // TODO: This is a placeholder for now, look back at this later
 
-enum class B{
+enum class B {
   A
 }
 
 @Serializable
 data class TransactionDataV1(
-  val a : B = B.A,
+  val a: B = B.A,
   val kind: TransactionKind,
   val sender: AccountAddress,
   val gasData: GasData,
@@ -262,7 +272,9 @@ fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
 
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
 
-@OptIn(ExperimentalEncodingApi::class) fun Txn.data(): String = Base64.encode(bcsEncode(this.data.senderSignedTransactions[0].intentMessage.value))
+@OptIn(ExperimentalEncodingApi::class)
+fun Txn.data(): String =
+  Base64.encode(bcsEncode(this.data.senderSignedTransactions[0].intentMessage.value))
 
 fun Txn.signatures(): List<String> = this.data.senderSignedTransactions.first().txSignatures
 
