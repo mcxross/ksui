@@ -20,6 +20,19 @@ import xyz.mcxross.ksui.serializer.OptionSerializer
 
 @Serializable(with = OptionSerializer::class)
 sealed class Option<out T> {
+
+  fun expect(message: String): T =
+    when (this) {
+      is Some -> value
+      is None -> throw NoSuchElementException(message)
+    }
+
+  fun destruct(): T? =
+    when (this) {
+      is Some -> value
+      is None -> null
+    }
+
   @Serializable data class Some<T>(val value: T) : Option<T>()
 
   @Serializable object None : Option<Nothing>()
