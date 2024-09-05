@@ -43,15 +43,15 @@ interface Coin {
    * @param address The address to get coins for
    * @param first The number of coins to get
    * @param cursor The cursor to get coins from
-   * @param type The type of coins to get
+   * @param type The type of coins to get. Default is `0x2::sui::SUI`
    * @return An [Option] of nullable [Coins]
    */
   suspend fun getCoins(
     address: AccountAddress,
     first: Int? = null,
     cursor: String? = null,
-    type: String? = null,
-  ): Option<Coins>
+    type: String = "0x2::sui::SUI",
+  ): Option<List<xyz.mcxross.ksui.generated.getcoins.Coin>>
 
   /**
    * Get the total supply of a coin

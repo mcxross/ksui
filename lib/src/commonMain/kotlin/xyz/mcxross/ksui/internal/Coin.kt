@@ -23,11 +23,11 @@ import xyz.mcxross.ksui.generated.GetBalance
 import xyz.mcxross.ksui.generated.GetCoinMetadata
 import xyz.mcxross.ksui.generated.GetCoins
 import xyz.mcxross.ksui.generated.GetTotalSupply
+import xyz.mcxross.ksui.generated.getcoins.Coin
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Balance
 import xyz.mcxross.ksui.model.Balances
 import xyz.mcxross.ksui.model.CoinMetadata
-import xyz.mcxross.ksui.model.Coins
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiConfig
 
@@ -53,21 +53,46 @@ internal suspend fun getCoins(
   address: AccountAddress,
   first: Int? = null,
   cursor: String? = null,
-  type: String? = null,
-): Option<Coins> {
+  type: String = "0x2::sui::SUI",
+): Option<List<Coin>> {
+
+  var currentCursor: String? = cursor
   val client = getGraphqlClient(config)
-  val request by lazy { GetCoins(GetCoins.Variables(address.toString(), first, cursor, type)) }
-  val response = client.execute(request)
+  val coins = mutableListOf<Coin>()
+  var totalCoinsRetrieved = 0
 
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
+  do {
+    val request by lazy {
+      GetCoins(
+        GetCoins.Variables(
+          address.toString(),
+          first?.let { first - totalCoinsRetrieved },
+          currentCursor,
+          type,
+        )
+      )
+    }
+    val response = client.execute(request)
 
-  if (response.data == null) {
-    return Option.None
-  }
+    if (!response.errors.isNullOrEmpty()) {
+      throw SuiException(response.errors.toString())
+    }
 
-  return Option.Some(response.data)
+    val data = response.data ?: return Option.None
+    val coinList = data.address?.coins?.nodes ?: emptyList()
+
+    coins.addAll(coinList)
+    totalCoinsRetrieved += coinList.size
+
+    currentCursor =
+      if (data.address?.coins?.pageInfo?.hasNextPage == true) {
+        data.address.coins.pageInfo.endCursor
+      } else {
+        null
+      }
+  } while (currentCursor != null && (first == null || totalCoinsRetrieved < first))
+
+  return if (coins.isNotEmpty()) Option.Some(coins) else Option.None
 }
 
 internal suspend fun getTotalSupply(config: SuiConfig, type: String): Option<String> {

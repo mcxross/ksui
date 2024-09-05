@@ -59,8 +59,9 @@ class Coin(val config: SuiConfig) : Coin {
     address: AccountAddress,
     first: Int?,
     cursor: String?,
-    type: String?,
-  ): Option<Coins> = getCoins(config, address, first, cursor, type)
+    type: String,
+  ): Option<List<xyz.mcxross.ksui.generated.getcoins.Coin>> =
+    getCoins(config, address, first, cursor, type)
 
   /**
    * Get the total supply of a coin
