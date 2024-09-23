@@ -13,14 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.util
+package xyz.mcxross.ksuix.deepbook
 
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.Market
-
-fun getMarket(market: String): Option<Market> {
-  return when (val retrievedMarket = testnetMarkets[market]) {
-    null -> Option.None
-    else -> Option.Some(retrievedMarket)
-  }
-}
+/** An interface that represents a version of DeepBook. */
+interface DeepBook

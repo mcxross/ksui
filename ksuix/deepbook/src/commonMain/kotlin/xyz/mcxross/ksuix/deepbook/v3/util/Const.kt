@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.util
+package xyz.mcxross.ksuix.deepbook.v3.util
 
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.Coin
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.Market
+import xyz.mcxross.ksuix.deepbook.v3.model.Coin
+import xyz.mcxross.ksuix.deepbook.v3.model.Market
 
 const val DEEPBOOK_V3_CONTRACT_ADDRESS_MAINNET = ""
 const val DEEPBOOK_V3_CONTRACT_ADDRESS_TESTNET =

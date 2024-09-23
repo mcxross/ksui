@@ -13,17 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.extension
+package xyz.mcxross.ksuix.deepbook.v3.model
 
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DeepBookMarketMaker
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.util.DEEPBOOK_V3_CONTRACT_ADDRESS_TESTNET
+import xyz.mcxross.ksui.model.AccountAddress
 
-fun DeepBookMarketMaker.contractAddress(): String {
-  return when (sui.config.network) {
-    Network.DEVNET -> throw Exception("Not yet implemented")
-    Network.TESTNET -> DEEPBOOK_V3_CONTRACT_ADDRESS_TESTNET
-    Network.MAINNET -> throw Exception("Not yet implemented")
-    else -> throw Exception("Unsupported network")
-  }
-}
+data class TradeCap(val id: AccountAddress, val balanceManagerId: AccountAddress)

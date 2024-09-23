@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.internal
+package xyz.mcxross.ksuix.deepbook.v3.internal
 
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
@@ -23,15 +23,15 @@ import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Struct
 import xyz.mcxross.ksui.prebuilt.Clock
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DeepBookMarketMaker
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DefaultPool
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.extension.contractAddress
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.OrderType
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.SelfMatchingOptions
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.BalanceManager
 import xyz.mcxross.ksui.ptb.programmableTx
 import xyz.mcxross.ksui.util.inputs
 import xyz.mcxross.ksui.util.types
+import xyz.mcxross.ksuix.deepbook.v3.DeepBookMarketMaker
+import xyz.mcxross.ksuix.deepbook.v3.DefaultPool
+import xyz.mcxross.ksuix.deepbook.v3.extension.contractAddress
+import xyz.mcxross.ksuix.deepbook.v3.model.OrderType
+import xyz.mcxross.ksuix.deepbook.v3.model.SelfMatchingOptions
+import xyz.mcxross.ksuix.deepbook.v3.protocol.BalanceManager
 
 private suspend fun performTxn(
   maker: DeepBookMarketMaker,
@@ -444,7 +444,7 @@ private suspend fun liveObjectData(sui: Sui, balanceManager: BalanceManager) =
     is Option.Some -> {
       Pair(
         obj.value?.`object`?.version ?: throw Exception("No object version found"),
-        obj.value.`object`.digest ?: throw Exception("No object digest found"),
+        obj.value!!.`object`?.digest ?: throw Exception("No object digest found"),
       )
     }
     is Option.None -> throw Exception("No object found")

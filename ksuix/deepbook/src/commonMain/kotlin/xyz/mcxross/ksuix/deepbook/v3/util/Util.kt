@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.model
+package xyz.mcxross.ksuix.deepbook.v3.util
 
-data class Market(val address: String, val baseAsset: Coin, val quoteAsset: Coin)
+import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksuix.deepbook.v3.model.Market
+
+fun getMarket(market: String): Option<Market> {
+  return when (val retrievedMarket = testnetMarkets[market]) {
+    null -> Option.None
+    else -> Option.Some(retrievedMarket)
+  }
+}

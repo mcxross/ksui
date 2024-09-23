@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.internal
+package xyz.mcxross.ksuix.deepbook.v3.internal
 
-import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.generated.enums.ExecutionStatus
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResult
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Struct
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DeepBookMarketMaker
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.extension.contractAddress
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeCap
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.BalanceManager
+import xyz.mcxross.ksuix.deepbook.v3.DeepBookMarketMaker
+import xyz.mcxross.ksuix.deepbook.v3.extension.contractAddress
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeCap
+import xyz.mcxross.ksuix.deepbook.v3.protocol.BalanceManager
 import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.programmableTx
 import xyz.mcxross.ksui.util.inputs
 import xyz.mcxross.ksui.util.types
 
 internal suspend fun new(
-  maker: DeepBookMarketMaker,
-  receipt: AccountAddress?,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    receipt: AccountAddress?,
+): Option.Some<ExecuteTransactionBlockResult> {
   val ptb = programmableTx {
     command {
       val balanceManager = moveCall { target = "${maker.contractAddress()}::balance_manager::new" }
@@ -47,10 +47,10 @@ internal suspend fun new(
 }
 
 internal suspend fun mintTradeCap(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  receipt: AccountAddress?,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    receipt: AccountAddress?,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -72,9 +72,9 @@ internal suspend fun mintTradeCap(
 }
 
 internal suspend fun generateProofAsOwner(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -91,10 +91,10 @@ internal suspend fun generateProofAsOwner(
 }
 
 internal suspend fun generateProofAsTrader(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  tradeCap: TradeCap,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    tradeCap: TradeCap,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -115,11 +115,11 @@ internal suspend fun generateProofAsTrader(
 }
 
 internal suspend fun deposit(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  amount: ULong,
-  type: String,
-): Option<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    amount: ULong,
+    type: String,
+): Option<ExecuteTransactionBlockResult> {
 
   val ptb = programmableTx {
     command {
@@ -137,7 +137,7 @@ internal suspend fun deposit(
   val response = maker.sui.signAndExecuteTransactionBlock(maker.owner, ptb)
 
   if (response.value != null) {
-    if (response.value.executeTransactionBlock.effects.status == ExecutionStatus.SUCCESS) {
+    if (response.value!!.executeTransactionBlock.effects.status == ExecutionStatus.SUCCESS) {
       when (val coins = maker.sui.getCoins(maker.owner.address, type = type)) {
         is Option.Some -> {
 
@@ -175,12 +175,12 @@ internal suspend fun deposit(
 }
 
 internal suspend fun withdraw(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  amount: ULong,
-  type: String,
-  receipt: AccountAddress,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    amount: ULong,
+    type: String,
+    receipt: AccountAddress,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -202,11 +202,11 @@ internal suspend fun withdraw(
 }
 
 internal suspend fun withdrawAll(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  type: String,
-  receipt: AccountAddress,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    type: String,
+    receipt: AccountAddress,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -228,9 +228,9 @@ internal suspend fun withdrawAll(
 }
 
 internal suspend fun validateProof(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 
@@ -253,10 +253,10 @@ internal suspend fun validateProof(
 }
 
 internal suspend fun balance(
-  maker: DeepBookMarketMaker,
-  balanceManager: BalanceManager,
-  type: String,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+    maker: DeepBookMarketMaker,
+    balanceManager: BalanceManager,
+    type: String,
+): Option.Some<ExecuteTransactionBlockResult> {
 
   val refreshedBalanceManager = balanceManager.refresh().expect("Could not refresh balance manager")
 

@@ -177,10 +177,11 @@ For more information, please see the [documentation](https://suicookbook.com).
 
 ## What's included
 
-| File/Folder      | Description                                                                                             |
-|------------------|---------------------------------------------------------------------------------------------------------|
-| [lib](lib)       | Library implementation folder. It contains the code for Ksui that can be used across multiple platforms |
-| [sample](sample) | Samples on how to use the exported APIs                                                                 |
+| File/Folder     | Description                                                                                             |
+|-----------------|---------------------------------------------------------------------------------------------------------|
+| [lib](lib)      | Library implementation folder. It contains the code for Ksui that can be used across multiple platforms |
+| [ksuix](ksuix)  | Every other SDK library that's not part of the core lib i.e. extended libs                              |
+| [sample](sample)| Samples on how to use the exported APIs                                                                 |
 
 ## Contribution
 

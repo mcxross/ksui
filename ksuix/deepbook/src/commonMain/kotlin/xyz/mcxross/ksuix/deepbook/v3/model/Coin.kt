@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.model
+package xyz.mcxross.ksuix.deepbook.v3.model
 
-import xyz.mcxross.ksui.model.AccountAddress
-
-data class TradeCap(val id: AccountAddress, val balanceManagerId: AccountAddress)
+data class Coin(
+    val address: String,
+    val type: String,
+    val scalar: Int
+)

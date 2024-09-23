@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3
+package xyz.mcxross.ksuix.deepbook.v3
 
 import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.balance
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.deposit
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.generateProofAsOwner
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.mintTradeCap
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.withdraw
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.withdrawAll
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeCap
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeProof
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.BalanceManager
+import xyz.mcxross.ksuix.deepbook.v3.internal.balance
+import xyz.mcxross.ksuix.deepbook.v3.internal.deposit
+import xyz.mcxross.ksuix.deepbook.v3.internal.generateProofAsOwner
+import xyz.mcxross.ksuix.deepbook.v3.internal.mintTradeCap
+import xyz.mcxross.ksuix.deepbook.v3.internal.withdraw
+import xyz.mcxross.ksuix.deepbook.v3.internal.withdrawAll
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeCap
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeProof
+import xyz.mcxross.ksuix.deepbook.v3.protocol.BalanceManager
 
 class DefaultBalanceManager(override val maker: DeepBookMarketMaker, val address: AccountAddress) :
-  BalanceManager {
+    BalanceManager {
 
   override suspend fun refresh(): Option<ObjectArg.ImmOrOwnedObject> {
     return when (val obj = maker.sui.getObject(id())) {
@@ -39,7 +39,7 @@ class DefaultBalanceManager(override val maker: DeepBookMarketMaker, val address
           ObjectArg.ImmOrOwnedObject.from(
             address,
             obj.value?.`object`?.version ?: throw Exception("No object version found"),
-            obj.value.`object`.digest ?: throw Exception("No object digest found"),
+            obj.value!!.`object`!!.digest ?: throw Exception("No object digest found"),
           )
         )
       }
@@ -48,7 +48,7 @@ class DefaultBalanceManager(override val maker: DeepBookMarketMaker, val address
   }
 
   override suspend fun new(receipt: AccountAddress?): Option.Some<ExecuteTransactionBlock.Result?> =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.new(maker = maker, receipt = receipt)
+      xyz.mcxross.ksuix.deepbook.v3.internal.new(maker = maker, receipt = receipt)
 
   override suspend fun mintTradeCap(
     receipt: AccountAddress?
@@ -67,11 +67,11 @@ class DefaultBalanceManager(override val maker: DeepBookMarketMaker, val address
   override suspend fun generateProofAsTrader(
     tradeCap: TradeCap
   ): Option.Some<ExecuteTransactionBlock.Result?> =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.generateProofAsTrader(
-      maker = maker,
-      balanceManager = this,
-      tradeCap = tradeCap,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.generateProofAsTrader(
+          maker = maker,
+          balanceManager = this,
+          tradeCap = tradeCap,
+      )
 
   override suspend fun deposit(
     amount: ULong,
@@ -95,10 +95,10 @@ class DefaultBalanceManager(override val maker: DeepBookMarketMaker, val address
   override suspend fun validateProof(
     proof: TradeProof
   ): Option.Some<ExecuteTransactionBlock.Result?> =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.validateProof(
-      maker = maker,
-      balanceManager = this,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.validateProof(
+          maker = maker,
+          balanceManager = this,
+      )
 
   override suspend fun balance(type: String): Option.Some<ExecuteTransactionBlock.Result?> =
     balance(maker = maker, balanceManager = this, type = type)

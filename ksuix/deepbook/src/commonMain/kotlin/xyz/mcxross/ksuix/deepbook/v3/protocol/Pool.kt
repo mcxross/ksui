@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol
+package xyz.mcxross.ksuix.deepbook.v3.protocol
 
-import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResult
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.prebuilt.Clock
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DeepBookMarketMaker
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.OrderType
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.SelfMatchingOptions
+import xyz.mcxross.ksuix.deepbook.v3.DeepBookMarketMaker
+import xyz.mcxross.ksuix.deepbook.v3.model.OrderType
+import xyz.mcxross.ksuix.deepbook.v3.model.SelfMatchingOptions
 
 /**
  * A pool is a collection of liquidity that can be used to trade assets.
@@ -35,55 +35,55 @@ interface Pool {
 
   suspend fun refresh(): Option<ObjectArg.SharedObject>
 
-  suspend fun whitelisted(): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun whitelisted(): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun getQuoteQuantityOut(
     baseQuantity: Long,
     clock: Clock = Clock(maker.sui),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun getBaseQuantityOut(
     quoteQuantity: Long,
     clock: Clock = Clock(maker.sui),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun getQuantityOut(
     baseQuantity: Long,
     quoteQuantity: Long,
     clock: Clock = Clock(maker.sui),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun midPrice(
     clock: Clock = Clock(maker.sui)
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun accountOpenOrders(
     balanceManager: BalanceManager
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun getLevel2Range(
     priceLow: Long,
     priceHigh: Long,
     isBid: Boolean,
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun getLevel2TicksFromMid(
     ticks: Long,
     clock: Clock = Clock(maker.sui),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
-  suspend fun vaultBalances(): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun vaultBalances(): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun placeLimitOrder(
-    balanceManager: BalanceManager,
-    clientOrderId: String,
-    orderType: OrderType,
-    selfMatchingOption: SelfMatchingOptions,
-    price: Long,
-    quantity: Long,
-    isBid: Boolean,
-    payWithDeep: Boolean,
-    expireTimestamp: Long,
-    clock: Clock = Clock(maker.sui),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+      balanceManager: BalanceManager,
+      clientOrderId: String,
+      orderType: OrderType,
+      selfMatchingOption: SelfMatchingOptions,
+      price: Long,
+      quantity: Long,
+      isBid: Boolean,
+      payWithDeep: Boolean,
+      expireTimestamp: Long,
+      clock: Clock = Clock(maker.sui),
+  ): Option.Some<ExecuteTransactionBlockResult>
 }

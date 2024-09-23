@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.model
+package xyz.mcxross.ksuix.deepbook.v3.model
 
-import xyz.mcxross.ksui.model.AccountAddress
-
-data class TradeProof(val id: AccountAddress)
+enum class OrderType {
+    NO_RESTRICTION,
+    IMMEDIATE_OR_CANCEL,
+    FILL_OR_KILL,
+    POST_ONLY
+}

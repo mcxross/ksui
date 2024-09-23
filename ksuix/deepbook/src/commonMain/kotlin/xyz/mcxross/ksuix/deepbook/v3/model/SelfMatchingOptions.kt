@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook
+package xyz.mcxross.ksuix.deepbook.v3.model
 
-/** An interface that represents a version of DeepBook. */
-interface DeepBook
+enum class SelfMatchingOptions {
+  SELF_MATCHING_ALLOWED,
+  CANCEL_TAKER,
+  CANCEL_MAKER
+}

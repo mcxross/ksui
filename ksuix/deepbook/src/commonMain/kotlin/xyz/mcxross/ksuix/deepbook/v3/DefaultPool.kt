@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3
+package xyz.mcxross.ksuix.deepbook.v3
 
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.prebuilt.Clock
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.Market
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.OrderType
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.SelfMatchingOptions
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.BalanceManager
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.Pool
+import xyz.mcxross.ksuix.deepbook.v3.model.Market
+import xyz.mcxross.ksuix.deepbook.v3.model.OrderType
+import xyz.mcxross.ksuix.deepbook.v3.model.SelfMatchingOptions
+import xyz.mcxross.ksuix.deepbook.v3.protocol.BalanceManager
+import xyz.mcxross.ksuix.deepbook.v3.protocol.Pool
 
 data class DefaultPool(override val maker: DeepBookMarketMaker, val market: Market) : Pool {
   override suspend fun refresh(): Option<ObjectArg.SharedObject> {
@@ -48,78 +48,78 @@ data class DefaultPool(override val maker: DeepBookMarketMaker, val market: Mark
   }
 
   override suspend fun whitelisted() =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.whitelisted(maker, this)
+      xyz.mcxross.ksuix.deepbook.v3.internal.whitelisted(maker, this)
 
   override suspend fun getQuoteQuantityOut(baseQuantity: Long, clock: Clock) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.getQuoteQuantityOut(
-      maker,
-      this,
-      baseQuantity,
-      clock,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.getQuoteQuantityOut(
+          maker,
+          this,
+          baseQuantity,
+          clock,
+      )
 
   override suspend fun getBaseQuantityOut(quoteQuantity: Long, clock: Clock) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.getBaseQuantityOut(
-      maker,
-      this,
-      quoteQuantity,
-      clock,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.getBaseQuantityOut(
+          maker,
+          this,
+          quoteQuantity,
+          clock,
+      )
 
   override suspend fun getQuantityOut(baseQuantity: Long, quoteQuantity: Long, clock: Clock) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.getQuantityOut(
-      maker,
-      this,
-      baseQuantity,
-      quoteQuantity,
-      clock,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.getQuantityOut(
+          maker,
+          this,
+          baseQuantity,
+          quoteQuantity,
+          clock,
+      )
 
   override suspend fun midPrice(clock: Clock) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.midPrice(maker, this, clock)
+      xyz.mcxross.ksuix.deepbook.v3.internal.midPrice(maker, this, clock)
 
   override suspend fun accountOpenOrders(balanceManager: BalanceManager) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.accountOpenOrders(maker, this, balanceManager)
+      xyz.mcxross.ksuix.deepbook.v3.internal.accountOpenOrders(maker, this, balanceManager)
 
   override suspend fun getLevel2Range(priceLow: Long, priceHigh: Long, isBid: Boolean) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.getLevel2Range(
-      maker,
-      this,
-      priceLow,
-      priceHigh,
-      isBid,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.getLevel2Range(
+          maker,
+          this,
+          priceLow,
+          priceHigh,
+          isBid,
+      )
 
   override suspend fun getLevel2TicksFromMid(ticks: Long, clock: Clock) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.getLevel2TicksFromMid(maker, this, ticks, clock)
+      xyz.mcxross.ksuix.deepbook.v3.internal.getLevel2TicksFromMid(maker, this, ticks, clock)
 
   override suspend fun vaultBalances() =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.vaultBalances(maker, this)
+      xyz.mcxross.ksuix.deepbook.v3.internal.vaultBalances(maker, this)
 
   override suspend fun placeLimitOrder(
-    balanceManager: BalanceManager,
-    clientOrderId: String,
-    orderType: OrderType,
-    selfMatchingOption: SelfMatchingOptions,
-    price: Long,
-    quantity: Long,
-    isBid: Boolean,
-    payWithDeep: Boolean,
-    expireTimestamp: Long,
-    clock: Clock,
+      balanceManager: BalanceManager,
+      clientOrderId: String,
+      orderType: OrderType,
+      selfMatchingOption: SelfMatchingOptions,
+      price: Long,
+      quantity: Long,
+      isBid: Boolean,
+      payWithDeep: Boolean,
+      expireTimestamp: Long,
+      clock: Clock,
   ) =
-    xyz.mcxross.ksui.prebuilt.deepbook.v3.internal.placeLimitOrder(
-      maker,
-      this,
-      balanceManager,
-      clientOrderId,
-      orderType,
-      selfMatchingOption,
-      price,
-      quantity,
-      isBid,
-      payWithDeep,
-      expireTimestamp,
-      clock,
-    )
+      xyz.mcxross.ksuix.deepbook.v3.internal.placeLimitOrder(
+          maker,
+          this,
+          balanceManager,
+          clientOrderId,
+          orderType,
+          selfMatchingOption,
+          price,
+          quantity,
+          isBid,
+          payWithDeep,
+          expireTimestamp,
+          clock,
+      )
 }

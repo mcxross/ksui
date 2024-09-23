@@ -13,8 +13,11 @@ plugins {
   alias(libs.plugins.maven.publish) apply false
 }
 
-repositories {
-  mavenCentral()
-  mavenLocal()
-  google()
+allprojects {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+    google()
+  }
 }

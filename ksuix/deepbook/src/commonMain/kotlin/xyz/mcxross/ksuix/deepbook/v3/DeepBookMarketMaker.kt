@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3
+package xyz.mcxross.ksuix.deepbook.v3
 
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.account.Account
@@ -21,9 +21,9 @@ import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.prebuilt.deepbook.DeepBook
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeCap
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol.BalanceManager
+import xyz.mcxross.ksuix.deepbook.DeepBook
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeCap
+import xyz.mcxross.ksuix.deepbook.v3.protocol.BalanceManager
 
 class DeepBookMarketMaker(val sui: Sui = Sui(), val owner: Account) : DeepBook {
 

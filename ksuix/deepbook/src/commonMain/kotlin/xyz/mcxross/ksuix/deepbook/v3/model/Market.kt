@@ -13,11 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.model
+package xyz.mcxross.ksuix.deepbook.v3.model
 
-enum class OrderType {
-    NO_RESTRICTION,
-    IMMEDIATE_OR_CANCEL,
-    FILL_OR_KILL,
-    POST_ONLY
-}
+data class Market(val address: String, val baseAsset: Coin, val quoteAsset: Coin)

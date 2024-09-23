@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.prebuilt.deepbook.v3.protocol
+package xyz.mcxross.ksuix.deepbook.v3.protocol
 
-import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResult
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.DeepBookMarketMaker
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeCap
-import xyz.mcxross.ksui.prebuilt.deepbook.v3.model.TradeProof
+import xyz.mcxross.ksuix.deepbook.v3.DeepBookMarketMaker
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeCap
+import xyz.mcxross.ksuix.deepbook.v3.model.TradeProof
 
 interface BalanceManager {
 
@@ -43,7 +43,7 @@ interface BalanceManager {
    *
    * @param receipt an optional receipt address to send the object to
    */
-  suspend fun new(receipt: AccountAddress? = null): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun new(receipt: AccountAddress? = null): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Mints a trade cap for the balance manager.
@@ -58,17 +58,17 @@ interface BalanceManager {
    */
   suspend fun mintTradeCap(
     receipt: AccountAddress? = null
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun revokeTradeCap(
     receipt: AccountAddress? = null
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
-  suspend fun generateProofAsOwner(): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun generateProofAsOwner(): Option.Some<ExecuteTransactionBlockResult>
 
   suspend fun generateProofAsTrader(
     tradeCap: TradeCap
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Deposits an amount of the specified type into this [BalanceManager] by the owner.
@@ -81,7 +81,7 @@ interface BalanceManager {
   suspend fun deposit(
     amount: ULong,
     type: String = "0x02::sui::SUI",
-  ): Option<ExecuteTransactionBlock.Result?>
+  ): Option<ExecuteTransactionBlockResult>
 
   /**
    * Withdraws an amount of the specified type from this [BalanceManager] by the owner.
@@ -95,7 +95,7 @@ interface BalanceManager {
     amount: ULong,
     type: String = "0x02::sui::SUI",
     receipt: AccountAddress = maker.owner.address,
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Withdraws all the specified type balance from this [BalanceManager] by the owner.
@@ -109,14 +109,14 @@ interface BalanceManager {
   suspend fun withdrawAll(
     type: String = "0x02::sui::SUI",
     receipt: AccountAddress = maker.owner.address,
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Validate that this [TradeProof] can access this balance manager's funds.
    *
    * @param proof the trade proof to validate
    */
-  suspend fun validateProof(proof: TradeProof): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun validateProof(proof: TradeProof): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Gets the balance of the specified type in this [BalanceManager].
@@ -125,10 +125,10 @@ interface BalanceManager {
    *
    * @param type the type of the balance
    */
-  suspend fun balance(type: String = "0x02::sui::SUI"): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun balance(type: String = "0x02::sui::SUI"): Option.Some<ExecuteTransactionBlockResult>
 
   /** Gets the owner of this [BalanceManager]. */
-  suspend fun owner(): Option.Some<ExecuteTransactionBlock.Result?>
+  suspend fun owner(): Option.Some<ExecuteTransactionBlockResult>
 
   /** Gets the ID of this [BalanceManager]. */
   fun id(): String
