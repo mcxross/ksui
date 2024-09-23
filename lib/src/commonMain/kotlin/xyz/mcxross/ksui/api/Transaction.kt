@@ -23,6 +23,7 @@ import xyz.mcxross.ksui.internal.executeTransactionBlock
 import xyz.mcxross.ksui.internal.getTotalTransactionBlocks
 import xyz.mcxross.ksui.internal.signAndSubmitTransaction
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResult
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
@@ -47,13 +48,13 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @param txnBytes The transaction bytes
    * @param signatures The signatures
    * @param option The options to use for response
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @return An [Option] of nullable [ExecuteTransactionBlockResult]
    */
   override suspend fun executeTransactionBlock(
     txnBytes: String,
     signatures: List<String>,
     option: ExecuteTransactionBlockResponseOptions,
-  ): Option.Some<ExecuteTransactionBlock.Result?> =
+  ): Option.Some<ExecuteTransactionBlockResult> =
     executeTransactionBlock(config, txnBytes, signatures, option)
 
   /**
@@ -110,12 +111,12 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @param ptb The programmable transaction
    * @param signer The signer
    * @param gasBudget The gas budget
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @return An [Option] of nullable [ExecuteTransactionBlockResult]
    */
   override suspend fun signAndExecuteTransactionBlock(
     signer: Account,
     ptb: ProgrammableTransaction,
     gasBudget: ULong,
-  ): Option.Some<ExecuteTransactionBlock.Result?> =
+  ): Option.Some<ExecuteTransactionBlockResult> =
     signAndSubmitTransaction(config, signer, ptb, gasBudget)
 }

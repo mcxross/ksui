@@ -19,6 +19,7 @@ import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.generated.DryRunTransactionBlock
 import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.ExecuteTransactionBlockResult
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionBlocks
@@ -39,13 +40,13 @@ interface Transaction {
    * @param txnBytes The transaction bytes
    * @param signatures The signatures
    * @param option The options to use for response
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @return An [Option] of nullable [ExecuteTransactionBlockResult]
    */
   suspend fun executeTransactionBlock(
     txnBytes: String,
     signatures: List<String>,
     option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 
   /**
    * Dry run a transaction block
@@ -98,11 +99,11 @@ interface Transaction {
    * @param ptb The programmable transaction
    * @param signer The signer
    * @param gasBudget The gas budget
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @return An [Option] of nullable [ExecuteTransactionBlockResult]
    */
   suspend fun signAndExecuteTransactionBlock(
     signer: Account,
     ptb: ProgrammableTransaction,
     gasBudget: ULong = 5_000_000UL,
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Option.Some<ExecuteTransactionBlockResult>
 }

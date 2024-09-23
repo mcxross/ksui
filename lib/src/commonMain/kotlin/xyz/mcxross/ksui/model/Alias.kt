@@ -17,6 +17,7 @@
 package xyz.mcxross.ksui.model
 
 import io.ktor.client.statement.*
+import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
 import xyz.mcxross.ksui.generated.GetAllBalances
 import xyz.mcxross.ksui.generated.GetBalance
 import xyz.mcxross.ksui.generated.GetCoinMetadata
@@ -77,3 +78,5 @@ typealias TransactionBlocks = QueryTransactionBlocks.Result?
 typealias Identifier = String
 
 typealias Struct = TypeTag.Struct
+
+typealias ExecuteTransactionBlockResult = ExecuteTransactionBlock.Result?
