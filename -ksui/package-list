@@ -543,6 +543,7 @@ $dokka.location:xyz.mcxross.ksui.model/Option.Some///PointingToDeclaration/-ksu
 $dokka.location:xyz.mcxross.ksui.model/Option.Some/Some/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-option/-some/-some.html
 $dokka.location:xyz.mcxross.ksui.model/Option.Some/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-option/-some/value.html
 $dokka.location:xyz.mcxross.ksui.model/Option///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-option/index.html
+$dokka.location:xyz.mcxross.ksui.model/Option/expect/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-option/expect.html
 $dokka.location:xyz.mcxross.ksui.model/OwnedObjects///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-owned-objects/index.html
 $dokka.location:xyz.mcxross.ksui.model/Page///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-page/index.html
 $dokka.location:xyz.mcxross.ksui.model/PastObject///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-past-object/index.html
