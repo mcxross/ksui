@@ -3,7 +3,7 @@ agp = "8.1.4"
 kotlin = "2.0.21"
 ktor = "3.0.1"
 junit = "5.10.1"
-graphql-multiplatform = "0.1.0-beta07"
+graphql-multiplatform = "0.1.0-beta08"
 logback-classic = "1.5.6"
 
 [libraries]
