@@ -23,7 +23,7 @@ val NetworkToIndexerAPI =
     "mainnet" to "https://sui-mainnet.mystenlabs.com/graphql",
     "testnet" to "https://sui-testnet.mystenlabs.com/graphql",
     "devnet" to "https://sui-devnet.mystenlabs.com/graphql",
-    "local" to "http://127.0.0.1:8090/v1/graphql",
+    "local" to "http://0.0.0.0:9125/graphql",
   )
 
 val NetworkToNodeAPI =
@@ -31,7 +31,7 @@ val NetworkToNodeAPI =
     "mainnet" to "https://fullnode.mainnet.sui.io:443",
     "testnet" to "https://fullnode.testnet.sui.io:443",
     "devnet" to "https://fullnode.devnet.sui.io:443",
-    "local" to "http://0.0.0.0:9000",
+    "local" to "http://0.0.0.0:9124",
   )
 
 val NetworkToFaucetAPI =
@@ -39,7 +39,7 @@ val NetworkToFaucetAPI =
     "mainnet" to "https://faucet.mainnet.sui.io/gas",
     "testnet" to "https://faucet.testnet.sui.io/gas",
     "devnet" to "https://faucet.devnet.sui.io/gas",
-    "local" to "http://127.0.0.1:5003/gas",
+    "local" to "http://0.0.0.0:9123/gas",
   )
 
 val NetworkToChainId = mapOf("mainnet" to 1, "testnet" to 2, "randomnet" to 70)

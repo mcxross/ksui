@@ -94,6 +94,7 @@ kotlin {
       dependsOn(androidJvmMain)
       dependencies {
         implementation(libs.ktor.client.cio)
+        implementation(libs.logback.classic)
       }
     }
     linuxMain.dependencies { implementation(libs.ktor.client.curl) }
@@ -101,11 +102,11 @@ kotlin {
   }
 }
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(20))
 
 graphql {
   client {
-    endpoint = "https://sui-mainnet.mystenlabs.com/graphql"
+    schemaFile = file("src/commonMain/resources/schema.graphql")
     packageName = "xyz.mcxross.ksui.generated"
   }
 }
