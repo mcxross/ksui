@@ -12,7 +12,7 @@ repositories {
   mavenCentral()
 }
 
-kotlin { jvmToolchain(17) }
+kotlin { jvmToolchain(20) }
 
 dependencies {
   implementation(project(":ksui"))

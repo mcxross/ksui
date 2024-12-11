@@ -46,7 +46,6 @@ dependencies {
   implementation("androidx.activity:activity-compose:1.8.2")
   implementation(platform("androidx.compose:compose-bom:2023.08.00"))
   implementation(project(":ksui"))
-  implementation("xyz.mcxross.sc:sc-android-debug:1.0.0-SNAPSHOT")
   implementation("androidx.compose.ui:ui")
   implementation("androidx.compose.ui:ui-graphics")
   implementation("androidx.compose.ui:ui-tooling-preview")
