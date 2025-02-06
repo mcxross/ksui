@@ -27,8 +27,8 @@ extensible and easy to use.
 - [Features](#features)
 - [Quick start](#quick-start)
 - [What's included](#whats-included)
-- [Projects using Ksui](#projects-using-Ksui)
 - [Contribution](#contribution)
+- [License](#license)
 
 ## Features
 
