@@ -87,7 +87,7 @@ object Bech32 {
         check(hrp.isNotEmpty()) { "Human-readable part is too short" }
         check(hrp.length <= 83) { "Human-readable part is too long" }
 
-        hrp = hrp.toLowerCase()
+        hrp = hrp.lowercase()
         val checksum = createChecksum(hrp, data)
         val combined = ByteArray(data.size + checksum.size)
         data.copyInto(combined)
