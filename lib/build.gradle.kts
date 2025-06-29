@@ -12,6 +12,8 @@ plugins {
   alias(libs.plugins.dokka)
   alias(libs.plugins.graphql.multiplatform)
   alias(libs.plugins.maven.publish)
+  id("org.jetbrains.kotlinx.rpc.plugin") version "0.5.1"
+  id("com.google.protobuf") version "0.9.4"
 }
 
 group = "xyz.mcxross.ksui"
@@ -19,6 +21,7 @@ group = "xyz.mcxross.ksui"
 version = "2.0.0"
 
 repositories {
+  maven("https://maven.pkg.jetbrains.space/public/p/krpc/grpc")
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
   mavenCentral()
   mavenLocal()
@@ -95,6 +98,7 @@ kotlin {
       dependencies {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
+        implementation("org.jetbrains.kotlinx:kotlinx-rpc-grpc-core:0.5.1-grpc-39")
       }
     }
     linuxMain.dependencies { implementation(libs.ktor.client.curl) }
@@ -106,7 +110,7 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(20))
 
 graphql {
   client {
-    schemaFile = file("src/commonMain/resources/schema.graphql")
+    schemaFile = file("src/commonMain/resources/graphql/schema.graphql")
     packageName = "xyz.mcxross.ksui.generated"
   }
 }
