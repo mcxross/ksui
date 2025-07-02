@@ -22,7 +22,6 @@ import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.serializer
-import xyz.mcxross.ksui.model.Struct
 import xyz.mcxross.ksui.model.TypeTag
 
 object TypeTagSerializer : KSerializer<TypeTag> {
@@ -33,13 +32,6 @@ object TypeTagSerializer : KSerializer<TypeTag> {
 
   override fun serialize(encoder: Encoder, value: TypeTag) {
     when (value) {
-      is Struct -> {
-        encoder.encodeEnum(descriptor, 7)
-        encoder.beginStructure(descriptor).apply {
-          encodeSerializableElement(descriptor, 0, serializer(), value)
-          endStructure(descriptor)
-        }
-      }
       else -> {
         throw Exception("Unimplemented")
       }

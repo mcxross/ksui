@@ -16,8 +16,8 @@
 
 package xyz.mcxross.ksui.client
 
+import com.apollographql.apollo.ApolloClient
 import io.ktor.client.*
-import xyz.mcxross.graphql.client.DefaultGraphQLClient
 import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiConfig
 
@@ -37,6 +37,5 @@ expect class ClientConfig {
 
 fun getClient(clientConfig: ClientConfig) = httpClient(clientConfig)
 
-fun getGraphqlClient(config: SuiConfig): DefaultGraphQLClient {
-  return DefaultGraphQLClient(config.getRequestUrl(SuiApiType.INDEXER))
-}
+fun getGraphqlClient(config: SuiConfig) =
+  ApolloClient.Builder().serverUrl(config.getRequestUrl(SuiApiType.INDEXER)).build()

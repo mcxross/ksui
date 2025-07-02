@@ -1,7 +1,3 @@
-package xyz.mcxross.ksui.model
-
-import xyz.mcxross.ksui.generated.inputs.TransactionBlockFilter
-
 /*
  * Copyright 2024 McXross
  *
@@ -17,6 +13,9 @@ import xyz.mcxross.ksui.generated.inputs.TransactionBlockFilter
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package xyz.mcxross.ksui.model
+
 data class TransactionBlockResponseOptions(
   val first: Int? = null,
   val last: Int? = null,
@@ -29,7 +28,6 @@ data class TransactionBlockResponseOptions(
   val showInput: Boolean? = null,
   val showObjectChanges: Boolean? = null,
   val showRawInput: Boolean? = null,
-  val filter: TransactionBlockFilter? = null,
 )
 
 data class ExecuteTransactionBlockResponseOptions(

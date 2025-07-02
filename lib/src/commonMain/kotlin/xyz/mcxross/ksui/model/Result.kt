@@ -13,18 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package xyz.mcxross.ksui.model
 
-import com.apollographql.apollo.api.Optional
-import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.generated.type.CheckpointId
+sealed class Result<out V, out E> {
+  data class Ok<out V>(val value: V) : Result<V, Nothing>()
 
-@Serializable
-data class CheckpointId(val digest: String? = null, val sequenceNumber: Long? = null) {
-  fun toGenerated(): CheckpointId {
-    return CheckpointId(
-      Optional.presentIfNotNull(digest),
-      Optional.presentIfNotNull(sequenceNumber),
-    )
-  }
+  data class Err<out E>(val error: E) : Result<Nothing, E>()
 }

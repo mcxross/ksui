@@ -16,37 +16,35 @@
 
 package xyz.mcxross.ksui.internal
 
+import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.generated.GetAllBalances
-import xyz.mcxross.ksui.generated.GetBalance
-import xyz.mcxross.ksui.generated.GetCoinMetadata
-import xyz.mcxross.ksui.generated.GetCoins
-import xyz.mcxross.ksui.generated.GetTotalSupply
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.GetAllBalancesQuery
+import xyz.mcxross.ksui.generated.GetBalanceQuery
+import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
+import xyz.mcxross.ksui.generated.GetCoinsQuery
+import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Balance
-import xyz.mcxross.ksui.model.Balances
-import xyz.mcxross.ksui.model.CoinMetadata
-import xyz.mcxross.ksui.model.Coins
-import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 
-internal suspend fun getAllBalances(config: SuiConfig, address: AccountAddress): Option<Balances?> {
-
-  val client = getGraphqlClient(config)
-  val request by lazy { GetAllBalances(GetAllBalances.Variables(address.toString())) }
-  val response = client.execute(request)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+internal suspend fun getAllBalances(
+  config: SuiConfig,
+  address: AccountAddress,
+  limit: Int?,
+  cursor: String?,
+): Result<GetAllBalancesQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          GetAllBalancesQuery(
+            address.toString(),
+            limit = Optional.presentIfNotNull(limit),
+            cursor = Optional.presentIfNotNull(cursor),
+          )
+        )
+    }
+    .toResult()
 
 internal suspend fun getCoins(
   config: SuiConfig,
@@ -54,70 +52,39 @@ internal suspend fun getCoins(
   first: Int? = null,
   cursor: String? = null,
   type: String? = null,
-): Option<Coins> {
-  val client = getGraphqlClient(config)
-  val request by lazy { GetCoins(GetCoins.Variables(address.toString(), first, cursor, type)) }
-  val response = client.execute(request)
+): Result<GetCoinsQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          GetCoinsQuery(
+            address.toString(),
+            first = Optional.presentIfNotNull(first),
+            cursor = Optional.presentIfNotNull(cursor),
+            type = Optional.presentIfNotNull(type),
+          )
+        )
+    }
+    .toResult()
 
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
-
-internal suspend fun getTotalSupply(config: SuiConfig, type: String): Option<String> {
-  val client = getGraphqlClient(config)
-  val request by lazy { GetTotalSupply(GetTotalSupply.Variables(type)) }
-  val response = client.execute(request)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data!!.coinMetadata?.supply.toString())
-}
+internal suspend fun getTotalSupply(
+  config: SuiConfig,
+  type: String,
+): Result<GetTotalSupplyQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetTotalSupplyQuery(type)) }.toResult()
 
 internal suspend fun getBalance(
   config: SuiConfig,
   address: AccountAddress,
-  type: String?,
-): Option<Balance> {
-  val client = getGraphqlClient(config)
-  val request by lazy { GetBalance(GetBalance.Variables(address.toString(), type)) }
-  val response = client.execute(request)
+  coinType: String?,
+): Result<GetBalanceQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(GetBalanceQuery(address.toString(), type = Optional.presentIfNotNull(coinType)))
+    }
+    .toResult()
 
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
-
-internal suspend fun getCoinMetadata(config: SuiConfig, type: String): Option<CoinMetadata> {
-  val client = getGraphqlClient(config)
-  val request by lazy { GetCoinMetadata(GetCoinMetadata.Variables(type)) }
-  val response = client.execute(request)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+internal suspend fun getCoinMetadata(
+  config: SuiConfig,
+  coinType: String,
+): Result<GetCoinMetadataQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetCoinMetadataQuery(coinType)) }.toResult()
