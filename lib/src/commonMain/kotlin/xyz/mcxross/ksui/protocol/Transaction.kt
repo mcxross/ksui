@@ -16,93 +16,182 @@
 package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.account.Account
-import xyz.mcxross.ksui.generated.DryRunTransactionBlock
-import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
+import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.DevInspectTransactionBlockQuery
+import xyz.mcxross.ksui.generated.DryRunTransactionBlockQuery
+import xyz.mcxross.ksui.generated.ExecuteTransactionBlockMutation
+import xyz.mcxross.ksui.generated.GetTotalTransactionBlocksQuery
+import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
+import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
+import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.TransactionBlocks
+import xyz.mcxross.ksui.model.TransactionMetaData
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
 /**
- * Transaction interface
- *
- * This interface represents the transaction API
+ * Defines the API for building, simulating, executing, and querying transactions on the Sui
+ * network.
  */
 interface Transaction {
 
   /**
-   * Execute a transaction block
+   * Creates a cryptographic signature for a given message using a signer's private key.
    *
-   * This function will execute a transaction block with the given transaction bytes and signatures.
+   * This is a local, synchronous operation that does not require a network connection. It is a
+   * fundamental building block for creating valid transactions.
    *
-   * @param txnBytes The transaction bytes
-   * @param signatures The signatures
-   * @param option The options to use for response
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @param message The raw message bytes to be signed (typically serialized transaction data).
+   * @param signer The [Account] containing the private key to sign with.
+   * @return A [ByteArray] representing the resulting signature.
+   */
+  fun signTransaction(message: ByteArray, signer: Account): ByteArray
+
+  /**
+   * Runs a special developer-focused inspection of a transaction block.
+   *
+   * This is a powerful debugging tool that can reveal detailed effects, potential errors, and
+   * execution results without broadcasting the transaction or requiring a valid signature. Unlike a
+   * standard dry run, this endpoint requires specifying transaction metadata like the sender and
+   * gas information directly.
+   *
+   * @param txBytes The base64-encoded, BCS-serialized transaction data.
+   * @param txMetaData A [TransactionMetaData] object specifying the sender address, gas object, gas
+   *   price, and other details for the inspection.
+   * @param options The [ExecuteTransactionBlockResponseOptions] to tailor which details are
+   *   returned in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [DevInspectTransactionBlockQuery.Data] object with the detailed
+   *   inspection results.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun devInspectTransactionBlock(
+    txBytes: String,
+    txMetaData: TransactionMetaData,
+    options: ExecuteTransactionBlockResponseOptions,
+  ): Result<DevInspectTransactionBlockQuery.Data?, SuiError>
+
+  /**
+   * Simulates the execution of a transaction block without committing it to the network.
+   *
+   * This is useful for estimating gas costs, verifying outcomes, and debugging potential errors
+   * before submission.
+   *
+   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param option The response options to tailor which details of the dry run are returned.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [DryRunTransactionBlockQuery.Data] object with the results of the
+   *   simulation, such as the gas summary and effects.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun dryRunTransactionBlock(
+    txnBytes: String,
+    option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
+  ): Result<DryRunTransactionBlockQuery.Data?, SuiError>
+
+  /**
+   * Submits a pre-signed transaction block to the Sui network for execution.
+   *
+   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param signatures A list of base64-encoded signatures corresponding to the signers.
+   * @param option The response options to specify which details of the executed transaction to
+   *   return (e.g., effects, object changes).
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [ExecuteTransactionBlockMutation.Data] object with the
+   *   transaction response.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun executeTransactionBlock(
     txnBytes: String,
     signatures: List<String>,
     option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+  ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
 
   /**
-   * Dry run a transaction block
+   * A convenience method that signs and executes a transaction block in a single step.
    *
-   * This function will dry run a transaction block with the given transaction bytes.
-   *
-   * @param txnBytes The transaction bytes
-   * @param option The options to use for response
-   * @return An [Option] of nullable [DryRunTransactionBlock.Result]
-   */
-  suspend fun dryRunTransactionBlock(
-    txnBytes: String,
-    option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
-  ): Option.Some<DryRunTransactionBlock.Result?>
-
-  /**
-   * Get the total transaction blocks
-   *
-   * @return An [Option] of nullable [Long]
-   */
-  suspend fun getTotalTransactionBlocks(): Option<Long?>
-
-  /**
-   * Query transaction blocks for the specified criteria
-   *
-   * @param txnBlocksOptions The options to use
-   * @return An [Option] of nullable [TransactionBlocks]
-   */
-  suspend fun queryTransactionBlocks(
-    txnBlocksOptions: TransactionBlockResponseOptions = TransactionBlockResponseOptions()
-  ): Option<TransactionBlocks>
-
-  /**
-   * Sign a transaction
-   *
-   * This function will sign a transaction with the given message and signer.
-   *
-   * @param message The message to sign
-   * @param signer The signer
-   * @return The signed transaction
-   */
-  fun signTransaction(message: ByteArray, signer: Account): ByteArray
-
-  /**
-   * Sign and execute a transaction block
-   *
-   * This function will sign and execute a transaction block with the given programmable transaction
-   * and signer.
-   *
-   * @param ptb The programmable transaction
-   * @param signer The signer
-   * @param gasBudget The gas budget
-   * @return An [Option] of nullable [ExecuteTransactionBlock.Result]
+   * @param signer The [Account] to sign the transaction with.
+   * @param ptb The [ProgrammableTransaction] block to be executed.
+   * @param gasBudget The maximum gas budget for the transaction.
    */
   suspend fun signAndExecuteTransactionBlock(
     signer: Account,
     ptb: ProgrammableTransaction,
     gasBudget: ULong = 5_000_000UL,
-  ): Option.Some<ExecuteTransactionBlock.Result?>
+    options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
+  ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
+
+  /**
+   * Fetches the details of a specific transaction block by its digest.
+   *
+   * @param digest The base58-encoded digest of the transaction block.
+   * @param options The [TransactionBlockResponseOptions] specifying which details of the
+   *   transaction to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetTransactionBlockQuery.Data] object with the transaction's
+   *   details.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun getTransactionBlock(
+    digest: String,
+    options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
+  ): Result<GetTransactionBlockQuery.Data?, SuiError>
+
+  /**
+   * Fetches a paginated list of transaction blocks matching a specified filter.
+   *
+   * @param filter A [TransactionBlockFilter] to narrow down the search criteria (e.g., by sender,
+   *   recipient, or object ID).
+   * @param options The [TransactionBlockResponseOptions] specifying which details of the matching
+   *   transactions to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [QueryTransactionBlocksQuery.Data] object with a list of
+   *   transaction blocks and a pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun queryTransactionBlocks(
+    filter: TransactionBlockFilter = TransactionBlockFilter(),
+    options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
+  ): Result<QueryTransactionBlocksQuery.Data?, SuiError>
+
+  /**
+   * Fetches paginated lists of components within a specific transaction block.
+   *
+   * This allows for independent pagination of events, balance changes, and object changes
+   * associated with a single transaction.
+   *
+   * @param digest The digest of the transaction block to inspect.
+   * @param hasMoreEvents A flag to control whether to fetch the `events` list.
+   * @param hasMoreBalanceChanges A flag to control whether to fetch the `balanceChanges` list.
+   * @param hasMoreObjectChanges A flag to control whether to fetch the `objectChanges` list.
+   * @param afterEvents An optional cursor for paginating through events.
+   * @param afterBalanceChanges An optional cursor for paginating through balance changes.
+   * @param afterObjectChanges An optional cursor for paginating through object changes.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [PaginateTransactionBlockListsQuery.Data] object with the
+   *   requested component lists.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun paginateTransactionBlockLists(
+    digest: String,
+    hasMoreEvents: Boolean,
+    hasMoreBalanceChanges: Boolean,
+    hasMoreObjectChanges: Boolean,
+    afterEvents: String? = null,
+    afterBalanceChanges: String? = null,
+    afterObjectChanges: String? = null,
+  ): Result<PaginateTransactionBlockListsQuery.Data?, SuiError>
+
+  /**
+   * Fetches the total number of transaction blocks processed by the network.
+   *
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetTotalTransactionBlocksQuery.Data] object with the total
+   *   count.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun getTotalTransactionBlocks(): Result<GetTotalTransactionBlocksQuery.Data?, SuiError>
 }

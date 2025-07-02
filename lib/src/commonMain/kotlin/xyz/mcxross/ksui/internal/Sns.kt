@@ -15,64 +15,34 @@
  */
 package xyz.mcxross.ksui.internal
 
+import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.extension.formatAsSuiDomain
-import xyz.mcxross.ksui.generated.ResolveNameServiceAddress
-import xyz.mcxross.ksui.generated.ResolveNameServiceNames
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
+import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.Page
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun resolveNameServiceAddress(
   config: SuiConfig,
   domain: String,
-): Option<AccountAddress?> {
-  val response =
-    getGraphqlClient(config)
-      .execute(
-        ResolveNameServiceAddress(
-          ResolveNameServiceAddress.Variables(domain = domain.formatAsSuiDomain())
-        )
-      )
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data!!.resolveSuinsAddress?.let { AccountAddress.fromString(it.address) })
-}
+): Result<ResolveNameServiceAddressQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(ResolveNameServiceAddressQuery(domain)) }.toResult()
 
 internal suspend fun resolveNameServiceNames(
   config: SuiConfig,
   address: AccountAddress,
-  limit: UInt? = null,
+  limit: Int? = null,
   cursor: String? = null,
-): Option<Page?> {
-  val response =
-    getGraphqlClient(config)
-      .execute(
-        ResolveNameServiceNames(
-          ResolveNameServiceNames.Variables(
-            address = address.toString(),
-            limit = limit?.toInt(),
-            cursor = cursor,
-          )
+): Result<ResolveNameServiceNamesQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        ResolveNameServiceNamesQuery(
+          address.toString(),
+          limit = Optional.presentIfNotNull(limit),
+          cursor = Optional.presentIfNotNull(cursor),
         )
       )
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+    }
+    .toResult()

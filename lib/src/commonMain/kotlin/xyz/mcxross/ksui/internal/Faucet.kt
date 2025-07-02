@@ -16,12 +16,9 @@
 
 package xyz.mcxross.ksui.internal
 
-import io.ktor.client.call.*
-import io.ktor.http.*
 import xyz.mcxross.ksui.client.postSuiFaucet
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.FaucetRequest
-import xyz.mcxross.ksui.model.FaucetResponse
 import xyz.mcxross.ksui.model.FixedAmountRequest
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.RequestOptions
@@ -40,15 +37,5 @@ internal suspend fun requestTestTokens(
       )
     )
 
-  if (response.status != HttpStatusCode.Created) {
     return Option.None
-  }
-
-  val faucetResponse: FaucetResponse = response.body()
-
-  if (faucetResponse.error != null) {
-    return Option.None
-  }
-
-  return Option.Some(faucetResponse.transferredGasObjects)
 }

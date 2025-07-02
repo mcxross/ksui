@@ -16,17 +16,20 @@
 
 package xyz.mcxross.ksui.api
 
+import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.GetAllBalancesQuery
+import xyz.mcxross.ksui.generated.GetBalanceQuery
+import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
+import xyz.mcxross.ksui.generated.GetCoinsQuery
+import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 import xyz.mcxross.ksui.internal.getAllBalances
 import xyz.mcxross.ksui.internal.getBalance
 import xyz.mcxross.ksui.internal.getCoinMetadata
 import xyz.mcxross.ksui.internal.getCoins
 import xyz.mcxross.ksui.internal.getTotalSupply
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Balance
-import xyz.mcxross.ksui.model.Balances
-import xyz.mcxross.ksui.model.CoinMetadata
-import xyz.mcxross.ksui.model.Coins
-import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 
@@ -36,57 +39,89 @@ import xyz.mcxross.ksui.protocol.Coin
  * This class represents the coin API
  */
 class Coin(val config: SuiConfig) : Coin {
-
   /**
-   * Get all balances for an address
+   * Fetches the balance of a specific coin type for a given address.
    *
-   * @param address The address to get balances for
-   * @return An [Option] of nullable [Balances]
+   * If the `coinType` parameter is not provided, the function defaults to fetching the balance for
+   * the native SUI coin (`0x2::sui::SUI`).
+   *
+   * @param address The [AccountAddress] for which to get the balance.
+   * @param coinType An optional string representing the coin type (e.g., "0x2::sui::SUI"). Defaults
+   *   to `0x2::sui::SUI` if `null`.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetBalanceQuery.Data] object with the balance details. The data
+   *   can be `null` if the address holds no coins of the specified type.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getAllBalances(address: AccountAddress): Option<Balances> =
-    getAllBalances(config, address)
+  override suspend fun getBalance(
+    address: AccountAddress,
+    coinType: String?,
+  ): Result<GetBalanceQuery.Data?, SuiError> = getBalance(config, address, coinType)
 
   /**
-   * Get coins for an address
+   * Fetches all coin balances for a given Sui address.
    *
-   * @param address The address to get coins for
-   * @param first The number of coins to get
-   * @param cursor The cursor to get coins from
-   * @param type The type of coins to get
-   * @return An [Option] of nullable [Coins]
+   * This method supports pagination to allow for fetching large sets of balances incrementally.
+   *
+   * @param address The [AccountAddress] of the account to query.
+   * @param limit An optional integer to specify the maximum number of balances to return per page.
+   * @param cursor An optional cursor string for pagination. Use the `nextCursor` from a previous
+   *   response to fetch the next page of results.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetAllBalancesQuery.Data] object. This object includes a list of
+   *   balances and a `nextCursor` field for pagination.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  override suspend fun getAllBalances(
+    address: AccountAddress,
+    limit: Int?,
+    cursor: String?,
+  ): Result<GetAllBalancesQuery.Data?, SuiError> = getAllBalances(config, address, limit, cursor)
+
+  /**
+   * Fetches coin objects owned by a given address.
+   *
+   * This method supports pagination and can be filtered by a specific coin type.
+   *
+   * @param address The [AccountAddress] of the owner.
+   * @param first An optional integer to specify the maximum number of coin objects to return per
+   *   page.
+   * @param cursor An optional cursor string for pagination. Use the `nextCursor` from a previous
+   *   response to fetch the next page of results.
+   * @param type An optional string representing the coin type to filter by (e.g., "0x2::sui::SUI").
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetCoinsQuery.Data] object. This object includes a list of coin
+   *   objects and a `nextCursor` field for pagination.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   override suspend fun getCoins(
     address: AccountAddress,
     first: Int?,
     cursor: String?,
     type: String?,
-  ): Option<Coins> = getCoins(config, address, first, cursor, type)
+  ): Result<GetCoinsQuery.Data?, SuiError> = getCoins(config, address, first, cursor, type)
 
   /**
-   * Get the total supply of a coin
+   * Fetches the total supply for a given coin type.
    *
-   * @param type The type of coin to get the total supply for
-   * @return An [Option] of nullable [String]
+   * @param type The string representing the coin type (e.g., "0x2::sui::SUI").
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetTotalSupplyQuery.Data] object with the total supply details.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getTotalSupply(type: String): Option<String> = getTotalSupply(config, type)
+  override suspend fun getTotalSupply(type: String): Result<GetTotalSupplyQuery.Data?, SuiError> =
+    getTotalSupply(config, type)
 
   /**
-   * Get the balance of an address for a specific coin type
+   * Fetches the metadata for a specific coin type.
    *
-   * If the type is not provided, the default coin type of `0x2::sui::SUI` will be used
+   * Metadata may include the coin's name, symbol, description, and number of decimals.
    *
-   * @param address The address to get the balance for
-   * @return An [Option] of nullable [Balance]
+   * @param type The string representing the coin type for which to fetch metadata.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetCoinMetadataQuery.Data] object with the coin's metadata.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getBalance(address: AccountAddress, type: String?): Option<Balance> =
-    getBalance(config, address, type)
-
-  /**
-   * Get the metadata for a coin
-   *
-   * @param type The type of coin to get the metadata for
-   * @return An [Option] of nullable [CoinMetadata]
-   */
-  override suspend fun getCoinMetadata(type: String): Option<CoinMetadata> =
+  override suspend fun getCoinMetadata(type: String): Result<GetCoinMetadataQuery.Data?, SuiError> =
     getCoinMetadata(config, type)
 }

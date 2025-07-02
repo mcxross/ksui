@@ -15,36 +15,48 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
+import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.Page
+import xyz.mcxross.ksui.model.Result
 
 /**
- * Sns interface
+ * Defines the API for interacting with the Sui Name Service (SNS).
  *
- * This interface represents the SNS API
+ * This interface provides methods for resolving `.sui` domain names to addresses and performing
+ * reverse lookups to find names associated with an address.
  */
 interface Sns {
 
   /**
-   * Resolve name service address
+   * Resolves a `.sui` domain name to its corresponding Sui address.
    *
-   * @param domain The domain to resolve
-   * @return An [Option] of nullable [SuiAddress]
+   * @param domain The `.sui` domain name to resolve (e.g., "example.sui").
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [ResolveNameServiceAddressQuery.Data] object with the resolved
+   *   address.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  suspend fun resolveNameServiceAddress(domain: String): Option<AccountAddress?>
+  suspend fun resolveNameServiceAddress(
+    domain: String
+  ): Result<ResolveNameServiceAddressQuery.Data?, SuiError>
 
   /**
-   * Resolve name service names
+   * Performs a reverse lookup to find all `.sui` domain names associated with a given address.
    *
-   * @param address The address to resolve
-   * @param limit The limit of names to resolve
-   * @param cursor The cursor to resolve names from
-   * @return An [Option] of nullable [Page]
+   * @param address The [AccountAddress] to find the associated domain names for.
+   * @param limit An optional integer to specify the maximum number of names to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [ResolveNameServiceNamesQuery.Data] object with a list of names
+   *   and a pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun resolveNameServiceNames(
     address: AccountAddress,
-    limit: UInt? = null,
+    limit: Int? = null,
     cursor: String? = null,
-  ): Option<Page>
+  ): Result<ResolveNameServiceNamesQuery.Data?, SuiError>
 }

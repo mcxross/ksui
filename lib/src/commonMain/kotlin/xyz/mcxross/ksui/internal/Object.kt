@@ -15,56 +15,41 @@
  */
 package xyz.mcxross.ksui.internal
 
+import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.generated.GetDynamicFieldObject
-import xyz.mcxross.ksui.generated.GetDynamicFields
-import xyz.mcxross.ksui.generated.GetObject
-import xyz.mcxross.ksui.generated.GetOwnedObjects
-import xyz.mcxross.ksui.generated.TryGetPastObject
-import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
+import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
+import xyz.mcxross.ksui.generated.GetObjectQuery
+import xyz.mcxross.ksui.generated.GetOwnedObjectsQuery
+import xyz.mcxross.ksui.generated.MultiGetObjectsQuery
+import xyz.mcxross.ksui.generated.TryGetPastObjectQuery
+import xyz.mcxross.ksui.generated.type.DynamicFieldName
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.DynamicFieldObject
-import xyz.mcxross.ksui.model.DynamicFields
-import xyz.mcxross.ksui.model.Object
 import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.OwnedObjects
-import xyz.mcxross.ksui.model.PastObject
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun getObject(
   config: SuiConfig,
   id: String,
   option: ObjectDataOptions,
-): Option<Object> {
-
-  val query =
-    GetObject(
-      GetObject.Variables(
-        id = id,
-        //showBcs = option.showBcs,
-        //showOwner = option.showOwner,
-        showPreviousTransaction = option.showPreviousTransaction,
-        //showContent = option.showContent,
-        showDisplay = option.showDisplay,
-        //showType = option.showType,
-        showStorageRebate = option.showStorageRebate,
+): Result<GetObjectQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        GetObjectQuery(
+          id,
+          showBcs = Optional.presentIfNotNull(option.showBcs),
+          showOwner = Optional.presentIfNotNull(option.showOwner),
+          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+          showContent = Optional.presentIfNotNull(option.showContent),
+          showDisplay = Optional.presentIfNotNull(option.showDisplay),
+          showType = Optional.presentIfNotNull(option.showType),
+          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+        )
       )
-    )
-
-  val response = getGraphqlClient(config).execute(query)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+    }
+    .toResult()
 
 internal suspend fun getOwnedObjects(
   config: SuiConfig,
@@ -72,96 +57,93 @@ internal suspend fun getOwnedObjects(
   limit: Int?,
   cursor: String?,
   option: ObjectDataOptions,
-): Option<OwnedObjects> {
-  val response =
-    getGraphqlClient(config)
-      .execute(
-        GetOwnedObjects(
-          GetOwnedObjects.Variables(
-            owner = owner.toString(),
-            limit = limit,
-            cursor = cursor,
-            showBcs = option.showBcs,
-            showContent = option.showContent,
-            showDisplay = option.showDisplay,
-            //showOwner = option.showOwner,
-            showPreviousTransaction = option.showPreviousTransaction,
-            showStorageRebate = option.showStorageRebate,
-          )
+): Result<GetOwnedObjectsQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        GetOwnedObjectsQuery(
+          owner.toString(),
+          limit = Optional.presentIfNotNull(limit),
+          cursor = Optional.presentIfNotNull(cursor),
+          showBcs = Optional.presentIfNotNull(option.showBcs),
+          showOwner = Optional.presentIfNotNull(option.showOwner),
+          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+          showContent = Optional.presentIfNotNull(option.showContent),
+          showDisplay = Optional.presentIfNotNull(option.showDisplay),
+          showType = Optional.presentIfNotNull(option.showType),
+          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
         )
       )
+    }
+    .toResult()
 
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
+suspend fun multiGetObjects(
+  config: SuiConfig,
+  ids: List<String>,
+  limit: Int?,
+  cursor: String?,
+  options: ObjectDataOptions,
+): Result<MultiGetObjectsQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        MultiGetObjectsQuery(
+          ids,
+          Optional.presentIfNotNull(limit),
+          Optional.presentIfNotNull(cursor),
+          showBcs = Optional.presentIfNotNull(options.showBcs),
+          showOwner = Optional.presentIfNotNull(options.showOwner),
+          showPreviousTransaction = Optional.presentIfNotNull(options.showOwner),
+          showContent = Optional.presentIfNotNull(options.showContent),
+          showDisplay = Optional.presentIfNotNull(options.showDisplay),
+          showType = Optional.presentIfNotNull(options.showType),
+          showStorageRebate = Optional.presentIfNotNull(options.showStorageRebate),
+        )
+      )
+    }
+    .toResult()
 
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
-
-suspend fun tryGetPastObject(config: SuiConfig, id: String, version: Int?): Option<PastObject> {
-
-  val query = TryGetPastObject(TryGetPastObject.Variables(id, version))
-
-  val response = getGraphqlClient(config).execute(query)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+suspend fun tryGetPastObject(
+  config: SuiConfig,
+  id: String,
+  version: Int?,
+  option: ObjectDataOptions,
+): Result<TryGetPastObjectQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        TryGetPastObjectQuery(
+          id,
+          version = Optional.presentIfNotNull(version),
+          showBcs = Optional.presentIfNotNull(option.showBcs),
+          showOwner = Optional.presentIfNotNull(option.showOwner),
+          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+          showContent = Optional.presentIfNotNull(option.showContent),
+          showDisplay = Optional.presentIfNotNull(option.showDisplay),
+          showType = Optional.presentIfNotNull(option.showType),
+          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+        )
+      )
+    }
+    .toResult()
 
 suspend fun getDynamicFieldObject(
   config: SuiConfig,
   parentId: String,
   name: DynamicFieldName,
-): Option<DynamicFieldObject> {
-  val query =
-    GetDynamicFieldObject(GetDynamicFieldObject.Variables(parentId = parentId, name = name))
-
-  val response = getGraphqlClient(config).execute(query)
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+): Result<GetDynamicFieldObjectQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name)) }.toResult()
 
 suspend fun getDynamicFields(
   config: SuiConfig,
   parentId: String,
-  limit: UInt?,
+  first: Int?,
   cursor: String?,
-): Option<DynamicFields> {
-
-  val response =
-    getGraphqlClient(config)
-      .execute(
-        GetDynamicFields(
-          GetDynamicFields.Variables(parentId = parentId, first = limit?.toInt(), cursor = cursor)
+): Result<GetDynamicFieldsQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        GetDynamicFieldsQuery(
+          parentId,
+          first = Optional.presentIfNotNull(first),
+          cursor = Optional.presentIfNotNull(cursor),
         )
       )
-
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+    }
+    .toResult()
