@@ -87,19 +87,19 @@ sealed class TypeTag {
   @Serializable
   data class Struct(
     val address: AccountAddress,
-    val module: Identifier,
-    val name: Identifier,
+    //val module: Identifier,
+    //val name: Identifier,
     val typeParams: List<TypeTag> = emptyList(),
   ) : TypeTag() {
     override fun asMoveType(): String = toString()
 
-    override fun toString(): String = "struct<$address::${module}::${name}>"
+    override fun toString(): String = "struct<$address::${TODO()}::${TODO()}>"
 
     companion object {
       fun from(str: String): Struct {
         val parts = str.split("::")
         require(parts.size == 3) { "Invalid struct type tag: $str" }
-        return Struct(AccountAddress.fromString(parts[0]), parts[1], parts[2])
+        return Struct(AccountAddress.fromString(parts[0]), TODO())
       }
     }
   }

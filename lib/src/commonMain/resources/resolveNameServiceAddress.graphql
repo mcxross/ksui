@@ -1,5 +1,0 @@
-query resolveNameServiceAddress($domain: String!) {
-	resolveSuinsAddress(domain: $domain) {
-		address
-	}
-}

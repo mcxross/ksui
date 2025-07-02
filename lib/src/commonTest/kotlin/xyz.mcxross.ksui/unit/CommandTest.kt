@@ -42,8 +42,9 @@ class CommandTest {
     val moveCall = moveCallCommand.moveCall
     assertTrue { ptb.commands[0] is Command.MoveCall }
     assertTrue { moveCall.arguments.isEmpty() }
+    println(moveCall.pakage.toString())
     assertTrue {
-      moveCall.pakage.toString() ==
+      moveCall.pakage.hash.toString() ==
         "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d"
     }
     assertTrue { moveCall.module == "hello_wolrd" }

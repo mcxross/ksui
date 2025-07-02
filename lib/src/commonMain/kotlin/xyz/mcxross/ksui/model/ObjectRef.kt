@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package xyz.mcxross.ksui.model
 
-import com.apollographql.apollo.api.Optional
-import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.generated.type.CheckpointId
+import xyz.mcxross.ksui.generated.type.ObjectRef
 
-@Serializable
-data class CheckpointId(val digest: String? = null, val sequenceNumber: Long? = null) {
-  fun toGenerated(): CheckpointId {
-    return CheckpointId(
-      Optional.presentIfNotNull(digest),
-      Optional.presentIfNotNull(sequenceNumber),
-    )
+/**
+ * @param address ID of the object.
+ * @param version Version or sequence number of the object.
+ * @param digest Digest of the object.
+ */
+public data class ObjectRef(
+  /** ID of the object. */
+  public val address: Any,
+  /** Version or sequence number of the object. */
+  public val version: Any,
+  /** Digest of the object. */
+  public val digest: String,
+) {
+  fun toGenerated(): ObjectRef {
+    return ObjectRef(address, version, digest)
   }
 }

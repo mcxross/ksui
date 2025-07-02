@@ -15,67 +15,87 @@
  */
 package xyz.mcxross.ksui.api
 
+import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.GetCommitteeInfoQuery
+import xyz.mcxross.ksui.generated.GetStakesByIdsQuery
+import xyz.mcxross.ksui.generated.GetStakesQuery
+import xyz.mcxross.ksui.generated.GetValidatorsApyQuery
 import xyz.mcxross.ksui.internal.getCommitteeInfo
 import xyz.mcxross.ksui.internal.getStakes
-import xyz.mcxross.ksui.internal.getStakesById
+import xyz.mcxross.ksui.internal.getStakesByIds
 import xyz.mcxross.ksui.internal.getValidatorsApy
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.CommitteeInfo
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.Stake
-import xyz.mcxross.ksui.model.Stakes
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.ValidatorsApy
 import xyz.mcxross.ksui.protocol.Governance
 
 /**
- * Governance API implementation
+ * The concrete implementation of the [Governance] interface.
  *
- * This namespace contains all the functions related to governance
- *
- * @property config The SuiConfig to use
+ * @param config The [SuiConfig] object specifying the RPC endpoint and connection settings.
  */
 class Governance(val config: SuiConfig) : Governance {
 
   /**
-   * Get the committee info
+   * Fetches the committee of validators for a specific epoch.
    *
-   * @param epochId The epoch ID to get the committee info for
-   * @param after The cursor to get the committee info from
-   * @return An [Option] of nullable [CommitteeInfo]
+   * If the epoch ID is not provided, it defaults to the current epoch.
+   *
+   * @param epochId The epoch number for which to fetch the committee information.
+   * @param after An optional cursor for forward pagination.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetCommitteeInfoQuery.Data] object with a list of validators and
+   *   a pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getCommitteeInfo(epochId: Long?, after: String?): Option<CommitteeInfo> =
-    getCommitteeInfo(config, epochId, after)
+  override suspend fun getCommitteeInfo(
+    epochId: Long?,
+    after: String?,
+  ): Result<GetCommitteeInfoQuery.Data?, SuiError> = getCommitteeInfo(config, epochId, after)
 
   /**
-   * Get stakes for an address
+   * Fetches all `StakedSui` objects owned by a specific address.
    *
-   * @param owner The address to get stakes for
-   * @param limit The limit of stakes to get
-   * @param cursor The cursor to get stakes from
-   * @return An [Option] of nullable [Stake]
+   * @param owner The [AccountAddress] that owns the staked objects.
+   * @param limit An optional integer to specify the maximum number of stakes to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetStakesQuery.Data] object with a list of stakes and a
+   *   pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getStakes(owner: AccountAddress, limit: Int?, cursor: String?): Option<Stake> =
-    getStakes(config, owner, limit, cursor)
+  override suspend fun getStakes(
+    owner: AccountAddress,
+    limit: Int?,
+    cursor: String?,
+  ): Result<GetStakesQuery.Data?, SuiError> = getStakes(config, owner, limit, cursor)
 
   /**
-   * Get stakes by IDs
+   * Fetches a list of `StakedSui` objects by their unique IDs.
    *
-   * @param ids The IDs of the stakes to get
-   * @param limit The limit of stakes to get
-   * @param cursor The cursor to get stakes from
-   * @return An [Option] of nullable [Stakes]
+   * @param ids A list of object IDs for the stakes to retrieve.
+   * @param limit An optional integer to specify the maximum number of stakes to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetStakesByIdsQuery.Data] object with a list of stakes and a
+   *   pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   override suspend fun getStakesByIds(
     ids: List<String>,
     limit: Int?,
     cursor: String?,
-  ): Option<Stakes> = getStakesById(config, ids, limit, cursor)
+  ): Result<GetStakesByIdsQuery.Data?, SuiError> = getStakesByIds(config, ids, limit, cursor)
 
   /**
-   * Get the validators APY
+   * Fetches the Annual Percentage Yield (APY) for all active validators.
    *
-   * @return An [Option] of nullable [ValidatorsApy]
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetValidatorsApyQuery.Data] object with a list of validators and
+   *   their calculated APYs.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  override suspend fun getValidatorApy(): Option<ValidatorsApy> = getValidatorsApy(config)
+  override suspend fun getValidatorApy(): Result<GetValidatorsApyQuery.Data?, SuiError> =
+    getValidatorsApy(config)
 }

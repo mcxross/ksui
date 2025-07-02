@@ -15,82 +15,122 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.generated.inputs.DynamicFieldName
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
+import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
+import xyz.mcxross.ksui.generated.GetObjectQuery
+import xyz.mcxross.ksui.generated.GetOwnedObjectsQuery
+import xyz.mcxross.ksui.generated.MultiGetObjectsQuery
+import xyz.mcxross.ksui.generated.TryGetPastObjectQuery
+import xyz.mcxross.ksui.generated.type.DynamicFieldName
 import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.DynamicFieldObject
-import xyz.mcxross.ksui.model.DynamicFields
 import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.OwnedObjects
-import xyz.mcxross.ksui.model.PastObject
+import xyz.mcxross.ksui.model.Result
 
 /**
- * Object interface
- *
- * This interface represents the object API
+ * Defines the API for fetching and interacting with on-chain objects in the Sui network.
  */
 interface Object {
 
   /**
-   * Get an object by ID
+   * Fetches the details of a specific object by its ID.
    *
-   * @param id The ID of the object
-   * @param option The options for the object data
-   * @return An [Option] of nullable [Object]
+   * @param id The unique ID of the object to fetch.
+   * @param options The options specifying which fields of the object to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetObjectQuery.Data] object with the object's details.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getObject(
     id: String,
-    option: ObjectDataOptions = ObjectDataOptions(),
-  ): Option<xyz.mcxross.ksui.model.Object>
+    options: ObjectDataOptions = ObjectDataOptions(),
+  ): Result<GetObjectQuery.Data?, SuiError>
 
   /**
-   * Get owned objects
+   * Fetches a paginated list of objects owned by a specific address.
    *
-   * @param owner The owner of the objects
-   * @param limit The limit of objects to get
-   * @param cursor The cursor to get objects from
-   * @param option The options for the object data
-   * @return An [Option] of nullable [OwnedObjects]
+   * @param owner The [AccountAddress] of the owner.
+   * @param limit An optional integer to specify the maximum number of objects to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @param options The options specifying which fields of the objects to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetOwnedObjectsQuery.Data] object with a list of objects
+   * and a pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getOwnedObjects(
     owner: AccountAddress,
     limit: Int? = null,
     cursor: String? = null,
-    option: ObjectDataOptions = ObjectDataOptions(),
-  ): Option<OwnedObjects>
+    options: ObjectDataOptions,
+  ): Result<GetOwnedObjectsQuery.Data?, SuiError>
 
   /**
-   * Try to get a past object
+   * Fetches the details of multiple objects in a single batch request.
    *
-   * @param id The ID of the object
-   * @param version The version of the object
-   * @return An [Option] of nullable [PastObject]
+   * @param ids A list of unique IDs of the objects to fetch.
+   * @param limit An optional integer to specify the maximum number of objects to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @param options The options specifying which fields of the objects to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [MultiGetObjectsQuery.Data] object with a list of objects.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
-  suspend fun tryGetPastObject(id: String, version: Int?): Option<PastObject>
+  suspend fun multiGetObjects(
+    ids: List<String>,
+    limit: Int? = null,
+    cursor: String? = null,
+    options: ObjectDataOptions = ObjectDataOptions(),
+  ): Result<MultiGetObjectsQuery.Data?, SuiError>
 
   /**
-   * Get a dynamic field object
+   * Fetches a historical version of a specific object.
    *
-   * @param parentId The parent ID of the object
-   * @param name The name of the dynamic field
-   * @return An [Option] of nullable [DynamicFieldObject]
+   * This allows querying for an object's state at a specific point in its history. The query
+   * may fail if the requested version has been pruned from the node.
+   *
+   * @param id The unique ID of the object.
+   * @param version The version number of the object to retrieve.
+   * @param options The options specifying which fields of the past object to include in the response.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [TryGetPastObjectQuery.Data] object with the past object's details.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   */
+  suspend fun tryGetPastObject(
+    id: String,
+    version: Int? = null,
+    options: ObjectDataOptions,
+  ): Result<TryGetPastObjectQuery.Data?, SuiError>
+
+  /**
+   * Fetches an object that is stored as a dynamic field on a parent object.
+   *
+   * @param parentId The ID of the parent object that owns the dynamic field.
+   * @param name The name of the dynamic field, which includes its type and value.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetDynamicFieldObjectQuery.Data] object with the dynamic field's details.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getDynamicFieldObject(
     parentId: String,
     name: DynamicFieldName,
-  ): Option<DynamicFieldObject>
+  ): Result<GetDynamicFieldObjectQuery.Data?, SuiError>
 
   /**
-   * Get dynamic fields
+   * Fetches a paginated list of all dynamic fields owned by a parent object.
    *
-   * @param parentId The parent ID of the object
-   * @param limit The limit of dynamic fields to get
-   * @param cursor The cursor to get dynamic fields from
-   * @return An [Option] of nullable [DynamicFields]
+   * @param parentId The ID of the parent object.
+   * @param limit An optional integer to specify the maximum number of fields to return per page.
+   * @param cursor An optional cursor string for pagination.
+   * @return A [Result] which is either:
+   * - `Ok`: Containing a nullable [GetDynamicFieldsQuery.Data] object with a list of dynamic fields
+   * and a pagination cursor.
+   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getDynamicFields(
     parentId: String,
-    limit: UInt?,
-    cursor: String?,
-  ): Option<DynamicFields>
+    limit: Int? = null,
+    cursor: String? = null,
+  ): Result<GetDynamicFieldsQuery.Data?, SuiError>
 }

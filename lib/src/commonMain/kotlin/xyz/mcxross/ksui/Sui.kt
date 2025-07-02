@@ -17,6 +17,7 @@ package xyz.mcxross.ksui
 
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
+import xyz.mcxross.ksui.protocol.Events
 import xyz.mcxross.ksui.protocol.Extended
 import xyz.mcxross.ksui.protocol.Faucet
 import xyz.mcxross.ksui.protocol.General
@@ -33,6 +34,7 @@ import xyz.mcxross.ksui.protocol.Transaction
  */
 class Sui(config: SuiConfig = SuiConfig()) :
   Coin by xyz.mcxross.ksui.api.Coin(config),
+  Events by xyz.mcxross.ksui.api.Events(config),
   Extended by xyz.mcxross.ksui.api.Extended(config),
   Governance by xyz.mcxross.ksui.api.Governance(config),
   General by xyz.mcxross.ksui.api.General(config),

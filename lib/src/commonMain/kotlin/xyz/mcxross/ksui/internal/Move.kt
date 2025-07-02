@@ -15,36 +15,96 @@
  */
 package xyz.mcxross.ksui.internal
 
+import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.extension.IdParts
-import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypes
-import xyz.mcxross.ksui.model.MoveFunctionArgTypes
-import xyz.mcxross.ksui.model.Option
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypesQuery
+import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
+import xyz.mcxross.ksui.generated.GetNormalizedMoveModuleQuery
+import xyz.mcxross.ksui.generated.GetNormalizedMoveModulesByPackageQuery
+import xyz.mcxross.ksui.generated.GetNormalizedMoveStructQuery
+import xyz.mcxross.ksui.generated.GetTypeLayoutQuery
+import xyz.mcxross.ksui.generated.PaginateMoveModuleListsQuery
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 
-suspend fun getMoveFunctionArgTypes(
+internal suspend fun getMoveFunctionArgTypes(
   config: SuiConfig,
-  idParts: IdParts,
-): Option<MoveFunctionArgTypes> {
-  val query =
-    GetMoveFunctionArgTypes(
-      GetMoveFunctionArgTypes.Variables(
-        packageId = idParts.packageId,
-        module = idParts.module,
-        function = idParts.function,
+  packageId: String,
+  module: String,
+  function: String,
+): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetMoveFunctionArgTypesQuery(packageId, module, function)) }.toResult()
+
+internal suspend fun getNormalizedMoveFunction(
+  config: SuiConfig,
+  packageId: Any,
+  module: String,
+  function: String,
+): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveFunctionQuery(packageId, module, function)) }
+    .toResult()
+
+internal suspend fun getNormalizedMoveModule(
+  config: SuiConfig,
+  packageId: Any,
+  module: String,
+): Result<GetNormalizedMoveModuleQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveModuleQuery(packageId, module)) }.toResult()
+
+internal suspend fun getNormalizedMoveModulesByPackage(
+  config: SuiConfig,
+  packageId: String,
+  cursor: String?,
+): Result<GetNormalizedMoveModulesByPackageQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        GetNormalizedMoveModulesByPackageQuery(packageId, Optional.presentIfNotNull(cursor))
       )
-    )
+    }
+    .toResult()
 
-  val response = getGraphqlClient(config).execute(query)
+internal suspend fun getNormalizedMoveStruct(
+  config: SuiConfig,
+  packageId: Any,
+  module: String,
+  struct: String,
+): Result<GetNormalizedMoveStructQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveStructQuery(packageId, module, struct)) }.toResult()
 
-  if (!response.errors.isNullOrEmpty()) {
-    throw SuiException(response.errors.toString())
-  }
+internal suspend fun getTypeLayout(
+  config: SuiConfig,
+  type: String,
+): Result<GetTypeLayoutQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetTypeLayoutQuery(type)) }.toResult()
 
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data)
-}
+internal suspend fun paginateMoveModuleLists(
+  config: SuiConfig,
+  packageId: String,
+  module: String,
+  hasMoreFriends: Boolean,
+  hasMoreStructs: Boolean,
+  hasMoreFunctions: Boolean,
+  hasMoreEnums: Boolean,
+  afterFriends: String?,
+  afterStructs: String?,
+  afterFunctions: String?,
+  afterEnums: String?,
+): Result<PaginateMoveModuleListsQuery.Data?, SuiError> =
+  handleQuery {
+    getGraphqlClient(config).query(
+        PaginateMoveModuleListsQuery(
+          packageId,
+          module,
+          hasMoreFriends,
+          hasMoreStructs,
+          hasMoreFunctions,
+          hasMoreEnums,
+          afterFriends = Optional.presentIfNotNull(afterFriends),
+          afterStructs = Optional.presentIfNotNull(afterStructs),
+          afterFunctions = Optional.presentIfNotNull(afterFunctions),
+          afterEnums = Optional.presentIfNotNull(afterEnums),
+        )
+      )
+    }
+    .toResult()

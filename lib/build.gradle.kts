@@ -3,20 +3,19 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
 import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaTask
-import xyz.mcxross.graphql.plugin.gradle.graphql
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.dokka)
-  alias(libs.plugins.graphql.multiplatform)
+  alias(libs.plugins.apollo.graphql)
   alias(libs.plugins.maven.publish)
 }
 
 group = "xyz.mcxross.ksui"
 
-version = "2.0.0"
+version = "2.1.0"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -49,15 +48,12 @@ kotlin {
   }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
-  linuxX64()
   macosArm64()
   macosX64()
   tvosX64()
   tvosArm64()
-  watchosX64()
   watchosArm32()
   watchosArm64()
-  mingwX64()
 
   applyDefaultHierarchyTemplate()
 
@@ -83,7 +79,8 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
-      implementation(libs.graphql.multiplatform.client)
+      implementation(libs.apollo.runtime)
+      implementation(libs.kotlin.result)
     }
     commonTest.dependencies {
       implementation(libs.ktor.client.mock)
@@ -97,17 +94,16 @@ kotlin {
         implementation(libs.logback.classic)
       }
     }
-    linuxMain.dependencies { implementation(libs.ktor.client.curl) }
-    mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
+    //linuxMain.dependencies { implementation(libs.ktor.client.curl) }
+    //mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
   }
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(20))
 
-graphql {
-  client {
-    schemaFile = file("src/commonMain/resources/schema.graphql")
-    packageName = "xyz.mcxross.ksui.generated"
+apollo {
+  service("service") {
+    packageName.set("xyz.mcxross.ksui.generated")
   }
 }
 

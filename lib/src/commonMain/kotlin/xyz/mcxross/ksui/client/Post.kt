@@ -20,20 +20,15 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import xyz.mcxross.ksui.model.RequestOptions
 import xyz.mcxross.ksui.model.SuiApiType
-import xyz.mcxross.ksui.model.SuiResponse
 
-suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>): SuiResponse {
-  return getClient(options.suiConfig.clientConfig).post(
-    options.suiConfig.getRequestUrl(options.type)
-  ) {
+suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>) {
+  getClient(options.suiConfig.clientConfig).post(options.suiConfig.getRequestUrl(options.type)) {
     contentType(ContentType.Application.Json)
     setBody(options.body)
   }
 }
 
-suspend inline fun <reified T> postSuiFaucet(
-  options: RequestOptions.PostSuiRequestOptions<T>
-): SuiResponse {
+suspend inline fun <reified T> postSuiFaucet(options: RequestOptions.PostSuiRequestOptions<T>) {
   val response =
     post<T>(
       RequestOptions.PostRequestOptions(
@@ -42,12 +37,9 @@ suspend inline fun <reified T> postSuiFaucet(
         body = options.body,
       )
     )
-  return response
 }
 
-suspend inline fun <reified T> postSuiIndexer(
-  options: RequestOptions.PostSuiRequestOptions<T>
-): SuiResponse {
+suspend inline fun <reified T> postSuiIndexer(options: RequestOptions.PostSuiRequestOptions<T>) {
   val response =
     post<T>(
       RequestOptions.PostRequestOptions(
