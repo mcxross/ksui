@@ -5,7 +5,6 @@ pluginManagement {
     mavenCentral()
     maven(url = "../repo")
     mavenLocal()
-    maven("https://maven.pkg.jetbrains.space/public/p/krpc/grpc")
   }
 }
 
