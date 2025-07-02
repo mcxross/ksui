@@ -42,7 +42,7 @@ if [[ ${git_head_commit} == "${git_last_merge_commit}" ]]; then
       safe git checkout "${commit}"
       # Ensure we have perms
       safe chmod +x ./gradlew
-      safe ./gradlew graphqlGenerateClient
+      safe ./gradlew generateApolloSources
       if contains_snapshot "${commit}"; then
         approve "Snapshot release, publishing to snapshot repo..."
         safe ./gradlew publishAllPublicationsToMavenCentralRepository
@@ -57,7 +57,7 @@ if [[ ${git_head_commit} == "${git_last_merge_commit}" ]]; then
 elif is_release_commit "${git_head_commit}"; then
   approve "Release commit found at HEAD (${git_head_commit}), publishing..."
   safe chmod +x ./gradlew
-  safe ./gradlew graphqlGenerateClient
+  safe ./gradlew generateApolloSources
   if contains_snapshot "${git_head_commit}"; then
     approve "Snapshot release, publishing to snapshot repo..."
     safe ./gradlew publishAllPublicationsToMavenCentralRepository
