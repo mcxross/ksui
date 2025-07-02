@@ -8,7 +8,7 @@ different platforms such as Android, iOS, JS, and JVM. It is built on top of the
 extensible and easy to use.
 
 
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.1.21-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 ![Snapshot](https://img.shields.io/nexus/s/xyz.mcxross.ksui/ksui?server=https%3A%2F%2Fs01.oss.sonatype.org&label=Snapshot)
@@ -20,7 +20,6 @@ extensible and easy to use.
 ![badge-jvm](http://img.shields.io/badge/Platform-JVM-red.svg?logo=openjdk)
 ![badge-linux](http://img.shields.io/badge/Platform-Linux-lightgrey.svg?logo=linux)
 ![badge-macos](http://img.shields.io/badge/Platform-macOS-orange.svg?logo=apple)
-![badge-windows](http://img.shields.io/badge/Platform-Windows-blue.svg?logo=windows)
 
 # Table of contents
 
