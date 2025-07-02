@@ -12,6 +12,6 @@ class TransactionTest {
   fun getTotalTransactionBlocksTest() = runBlocking {
     val resp = sui.getTotalTransactionBlocks().expect("Failed to get total transaction blocks")
     assertNotNull(resp, "Failed to get total transaction blocks")
-    assertTrue { resp > 0 }
+    assertTrue { resp.checkpoint?.networkTotalTransactions.toString().toLong() > 0 }
   }
 }
