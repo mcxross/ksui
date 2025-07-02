@@ -118,11 +118,11 @@ open class TransactionFilter {
 object TransactionDataComposer {
   fun programmable(
     sender: AccountAddress,
-    gapPayment: List<ObjectReference>,
+    gasPayment: List<ObjectReference>,
     pt: ProgrammableTransaction,
     gasBudget: ULong,
     gasPrice: ULong,
-  ): TransactionData = programmableAllowSponsor(sender, gapPayment, pt, gasBudget, gasPrice, sender)
+  ): TransactionData = programmableAllowSponsor(sender, gasPayment, pt, gasBudget, gasPrice, sender)
 
   fun programmableAllowSponsor(
     sender: AccountAddress,

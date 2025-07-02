@@ -1,6 +1,0 @@
-query getTotalSupply($coinType: String!) {
-	coinMetadata(coinType: $coinType) {
-		supply
-		decimals
-	}
-}

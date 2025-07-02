@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.internal
 
+import com.apollographql.apollo.api.Optional
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.bcs.Bcs
@@ -22,11 +23,15 @@ import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.hash
+import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.generated.DryRunTransactionBlock
-import xyz.mcxross.ksui.generated.ExecuteTransactionBlock
-import xyz.mcxross.ksui.generated.GetTotalTransactionBlocks
-import xyz.mcxross.ksui.generated.QueryTransactionBlocks
+import xyz.mcxross.ksui.generated.DevInspectTransactionBlockQuery
+import xyz.mcxross.ksui.generated.DryRunTransactionBlockQuery
+import xyz.mcxross.ksui.generated.ExecuteTransactionBlockMutation
+import xyz.mcxross.ksui.generated.GetTotalTransactionBlocksQuery
+import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
+import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
+import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
@@ -34,106 +39,165 @@ import xyz.mcxross.ksui.model.Intent
 import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
-import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Reference
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.TransactionBlocks
 import xyz.mcxross.ksui.model.TransactionDataComposer
+import xyz.mcxross.ksui.model.TransactionMetaData
 import xyz.mcxross.ksui.model.content
 import xyz.mcxross.ksui.model.with
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
-suspend fun executeTransactionBlock(
+internal suspend fun devInspectTransactionBlock(
   config: SuiConfig,
-  txnBytes: String,
-  signatures: List<String>,
-  option: ExecuteTransactionBlockResponseOptions,
-): Option.Some<ExecuteTransactionBlock.Result?> {
-  val response =
-    getGraphqlClient(config)
-      .execute<ExecuteTransactionBlock.Result>(
-        ExecuteTransactionBlock(
-          ExecuteTransactionBlock.Variables(txBytes = txnBytes, signatures = signatures)
+  txBytes: String,
+  txMetaData: TransactionMetaData,
+  options: ExecuteTransactionBlockResponseOptions,
+): Result<DevInspectTransactionBlockQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          DevInspectTransactionBlockQuery(
+            txBytes,
+            txMetaData.toGenerated(),
+            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options.showEvents),
+            showInput = Optional.presentIfNotNull(options.showInput),
+            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options.showRawInput),
+          )
         )
-      )
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
-
-  return Option.Some(response.data)
-}
+    }
+    .toResult()
 
 internal suspend fun dryRunTransactionBlock(
   config: SuiConfig,
-  txnBytes: String,
-  option: ExecuteTransactionBlockResponseOptions,
-): Option.Some<DryRunTransactionBlock.Result?> {
-  val response =
-    getGraphqlClient(config)
-      .execute<DryRunTransactionBlock.Result>(
-        DryRunTransactionBlock(DryRunTransactionBlock.Variables(txBytes = txnBytes))
-      )
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
-
-  return Option.Some(response.data)
-}
-
-suspend fun getTotalTransactionBlocks(config: SuiConfig): Option<Long?> {
-
-  val response =
-    getGraphqlClient(config).execute<GetTotalTransactionBlocks.Result>(GetTotalTransactionBlocks())
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
-
-  if (response.data == null) {
-    return Option.None
-  }
-
-  return Option.Some(response.data?.checkpoint?.networkTotalTransactions?.toLong())
-}
-
-suspend fun queryTransactionBlocks(
-  config: SuiConfig,
-  transactionBlockResponseOptions: TransactionBlockResponseOptions,
-): Option<TransactionBlocks> {
-  val response =
-    getGraphqlClient(config)
-      .execute<QueryTransactionBlocks.Result>(
-        QueryTransactionBlocks(
-          QueryTransactionBlocks.Variables(
-            first = transactionBlockResponseOptions.first,
-            last = transactionBlockResponseOptions.last,
-            before = transactionBlockResponseOptions.before,
-            after = transactionBlockResponseOptions.after,
-            showBalanceChanges = transactionBlockResponseOptions.showBalanceChanges,
-            showEffects = transactionBlockResponseOptions.showEffects,
-            showRawEffects = transactionBlockResponseOptions.showRawEffects,
-            showEvents = transactionBlockResponseOptions.showEvents,
-            showInput = transactionBlockResponseOptions.showInput,
-            showObjectChanges = transactionBlockResponseOptions.showObjectChanges,
-            showRawInput = transactionBlockResponseOptions.showRawInput,
-            filter = transactionBlockResponseOptions.filter,
+  txBytes: String,
+  options: ExecuteTransactionBlockResponseOptions,
+): Result<DryRunTransactionBlockQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          DryRunTransactionBlockQuery(
+            txBytes,
+            showObjectChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options.showEvents),
+            showInput = Optional.presentIfNotNull(options.showInput),
+            showBalanceChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options.showRawInput),
           )
         )
-      )
+    }
+    .toResult()
 
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
-  }
+internal suspend fun executeTransactionBlock(
+  config: SuiConfig,
+  txBytes: String,
+  signatures: List<String>,
+  options: ExecuteTransactionBlockResponseOptions,
+): Result<ExecuteTransactionBlockMutation.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .mutation(
+          ExecuteTransactionBlockMutation(
+            txBytes,
+            signatures,
+            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options.showEvents),
+            showInput = Optional.presentIfNotNull(options.showInput),
+            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options.showRawInput),
+          )
+        )
+    }
+    .toResult()
 
-  if (response.data == null) {
-    return Option.None
-  }
+internal suspend fun getTransactionBlock(
+  config: SuiConfig,
+  digest: String,
+  options: TransactionBlockResponseOptions,
+): Result<GetTransactionBlockQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          GetTransactionBlockQuery(
+            digest,
+            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options.showEvents),
+            showInput = Optional.presentIfNotNull(options.showInput),
+            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options.showRawInput),
+          )
+        )
+    }
+    .toResult()
 
-  return Option.Some(response.data)
-}
+internal suspend fun getTotalTransactionBlocks(
+  config: SuiConfig
+): Result<GetTotalTransactionBlocksQuery.Data?, SuiError> =
+  handleQuery { getGraphqlClient(config).query(GetTotalTransactionBlocksQuery()) }.toResult()
+
+internal suspend fun queryTransactionBlocks(
+  config: SuiConfig,
+  filter: TransactionBlockFilter,
+  options: TransactionBlockResponseOptions,
+): Result<QueryTransactionBlocksQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          QueryTransactionBlocksQuery(
+            first = Optional.presentIfNotNull(options.first),
+            last = Optional.presentIfNotNull(options.last),
+            before = Optional.presentIfNotNull(options.before),
+            after = Optional.presentIfNotNull(options.after),
+            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options.showEvents),
+            showInput = Optional.presentIfNotNull(options.showInput),
+            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options.showRawInput),
+            filter = Optional.presentIfNotNull(filter.toGenerated()),
+          )
+        )
+    }
+    .toResult()
+
+internal suspend fun paginateTransactionBlockLists(
+  config: SuiConfig,
+  digest: String,
+  hasMoreEvents: Boolean,
+  hasMoreBalanceChanges: Boolean,
+  hasMoreObjectChanges: Boolean,
+  afterEvents: String?,
+  afterBalanceChanges: String?,
+  afterObjectChanges: String?,
+): Result<PaginateTransactionBlockListsQuery.Data?, SuiError> =
+  handleQuery {
+      getGraphqlClient(config)
+        .query(
+          PaginateTransactionBlockListsQuery(
+            digest,
+            hasMoreEvents,
+            hasMoreBalanceChanges,
+            hasMoreObjectChanges,
+            afterEvents = Optional.presentIfNotNull(afterEvents),
+            afterBalanceChanges = Optional.presentIfNotNull(afterBalanceChanges),
+            afterObjectChanges = Optional.presentIfNotNull(afterObjectChanges),
+          )
+        )
+    }
+    .toResult()
 
 internal fun signTransaction(message: ByteArray, signer: Account): ByteArray {
   return signer.sign(message)
@@ -145,41 +209,44 @@ internal suspend fun signAndSubmitTransaction(
   signer: Account,
   ptb: ProgrammableTransaction,
   gasBudget: ULong,
-): Option.Some<ExecuteTransactionBlock.Result?> {
+  options: ExecuteTransactionBlockResponseOptions,
+): Result<ExecuteTransactionBlockMutation.Data?, SuiError> {
 
   val gasPrice =
     when (val gp = getReferenceGasPrice(config)) {
-      is Option.Some -> gp.value
-      is Option.None -> throw SuiException("Failed to get gas price")
+      is Result.Ok -> gp.value
+      is Result.Err -> throw SuiException("Failed to get gas price")
     }
 
   val paymentObject =
     when (val po = getCoins(config, signer.address)) {
-      is Option.Some -> po.value
-      is Option.None -> throw SuiException("Failed to get payment object")
+      is Result.Ok -> po.value
+      is Result.Err -> throw SuiException("Failed to get payment object")
     }
 
-  val sightedCoin = paymentObject?.address?.coins?.nodes?.get(0)
-
-  val address = sightedCoin?.address ?: throw SuiException("Failed to get address")
-
-  val digest =
-    ObjectDigest(Digest(sightedCoin.digest ?: throw SuiException("Failed to get digest")))
+  val coins =
+    paymentObject
+      ?.address
+      ?.coins
+      ?.nodes
+      ?.map {
+        ObjectReference(
+          Reference(AccountAddress.fromString(it.address.toString())),
+          it.version.toString().toLong(),
+          ObjectDigest(Digest(it.digest.toString())),
+        )
+      }
+      .takeUnless { it.isNullOrEmpty() } ?: throw SuiException("Failed to get payment object")
 
   val txData =
     TransactionDataComposer.programmable(
       sender = signer.address,
-      gapPayment =
-        listOf(
-          ObjectReference(
-            Reference(AccountAddress.fromString(address)),
-            sightedCoin.version.toLong(),
-            digest,
-          )
-        ),
+      gasPayment = coins,
       pt = ptb,
       gasBudget = gasBudget,
-      gasPrice = gasPrice?.toULong() ?: throw SuiException("Failed to get gas price"),
+      gasPrice =
+        gasPrice?.epoch?.referenceGasPrice.toString().toULong()
+          ?: throw SuiException("Failed to get gas price"),
     )
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
@@ -194,15 +261,24 @@ internal suspend fun signAndSubmitTransaction(
 
   val response =
     getGraphqlClient(config)
-      .execute<ExecuteTransactionBlock.Result>(
-        ExecuteTransactionBlock(
-          ExecuteTransactionBlock.Variables(txBytes = content.first, signatures = content.second)
+      .mutation(
+        ExecuteTransactionBlockMutation(
+          txBytes = content.first,
+          signatures = content.second,
+          showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+          showEffects = Optional.presentIfNotNull(options.showEffects),
+          showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+          showEvents = Optional.presentIfNotNull(options.showEvents),
+          showInput = Optional.presentIfNotNull(options.showInput),
+          showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+          showRawInput = Optional.presentIfNotNull(options.showRawInput),
         )
       )
+      .execute()
 
   if (response.errors != null) {
     throw SuiException(response.errors.toString())
   }
 
-  return Option.Some(response.data)
+  return Result.Ok(response.data)
 }

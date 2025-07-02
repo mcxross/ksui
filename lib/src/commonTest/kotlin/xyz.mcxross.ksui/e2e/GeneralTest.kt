@@ -11,36 +11,36 @@ class GeneralTest {
 
   @Test
   fun getChainIdentifierTest() = runBlocking {
-    val resp = sui.getChainIdentifier().expect("Failed to get chain identifier")
+    val resp = sui.getChainIdentifier().expect { "Failed to get chain identifier" }
     assertNotNull(resp, "Failed to get chain identifier")
-    assertTrue { resp.isNotEmpty() }
+    assertTrue { resp.chainIdentifier.isNotEmpty() }
   }
 
   @Test
   fun getReferenceGasPriceTest() = runBlocking {
-    val resp = sui.getReferenceGasPrice().expect("Failed to get reference gas price")
+    val resp = sui.getReferenceGasPrice().expect { "Failed to get reference gas price" }
     assertNotNull(resp, "Failed to get reference gas price")
-    assertFalse { resp.isEmpty() }
+    assertFalse { resp.epoch?.referenceGasPrice.toString().isEmpty() }
   }
 
   @Test
   fun getCheckpointTest() = runBlocking {
-    val resp = sui.getCheckpoint().expect("Failed to get checkpoint")
+    val resp = sui.getCheckpoint().expect { "Failed to get checkpoint" }
     assertNotNull(resp, "Failed to get checkpoint")
   }
 
   @Test
   fun getLatestSuiSystemStateTest() = runBlocking {
-    val resp = sui.getLatestSuiSystemState().expect("Failed to get latest Sui system state")
+    val resp = sui.getLatestSuiSystemState().expect { "Failed to get latest Sui system state" }
     assertNotNull(resp, "Failed to get latest Sui system state")
     assertNotNull(resp.epoch, "Epoch is null")
-    assertTrue { resp.epoch!!.epochId > 0 }
-    assertTrue { resp.epoch!!.startTimestamp.isNotEmpty() }
+    assertTrue { resp.epoch.epochId.toString().toInt() > 0 }
+    assertTrue { resp.epoch.startTimestamp.toString().isNotEmpty() }
   }
 
   @Test
   fun getProtocolConfigTest() = runBlocking {
-    val resp = sui.getProtocolConfig().expect("Failed to get protocol config")
+    val resp = sui.getProtocolConfig().expect { "Failed to get protocol config" }
     assertNotNull(resp, "Failed to get protocol config")
   }
 }

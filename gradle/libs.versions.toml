@@ -1,17 +1,19 @@
 [versions]
 agp = "8.1.4"
-kotlin = "2.1.10"
+apollo-runtime = "4.3.1"
+kotlin = "2.1.21"
+kotlin-result = "2.0.1"
 ktor = "3.1.1"
 junit = "5.10.1"
-graphql-multiplatform = "0.1.0-beta08"
 logback-classic = "1.5.6"
 
 [libraries]
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo-runtime" }
 bcs = { module = "xyz.mcxross.bcs:bcs", version = "0.1.2" }
 bitcoinj-core = { module = "org.bitcoinj:bitcoinj-core", version = "0.16.1" }
-graphql-multiplatform-client = { module = "xyz.mcxross.graphql.client:graphql-multiplatform-client", version.ref = "graphql-multiplatform" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+kotlin-result = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "kotlin-result" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
@@ -33,7 +35,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.10" }
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-graphql-multiplatform = { id = "xyz.mcxross.graphql", version.ref = "graphql-multiplatform" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.29.0"}
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+apollo-graphql = {id = "com.apollographql.apollo", version.ref = "apollo-runtime"}
