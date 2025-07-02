@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.SonatypeHost
 import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaTask
 
@@ -179,7 +178,7 @@ mavenPublishing {
     }
   }
 
-  publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
+  publishToMavenCentral(automaticRelease = true)
 
   signAllPublications()
 }
