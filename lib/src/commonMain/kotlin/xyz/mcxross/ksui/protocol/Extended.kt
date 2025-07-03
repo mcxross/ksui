@@ -21,13 +21,13 @@ import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
 interface Extended {
-  fun moveCall(
+  suspend fun moveCall(
     target: String,
     typeArguments: List<TypeTag> = emptyList(),
     args: List<Argument> = emptyList(),
   ): ProgrammableTransaction
 
-  fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction
+  suspend fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction
 
-  fun transferObject(objs: List<Argument>, to: AccountAddress) : ProgrammableTransaction
+  suspend fun transferObject(objs: List<Argument>, to: AccountAddress) : ProgrammableTransaction
 }

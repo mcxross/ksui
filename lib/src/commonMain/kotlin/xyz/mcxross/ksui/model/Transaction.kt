@@ -75,6 +75,9 @@ sealed class CallArg {
 
   @Serializable(with = CallArgObjectSerializer::class)
   data class Object(val arg: ObjectArg) : CallArg()
+
+  // need to fetch before serializing
+  data class ObjectStr(val id: String) : CallArg()
 }
 
 @Serializable
