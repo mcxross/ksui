@@ -22,7 +22,7 @@ import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.inputs
 
-internal fun moveCall(
+internal suspend fun moveCall(
   target: String,
   typeArguments: List<TypeTag> = emptyList(),
   args: List<Argument> = emptyList(),
@@ -34,14 +34,14 @@ internal fun moveCall(
   }
 }
 
-internal fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction = ptb {
+internal suspend fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction = ptb {
   splitCoins {
     this.coin = coin
     this.into = inputs(amounts)
   }
 }
 
-internal fun transferObject(objs: List<Argument>, to: AccountAddress): ProgrammableTransaction =
+internal suspend fun transferObject(objs: List<Argument>, to: AccountAddress): ProgrammableTransaction =
   ptb {
     transferObjects {
       this.objects = inputs(objs)
