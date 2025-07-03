@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,83 +27,87 @@ data class ProgrammableTransaction(
   val commands: List<@Serializable(with = AnySerializer::class) Any>,
 ) : TransactionKind()
 
-class ProgrammableTransactionBuilder {
-  private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
-  private val command = Command()
+// The builder now inherits from Command, exposing all command-building functions
+// directly within the builder's scope.
+class ProgrammableTransactionBuilder : Command() {
+  // Use a MutableList instead of a Map to allow for multiple, non-unique inputs,
+  // especially for objects which were previously overwriting each other.
+  private val inputs: MutableList<CallArg> = mutableListOf()
 
-  private fun input(arg: BuilderArg, value: CallArg): Argument {
-    inputs[arg] = value
+  /**
+   * Adds a new input to the transaction and returns an Argument pointing to it.
+   *
+   * @param value The CallArg to add as an input.
+   * @return An Argument.Input referencing the newly added input's index.
+   */
+  private fun addInput(value: CallArg): Argument {
+    inputs.add(value)
     return Argument.Input((inputs.size - 1).toUShort())
   }
 
-  fun input(bytes: ByteArray, forceSeparate: Boolean): Argument {
-    val arg =
-      if (forceSeparate) {
-        BuilderArg.ForcedNonUniquePure(inputs.size)
-      } else {
-        BuilderArg.Pure(bytes)
-      }
-    return input(arg, CallArg.Pure(data = bytes))
+  /**
+   * Adds a pure byte array as an input.
+   *
+   * @param bytes The raw byte array to be used as an input.
+   * @return An Argument.Input referencing the new input.
+   */
+  fun input(bytes: ByteArray): Argument {
+    return addInput(CallArg.Pure(data = bytes))
   }
 
+  /**
+   * A generic input function that serializes a given value into bytes using BCS. If the value is an
+   * ObjectArg, it correctly routes to the `object` function.
+   *
+   * @param value The value to be serialized and added as an input.
+   * @return An Argument.Input referencing the new input.
+   */
   inline fun <reified T> input(value: T): Argument {
-
     if (value is ObjectArg) {
       return `object`(value)
     }
-
-    return input(Bcs.encodeToByteArray(value), false)
+    return input(Bcs.encodeToByteArray(value))
   }
 
+  /**
+   * Adds a Sui object as an input. This is the corrected way to handle multiple object inputs.
+   *
+   * @param objectArg The ObjectArg representing a Sui object.
+   * @return An Argument.Input referencing the new object input.
+   */
   fun `object`(objectArg: ObjectArg): Argument {
-    return input(BuilderArg.Object, CallArg.Object(objectArg))
+    return addInput(CallArg.Object(objectArg))
   }
 
-  inline fun <reified T> forceSeparateInput(value: T): Argument {
-    val bcs = Bcs {}
-    return input(bcs.encodeToByteArray(value), true)
-  }
-
-  fun command(block: Command.() -> Unit) {
-    command.block()
-  }
-
+  /**
+   * Builds the final ProgrammableTransaction.
+   *
+   * @return A constructed ProgrammableTransaction.
+   */
   fun build(): ProgrammableTransaction {
-    return ProgrammableTransaction(inputs.values.toList(), command.list)
+    // The `list` property containing the commands is inherited from the Command class.
+    return ProgrammableTransaction(inputs.toList(), list)
   }
 }
 
-@Serializable
-sealed class BuilderArg {
-
-  @Serializable data object Object : BuilderArg()
-
-  @Serializable
-  data class Pure(val data: ByteArray) : BuilderArg() {
-    override fun equals(other: Any?): Boolean {
-      if (this === other) return true
-      if (other == null || this::class != other::class) return false
-
-      other as Pure
-
-      return data.contentEquals(other.data)
-    }
-
-    override fun hashCode(): Int {
-      return data.contentHashCode()
-    }
-  }
-
-  data class ForcedNonUniquePure(val index: Int) : BuilderArg()
-}
-
-/** A DSL for building a [ProgrammableTransaction]. */
+/**
+ * A DSL for building a [ProgrammableTransaction].
+ *
+ * @param block The builder block to configure the transaction.
+ * @return The constructed [ProgrammableTransaction].
+ */
 fun ptb(block: ProgrammableTransactionBuilder.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   builder.block()
   return builder.build()
 }
 
+/**
+ * Utility function to convert a hex string to a byte array.
+ *
+ * @param hexString The hex string (e.g., "0x123...").
+ * @return The corresponding ByteArray.
+ */
 fun hexStringToByteArray(hexString: String): ByteArray {
   val cleanedHexString = hexString.removePrefix("0x").replace(Regex("[^0-9A-Fa-f]"), "")
   val len = cleanedHexString.length
