@@ -27,31 +27,24 @@ internal fun moveCall(
   typeArguments: List<TypeTag> = emptyList(),
   args: List<Argument> = emptyList(),
 ): ProgrammableTransaction = ptb {
-  command {
-    moveCall {
-      this.target = target
-      this.typeArguments = typeArguments
-      this.arguments = args
-    }
+  moveCall {
+    this.target = target
+    this.typeArguments = typeArguments
+    this.arguments = args
   }
 }
 
-internal fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction =
-  ptb {
-    command {
-      splitCoins {
-        this.coin = coin
-        this.into = inputs(amounts)
-      }
-    }
+internal fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction = ptb {
+  splitCoins {
+    this.coin = coin
+    this.into = inputs(amounts)
   }
+}
 
 internal fun transferObject(objs: List<Argument>, to: AccountAddress): ProgrammableTransaction =
   ptb {
-    command {
-      transferObjects {
-        this.objects = inputs(objs)
-        this.to = input(to)
-      }
+    transferObjects {
+      this.objects = inputs(objs)
+      this.to = input(to)
     }
   }
