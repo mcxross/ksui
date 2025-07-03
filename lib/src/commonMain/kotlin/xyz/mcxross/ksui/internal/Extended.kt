@@ -19,14 +19,14 @@ import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
-import xyz.mcxross.ksui.ptb.programmableTx
+import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.inputs
 
 internal fun moveCall(
   target: String,
   typeArguments: List<TypeTag> = emptyList(),
   args: List<Argument> = emptyList(),
-): ProgrammableTransaction = programmableTx {
+): ProgrammableTransaction = ptb {
   command {
     moveCall {
       this.target = target
@@ -37,7 +37,7 @@ internal fun moveCall(
 }
 
 internal fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction =
-  programmableTx {
+  ptb {
     command {
       splitCoins {
         this.coin = coin
@@ -47,7 +47,7 @@ internal fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransac
   }
 
 internal fun transferObject(objs: List<Argument>, to: AccountAddress): ProgrammableTransaction =
-  programmableTx {
+  ptb {
     command {
       transferObjects {
         this.objects = inputs(objs)

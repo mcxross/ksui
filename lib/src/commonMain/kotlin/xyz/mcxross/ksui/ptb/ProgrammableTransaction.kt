@@ -98,7 +98,7 @@ sealed class BuilderArg {
 }
 
 /** A DSL for building a [ProgrammableTransaction]. */
-fun programmableTx(block: ProgrammableTransactionBuilder.() -> Unit): ProgrammableTransaction {
+fun ptb(block: ProgrammableTransactionBuilder.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   builder.block()
   return builder.build()
