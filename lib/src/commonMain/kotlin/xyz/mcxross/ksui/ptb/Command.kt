@@ -165,11 +165,14 @@ open class Command {
    * @param block to build the command.
    * @return The [Argument.Result] of the command.
    */
-  fun splitCoins(block: SplitCoinsBuilder.() -> Unit): Argument.Result {
+  fun splitCoins(block: SplitCoinsBuilder.() -> Unit): List<Argument.NestedResult> {
     val builder = SplitCoinsBuilder().apply(block)
     require(builder.isValid()) { "coin and into must not be empty" }
+
     commands.add(SplitCoins(builder.coin!!, builder.into))
-    return Argument.Result((commands.size - 1).toUShort())
+    val commandIndex = (commands.size - 1).toUShort()
+
+    return builder.into.indices.map { i -> Argument.NestedResult(commandIndex, i.toUShort()) }
   }
 
   /**
