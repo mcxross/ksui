@@ -29,11 +29,11 @@ package xyz.mcxross.ksui.model
  * @property showStorageRebate Show the storage rebate
  */
 data class ObjectDataOptions(
-  val showBcs: Boolean = true,
-  val showContent: Boolean = true,
-  val showDisplay: Boolean = true,
-  val showType: Boolean = true,
+  val showBcs: Boolean = false,
+  val showContent: Boolean = false,
+  val showDisplay: Boolean = false,
+  val showType: Boolean = false,
   val showOwner: Boolean = false,
-  val showPreviousTransaction: Boolean = true,
-  val showStorageRebate: Boolean = true,
+  val showPreviousTransaction: Boolean = false,
+  val showStorageRebate: Boolean = false,
 )
