@@ -80,6 +80,14 @@ class ProgrammableTransactionBuilder : Command() {
     return addInput(arg, CallArg.Pure(data = bytes))
   }
 
+  fun address(str: String): Argument {
+    return input(AccountAddress.fromString(str).data)
+  }
+
+  fun address(address: AccountAddress): Argument {
+    return input(address.data)
+  }
+
   inline fun <reified T> pure(value: T): Argument {
     return input(Bcs.encodeToByteArray(value))
   }
@@ -114,116 +122,126 @@ class ProgrammableTransactionBuilder : Command() {
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.Object(objectArg))
   }
 
-  suspend fun build(): ProgrammableTransaction {
-
-    val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))
-
-    val inputList = inputs.values.toList()
+  private suspend fun gatherCommandMetadata(sui: Sui): Map<Int, Boolean> {
     val mutabilityMap = mutableMapOf<Int, Boolean>()
     val functionSignatureCache = mutableMapOf<String, GetNormalizedMoveFunctionQuery.Data?>()
 
-    val moveCallCommands = list.filterIsInstance<Command.MoveCall>()
+    for (command in list) {
+      when (command) {
+        is MoveCall -> {
+          val callDetails = command.moveCall
+          val packageId = callDetails.pakage.hash.toString()
+          val module = callDetails.module
+          val function = callDetails.function
+          val target = "$packageId::$module::$function"
 
-    for (moveCall in moveCallCommands) {
-      val callDetails = moveCall.moveCall
-      val packageId = callDetails.pakage.hash.toString()
-      val module = callDetails.module
-      val function = callDetails.function
+          val signatureResponse =
+            functionSignatureCache.getOrPut(target) {
+              when (val result = sui.getNormalizedMoveFunction(target)) {
+                is Result.Ok -> result.value
+                is Result.Err ->
+                  throw IllegalStateException("Failed to get function signature for $target")
+              }
+            }
 
-      val target = "$packageId::$module::$function"
+          val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter>? =
+            signatureResponse
+              ?.`object`
+              ?.asMovePackage
+              ?.module
+              ?.function
+              ?.rPC_MOVE_FUNCTION_FIELDS
+              ?.parameters
 
-      val signatureResponse =
-        functionSignatureCache.getOrPut(target) {
-          when (val result = sui.getNormalizedMoveFunction(target)) {
-            is Result.Ok -> result.value
-            is Result.Err ->
-              throw IllegalStateException("Failed to get function signature for $target")
+          if (params == null) {
+            continue
           }
-        }
 
-      val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter>? =
-        signatureResponse
-          ?.`object`
-          ?.asMovePackage
-          ?.module
-          ?.function
-          ?.rPC_MOVE_FUNCTION_FIELDS
-          ?.parameters
-
-      if (params == null) {
-        println("Warning: Could not find parameters for function $target")
-        continue
-      }
-
-      moveCall.moveCall.arguments.zip(params).forEach { (argument, parameter) ->
-        if (argument is Argument.Input) {
-          val signatureMap = parameter.signature as? Map<*, *>
-          val ref = signatureMap?.get("ref") as? String
-
-          if (ref == "&mut") {
-            mutabilityMap[argument.index.toInt()] = true
+          command.moveCall.arguments.zip(params).forEach { (argument, parameter) ->
+            if (argument is Argument.Input) {
+              val signatureMap = parameter.signature as? Map<*, *>
+              val ref = signatureMap?.get("ref") as? String
+              if (ref == "&mut") {
+                mutabilityMap[argument.index.toInt()] = true
+              }
+            }
           }
         }
       }
     }
+    return mutabilityMap
+  }
 
-    val resolvedInputs =
-      inputList.withIndex().map { indexedValue ->
-        val index = indexedValue.index
-        val callArg = indexedValue.value
+  /**
+   * Performs the unified resolution of all inputs, turning ObjectStr into fully-formed ObjectArgs.
+   * This works for inputs from ANY command (MoveCall, TransferObjects, etc.).
+   */
+  private suspend fun resolveAllInputs(sui: Sui, mutabilityMap: Map<Int, Boolean>): List<CallArg> {
+    val inputList = inputs.values.toList()
+    return inputList.withIndex().map { (index, callArg) ->
+      if (callArg is CallArg.ObjectStr) {
+        val objResult = sui.getObject(callArg.id, ObjectDataOptions(showOwner = true))
+        when (objResult) {
+          is Result.Ok -> {
+            val suiObject = objResult.value?.`object`
+            val owner = suiObject?.rPC_OBJECT_FIELDS?.owner?.rPC_OBJECT_OWNER_FIELDS
+            val objectId =
+              suiObject?.rPC_OBJECT_FIELDS?.objectId
+                ?: throw IllegalStateException("Object data is missing objectId")
 
-        if (callArg is CallArg.ObjectStr) {
-          val objResult = sui.getObject(callArg.id, ObjectDataOptions(showOwner = true))
-          when (objResult) {
-            is Result.Ok -> {
-              val suiObject = objResult.value?.`object`
-              val owner = suiObject?.rPC_OBJECT_FIELDS?.owner?.rPC_OBJECT_OWNER_FIELDS
-              val objectId =
-                suiObject?.rPC_OBJECT_FIELDS?.objectId
-                  ?: throw IllegalStateException("Object data is missing objectId")
-
-              val resolvedObjectArg =
-                when (owner?.__typename) {
-                  "Shared" -> {
-                    val isMutable = mutabilityMap[index] ?: false
-                    ObjectArg.SharedObject(
-                      id = ObjectId(AccountAddress.fromString(objectId.toString())),
-                      initialSharedVersion =
-                        owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L,
-                      mutable = isMutable,
-                    )
-                  }
-                  "AddressOwner" -> {
-                    ObjectArg.ImmOrOwnedObject(
-                      ObjectReference(
-                        Reference(
-                          AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.objectId.toString())
-                        ),
-                        suiObject.rPC_OBJECT_FIELDS.version.toString().toLong(),
-                        ObjectDigest(
-                          Digest(
-                            AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.digest.toString())
-                              .data
-                          )
-                        ),
-                      )
-                    )
-                  }
-                  else ->
-                    throw IllegalStateException(
-                      "Unsupported object owner type: ${owner?.__typename}"
-                    )
+            val resolvedObjectArg =
+              when (owner?.__typename) {
+                "Shared" -> {
+                  val isMutable = mutabilityMap[index] ?: false
+                  ObjectArg.SharedObject(
+                    id = ObjectId(AccountAddress.fromString(objectId.toString())),
+                    initialSharedVersion =
+                      owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L,
+                    mutable = isMutable,
+                  )
                 }
-              CallArg.Object(resolvedObjectArg)
-            }
-            is Result.Err ->
-              throw IllegalStateException("Failed to fetch object details for ${callArg.id}")
+                "AddressOwner" -> {
+                  if (suiObject.rPC_OBJECT_FIELDS.digest.isNullOrEmpty()) {
+                    throw IllegalStateException("Couldn't Resolve digest")
+                  }
+                  ObjectArg.ImmOrOwnedObject(
+                    ObjectReference(
+                      Reference(
+                        AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.objectId.toString())
+                      ),
+                      suiObject.rPC_OBJECT_FIELDS.version.toString().toLong(),
+                      ObjectDigest(Digest.fromString(suiObject.rPC_OBJECT_FIELDS.digest)),
+                    )
+                  )
+                }
+                else ->
+                  throw IllegalStateException("Unsupported object owner type: ${owner?.__typename}")
+              }
+            CallArg.Object(resolvedObjectArg)
           }
-        } else {
-          callArg
+          is Result.Err ->
+            throw IllegalStateException("Failed to fetch object details for ${callArg.id}")
         }
+      } else {
+        callArg
       }
+    }
+  }
 
+  /**
+   * Asynchronously builds the final ProgrammableTransaction by orchestrating metadata gathering and
+   * input resolution.
+   */
+  suspend fun build(): ProgrammableTransaction {
+    val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))
+
+    // Phase 1: Gather metadata from commands.
+    val mutabilityMap = gatherCommandMetadata(sui)
+
+    // Phase 2: Resolve all inputs using the gathered metadata.
+    val resolvedInputs = resolveAllInputs(sui, mutabilityMap)
+
+    // Phase 3: Construct the final transaction.
     return ProgrammableTransaction(resolvedInputs, list)
   }
 }
