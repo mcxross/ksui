@@ -27,7 +27,7 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
       - name: Generate GraphQL Client
-        run: ./gradlew graphqlGenerateClient
+        run: ./gradlew generateApolloSources
         shell: bash
       - name: Generate HTML docs
         run: ./gradlew dokkaHtml
