@@ -113,7 +113,8 @@ val yourAccount = Account.import(mnemonic)
 
 ### Initialization
 
-First, you need to create a new instance of the Sui RPC HTTP Client as shown below:
+To get started, create an instance of the Sui client. This single step also automatically configures a default, 
+globally-accessible client that can be used by top-level functions like `ptb`.
 
 ```kotlin
 val sui = Sui()
@@ -139,31 +140,26 @@ val balance = sui.getBalance(AccountAddress("0x4afc81d797fd02bd7e923389677352eb5
 
 ### Writing to the chain (PTBs)
 
-To write to the chain, you need to create a `Transaction` and sign it with the private key of the sender. A transaction,
-among its metadata,
-is made up of PTBs which are a chain of commands that are executed by the chain. For example, to construct a PTB that
-*splits* a
-coin and *sends* it to another address, you can do so as shown below:
+To write to the chain, you build a **Programmable Transaction Block (PTB)**. The SDK provides an expressive DSL that makes this 
+process simple and intuitive. The top level `ptb` function automatically uses the default client you initialized to resolve object 
+details, so you don't need to pass it explicitly.
 
+For example, to construct a **PTB** that splits a coin and sends it to another address:
 ```kotlin
 
 // Assuming you have an account object
 val alice = Account.import("suipri...8cpv0g")
 
 // Create a programmable transaction
-val ptb = programmableTx {
-    command {
-        // Split the coin
-        val splitCoins = splitCoins {
-            coin = Argument.GasCoin
-            into = inputs(1_000_000UL)
-        }
+val ptb = ptb {
+    val coins = splitCoins {
+        coin = Argument.GasCoin
+        into = listOf(pure(100_000_000UL))
+    }
 
-        // Send the split coin to the receiver
-        transferObjects {
-            objects = inputs(splitCoins)
-            to = input(alice.address)
-        }
+    transferObjects {
+        objects = coins
+        to = address("0xbf...cde")
     }
 }
 
