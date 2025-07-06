@@ -40,10 +40,9 @@ data class ProgrammableTransaction(
   val commands: List<@Serializable(with = AnySerializer::class) Any>,
 ) : TransactionKind()
 
-// The builder now inherits from Command, exposing all command-building functions
-// directly within the builder's scope.
+
 class ProgrammableTransactionBuilder : Command() {
-  // Reverted to MutableMap to allow for input overwriting/de-duplication, as requested.
+
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
 
   /**
@@ -56,8 +55,6 @@ class ProgrammableTransactionBuilder : Command() {
    */
   private fun addInput(arg: BuilderArg, value: CallArg): Argument {
     inputs[arg] = value
-    // NOTE: When a key is overwritten, the map size does not change,
-    // so this will return the index of the last unique item added.
     return Argument.Input((inputs.size - 1).toUShort())
   }
 
@@ -121,7 +118,6 @@ class ProgrammableTransactionBuilder : Command() {
    * @return An Argument.Input referencing the new object input.
    */
   fun `object`(objectArg: ObjectArg): Argument {
-    // Using a unique key for each object to prevent overwriting.
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.Object(objectArg))
   }
 
