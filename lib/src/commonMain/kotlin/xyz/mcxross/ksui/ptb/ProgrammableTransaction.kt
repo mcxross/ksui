@@ -18,12 +18,12 @@ package xyz.mcxross.ksui.ptb
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
+import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.CallArg
 import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.ObjectDigest
@@ -31,8 +31,6 @@ import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.ObjectReference
 import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
 import xyz.mcxross.ksui.serializer.AnySerializer
 
 @Serializable
@@ -232,16 +230,11 @@ class ProgrammableTransactionBuilder : Command() {
    * Asynchronously builds the final ProgrammableTransaction by orchestrating metadata gathering and
    * input resolution.
    */
-  suspend fun build(): ProgrammableTransaction {
-    val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))
-
-    // Phase 1: Gather metadata from commands.
+  suspend fun build(sui: Sui): ProgrammableTransaction {
     val mutabilityMap = gatherCommandMetadata(sui)
 
-    // Phase 2: Resolve all inputs using the gathered metadata.
     val resolvedInputs = resolveAllInputs(sui, mutabilityMap)
 
-    // Phase 3: Construct the final transaction.
     return ProgrammableTransaction(resolvedInputs, list)
   }
 }
@@ -280,10 +273,13 @@ sealed class BuilderArg {
  * @param block The builder block to configure the transaction.
  * @return The constructed [ProgrammableTransaction].
  */
-suspend fun ptb(block: ProgrammableTransactionBuilder.() -> Unit): ProgrammableTransaction {
+suspend fun ptb(
+  client: Sui = SuiKit.client,
+  block: ProgrammableTransactionBuilder.() -> Unit,
+): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   builder.block()
-  return builder.build()
+  return builder.build(client)
 }
 
 /**
