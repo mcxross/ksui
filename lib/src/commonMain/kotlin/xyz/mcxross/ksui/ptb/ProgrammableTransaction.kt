@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
+import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 import xyz.mcxross.ksui.model.AccountAddress
@@ -80,6 +81,10 @@ class ProgrammableTransactionBuilder : Command() {
 
   fun address(str: String): Argument {
     return input(AccountAddress.fromString(str).data)
+  }
+
+  fun address(account: Account) : Argument {
+    return address(account.address)
   }
 
   fun address(address: AccountAddress): Argument {
