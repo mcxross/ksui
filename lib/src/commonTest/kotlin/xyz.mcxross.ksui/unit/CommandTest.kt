@@ -20,8 +20,9 @@ import kotlin.test.assertTrue
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.Command
-import xyz.mcxross.ksui.ptb.programmableTx
+import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.inputs
+import xyz.mcxross.ksui.util.runBlocking
 
 const val HELLO_WORLD =
   "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
@@ -29,15 +30,15 @@ const val HELLO_WORLD =
 class CommandTest {
 
   @Test
-  fun testCommandGeneration() {
-    val ptb = programmableTx { command { moveCall { target = HELLO_WORLD } } }
+  fun testCommandGeneration() = runBlocking {
+    val ptb = ptb { moveCall { target = HELLO_WORLD } }
     assertTrue { ptb.commands.size == 1 }
     assertTrue { ptb.inputs.isEmpty() }
   }
 
   @Test
-  fun testMoveCall() {
-    val ptb = programmableTx { command { moveCall { target = HELLO_WORLD } } }
+  fun testMoveCall() = runBlocking {
+    val ptb = ptb { moveCall { target = HELLO_WORLD } }
     val moveCallCommand = ptb.commands[0] as Command.MoveCall
     val moveCall = moveCallCommand.moveCall
     assertTrue { ptb.commands[0] is Command.MoveCall }
@@ -53,13 +54,11 @@ class CommandTest {
   }
 
   @Test
-  fun testTransferObjects() {
-    val ptb = programmableTx {
-      command {
-        transferObjects {
-          objects = inputs("0x1234567890", "0x0987654321")
-          to = input(AccountAddress.EMPTY)
-        }
+  fun testTransferObjects() = runBlocking {
+    val ptb = ptb {
+      transferObjects {
+        objects = inputs("0x1234567890", "0x0987654321")
+        to = input(AccountAddress.EMPTY)
       }
     }
     val transferObjectsCommand = ptb.commands[0] as Command.TransferObjects
@@ -69,17 +68,15 @@ class CommandTest {
   }
 
   @Test
-  fun testSplitCoins() {
-    val ptb = programmableTx {
-      command {
-        val splitCoins = splitCoins {
-          coin = Argument.GasCoin
-          into = inputs(1_000_000UL, 2_000_000UL, 3_000_000UL)
-        }
-        transferObjects {
-          objects = inputs(splitCoins)
-          to = input(AccountAddress.EMPTY)
-        }
+  fun testSplitCoins() = runBlocking {
+    val ptb = ptb {
+      val splitCoins = splitCoins {
+        coin = Argument.GasCoin
+        into = inputs(1_000_000UL, 2_000_000UL, 3_000_000UL)
+      }
+      transferObjects {
+        objects = inputs(splitCoins)
+        to = input(AccountAddress.EMPTY)
       }
     }
 
@@ -92,17 +89,15 @@ class CommandTest {
   }
 
   @Test
-  fun testPTB() {
-    val ptb = programmableTx {
-      command {
-        val splitCoins = splitCoins {
-          coin = Argument.GasCoin
-          into = inputs(1, 2, 3)
-        }
-        val transferObjects = transferObjects {
-          this.objects = inputs(splitCoins)
-          to = input(AccountAddress.EMPTY)
-        }
+  fun testPTB() = runBlocking {
+    val ptb = ptb {
+      val splitCoins = splitCoins {
+        coin = Argument.GasCoin
+        into = inputs(1, 2, 3)
+      }
+      val transferObjects = transferObjects {
+        this.objects = inputs(splitCoins)
+        to = input(AccountAddress.EMPTY)
       }
     }
   }
