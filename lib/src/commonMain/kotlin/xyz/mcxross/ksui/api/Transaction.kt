@@ -94,7 +94,7 @@ class Transaction(val config: SuiConfig) : Transaction {
    * This is useful for estimating gas costs, verifying outcomes, and debugging potential errors
    * before submission.
    *
-   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param txBytes The base64-encoded, BCS-serialized transaction data.
    * @param option The response options to tailor which details of the dry run are returned.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [DryRunTransactionBlockQuery.Data] object with the results of the
@@ -102,14 +102,14 @@ class Transaction(val config: SuiConfig) : Transaction {
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   override suspend fun dryRunTransactionBlock(
-    txnBytes: String,
+    txBytes: String,
     option: ExecuteTransactionBlockResponseOptions,
-  ) = dryRunTransactionBlock(config, txnBytes, option)
+  ) = dryRunTransactionBlock(config, txBytes, option)
 
   /**
    * Submits a pre-signed transaction block to the Sui network for execution.
    *
-   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param txBytes The base64-encoded, BCS-serialized transaction data.
    * @param signatures A list of base64-encoded signatures corresponding to the signers.
    * @param option The response options to specify which details of the executed transaction to
    *   return (e.g., effects, object changes).
@@ -119,10 +119,10 @@ class Transaction(val config: SuiConfig) : Transaction {
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   override suspend fun executeTransactionBlock(
-    txnBytes: String,
+    txBytes: String,
     signatures: List<String>,
     option: ExecuteTransactionBlockResponseOptions,
-  ) = executeTransactionBlock(config, txnBytes, signatures, option)
+  ) = executeTransactionBlock(config, txBytes, signatures, option)
 
   /**
    * A convenience method that signs and executes a transaction block in a single step.

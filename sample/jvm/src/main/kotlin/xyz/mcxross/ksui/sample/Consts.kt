@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.protocol
+package xyz.mcxross.ksui.sample
 
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.TypeTag
-import xyz.mcxross.ksui.ptb.Argument
-import xyz.mcxross.ksui.ptb.ProgrammableTransaction
+import xyz.mcxross.ksui.account.Account
 
-interface Extended {
-  fun moveCall(
-    target: String,
-    typeArguments: List<TypeTag> = emptyList(),
-    args: List<Argument> = emptyList(),
-  ): ProgrammableTransaction
+const val ALICE_PRIVATE_KEY = "***REMOVED***"
+val ALICE_ACCOUNT = Account.import(ALICE_PRIVATE_KEY)
 
-  fun splitCoin(coin: Argument, amounts: List<Long>): ProgrammableTransaction
+const val BOB_PASS_PHRASE = "oyster recycle orange priority diesel flash turn merit nation wood benefit fall"
+val BOB_ACCOUNT = Account.import(BOB_PASS_PHRASE.split(" "))
 
-  fun transferObject(objs: List<Argument>, to: AccountAddress) : ProgrammableTransaction
-}
+const val CAROL_PRIVATE_KEY = "***REMOVED***"
+val CAROL_ACCOUNT = Account.import(CAROL_PRIVATE_KEY)

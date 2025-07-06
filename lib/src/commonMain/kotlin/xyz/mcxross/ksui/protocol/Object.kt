@@ -63,7 +63,7 @@ interface Object {
     owner: AccountAddress,
     limit: Int? = null,
     cursor: String? = null,
-    options: ObjectDataOptions,
+    options: ObjectDataOptions = ObjectDataOptions(),
   ): Result<GetOwnedObjectsQuery.Data?, SuiError>
 
   /**
@@ -100,7 +100,7 @@ interface Object {
   suspend fun tryGetPastObject(
     id: String,
     version: Int? = null,
-    options: ObjectDataOptions,
+    options: ObjectDataOptions = ObjectDataOptions(),
   ): Result<TryGetPastObjectQuery.Data?, SuiError>
 
   /**
