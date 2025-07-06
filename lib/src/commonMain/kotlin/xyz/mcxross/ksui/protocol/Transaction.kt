@@ -80,7 +80,7 @@ interface Transaction {
    * This is useful for estimating gas costs, verifying outcomes, and debugging potential errors
    * before submission.
    *
-   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param txBytes The base64-encoded, BCS-serialized transaction data.
    * @param option The response options to tailor which details of the dry run are returned.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [DryRunTransactionBlockQuery.Data] object with the results of the
@@ -88,14 +88,14 @@ interface Transaction {
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun dryRunTransactionBlock(
-    txnBytes: String,
+    txBytes: String,
     option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<DryRunTransactionBlockQuery.Data?, SuiError>
 
   /**
    * Submits a pre-signed transaction block to the Sui network for execution.
    *
-   * @param txnBytes The base64-encoded, BCS-serialized transaction data.
+   * @param txBytes The base64-encoded, BCS-serialized transaction data.
    * @param signatures A list of base64-encoded signatures corresponding to the signers.
    * @param option The response options to specify which details of the executed transaction to
    *   return (e.g., effects, object changes).
@@ -105,7 +105,7 @@ interface Transaction {
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun executeTransactionBlock(
-    txnBytes: String,
+    txBytes: String,
     signatures: List<String>,
     option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
