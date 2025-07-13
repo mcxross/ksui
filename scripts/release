@@ -45,7 +45,7 @@ if [[ ${git_head_commit} == "${git_last_merge_commit}" ]]; then
       safe ./gradlew generateApolloSources
       if contains_snapshot "${commit}"; then
         approve "Snapshot release, publishing to snapshot repo..."
-        safe ./gradlew publishAllPublicationsToMavenCentralRepository
+        safe ./gradlew publishToMavenCentral
       else
         approve "Release release, publishing to central repo..."
         safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
@@ -60,7 +60,7 @@ elif is_release_commit "${git_head_commit}"; then
   safe ./gradlew generateApolloSources
   if contains_snapshot "${git_head_commit}"; then
     approve "Snapshot release, publishing to snapshot repo..."
-    safe ./gradlew publishAllPublicationsToMavenCentralRepository
+    safe ./gradlew publishToMavenCentral
   else
     approve "Release release, publishing to central repo..."
     safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
