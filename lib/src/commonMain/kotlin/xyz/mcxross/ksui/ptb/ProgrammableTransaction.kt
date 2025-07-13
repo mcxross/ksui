@@ -40,7 +40,6 @@ data class ProgrammableTransaction(
   val commands: List<@Serializable(with = AnySerializer::class) Any>,
 ) : TransactionKind()
 
-
 class ProgrammableTransactionBuilder : Command() {
 
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
@@ -80,7 +79,7 @@ class ProgrammableTransactionBuilder : Command() {
     return input(AccountAddress.fromString(str).data)
   }
 
-  fun address(account: Account) : Argument {
+  fun address(account: Account): Argument {
     return address(account.address)
   }
 
@@ -90,6 +89,10 @@ class ProgrammableTransactionBuilder : Command() {
 
   inline fun <reified T> pure(value: T): Argument {
     return input(Bcs.encodeToByteArray(value))
+  }
+
+  fun pure(bytes: ByteArray): Argument {
+    return input(bytes)
   }
 
   /**
@@ -105,6 +108,14 @@ class ProgrammableTransactionBuilder : Command() {
     }
     return input(Bcs.encodeToByteArray(value))
   }
+
+  fun system(): Argument = `object`("0x5")
+
+  fun clock(): Argument = `object`("0x6")
+
+  fun random(): Argument = `object`("0x8")
+
+  fun denyList(): Argument = `object`("0x403")
 
   fun `object`(id: String): Argument {
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.ObjectStr(id))
