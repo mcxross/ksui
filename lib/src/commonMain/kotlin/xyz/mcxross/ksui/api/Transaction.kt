@@ -217,4 +217,12 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @return An [Option] of nullable [Long]
    */
   override suspend fun getTotalTransactionBlocks() = getTotalTransactionBlocks(config)
+
+  override suspend fun waitForTransaction(
+    digest: String,
+    options: TransactionBlockResponseOptions,
+    timeout: Long,
+    pollInterval: Long,
+  ): Result<GetTransactionBlockQuery.Data?, SuiError> =
+    xyz.mcxross.ksui.internal.waitForTransaction(config, digest, options, timeout, pollInterval)
 }

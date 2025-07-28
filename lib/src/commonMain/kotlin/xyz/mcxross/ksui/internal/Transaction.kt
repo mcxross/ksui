@@ -18,11 +18,15 @@ package xyz.mcxross.ksui.internal
 import com.apollographql.apollo.api.Optional
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeout
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.hash
+import xyz.mcxross.ksui.exception.GraphQLError
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.generated.DevInspectTransactionBlockQuery
@@ -281,4 +285,50 @@ internal suspend fun signAndSubmitTransaction(
   }
 
   return Result.Ok(response.data)
+}
+
+/**
+ * Waits for a transaction block to be processed and available on the network by polling the
+ * `getTransactionBlock` API.
+ *
+ * This is a crucial utility to use after `signAndExecuteTransactionBlock` to ensure a transaction's
+ * effects are finalized and available for querying before proceeding. This implementation uses
+ * idiomatic Kotlin coroutines for robust handling of timeouts, polling, and cancellation.
+ *
+ * @param digest The digest of the transaction to wait for.
+ * @param options The options object specifying which fields to return (e.g., effects, object
+ *   changes).
+ * @param timeout The total time in milliseconds to wait for the transaction before failing.
+ *   Defaults to 60 seconds.
+ * @param pollInterval The time in milliseconds to wait between each polling attempt. Defaults to 2
+ *   seconds.
+ * @return A [Result.Ok] containing the transaction block response once it's found, or a
+ *   [Result.Err] if the operation times out or encounters an unrecoverable error.
+ */
+suspend fun waitForTransaction(
+  config: SuiConfig,
+  digest: String,
+  options: TransactionBlockResponseOptions,
+  timeout: Long = 10000,
+  pollInterval: Long = 2_000L,
+): Result<GetTransactionBlockQuery.Data?, SuiError> {
+  return try {
+    withTimeout(timeout) {
+      while (true) {
+        when (val result = getTransactionBlock(config, digest, options)) {
+          is Result.Ok -> return@withTimeout result
+          is Result.Err -> {
+            delay(pollInterval)
+          }
+        }
+      }
+    }
+    Result.Err(SuiError(errors = listOf(GraphQLError(message = "Unexpected fallthrough"))))
+  } catch (e: TimeoutCancellationException) {
+    Result.Err(
+      SuiError(errors = listOf(GraphQLError(message = "Timed out waiting for transaction $digest")))
+    )
+  } catch (e: Exception) {
+    Result.Err(SuiError(errors = listOf(GraphQLError(message = "Unexpected error: ${e.message}"))))
+  }
 }
