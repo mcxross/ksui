@@ -17,9 +17,12 @@ kotlin { jvmToolchain(20) }
 dependencies {
   implementation(project(":ksui"))
   implementation(libs.ktor.serialization.kotlinx.json)
+  implementation(libs.apollo.runtime)
   testImplementation(libs.junit.jupiter.api)
   testRuntimeOnly(libs.junit.jupiter.engine)
 }
+
+sourceSets["main"].kotlin.srcDir("../../lib/build/generated/source/apollo/service")
 
 tasks.getByName<Test>("test") { useJUnitPlatform() }
 
