@@ -110,10 +110,10 @@ internal fun ProgrammableTransactionBuilder.generic(type: TypeTag, value: Any): 
       is TypeTag.Vector -> {
         require(value is List<*>) { "Value for a vector type must be a List." }
         val elementType = type.elementType
-        makeMoveVec {
-          this.typeTag = elementType
-          this.values = value.map { generic(elementType, it!!) }
-        }
+
+        val mappedValues = value.map { generic(elementType, it!!) }
+
+        makeMoveVec(typeTag = elementType, values = mappedValues)
       }
       else -> {
         require(value is String) { "Value for an object type must be an object ID string." }
@@ -122,6 +122,14 @@ internal fun ProgrammableTransactionBuilder.generic(type: TypeTag, value: Any): 
     }
   }
 }
+
+fun ProgrammableTransactionBuilder.arg(value: Boolean): Argument = generic(TypeTag.Bool, value)
+
+fun ProgrammableTransactionBuilder.arg(value: UByte): Argument = generic(TypeTag.U8, value)
+
+fun ProgrammableTransactionBuilder.arg(value: UShort): Argument = generic(TypeTag.U16, value)
+
+fun ProgrammableTransactionBuilder.arg(value: UInt): Argument = generic(TypeTag.U32, value)
 
 /** Creates a transaction argument from a ULong, correctly identifying it as a `u64`. */
 fun ProgrammableTransactionBuilder.arg(value: ULong): Argument = generic(TypeTag.U64, value)

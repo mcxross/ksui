@@ -20,18 +20,10 @@ import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.extension.asIdParts
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.CallArg
-import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.ObjectArg
-import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.ObjectDigest
-import xyz.mcxross.ksui.model.ObjectId
-import xyz.mcxross.ksui.model.ObjectReference
-import xyz.mcxross.ksui.model.Reference
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.model.*
 import xyz.mcxross.ksui.serializer.AnySerializer
 
 @Serializable
@@ -44,27 +36,11 @@ class ProgrammableTransactionBuilder : Command() {
 
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
 
-  /**
-   * Adds a new input to the transaction and returns an Argument pointing to it. This logic allows
-   * for overwriting existing inputs with the same BuilderArg key.
-   *
-   * @param arg The BuilderArg key for the input.
-   * @param value The CallArg value of the input.
-   * @return An Argument.Input referencing the input's index based on the map's size.
-   */
   private fun addInput(arg: BuilderArg, value: CallArg): Argument {
     inputs[arg] = value
     return Argument.Input((inputs.size - 1).toUShort())
   }
 
-  /**
-   * Adds a pure byte array as an input.
-   *
-   * @param bytes The raw byte array to be used as an input.
-   * @param forceSeparate If true, treats this input as unique, even if its bytes are identical to
-   *   another input.
-   * @return An Argument.Input referencing the new input.
-   */
   fun input(bytes: ByteArray, forceSeparate: Boolean = false): Argument {
     val arg =
       if (forceSeparate) {
@@ -95,13 +71,6 @@ class ProgrammableTransactionBuilder : Command() {
     return input(bytes)
   }
 
-  /**
-   * A generic input function that serializes a given value into bytes using BCS. If the value is an
-   * ObjectArg, it correctly routes to the `object` function.
-   *
-   * @param value The value to be serialized and added as an input.
-   * @return An Argument.Input referencing the new input.
-   */
   inline fun <reified T> input(value: T): Argument {
     if (value is ObjectArg) {
       return `object`(value)
@@ -110,70 +79,105 @@ class ProgrammableTransactionBuilder : Command() {
   }
 
   fun system(): Argument = `object`("0x5")
-
   fun clock(): Argument = `object`("0x6")
-
   fun random(): Argument = `object`("0x8")
-
   fun denyList(): Argument = `object`("0x403")
 
   fun `object`(id: String): Argument {
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.ObjectStr(id))
   }
 
-  /**
-   * Adds a Sui object as an input. All object inputs are treated as unique inputs, but using the
-   * same key means they will overwrite each other.
-   *
-   * @param objectArg The ObjectArg representing a Sui object.
-   * @return An Argument.Input referencing the new object input.
-   */
   fun `object`(objectArg: ObjectArg): Argument {
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.Object(objectArg))
+  }
+
+  fun moveCall(
+    target: String,
+    typeArgs: List<TypeTag> = emptyList(),
+    args: List<Argument> = emptyList(),
+  ): Argument.Result {
+    val parts = target.asIdParts()
+    val moveCall =
+      ProgrammableMoveCall(ObjectId(AccountAddress.fromString(parts.first)), parts.second, parts.third, typeArgs, args)
+    commands.add(Command.MoveCall(moveCall))
+    return Argument.Result((commands.size - 1).toUShort())
+  }
+
+  fun transferObjects(objects: List<Argument>, address: Argument): Argument.Result {
+    val command = Command.TransferObjects(objects, address)
+    commands.add(command)
+    return Argument.Result((commands.size - 1).toUShort())
+  }
+
+  fun splitCoins(coin: Argument, into: List<Argument>): List<Argument.NestedResult> {
+    require(into.isNotEmpty()) { "The 'into' list of amounts cannot be empty." }
+    val command = Command.SplitCoins(coin, into)
+    commands.add(command)
+    val commandIndex = (commands.size - 1).toUShort()
+    return into.indices.map { i -> Argument.NestedResult(commandIndex, i.toUShort()) }
+  }
+
+  fun mergeCoins(coin: Argument, coins: List<Argument>): Argument.Result {
+    val command = Command.MergeCoins(coin, coins)
+    commands.add(command)
+    return Argument.Result((commands.size - 1).toUShort())
+  }
+
+  fun publish(bytes: List<List<Byte>>, dependencies: List<ObjectId>): Argument.Result {
+    val command = Command.Publish(bytes, dependencies)
+    commands.add(command)
+    return Argument.Result((commands.size - 1).toUShort())
+  }
+
+  fun makeMoveVec(typeTag: TypeTag?, values: List<Argument>): Argument.Result {
+    val command = Command.MakeMoveVec(typeTag, values)
+    commands.add(command)
+    return Argument.Result((commands.size - 1).toUShort())
+  }
+
+  fun upgrade(
+    modules: List<List<Byte>>,
+    dependencies: List<ObjectId>,
+    packageId: ObjectId,
+    upgradeTicket: Argument,
+  ): Argument.Result {
+    val command = Command.Upgrade(modules, dependencies, packageId, upgradeTicket)
+    commands.add(command)
+    return Argument.Result((commands.size - 1).toUShort())
   }
 
   private suspend fun gatherCommandMetadata(sui: Sui): Map<Int, Boolean> {
     val mutabilityMap = mutableMapOf<Int, Boolean>()
     val functionSignatureCache = mutableMapOf<String, GetNormalizedMoveFunctionQuery.Data?>()
-
     for (command in list) {
-      when (command) {
-        is MoveCall -> {
-          val callDetails = command.moveCall
-          val packageId = callDetails.pakage.hash.toString()
-          val module = callDetails.module
-          val function = callDetails.function
-          val target = "$packageId::$module::$function"
-
-          val signatureResponse =
-            functionSignatureCache.getOrPut(target) {
-              when (val result = sui.getNormalizedMoveFunction(target)) {
-                is Result.Ok -> result.value
-                is Result.Err ->
-                  throw IllegalStateException("Failed to get function signature for $target")
-              }
+      if (command is Command.MoveCall) {
+        val callDetails = command.moveCall
+        val target = "${callDetails.pakage.hash}::${callDetails.module}::${callDetails.function}"
+        val signatureResponse =
+          functionSignatureCache.getOrPut(target) {
+            when (val result = sui.getNormalizedMoveFunction(target)) {
+              is Result.Ok -> result.value
+              is Result.Err ->
+                throw IllegalStateException("Failed to get function signature for $target")
             }
-
-          val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter>? =
-            signatureResponse
-              ?.`object`
-              ?.asMovePackage
-              ?.module
-              ?.function
-              ?.rPC_MOVE_FUNCTION_FIELDS
-              ?.parameters
-
-          if (params == null) {
-            continue
           }
-
-          command.moveCall.arguments.zip(params).forEach { (argument, parameter) ->
-            if (argument is Argument.Input) {
-              val signatureMap = parameter.signature as? Map<*, *>
-              val ref = signatureMap?.get("ref") as? String
-              if (ref == "&mut") {
-                mutabilityMap[argument.index.toInt()] = true
-              }
+        val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter>? =
+          signatureResponse
+            ?.`object`
+            ?.asMovePackage
+            ?.module
+            ?.function
+            ?.rPC_MOVE_FUNCTION_FIELDS
+            ?.parameters
+        if (params == null) {
+          continue
+        }
+        command.moveCall.arguments.zip(params).forEach { (argument, parameter) ->
+          if (argument is Argument.Input) {
+            val signatureMap = parameter.signature as? Map<*, *>
+            val ref = signatureMap?.get("ref") as? String
+            if (ref == "&mut") {
+              mutabilityMap[argument.index.toInt()] = true
             }
           }
         }
@@ -182,10 +186,6 @@ class ProgrammableTransactionBuilder : Command() {
     return mutabilityMap
   }
 
-  /**
-   * Performs the unified resolution of all inputs, turning ObjectStr into fully-formed ObjectArgs.
-   * This works for inputs from ANY command (MoveCall, TransferObjects, etc.).
-   */
   private suspend fun resolveAllInputs(sui: Sui, mutabilityMap: Map<Int, Boolean>): List<CallArg> {
     val inputList = inputs.values.toList()
     return inputList.withIndex().map { (index, callArg) ->
@@ -238,26 +238,15 @@ class ProgrammableTransactionBuilder : Command() {
     }
   }
 
-  /**
-   * Asynchronously builds the final ProgrammableTransaction by orchestrating metadata gathering and
-   * input resolution.
-   */
   suspend fun build(sui: Sui): ProgrammableTransaction {
     val mutabilityMap = gatherCommandMetadata(sui)
-
     val resolvedInputs = resolveAllInputs(sui, mutabilityMap)
-
     return ProgrammableTransaction(resolvedInputs, list)
   }
 }
 
-/**
- * A sealed class representing the different kinds of builder arguments, used as keys in the input
- * map to allow for de-duplication.
- */
 @Serializable
 sealed class BuilderArg {
-  /** A key for a pure byte array input. Equality is based on the byte array content. */
   @Serializable
   data class Pure(val data: ByteArray) : BuilderArg() {
     override fun equals(other: Any?): Boolean {
@@ -272,34 +261,21 @@ sealed class BuilderArg {
     }
   }
 
-  /** A key for a pure input that should not be de-duplicated. Equality is based on its index. */
   @Serializable data class ForcedNonUniquePure(val index: Int) : BuilderArg()
 
-  /** A key for an object input that should not be de-duplicated. */
   @Serializable data class ForcedNonUniqueObject(val index: Int) : BuilderArg()
 }
 
-/**
- * A DSL for building a [ProgrammableTransaction].
- *
- * @param block The builder block to configure the transaction.
- * @return The constructed [ProgrammableTransaction].
- */
 suspend fun ptb(
   client: Sui = SuiKit.client,
-  block: ProgrammableTransactionBuilder.() -> Unit,
+  block: PtbDsl.() -> Unit,
 ): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
-  builder.block()
+  val dsl = PtbDsl(builder)
+  dsl.block()
   return builder.build(client)
 }
 
-/**
- * Utility function to convert a hex string to a byte array.
- *
- * @param hexString The hex string (e.g., "0x123...").
- * @return The corresponding ByteArray.
- */
 fun hexStringToByteArray(hexString: String): ByteArray {
   val cleanedHexString = hexString.removePrefix("0x").replace(Regex("[^0-9A-Fa-f]"), "")
   val len = cleanedHexString.length
