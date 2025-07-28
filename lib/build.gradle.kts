@@ -93,8 +93,6 @@ kotlin {
         implementation(libs.logback.classic)
       }
     }
-    //linuxMain.dependencies { implementation(libs.ktor.client.curl) }
-    //mingwMain.dependencies { implementation(libs.ktor.client.winhttp) }
   }
 }
 
