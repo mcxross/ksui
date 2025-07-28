@@ -194,4 +194,11 @@ interface Transaction {
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getTotalTransactionBlocks(): Result<GetTotalTransactionBlocksQuery.Data?, SuiError>
+
+  suspend fun waitForTransaction(
+    digest: String,
+    options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
+    timeout: Long = 5000,
+    pollInterval: Long = 2_000L,
+  ): Result<GetTransactionBlockQuery.Data?, SuiError>
 }
