@@ -18,9 +18,19 @@ package xyz.mcxross.ksui.core.crypto
 import java.security.SecureRandom
 import java.util.ArrayList
 import org.bitcoinj.crypto.MnemonicCode
+import org.bouncycastle.asn1.sec.SECNamedCurves
+import org.bouncycastle.crypto.generators.ECKeyPairGenerator
+import org.bouncycastle.crypto.params.ECDomainParameters
+import org.bouncycastle.crypto.params.ECKeyGenerationParameters
+import org.bouncycastle.crypto.params.ECPrivateKeyParameters
+import org.bouncycastle.crypto.params.ECPublicKeyParameters
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters
 import org.bouncycastle.jcajce.provider.digest.Blake2b
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.math.ec.FixedPointCombMultiplier
 import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
+import java.math.BigInteger
+import java.security.Security
 
 actual fun hash(hash: Hash, data: ByteArray): ByteArray {
   return when (hash) {
@@ -55,8 +65,36 @@ actual fun generateKeyPair(seed: ByteArray, scheme: SignatureScheme): KeyPair {
       val publicKeyParameters = parameters.generatePublicKey()
       KeyPair(parameters.encoded, publicKeyParameters.encoded)
     }
-    else -> throw SignatureSchemeNotSupportedException()
+    SignatureScheme.Secp256k1 -> {
+      generateSecp256k1KeyPair()
+    }
+    else -> throw NotImplementedError("Only Ed25519 and Secp256k1Ecdsa are supported at the moment")
   }
+}
+
+fun generateSecp256k1KeyPair(): KeyPair {
+  val params = SECNamedCurves.getByName("secp256k1")
+  val domainParams = ECDomainParameters(params.curve, params.g, params.n, params.h)
+
+  val keyPairGenerator = ECKeyPairGenerator()
+  val keyGenParams = ECKeyGenerationParameters(domainParams, SecureRandom())
+  keyPairGenerator.init(keyGenParams)
+
+  val keyPair = keyPairGenerator.generateKeyPair()
+
+  val publicKey = keyPair.public as ECPublicKeyParameters
+  val privateKey = keyPair.private as ECPrivateKeyParameters
+
+  val publicKeyBytes = publicKey.q.getEncoded(false)
+  val privateKeyBytes = privateKey.d.toByteArray()
+
+  val normalizedPrivateKeyBytes = if (privateKeyBytes.size == 33 && privateKeyBytes[0].toInt() == 0) {
+    privateKeyBytes.copyOfRange(1, 33)
+  } else {
+    privateKeyBytes
+  }
+
+  return KeyPair(normalizedPrivateKeyBytes, publicKeyBytes)
 }
 
 actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey {
@@ -65,6 +103,10 @@ actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): Pub
       val privateKeyParameters = Ed25519PrivateKeyParameters(privateKey.data)
       val publicKeyParameters = privateKeyParameters.generatePublicKey()
       Ed25519PublicKey(publicKeyParameters.encoded)
+    }
+    SignatureScheme.Secp256k1 -> {
+      val data = generateSecp256k1PublicKey(privateKey.data)
+      Secp256k1PublicKey(data)
     }
     else -> throw SignatureSchemeNotSupportedException()
   }
@@ -92,3 +134,14 @@ actual fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray {
     else -> throw SignatureSchemeNotSupportedException()
   }
 }
+
+fun generateSecp256k1PublicKey(privateKey: ByteArray): ByteArray {
+  Security.addProvider(BouncyCastleProvider())
+  val ecSpec = SECNamedCurves.getByName("secp256k1")
+  val domainParameters = ECDomainParameters(ecSpec.curve, ecSpec.g, ecSpec.n, ecSpec.h)
+  val privateKeyD = BigInteger(1, privateKey)
+  val q = FixedPointCombMultiplier().multiply(domainParameters.g, privateKeyD)
+  val publicKeyParameters = ECPublicKeyParameters(q, domainParameters)
+  return publicKeyParameters.q.getEncoded(false)
+}
+
