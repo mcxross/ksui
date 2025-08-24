@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.Hex
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.PublicKey
+import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.serializer.AccountAddressSerializer
 
@@ -67,8 +68,17 @@ data class AccountAddress(val data: ByteArray) {
     }
 
     fun fromPublicKey(publicKey: PublicKey): AccountAddress {
-      require(publicKey.data.size == LENGTH) {
-        "Public key must be $LENGTH bytes long, but was ${publicKey.data.size}"
+      when (publicKey.scheme()) {
+        SignatureScheme.ED25519 ->
+          require(publicKey.data.size == 32) {
+            "Ed25519 public key must be 32 bytes long, but was ${publicKey.data.size}"
+          }
+        SignatureScheme.Secp256k1 ->
+          require(publicKey.data.size == 33) {
+            "Secp256k1 public key must be 33 bytes long, but was ${publicKey.data.size}"
+          }
+        else ->
+          throw IllegalArgumentException("Unsupported public key scheme: ${publicKey.scheme()}")
       }
       return AccountAddress(
         Hex(hash(Hash.BLAKE2B256, byteArrayOf(publicKey.scheme().scheme) + publicKey.data))
