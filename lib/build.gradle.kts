@@ -1,12 +1,15 @@
 import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
+import java.net.URL
+import kotlinx.rpc.proto.kotlinMultiplatform
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   id("com.android.kotlin.multiplatform.library")
+  alias(libs.plugins.kotlinx.rpc)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.dokka)
   alias(libs.plugins.apollo.graphql)
@@ -104,6 +107,12 @@ kotlin {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
+        implementation(libs.kotlinx.rpc.grpc.core)
+        implementation(libs.grpc.netty)
+        implementation(libs.grpc.protobuf)
+        implementation(libs.grpc.stub)
+        implementation(libs.grpc.kotlin.stub)
+        implementation(libs.protobuf.java)
       }
     }
     jvmTest.dependencies {
@@ -119,6 +128,32 @@ kotlin {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+rpc {
+  grpc {
+    protocPlugins {
+      kotlinMultiplatform {
+        includeImports.set(false)
+        includeWkt.set(false)
+      }
+    }
+    buf {
+      generate {
+        includeImports = false
+        includeWkt = false
+      }
+    }
+  }
+}
+
+protoSourceSets {
+  jvmMain {
+    proto {
+      setSrcDirs(listOf("src/jvmMain/proto/sui/rpc/v2"))
+      include("*.proto")
+    }
+  }
+}
 
 apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
 
