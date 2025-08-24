@@ -1,9 +1,24 @@
+/*
+ * Copyright 2025 McXross
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package xyz.mcxross.ksui.core.crypto
 
 import xyz.mcxross.ksui.core.Hex
 
 /**
- * This class represents an Ed25519 private key.
+ * This class represents an Secp256k1 private key.
  *
  * Creating a private key instance by either generating or _importing_ will not generate a
  * passphrase. If you want to generate a passphrase, you can use the [Account.create] method.

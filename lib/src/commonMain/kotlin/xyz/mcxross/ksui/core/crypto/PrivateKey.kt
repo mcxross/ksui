@@ -49,6 +49,7 @@ interface PrivateKey {
     val flag =
       when (this) {
         is Ed25519PrivateKey -> SignatureScheme.ED25519.scheme
+        is Secp256k1PrivateKey -> SignatureScheme.Secp256k1.scheme
         else -> throw SignatureSchemeNotSupportedException()
       }
 
@@ -74,6 +75,8 @@ interface PrivateKey {
       return when (convertedBit[0]) {
         SignatureScheme.ED25519.scheme ->
           Ed25519PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
+        SignatureScheme.Secp256k1.scheme ->
+          Secp256k1PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
         else -> throw SignatureSchemeNotSupportedException()
       }
     }
