@@ -18,9 +18,8 @@ package xyz.mcxross.ksui.account
 import xyz.mcxross.ksui.core.crypto.Secp256k1PrivateKey
 import xyz.mcxross.ksui.core.crypto.Secp256k1PublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
-import xyz.mcxross.ksui.core.crypto.generateKeyPair
+import xyz.mcxross.ksui.core.crypto.derivePrivateKeyFromMnemonic
 import xyz.mcxross.ksui.core.crypto.generateMnemonic
-import xyz.mcxross.ksui.core.crypto.generateSeed
 import xyz.mcxross.ksui.model.AccountAddress
 
 /**
@@ -55,9 +54,12 @@ class Secp256k1Account(private val privateKey: Secp256k1PrivateKey) : Account() 
   override val scheme: SignatureScheme
     get() = SignatureScheme.Secp256k1
 
-  override fun sign(message: ByteArray): ByteArray {
+  override suspend fun sign(message: ByteArray): ByteArray {
     return privateKey.sign(message)
   }
+
+  override suspend fun verify(message: ByteArray, signature: ByteArray): Boolean =
+    publicKey.verify(message, signature)
 
   constructor(privateKey: Secp256k1PrivateKey, mnemonic: String) : this(privateKey) {
     this.mnemonic = mnemonic
@@ -69,6 +71,8 @@ class Secp256k1Account(private val privateKey: Secp256k1PrivateKey) : Account() 
 
   companion object {
 
+    const val DERIVATION_PATH = "m/54'/784'/0'/0/0"
+
     /**
      * Generates a new `Secp256k1Account` using a randomly generated mnemonic phrase and seed.
      *
@@ -76,9 +80,10 @@ class Secp256k1Account(private val privateKey: Secp256k1PrivateKey) : Account() 
      */
     fun generate(): Secp256k1Account {
       val seedPhrase = generateMnemonic().split(" ")
-      val seed = generateSeed(seedPhrase)
-      val keyPair = generateKeyPair(seed, SignatureScheme.Secp256k1)
-      return Secp256k1Account(Secp256k1PrivateKey(keyPair.privateKey), seedPhrase.joinToString(" "))
+      val finalPrivateKeyBytes =
+        derivePrivateKeyFromMnemonic(seedPhrase, SignatureScheme.Secp256k1, DERIVATION_PATH)
+      val privateKey = Secp256k1PrivateKey(finalPrivateKeyBytes)
+      return Secp256k1Account(privateKey, seedPhrase.joinToString(" "))
     }
   }
 }

@@ -48,7 +48,7 @@ interface Transaction {
    * @param signer The [Account] containing the private key to sign with.
    * @return A [ByteArray] representing the resulting signature.
    */
-  fun signTransaction(message: ByteArray, signer: Account): ByteArray
+   suspend fun signTransaction(message: ByteArray, signer: Account): ByteArray
 
   /**
    * Runs a special developer-focused inspection of a transaction block.

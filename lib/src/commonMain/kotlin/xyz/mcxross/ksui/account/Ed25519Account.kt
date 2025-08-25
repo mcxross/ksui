@@ -18,9 +18,8 @@ package xyz.mcxross.ksui.account
 import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
 import xyz.mcxross.ksui.core.crypto.Ed25519PublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
-import xyz.mcxross.ksui.core.crypto.generateKeyPair
+import xyz.mcxross.ksui.core.crypto.derivePrivateKeyFromMnemonic
 import xyz.mcxross.ksui.core.crypto.generateMnemonic
-import xyz.mcxross.ksui.core.crypto.generateSeed
 import xyz.mcxross.ksui.model.AccountAddress
 
 /**
@@ -55,9 +54,12 @@ class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
   override val scheme: SignatureScheme
     get() = SignatureScheme.ED25519
 
-  override fun sign(message: ByteArray): ByteArray {
+  override suspend fun sign(message: ByteArray): ByteArray {
     return privateKey.sign(message)
   }
+
+  override suspend fun verify(message: ByteArray, signature: ByteArray): Boolean =
+    publicKey.verify(message, signature)
 
   constructor(privateKey: Ed25519PrivateKey, mnemonic: String) : this(privateKey) {
     this.mnemonic = mnemonic
@@ -75,10 +77,10 @@ class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
      * @return The new `Ed25519Account`.
      */
     fun generate(): Ed25519Account {
-      val seedPhrase = generateMnemonic().split(" ")
-      val seed = generateSeed(seedPhrase)
-      val keyPair = generateKeyPair(seed, SignatureScheme.ED25519)
-      return Ed25519Account(Ed25519PrivateKey(keyPair.privateKey), seedPhrase.joinToString(" "))
+      val mnemonicPhrase = generateMnemonic().split(" ")
+      val privateKeyBytes = derivePrivateKeyFromMnemonic(mnemonicPhrase, SignatureScheme.ED25519)
+      val privateKey = Ed25519PrivateKey(privateKeyBytes)
+      return Ed25519Account(privateKey, mnemonicPhrase.joinToString(" "))
     }
   }
 }

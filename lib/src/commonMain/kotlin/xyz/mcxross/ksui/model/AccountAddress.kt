@@ -77,6 +77,9 @@ data class AccountAddress(val data: ByteArray) {
           require(publicKey.data.size == 33) {
             "Secp256k1 public key must be 33 bytes long, but was ${publicKey.data.size}"
           }
+        SignatureScheme.Secp256r1 -> require(publicKey.data.size == 33) {
+          "Secp256r1 public key must be 33 bytes long, but was ${publicKey.data.size}"
+        }
         else ->
           throw IllegalArgumentException("Unsupported public key scheme: ${publicKey.scheme()}")
       }

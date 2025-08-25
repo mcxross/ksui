@@ -203,7 +203,7 @@ internal suspend fun paginateTransactionBlockLists(
     }
     .toResult()
 
-internal fun signTransaction(message: ByteArray, signer: Account): ByteArray {
+internal suspend fun signTransaction(message: ByteArray, signer: Account): ByteArray {
   return signer.sign(message)
 }
 
