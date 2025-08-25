@@ -40,10 +40,10 @@ kotlin {
       }
     }
     nodejs()
-    compilations.all {
+    /*compilations.all {
       kotlinOptions.sourceMap = true
       kotlinOptions.moduleKind = "umd"
-    }
+    }*/
   }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
