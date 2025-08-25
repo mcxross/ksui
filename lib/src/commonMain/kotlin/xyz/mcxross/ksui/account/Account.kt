@@ -19,6 +19,7 @@ import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.PublicKey
 import xyz.mcxross.ksui.core.crypto.Secp256k1PrivateKey
+import xyz.mcxross.ksui.core.crypto.Secp256r1PrivateKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.importFromMnemonic
 import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
@@ -54,7 +55,9 @@ abstract class Account {
 
   abstract val scheme: SignatureScheme
 
-  abstract fun sign(message: ByteArray): ByteArray
+  abstract suspend fun sign(message: ByteArray): ByteArray
+
+  abstract suspend fun verify(message: ByteArray, signature: ByteArray) : Boolean
 
   companion object {
 
@@ -143,6 +146,7 @@ abstract class Account {
       return when (privateKey) {
         is Ed25519PrivateKey -> Ed25519Account(privateKey)
         is Secp256k1PrivateKey -> Secp256k1Account(privateKey)
+        is Secp256r1PrivateKey -> Secp256r1Account(privateKey)
         else -> throw SignatureSchemeNotSupportedException()
       }
     }

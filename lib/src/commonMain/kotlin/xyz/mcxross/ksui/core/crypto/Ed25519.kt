@@ -41,7 +41,9 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    * @param scheme The signature scheme to use.
    * @throws IllegalArgumentException If the signature scheme is not supported.
    */
-  constructor(scheme: SignatureScheme = SignatureScheme.ED25519) : this(generatePrivateKey(scheme))
+  constructor(
+    scheme: SignatureScheme = SignatureScheme.ED25519
+  ) : this(derivePrivateKeyFromMnemonic(generateMnemonic().split(" ")))
 
   /**
    * Creates a new [Ed25519PrivateKey] from an encoded private key.
@@ -62,6 +64,9 @@ class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme {
     return SignatureScheme.ED25519
   }
+
+  override fun verify(message: ByteArray, signature: ByteArray): Boolean =
+    verifySignature(this, message, signature)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true

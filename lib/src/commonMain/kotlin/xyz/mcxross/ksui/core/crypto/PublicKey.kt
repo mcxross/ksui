@@ -18,4 +18,12 @@ package xyz.mcxross.ksui.core.crypto
 interface PublicKey {
   val data: ByteArray
   fun scheme(): SignatureScheme
+  /**
+   * Verifies that a signature is valid for a given message.
+   *
+   * @param message The original message that was signed.
+   * @param signature The signature to verify.
+   * @return True if the signature is valid, false otherwise.
+   */
+  fun verify(message: ByteArray, signature: ByteArray): Boolean
 }

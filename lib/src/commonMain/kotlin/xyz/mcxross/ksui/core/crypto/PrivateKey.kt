@@ -50,6 +50,7 @@ interface PrivateKey {
       when (this) {
         is Ed25519PrivateKey -> SignatureScheme.ED25519.scheme
         is Secp256k1PrivateKey -> SignatureScheme.Secp256k1.scheme
+        is Secp256r1PrivateKey -> SignatureScheme.Secp256r1.scheme
         else -> throw SignatureSchemeNotSupportedException()
       }
 
@@ -77,6 +78,8 @@ interface PrivateKey {
           Ed25519PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
         SignatureScheme.Secp256k1.scheme ->
           Secp256k1PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
+        SignatureScheme.Secp256r1.scheme ->
+          Secp256r1PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
         else -> throw SignatureSchemeNotSupportedException()
       }
     }

@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.account.Secp256k1Account
 import xyz.mcxross.ksui.core.Hex
 
 /**
@@ -41,7 +42,15 @@ class Secp256k1PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    * @param scheme The signature scheme to use.
    * @throws IllegalArgumentException If the signature scheme is not supported.
    */
-  constructor(scheme: SignatureScheme = SignatureScheme.Secp256k1) : this(generatePrivateKey(scheme))
+  constructor(
+    scheme: SignatureScheme = SignatureScheme.Secp256k1
+  ) : this(
+    derivePrivateKeyFromMnemonic(
+      generateMnemonic().split(" "),
+      SignatureScheme.Secp256k1,
+      Secp256k1Account.DERIVATION_PATH,
+    )
+  )
 
   /**
    * Creates a new [Secp256k1PrivateKey] from an encoded private key.
@@ -62,6 +71,9 @@ class Secp256k1PublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme {
     return SignatureScheme.Secp256k1
   }
+
+  override fun verify(message: ByteArray, signature: ByteArray): Boolean =
+    verifySignature(this, message, signature)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true

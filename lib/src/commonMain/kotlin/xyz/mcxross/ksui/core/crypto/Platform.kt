@@ -15,15 +15,11 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
-
 expect fun hash(hash: Hash, data: ByteArray): ByteArray
 
 expect fun generateMnemonic(): String
 
 expect fun generateSeed(mnemonic: List<String>): ByteArray
-
-expect fun generateKeyPair(seed: ByteArray, scheme: SignatureScheme): KeyPair
 
 expect fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey
 
@@ -33,15 +29,10 @@ expect fun importFromMnemonic(mnemonic: List<String>): KeyPair
 
 expect fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray
 
-fun generatePrivateKey(scheme: SignatureScheme): ByteArray {
-  return when (scheme) {
-    SignatureScheme.ED25519 -> {
-      val seedPhrase = generateMnemonic().split(" ")
-      val seed = generateSeed(seedPhrase)
-      generateKeyPair(seed, SignatureScheme.ED25519).privateKey
-    }
-    else -> {
-      throw SignatureSchemeNotSupportedException()
-    }
-  }
-}
+expect fun derivePrivateKeyFromMnemonic(
+  mnemonic: List<String>,
+  scheme: SignatureScheme = SignatureScheme.ED25519,
+  path: String = "m/44'/784'/0/0/0",
+): ByteArray
+
+expect fun verifySignature(publicKey: PublicKey, message: ByteArray, signature: ByteArray): Boolean
