@@ -68,6 +68,8 @@ kotlin {
       dependsOn(androidJvmMain)
       dependencies {
         implementation(libs.ktor.client.okhttp)
+        implementation(libs.androidx.credentials)
+        implementation(libs.androidx.credentials.play)
       }
     }
     commonMain.dependencies {
