@@ -19,7 +19,8 @@ enum class SignatureScheme(val scheme: Byte) {
   ED25519(0x00.toByte()),
   Secp256k1(0x01.toByte()),
   Secp256r1(0x02.toByte()),
-  BLS12381(0xff.toByte());
+  BLS12381(0xff.toByte()),
+  PASSKEY(0x06.toByte());
 
   companion object {
     private val BY_SCHEME: MutableMap<Byte, SignatureScheme> = HashMap()
