@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 McXross
+ * Copyright 2025 McXross
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,40 +15,47 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.account.Secp256k1Account
 import xyz.mcxross.ksui.core.Hex
 import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.model.Result
 
 /**
- * This class represents an Ed25519 private key.
+ * This class represents an Secp256k1 private key.
  *
  * Creating a private key instance by either generating or _importing_ will not generate a
  * passphrase. If you want to generate a passphrase, you can use the [Account.create] method.
  *
  * @property privateKey The private key data.
  */
-class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
+class Secp256k1PrivateKey(private val privateKey: ByteArray) : PrivateKey {
 
   override val data: ByteArray
     get() = privateKey
 
-  override val publicKey: Ed25519PublicKey
-    get() = derivePublicKey(this, SignatureScheme.ED25519) as Ed25519PublicKey
+  override val publicKey: Secp256k1PublicKey
+    get() = derivePublicKey(this, SignatureScheme.Secp256k1) as Secp256k1PublicKey
 
   /**
-   * Creates a new [Ed25519PrivateKey] with a randomly generated private key.
+   * Creates a new [Secp256k1PrivateKey] with a randomly generated private key.
    *
-   * Default signature scheme is [SignatureScheme.ED25519].
+   * Default signature scheme is [SignatureScheme.Secp256k1].
    *
    * @param scheme The signature scheme to use.
    * @throws IllegalArgumentException If the signature scheme is not supported.
    */
   constructor(
-    scheme: SignatureScheme = SignatureScheme.ED25519
-  ) : this(derivePrivateKeyFromMnemonic(generateMnemonic().split(" ")))
+    scheme: SignatureScheme = SignatureScheme.Secp256k1
+  ) : this(
+    derivePrivateKeyFromMnemonic(
+      generateMnemonic().split(" "),
+      SignatureScheme.Secp256k1,
+      Secp256k1Account.DERIVATION_PATH,
+    )
+  )
 
   /**
-   * Creates a new [Ed25519PrivateKey] from an encoded private key.
+   * Creates a new [Secp256k1PrivateKey] from an encoded private key.
    *
    * The expected format is a Bech32 encoded private key.
    *
@@ -62,9 +69,9 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
   }
 }
 
-class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
+class Secp256k1PublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme {
-    return SignatureScheme.ED25519
+    return SignatureScheme.Secp256k1
   }
 
   override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
@@ -74,7 +81,7 @@ class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
     if (this === other) return true
     if (other == null || this::class != other::class) return false
 
-    other as Ed25519PublicKey
+    other as Secp256k1PublicKey
 
     return data.contentEquals(other.data)
   }

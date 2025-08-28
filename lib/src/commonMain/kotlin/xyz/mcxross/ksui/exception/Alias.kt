@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 McXross
+ * Copyright 2025 McXross
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.core.crypto
+package xyz.mcxross.ksui.exception
 
-enum class SignatureScheme(val scheme: Byte) {
-  ED25519(0x00.toByte()),
-  Secp256k1(0x01.toByte()),
-  Secp256r1(0x02.toByte()),
-  BLS12381(0xff.toByte()),
-  PASSKEY(0x06.toByte());
-
-  companion object {
-    private val BY_SCHEME: MutableMap<Byte, SignatureScheme> = HashMap()
-
-    init {
-      for (e in entries) {
-        BY_SCHEME[e.scheme] = e
-      }
-    }
-
-    fun valueOf(scheme: Byte): SignatureScheme? {
-      return BY_SCHEME[scheme]
-    }
-  }
-}
+typealias E = Exception

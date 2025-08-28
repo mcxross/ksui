@@ -11,6 +11,7 @@ plugins {
   alias(libs.plugins.dokka) apply false
   alias(libs.plugins.apollo.graphql) apply false
   alias(libs.plugins.maven.publish) apply false
+  alias(libs.plugins.compose.compiler) apply false
 }
 
 repositories {
