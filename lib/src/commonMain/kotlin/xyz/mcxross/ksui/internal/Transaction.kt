@@ -25,7 +25,9 @@ import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.crypto.Hash
+import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.exception.GraphQLError
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.SuiException
@@ -203,7 +205,10 @@ internal suspend fun paginateTransactionBlockLists(
     }
     .toResult()
 
-internal fun signTransaction(message: ByteArray, signer: Account): ByteArray {
+internal suspend fun signTransaction(
+  message: ByteArray,
+  signer: Account,
+): Result<ByteArray, E> {
   return signer.sign(message)
 }
 
@@ -255,9 +260,18 @@ internal suspend fun signAndSubmitTransaction(
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
 
-  val sig = signer.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))
-
-  val serializedSignatureBytes = byteArrayOf(signer.scheme.scheme) + sig + signer.publicKey.data
+  val serializedSignatureBytes: ByteArray =
+    when (val sig = signer.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))) {
+      is Result.Ok -> {
+        when (signer.scheme) {
+          SignatureScheme.PASSKEY -> sig.value
+          else -> byteArrayOf(signer.scheme.scheme) + sig.value + signer.publicKey.data
+        }
+      }
+      is Result.Err -> {
+        throw sig.error
+      }
+    }
 
   val tx = txData with listOf(Base64.encode(serializedSignatureBytes))
 

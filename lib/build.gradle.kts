@@ -40,10 +40,10 @@ kotlin {
       }
     }
     nodejs()
-    compilations.all {
+    /*compilations.all {
       kotlinOptions.sourceMap = true
       kotlinOptions.moduleKind = "umd"
-    }
+    }*/
   }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
@@ -68,6 +68,9 @@ kotlin {
       dependsOn(androidJvmMain)
       dependencies {
         implementation(libs.ktor.client.okhttp)
+        implementation(libs.androidx.credentials)
+        implementation(libs.androidx.credentials.play)
+        implementation(libs.play.services.identity.credentials)
       }
     }
     commonMain.dependencies {

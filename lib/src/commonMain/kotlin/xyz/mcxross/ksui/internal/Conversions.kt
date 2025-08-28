@@ -16,9 +16,12 @@
 
 package xyz.mcxross.ksui.internal
 
+import com.github.michaelbull.result.annotation.UnsafeResultErrorAccess
+import com.github.michaelbull.result.annotation.UnsafeResultValueAccess
 import com.github.michaelbull.result.Result as InternalResult
 import xyz.mcxross.ksui.model.Result
 
+@OptIn(UnsafeResultValueAccess::class, UnsafeResultErrorAccess::class)
 internal fun <V, E> InternalResult<V, E>.toResult(): Result<V, E> {
   return if (this.isOk) {
     Result.Ok(this.value)

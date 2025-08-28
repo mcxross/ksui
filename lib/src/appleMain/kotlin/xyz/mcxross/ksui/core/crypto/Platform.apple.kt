@@ -15,8 +15,6 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
-
 actual fun hash(hash: Hash, data: ByteArray): ByteArray {
   TODO("Not yet implemented")
 }
@@ -29,18 +27,7 @@ actual fun generateSeed(mnemonic: List<String>): ByteArray {
   TODO("Not yet implemented")
 }
 
-@Throws(SignatureSchemeNotSupportedException::class)
-actual fun generateKeyPair(
-  seed: ByteArray,
-  scheme: SignatureScheme
-): KeyPair {
-  TODO("Not yet implemented")
-}
-
-actual fun derivePublicKey(
-  privateKey: PrivateKey,
-  schema: SignatureScheme
-): PublicKey {
+actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey {
   TODO("Not yet implemented")
 }
 
@@ -52,9 +39,22 @@ actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
   TODO("Not yet implemented")
 }
 
-actual fun sign(
-  message: ByteArray,
-  privateKey: PrivateKey,
+actual fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray {
+  TODO("Not yet implemented")
+}
+
+actual fun derivePrivateKeyFromMnemonic(
+  mnemonic: List<String>,
+  scheme: SignatureScheme,
+  path: String,
 ): ByteArray {
+  TODO("Not yet implemented")
+}
+
+actual fun verifySignature(
+  publicKey: PublicKey,
+  message: ByteArray,
+  signature: ByteArray
+): Boolean {
   TODO("Not yet implemented")
 }

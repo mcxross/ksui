@@ -15,8 +15,9 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.core.Hex
+import xyz.mcxross.ksui.exception.E
+import xyz.mcxross.ksui.model.Result
 
 /**
  * This class represents an Ed25519 private key.
@@ -42,7 +43,9 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    * @param scheme The signature scheme to use.
    * @throws IllegalArgumentException If the signature scheme is not supported.
    */
-  constructor(scheme: SignatureScheme = SignatureScheme.ED25519) : this(generatePrivateKey(scheme))
+  constructor(
+    scheme: SignatureScheme = SignatureScheme.ED25519
+  ) : this(derivePrivateKeyFromMnemonic(generateMnemonic().split(" ")))
 
   /**
    * Creates a new [Ed25519PrivateKey] from an encoded private key.
@@ -54,7 +57,7 @@ class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    */
   constructor(privateKey: String) : this(PrivateKey.fromEncoded(privateKey).data)
 
-  override fun sign(data: ByteArray): ByteArray {
+  override fun sign(data: ByteArray): Result<ByteArray, E> {
     return sign(data, this)
   }
 }
@@ -63,6 +66,9 @@ class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme {
     return SignatureScheme.ED25519
   }
+
+  override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
+    verifySignature(this, message, signature)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
