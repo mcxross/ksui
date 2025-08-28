@@ -15,6 +15,9 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.exception.E
+import xyz.mcxross.ksui.model.Result
+
 expect fun hash(hash: Hash, data: ByteArray): ByteArray
 
 expect fun generateMnemonic(): String
@@ -27,7 +30,7 @@ expect fun importFromMnemonic(mnemonic: String): KeyPair
 
 expect fun importFromMnemonic(mnemonic: List<String>): KeyPair
 
-expect fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray
+expect fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E>
 
 expect fun derivePrivateKeyFromMnemonic(
   mnemonic: List<String>,
@@ -35,4 +38,8 @@ expect fun derivePrivateKeyFromMnemonic(
   path: String = "m/44'/784'/0/0/0",
 ): ByteArray
 
-expect fun verifySignature(publicKey: PublicKey, message: ByteArray, signature: ByteArray): Boolean
+expect fun verifySignature(
+  publicKey: PublicKey,
+  message: ByteArray,
+  signature: ByteArray,
+): Result<Boolean, E>

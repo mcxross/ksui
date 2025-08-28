@@ -16,7 +16,9 @@
 package xyz.mcxross.ksui.core.crypto
 
 import org.komputing.kbech32.Bech32
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.util.SUI_PRIVATE_KEY_PREFIX
 import xyz.mcxross.ksui.util.convertBits
 
@@ -60,7 +62,7 @@ interface PrivateKey {
     )
   }
 
-  fun sign(data: ByteArray): ByteArray
+  fun sign(data: ByteArray): Result<ByteArray, E>
 
   companion object {
 

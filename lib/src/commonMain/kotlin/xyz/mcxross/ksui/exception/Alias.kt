@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.util
+package xyz.mcxross.ksui.exception
 
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
-
-actual fun <T> runBlocking(context: CoroutineContext, block: suspend CoroutineScope.() -> T) {}
+typealias E = Exception

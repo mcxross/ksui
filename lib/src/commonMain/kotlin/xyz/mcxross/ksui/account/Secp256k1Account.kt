@@ -20,7 +20,9 @@ import xyz.mcxross.ksui.core.crypto.Secp256k1PublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.derivePrivateKeyFromMnemonic
 import xyz.mcxross.ksui.core.crypto.generateMnemonic
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.Result
 
 /**
  * This file defines the `Secp256k1Account` class, which extends the `Account` abstract class and
@@ -54,11 +56,11 @@ class Secp256k1Account(private val privateKey: Secp256k1PrivateKey) : Account() 
   override val scheme: SignatureScheme
     get() = SignatureScheme.Secp256k1
 
-  override suspend fun sign(message: ByteArray): ByteArray {
+  override suspend fun sign(message: ByteArray): Result<ByteArray, E> {
     return privateKey.sign(message)
   }
 
-  override suspend fun verify(message: ByteArray, signature: ByteArray): Boolean =
+  override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     publicKey.verify(message, signature)
 
   constructor(privateKey: Secp256k1PrivateKey, mnemonic: String) : this(privateKey) {
