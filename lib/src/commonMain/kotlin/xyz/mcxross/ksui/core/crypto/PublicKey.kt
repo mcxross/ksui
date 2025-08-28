@@ -15,9 +15,14 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.exception.E
+import xyz.mcxross.ksui.model.Result
+
 interface PublicKey {
   val data: ByteArray
+
   fun scheme(): SignatureScheme
+
   /**
    * Verifies that a signature is valid for a given message.
    *
@@ -25,5 +30,5 @@ interface PublicKey {
    * @param signature The signature to verify.
    * @return True if the signature is valid, false otherwise.
    */
-  fun verify(message: ByteArray, signature: ByteArray): Boolean
+  fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E>
 }

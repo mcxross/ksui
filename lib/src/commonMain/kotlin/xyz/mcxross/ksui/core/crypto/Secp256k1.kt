@@ -17,6 +17,8 @@ package xyz.mcxross.ksui.core.crypto
 
 import xyz.mcxross.ksui.account.Secp256k1Account
 import xyz.mcxross.ksui.core.Hex
+import xyz.mcxross.ksui.exception.E
+import xyz.mcxross.ksui.model.Result
 
 /**
  * This class represents an Secp256k1 private key.
@@ -62,7 +64,7 @@ class Secp256k1PrivateKey(private val privateKey: ByteArray) : PrivateKey {
    */
   constructor(privateKey: String) : this(PrivateKey.fromEncoded(privateKey).data)
 
-  override fun sign(data: ByteArray): ByteArray {
+  override fun sign(data: ByteArray): Result<ByteArray, E> {
     return sign(data, this)
   }
 }
@@ -72,7 +74,7 @@ class Secp256k1PublicKey(override val data: ByteArray) : PublicKey {
     return SignatureScheme.Secp256k1
   }
 
-  override fun verify(message: ByteArray, signature: ByteArray): Boolean =
+  override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     verifySignature(this, message, signature)
 
   override fun equals(other: Any?): Boolean {

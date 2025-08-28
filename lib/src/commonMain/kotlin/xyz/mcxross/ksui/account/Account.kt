@@ -22,8 +22,10 @@ import xyz.mcxross.ksui.core.crypto.Secp256k1PrivateKey
 import xyz.mcxross.ksui.core.crypto.Secp256r1PrivateKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.importFromMnemonic
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.Result
 
 /**
  * This file defines the `Account` abstract class and its companion object, which provides methods
@@ -55,9 +57,9 @@ abstract class Account {
 
   abstract val scheme: SignatureScheme
 
-  abstract suspend fun sign(message: ByteArray): ByteArray
+  abstract suspend fun sign(message: ByteArray): Result<ByteArray, E>
 
-  abstract suspend fun verify(message: ByteArray, signature: ByteArray) : Boolean
+  abstract suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E>
 
   companion object {
 
@@ -72,6 +74,8 @@ abstract class Account {
     fun create(scheme: SignatureScheme = SignatureScheme.ED25519): Account {
       return when (scheme) {
         SignatureScheme.ED25519 -> Ed25519Account.generate()
+        SignatureScheme.Secp256k1 -> Secp256k1Account.generate()
+        SignatureScheme.Secp256r1 -> Secp256r1Account.generate()
         else -> throw SignatureSchemeNotSupportedException()
       }
     }

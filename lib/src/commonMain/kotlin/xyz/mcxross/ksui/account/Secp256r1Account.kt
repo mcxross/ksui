@@ -1,7 +1,9 @@
 package xyz.mcxross.ksui.account
 
 import xyz.mcxross.ksui.core.crypto.*
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.Result
 
 class Secp256r1Account(private val privateKey: Secp256r1PrivateKey) : Account() {
 
@@ -16,11 +18,11 @@ class Secp256r1Account(private val privateKey: Secp256r1PrivateKey) : Account() 
   override val scheme: SignatureScheme
     get() = SignatureScheme.Secp256r1
 
-  override suspend fun sign(message: ByteArray): ByteArray {
+  override suspend fun sign(message: ByteArray): Result<ByteArray, E> {
     return privateKey.sign(message)
   }
 
-  override suspend fun verify(message: ByteArray, signature: ByteArray): Boolean =
+  override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     publicKey.verify(message, signature)
 
   constructor(privateKey: Secp256r1PrivateKey, mnemonic: String) : this(privateKey) {

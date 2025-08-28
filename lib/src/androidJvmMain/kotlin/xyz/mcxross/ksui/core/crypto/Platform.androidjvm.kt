@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import java.lang.Exception
 import java.math.BigInteger
 import java.security.SecureRandom
 import java.util.ArrayList
@@ -37,7 +38,9 @@ import org.bouncycastle.crypto.signers.ECDSASigner
 import org.bouncycastle.crypto.signers.HMacDSAKCalculator
 import org.bouncycastle.jcajce.provider.digest.Blake2b
 import org.bouncycastle.math.ec.FixedPointCombMultiplier
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
+import xyz.mcxross.ksui.model.Result
 
 actual fun hash(hash: Hash, data: ByteArray): ByteArray {
   return when (hash) {
@@ -160,22 +163,28 @@ actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
   return generateKeyPair(seed, SignatureScheme.ED25519)
 }
 
-actual fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray {
-  when (privateKey) {
-    is Ed25519PrivateKey -> {
-      val signer = org.bouncycastle.crypto.signers.Ed25519Signer()
-      val privateKeyParameters = Ed25519PrivateKeyParameters(privateKey.data, 0)
-      signer.init(true, privateKeyParameters)
-      signer.update(message, 0, message.size)
-      return signer.generateSignature()
-    }
-    is Secp256k1PrivateKey -> {
-      return signEcdsa(message, privateKey.data, "secp256k1")
-    }
-    is Secp256r1PrivateKey -> {
-      return signEcdsa(message, privateKey.data, "secp256r1")
-    }
-    else -> throw SignatureSchemeNotSupportedException()
+actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E> {
+  return try {
+    val signature =
+      when (privateKey) {
+        is Ed25519PrivateKey -> {
+          val signer = org.bouncycastle.crypto.signers.Ed25519Signer()
+          val privateKeyParameters = Ed25519PrivateKeyParameters(privateKey.data, 0)
+          signer.init(true, privateKeyParameters)
+          signer.update(message, 0, message.size)
+          signer.generateSignature()
+        }
+        is Secp256k1PrivateKey -> {
+          signEcdsa(message, privateKey.data, "secp256k1")
+        }
+        is Secp256r1PrivateKey -> {
+          signEcdsa(message, privateKey.data, "secp256r1")
+        }
+        else -> throw SignatureSchemeNotSupportedException()
+      }
+    Result.Ok(signature)
+  } catch (e: Exception) {
+    Result.Err(e)
   }
 }
 
@@ -230,23 +239,32 @@ private fun derivePrivateKeyFromSeed(seed: ByteArray, path: String): ByteArray {
 actual fun verifySignature(
   publicKey: PublicKey,
   message: ByteArray,
-  signature: ByteArray
-): Boolean {
-  return when (publicKey) {
-    is Ed25519PublicKey -> {
-      val signer = org.bouncycastle.crypto.signers.Ed25519Signer()
-      val publicKeyParameters = Ed25519PublicKeyParameters(publicKey.data, 0)
-      signer.init(false, publicKeyParameters)
-      signer.update(message, 0, message.size)
-      signer.verifySignature(signature)
-    }
-    is Secp256k1PublicKey -> {
-      verifyEcdsa(publicKey.data, "secp256k1", message, signature)
-    }
-    is Secp256r1PublicKey -> {
-      verifyEcdsa(publicKey.data, "secp256r1", message, signature)
-    }
-    else -> throw IllegalArgumentException("Unsupported public key type")
+  signature: ByteArray,
+): Result<Boolean, E> {
+  return try {
+    val valid =
+      when (publicKey) {
+        is Ed25519PublicKey -> {
+          val signer = org.bouncycastle.crypto.signers.Ed25519Signer()
+          val publicKeyParameters = Ed25519PublicKeyParameters(publicKey.data, 0)
+          signer.init(false, publicKeyParameters)
+          signer.update(message, 0, message.size)
+          signer.verifySignature(signature)
+        }
+        is Secp256k1PublicKey -> {
+          verifyEcdsa(publicKey.data, "secp256k1", message, signature)
+        }
+        is Secp256r1PublicKey -> {
+          verifyEcdsa(publicKey.data, "secp256r1", message, signature)
+        }
+        is PasskeyPublicKey -> {
+          verifyPasskeySignature(publicKey, message, signature)
+        }
+        else -> return Result.Err(IllegalArgumentException("Unsupported public key type"))
+      }
+    Result.Ok(valid)
+  } catch (e: Exception) {
+    Result.Err(e)
   }
 }
 
@@ -254,7 +272,7 @@ private fun verifyEcdsa(
   publicKeyBytes: ByteArray,
   curveName: String,
   message: ByteArray,
-  signature: ByteArray
+  signature: ByteArray,
 ): Boolean {
   require(signature.size == 64) { "Signature must be 64 bytes long" }
 

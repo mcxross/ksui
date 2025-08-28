@@ -22,6 +22,7 @@ import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.core.crypto.Hash
+import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.model.AccountAddress
@@ -58,7 +59,7 @@ private suspend fun composeTransaction(
   ptb: ProgrammableTransaction,
   account: Account,
   gasBudget: ULong,
-  sui: Sui
+  sui: Sui,
 ): String {
   val gasPrice =
     when (val gp = sui.getReferenceGasPrice()) {
@@ -98,8 +99,19 @@ private suspend fun composeTransaction(
     )
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
-  val sig = account.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))
-  val serializedSignatureBytes = byteArrayOf(account.scheme.scheme) + sig + account.publicKey.data
+  val serializedSignatureBytes: ByteArray =
+    when (val sig = account.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))) {
+      is Result.Ok -> {
+        when (account.scheme) {
+          SignatureScheme.PASSKEY -> sig.value
+          else -> byteArrayOf(account.scheme.scheme) + sig.value + account.publicKey.data
+        }
+      }
+      is Result.Err -> {
+        throw sig.error
+      }
+    }
+
   val tx = txData with listOf(Base64.encode(serializedSignatureBytes))
   val content = tx.content()
 
@@ -107,8 +119,8 @@ private suspend fun composeTransaction(
 }
 
 /**
- * Composes a ProgrammableTransaction into the final transaction bytes string.
- * This is the standard extension function.
+ * Composes a ProgrammableTransaction into the final transaction bytes string. This is the standard
+ * extension function.
  */
 @OptIn(ExperimentalEncodingApi::class)
 suspend fun ProgrammableTransaction.compose(
@@ -119,11 +131,10 @@ suspend fun ProgrammableTransaction.compose(
 }
 
 /**
- * Composes a ProgrammableTransaction into the final transaction bytes string.
- * This is the infix version for a more expressive syntax.
+ * Composes a ProgrammableTransaction into the final transaction bytes string. This is the infix
+ * version for a more expressive syntax.
  */
 @OptIn(ExperimentalEncodingApi::class)
 suspend infix fun ProgrammableTransaction.compose(details: Pair<Account, ULong>): String {
   return composeTransaction(this, details.first, details.second, SuiKit.client)
 }
-

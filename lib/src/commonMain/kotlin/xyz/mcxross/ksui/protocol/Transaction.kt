@@ -16,6 +16,7 @@
 package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.exception.GraphQLError
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.DevInspectTransactionBlockQuery
@@ -48,7 +49,7 @@ interface Transaction {
    * @param signer The [Account] containing the private key to sign with.
    * @return A [ByteArray] representing the resulting signature.
    */
-   suspend fun signTransaction(message: ByteArray, signer: Account): ByteArray
+  suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, E>
 
   /**
    * Runs a special developer-focused inspection of a transaction block.
