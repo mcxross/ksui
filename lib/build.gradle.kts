@@ -70,6 +70,7 @@ kotlin {
         implementation(libs.ktor.client.okhttp)
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
+        implementation(libs.play.services.identity.credentials)
       }
     }
     commonMain.dependencies {
