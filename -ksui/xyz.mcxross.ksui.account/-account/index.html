@@ -26,46 +26,89 @@
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
     <div class="root">
-<nav class="navigation" id="navigation-wrapper">
-    <div class="navigation--inner">
-        <div class="navigation-title">
-            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-            <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
-                            Ksui
-                    </a>
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.1-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui:dokkaHtml/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui:dokkaHtml/commonMain"
+                                       data-filter=":ksui:dokkaHtml/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div class="library-version">
-2.2.1-SNAPSHOT            </div>
         </div>
-        <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":ksui:dokkaHtml/commonMain">common</button>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
         </div>
-    </div>
-    <div class="navigation-controls">
-        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
-        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
-    </div>
-</nav>
+    </nav>
         <div id="container">
             <div class="sidebar" id="leftColumn">
-                <div class="sidebar--inner" id="sideMenu"></div>
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
             <div id="main">
 <div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.account/Account///PointingToDeclaration//1931646062">
   <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.account</a><span class="delimiter">/</span><span class="current">Account</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Account</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">Account</a></div><p class="paragraph">This file defines the <code class="lang-kotlin">Account</code> abstract class and its companion object, which provides methods for creating and importing accounts using different signature schemes.</p><p class="paragraph">The <code class="lang-kotlin">[Account]</code> class has the following abstract properties:</p><ul><li><p class="paragraph"><code class="lang-kotlin">[publicKey]</code>: The public key of the account.</p></li><li><p class="paragraph"><code class="lang-kotlin">[address]</code>: The account address.</p></li><li><p class="paragraph"><code class="lang-kotlin">[scheme]</code>: The signature scheme used by the account.</p></li></ul><p class="paragraph">The companion object provides the following methods:</p><ul><li><p class="paragraph"><code class="lang-kotlin">create(scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Creates a new account using the specified signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(privateKey: ByteArray, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided private key and signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(phrase: String, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided mnemonic phrase and signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(phrases: List&lt;String&gt;, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided list of mnemonic phrases and signature scheme. Defaults to ED25519.</p></li></ul><p class="paragraph">The <code class="lang-kotlin">[create]</code> and <code class="lang-kotlin">[import]</code> methods throw a <code class="lang-kotlin">[SignatureSchemeNotSupportedException]</code> if the specified signature scheme is not supported.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-ed25519-account/index.html">Ed25519Account</a></div></span></div><div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">Account</a></div><p class="paragraph">This file defines the <code class="lang-kotlin">Account</code> abstract class and its companion object, which provides methods for creating and importing accounts using different signature schemes.</p><p class="paragraph">The <code class="lang-kotlin">[Account]</code> class has the following abstract properties:</p><ul><li><p class="paragraph"><code class="lang-kotlin">[publicKey]</code>: The public key of the account.</p></li><li><p class="paragraph"><code class="lang-kotlin">[address]</code>: The account address.</p></li><li><p class="paragraph"><code class="lang-kotlin">[scheme]</code>: The signature scheme used by the account.</p></li></ul><p class="paragraph">The companion object provides the following methods:</p><ul><li><p class="paragraph"><code class="lang-kotlin">create(scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Creates a new account using the specified signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(privateKey: ByteArray, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided private key and signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(phrase: String, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided mnemonic phrase and signature scheme. Defaults to ED25519.</p></li><li><p class="paragraph"><code class="lang-kotlin">import(phrases: List&lt;String&gt;, scheme: SignatureScheme = SignatureScheme.ED25519)</code>: Imports an account using the provided list of mnemonic phrases and signature scheme. Defaults to ED25519.</p></li></ul><p class="paragraph">The <code class="lang-kotlin">[create]</code> and <code class="lang-kotlin">[import]</code> methods throw a <code class="lang-kotlin">[SignatureSchemeNotSupportedException]</code> if the specified signature scheme is not supported.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-ed25519-account/index.html">Ed25519Account</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-passkey-account/index.html">PasskeyAccount</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-secp256k1-account/index.html">Secp256k1Account</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-secp256r1-account/index.html">Secp256r1Account</a></div></span></div><div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -120,7 +163,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="address.html">address</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-account-address/index.html">AccountAddress</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="address.html">address</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-account-address/index.html">AccountAddress</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -135,7 +178,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="public-key.html">publicKey</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.core.crypto/-public-key/index.html">PublicKey</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="public-key.html">publicKey</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.core.crypto/-public-key/index.html">PublicKey</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -150,7 +193,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="scheme.html">scheme</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.core.crypto/-signature-scheme/index.html">SignatureScheme</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="scheme.html">scheme</a><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.core.crypto/-signature-scheme/index.html">SignatureScheme</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -169,7 +212,22 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="sign.html"><span class="token function">sign</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign.html"><span class="token function">sign</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-result/index.html">Result</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span><a href="../../xyz.mcxross.ksui.exception/-e/index.html">E</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-293537299%2FFunctions%2F1931646062" anchor-label="verify" id="-293537299%2FFunctions%2F1931646062" data-filterable-set=":ksui:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui:dokkaHtml/commonMain" data-filterable-set=":ksui:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="verify.html"><span><span>verify</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-293537299%2FFunctions%2F1931646062"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="verify.html"><span class="token function">verify</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span></span><span class="parameter ">signature<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../xyz.mcxross.ksui.model/-result/index.html">Result</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span><a href="../../xyz.mcxross.ksui.exception/-e/index.html">E</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -179,11 +237,16 @@
     </div>
   </div>
 </div>
-      <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
-                class="pull-right"><span>Generated by </span><a
-                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-      </div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
             </div>
         </div>
     </div>
