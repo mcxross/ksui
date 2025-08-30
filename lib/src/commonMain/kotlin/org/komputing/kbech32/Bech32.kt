@@ -39,7 +39,7 @@ object Bech32 {
         val hrpLength = hrp.length
         val ret = ByteArray(hrpLength * 2 + 1)
         for (i in 0 until hrpLength) {
-            val c = hrp[i].toInt() and 0x7f // Limit to standard 7-bit ASCII
+            val c = hrp[i].code and 0x7f // Limit to standard 7-bit ASCII
             ret[i] = (c.ushr(5) and 0x07).toByte()
             ret[i + hrpLength + 1] = (c and 0x1f).toByte()
         }
@@ -97,7 +97,7 @@ object Bech32 {
         sb.append(hrp)
         sb.append('1')
         for (b in combined) {
-            sb.append(CHARSET.get(b.toInt()))
+            sb.append(CHARSET[b.toInt()])
         }
         return sb.toString()
     }
@@ -114,7 +114,7 @@ object Bech32 {
             throw AddressFormatException.InvalidDataLength("Input too long: " + str.length)
         for (i in 0 until str.length) {
             val c = str[i]
-            if (c.toInt() < 33 || c.toInt() > 126) throw AddressFormatException.InvalidCharacter(
+            if (c.code !in 33..126) throw AddressFormatException.InvalidCharacter(
                 c,
                 i
             )
@@ -136,13 +136,13 @@ object Bech32 {
         val values = ByteArray(dataPartLength)
         for (i in 0 until dataPartLength) {
             val c = str[i + pos + 1]
-            if (CHARSET_REV[c.toInt()].toInt() == -1) throw AddressFormatException.InvalidCharacter(
+            if (CHARSET_REV[c.code].toInt() == -1) throw AddressFormatException.InvalidCharacter(
                 c,
                 i + pos + 1
             )
-            values[i] = CHARSET_REV[c.toInt()]
+            values[i] = CHARSET_REV[c.code]
         }
-        val hrp = str.substring(0, pos).lowercase()
+        val hrp = str.take(pos).lowercase()
         if (!verifyChecksum(
                 hrp,
                 values
