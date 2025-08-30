@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>RPC_Checkpoint_Fields</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.1-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui/commonMain"
+                                       data-filter=":ksui/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.generated.fragment/RPC_Checkpoint_Fields///PointingToDeclaration//-2062613305">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.generated.fragment</a><span class="delimiter">/</span><span class="current">RPC_Checkpoint_Fields</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>RPC_</span><wbr></wbr><span>Checkpoint_</span><wbr></wbr><span>Fields</span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">RPC_Checkpoint_Fields</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>digest<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>epoch<span class="token operator">: </span><a href="-epoch/index.html">RPC_Checkpoint_Fields.Epoch</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>rollingGasSummary<span class="token operator">: </span><a href="-rolling-gas-summary/index.html">RPC_Checkpoint_Fields.RollingGasSummary</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>networkTotalTransactions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>previousCheckpointDigest<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sequenceNumber<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>timestamp<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>validatorSignatures<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>transactionBlocks<span class="token operator">: </span><a href="-transaction-blocks/index.html">RPC_Checkpoint_Fields.TransactionBlocks</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endOfEpoch<span class="token operator">: </span><a href="-end-of-epoch/index.html">RPC_Checkpoint_Fields.EndOfEpoch</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.apollographql.apollo.api/Fragment.Data///PointingToDeclaration/">Fragment.Data</span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="230897879%2FConstructors%2F-2062613305" anchor-label="RPC_Checkpoint_Fields" id="230897879%2FConstructors%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-r-p-c_-checkpoint_-fields.html"><span>RPC_</span><wbr></wbr><span>Checkpoint_</span><wbr></wbr><span>Fields</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="230897879%2FConstructors%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">digest<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">epoch<span class="token operator">: </span><a href="-epoch/index.html">RPC_Checkpoint_Fields.Epoch</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">rollingGasSummary<span class="token operator">: </span><a href="-rolling-gas-summary/index.html">RPC_Checkpoint_Fields.RollingGasSummary</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">networkTotalTransactions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">previousCheckpointDigest<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">sequenceNumber<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">timestamp<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">validatorSignatures<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">transactionBlocks<span class="token operator">: </span><a href="-transaction-blocks/index.html">RPC_Checkpoint_Fields.TransactionBlocks</a><span class="token punctuation">, </span></span><span class="parameter ">endOfEpoch<span class="token operator">: </span><a href="-end-of-epoch/index.html">RPC_Checkpoint_Fields.EndOfEpoch</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-939616768%2FClasslikes%2F-2062613305" anchor-label="ActiveValidators" id="-939616768%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-active-validators/index.html"><span>Active</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-939616768%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-active-validators/index.html">ActiveValidators</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info1/index.html">RPC_Checkpoint_Fields.PageInfo1</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node3/index.html">RPC_Checkpoint_Fields.Node3</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1498103809%2FClasslikes%2F-2062613305" anchor-label="Credentials" id="-1498103809%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-credentials/index.html"><span><span>Credentials</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1498103809%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-credentials/index.html">Credentials</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>protocolPubKey<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1044124656%2FClasslikes%2F-2062613305" anchor-label="EndOfEpoch" id="1044124656%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-end-of-epoch/index.html"><span>End</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1044124656%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-end-of-epoch/index.html">EndOfEpoch</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node1/index.html">RPC_Checkpoint_Fields.Node1</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="577646226%2FClasslikes%2F-2062613305" anchor-label="Epoch" id="577646226%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-epoch/index.html"><span><span>Epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="577646226%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-epoch/index.html">Epoch</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>epochId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1401261345%2FClasslikes%2F-2062613305" anchor-label="Epoch1" id="-1401261345%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-epoch1/index.html"><span><span>Epoch1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1401261345%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-epoch1/index.html">Epoch1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>validatorSet<span class="token operator">: </span><a href="-validator-set/index.html">RPC_Checkpoint_Fields.ValidatorSet</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>protocolConfigs<span class="token operator">: </span><a href="-protocol-configs/index.html">RPC_Checkpoint_Fields.ProtocolConfigs</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>epochId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="609914643%2FClasslikes%2F-2062613305" anchor-label="Kind" id="609914643%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-kind/index.html"><span><span>Kind</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="609914643%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-kind/index.html">Kind</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>__typename<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onEndOfEpochTransaction<span class="token operator">: </span><a href="-on-end-of-epoch-transaction/index.html">RPC_Checkpoint_Fields.OnEndOfEpochTransaction</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="165614693%2FClasslikes%2F-2062613305" anchor-label="Node" id="165614693%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node/index.html"><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="165614693%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node/index.html">Node</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>digest<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1289336980%2FClasslikes%2F-2062613305" anchor-label="Node1" id="-1289336980%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node1/index.html"><span><span>Node1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1289336980%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node1/index.html">Node1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>kind<span class="token operator">: </span><a href="-kind/index.html">RPC_Checkpoint_Fields.Kind</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1258317173%2FClasslikes%2F-2062613305" anchor-label="Node2" id="-1258317173%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node2/index.html"><span><span>Node2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1258317173%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node2/index.html">Node2</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>__typename<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onChangeEpochTransaction<span class="token operator">: </span><a href="-on-change-epoch-transaction/index.html">RPC_Checkpoint_Fields.OnChangeEpochTransaction</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1227297366%2FClasslikes%2F-2062613305" anchor-label="Node3" id="-1227297366%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node3/index.html"><span><span>Node3</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1227297366%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node3/index.html">Node3</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>credentials<span class="token operator">: </span><a href="-credentials/index.html">RPC_Checkpoint_Fields.Credentials</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>votingPower<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1664894595%2FClasslikes%2F-2062613305" anchor-label="OnChangeEpochTransaction" id="1664894595%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-change-epoch-transaction/index.html"><span>On</span><wbr></wbr><span>Change</span><wbr></wbr><span>Epoch</span><wbr></wbr><span><span>Transaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1664894595%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-change-epoch-transaction/index.html">OnChangeEpochTransaction</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>epoch<span class="token operator">: </span><a href="-epoch1/index.html">RPC_Checkpoint_Fields.Epoch1</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2084949165%2FClasslikes%2F-2062613305" anchor-label="OnEndOfEpochTransaction" id="-2084949165%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-end-of-epoch-transaction/index.html"><span>On</span><wbr></wbr><span>End</span><wbr></wbr><span>Of</span><wbr></wbr><span>Epoch</span><wbr></wbr><span><span>Transaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2084949165%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-end-of-epoch-transaction/index.html">OnEndOfEpochTransaction</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>transactions<span class="token operator">: </span><a href="-transactions/index.html">RPC_Checkpoint_Fields.Transactions</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="353646570%2FClasslikes%2F-2062613305" anchor-label="PageInfo" id="353646570%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info/index.html"><span>Page</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="353646570%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info/index.html">PageInfo</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="244683911%2FClasslikes%2F-2062613305" anchor-label="PageInfo1" id="244683911%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info1/index.html"><span>Page</span><wbr></wbr><span><span>Info1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="244683911%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info1/index.html">PageInfo1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1165932770%2FClasslikes%2F-2062613305" anchor-label="ProtocolConfigs" id="1165932770%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-protocol-configs/index.html"><span>Protocol</span><wbr></wbr><span><span>Configs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1165932770%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-protocol-configs/index.html">ProtocolConfigs</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>protocolVersion<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1304972681%2FClasslikes%2F-2062613305" anchor-label="RollingGasSummary" id="1304972681%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-rolling-gas-summary/index.html"><span>Rolling</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Summary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1304972681%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-rolling-gas-summary/index.html">RollingGasSummary</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>computationCost<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>storageCost<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>storageRebate<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nonRefundableStorageFee<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1567043977%2FClasslikes%2F-2062613305" anchor-label="TransactionBlocks" id="-1567043977%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-transaction-blocks/index.html"><span>Transaction</span><wbr></wbr><span><span>Blocks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1567043977%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-transaction-blocks/index.html">TransactionBlocks</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info/index.html">RPC_Checkpoint_Fields.PageInfo</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node/index.html">RPC_Checkpoint_Fields.Node</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-625396110%2FClasslikes%2F-2062613305" anchor-label="Transactions" id="-625396110%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-transactions/index.html"><span><span>Transactions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-625396110%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-transactions/index.html">Transactions</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node2/index.html">RPC_Checkpoint_Fields.Node2</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1628738441%2FClasslikes%2F-2062613305" anchor-label="ValidatorSet" id="-1628738441%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-validator-set/index.html"><span>Validator</span><wbr></wbr><span><span>Set</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1628738441%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-validator-set/index.html">ValidatorSet</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>activeValidators<span class="token operator">: </span><a href="-active-validators/index.html">RPC_Checkpoint_Fields.ActiveValidators</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1905193710%2FProperties%2F-2062613305" anchor-label="digest" id="1905193710%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="digest.html"><span><span>digest</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1905193710%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="digest.html">digest</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">A 32-byte hash that uniquely identifies the checkpoint contents, encoded in Base58. This hash can be used to verify checkpoint contents by checking signatures against the committee, Hashing contents to match digest, and checking that the previous checkpoint digest matches.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1115647493%2FProperties%2F-2062613305" anchor-label="endOfEpoch" id="-1115647493%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="end-of-epoch.html"><span>end</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1115647493%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="end-of-epoch.html">endOfEpoch</a><span class="token operator">: </span><a href="-end-of-epoch/index.html">RPC_Checkpoint_Fields.EndOfEpoch</a></div><div class="brief "><p class="paragraph">Transactions in this checkpoint.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2094643263%2FProperties%2F-2062613305" anchor-label="epoch" id="2094643263%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="epoch.html"><span><span>epoch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2094643263%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="epoch.html">epoch</a><span class="token operator">: </span><a href="-epoch/index.html">RPC_Checkpoint_Fields.Epoch</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The epoch this checkpoint is part of.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1596355879%2FProperties%2F-2062613305" anchor-label="networkTotalTransactions" id="1596355879%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="network-total-transactions.html"><span>network</span><wbr></wbr><span>Total</span><wbr></wbr><span><span>Transactions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1596355879%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="network-total-transactions.html">networkTotalTransactions</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The total number of transaction blocks in the network by the end of this checkpoint.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-527435825%2FProperties%2F-2062613305" anchor-label="previousCheckpointDigest" id="-527435825%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="previous-checkpoint-digest.html"><span>previous</span><wbr></wbr><span>Checkpoint</span><wbr></wbr><span><span>Digest</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-527435825%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="previous-checkpoint-digest.html">previousCheckpointDigest</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The digest of the checkpoint at the previous sequence number.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1335733686%2FProperties%2F-2062613305" anchor-label="rollingGasSummary" id="1335733686%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="rolling-gas-summary.html"><span>rolling</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Summary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1335733686%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="rolling-gas-summary.html">rollingGasSummary</a><span class="token operator">: </span><a href="-rolling-gas-summary/index.html">RPC_Checkpoint_Fields.RollingGasSummary</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The computation cost, storage cost, storage rebate, and non-refundable storage fee accumulated during this epoch, up to and including this checkpoint. These values increase monotonically across checkpoints in the same epoch, and reset on epoch boundaries.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-810547192%2FProperties%2F-2062613305" anchor-label="sequenceNumber" id="-810547192%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sequence-number.html"><span>sequence</span><wbr></wbr><span><span>Number</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-810547192%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="sequence-number.html">sequenceNumber</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div><div class="brief "><p class="paragraph">This checkpoint's position in the total order of finalized checkpoints, agreed upon by consensus.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1079359790%2FProperties%2F-2062613305" anchor-label="timestamp" id="-1079359790%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="timestamp.html"><span><span>timestamp</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1079359790%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="timestamp.html">timestamp</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div><div class="brief "><p class="paragraph">The timestamp at which the checkpoint is agreed to have happened according to consensus. Transactions that access time in this checkpoint will observe this timestamp.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1536282972%2FProperties%2F-2062613305" anchor-label="transactionBlocks" id="-1536282972%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="transaction-blocks.html"><span>transaction</span><wbr></wbr><span><span>Blocks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1536282972%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="transaction-blocks.html">transactionBlocks</a><span class="token operator">: </span><a href="-transaction-blocks/index.html">RPC_Checkpoint_Fields.TransactionBlocks</a></div><div class="brief "><p class="paragraph">Transactions in this checkpoint.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="457066075%2FProperties%2F-2062613305" anchor-label="validatorSignatures" id="457066075%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-signatures.html"><span>validator</span><wbr></wbr><span><span>Signatures</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="457066075%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="validator-signatures.html">validatorSignatures</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div><div class="brief "><p class="paragraph">This is an aggregation of signatures from a quorum of validators for the checkpoint proposal.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PaginateMoveModuleListsQuery</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.1-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui/commonMain"
+                                       data-filter=":ksui/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.generated/PaginateMoveModuleListsQuery///PointingToDeclaration//-2062613305">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.generated</a><span class="delimiter">/</span><span class="current">PaginateMoveModuleListsQuery</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Paginate</span><wbr></wbr><span>Move</span><wbr></wbr><span>Module</span><wbr></wbr><span>Lists</span><wbr></wbr><span><span>Query</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">PaginateMoveModuleListsQuery</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>packageId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>module<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>hasMoreFriends<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>hasMoreStructs<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>hasMoreFunctions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>hasMoreEnums<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>afterFriends<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>afterStructs<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>afterFunctions<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>afterEnums<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.apollographql.apollo.api/Query///PointingToDeclaration/">Query</span><span class="token operator">&lt;</span><a href="-data/index.html">PaginateMoveModuleListsQuery.Data</a><span class="token operator">&gt; </span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1910945250%2FConstructors%2F-2062613305" anchor-label="PaginateMoveModuleListsQuery" id="1910945250%2FConstructors%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-paginate-move-module-lists-query.html"><span>Paginate</span><wbr></wbr><span>Move</span><wbr></wbr><span>Module</span><wbr></wbr><span>Lists</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1910945250%2FConstructors%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">packageId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">module<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">hasMoreFriends<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">hasMoreStructs<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">hasMoreFunctions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">hasMoreEnums<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">afterFriends<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter ">afterStructs<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter ">afterFunctions<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent<span class="token punctuation">, </span></span><span class="parameter ">afterEnums<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Optional.Absent</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-334029369%2FClasslikes%2F-2062613305" anchor-label="AsMovePackage" id="-334029369%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-move-package/index.html"><span>As</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Package</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-334029369%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-as-move-package/index.html">AsMovePackage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>module<span class="token operator">: </span><a href="-module/index.html">PaginateMoveModuleListsQuery.Module</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="449659646%2FClasslikes%2F-2062613305" anchor-label="Companion" id="449659646%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="449659646%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-148431922%2FClasslikes%2F-2062613305" anchor-label="Data" id="-148431922%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-data/index.html"><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-148431922%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-data/index.html">Data</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>object<span class="token operator">: </span><a href="-object/index.html">PaginateMoveModuleListsQuery.Object</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="com.apollographql.apollo.api/Query.Data///PointingToDeclaration/">Query.Data</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1556106824%2FClasslikes%2F-2062613305" anchor-label="Enums" id="-1556106824%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-enums/index.html"><span><span>Enums</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1556106824%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-enums/index.html">Enums</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info2/index.html">PaginateMoveModuleListsQuery.PageInfo2</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node2/index.html">PaginateMoveModuleListsQuery.Node2</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1329014059%2FClasslikes%2F-2062613305" anchor-label="Friends" id="-1329014059%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-friends/index.html"><span><span>Friends</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1329014059%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-friends/index.html">Friends</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info/index.html">PaginateMoveModuleListsQuery.PageInfo</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node/index.html">PaginateMoveModuleListsQuery.Node</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-257028785%2FClasslikes%2F-2062613305" anchor-label="Functions" id="-257028785%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-functions/index.html"><span><span>Functions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-257028785%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-functions/index.html">Functions</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info3/index.html">PaginateMoveModuleListsQuery.PageInfo3</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node3/index.html">PaginateMoveModuleListsQuery.Node3</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2064401012%2FClasslikes%2F-2062613305" anchor-label="Module" id="-2064401012%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-module/index.html"><span><span>Module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2064401012%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-module/index.html">Module</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>friends<span class="token operator">: </span><a href="-friends/index.html">PaginateMoveModuleListsQuery.Friends</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>structs<span class="token operator">: </span><a href="-structs/index.html">PaginateMoveModuleListsQuery.Structs</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>enums<span class="token operator">: </span><a href="-enums/index.html">PaginateMoveModuleListsQuery.Enums</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>functions<span class="token operator">: </span><a href="-functions/index.html">PaginateMoveModuleListsQuery.Functions</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="839430262%2FClasslikes%2F-2062613305" anchor-label="Node" id="839430262%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node/index.html"><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="839430262%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node/index.html">Node</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>package<span class="token operator">: </span><a href="-package/index.html">PaginateMoveModuleListsQuery.Package</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1875890821%2FClasslikes%2F-2062613305" anchor-label="Node1" id="-1875890821%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node1/index.html"><span><span>Node1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1875890821%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node1/index.html">Node1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>__typename<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>rPC_MOVE_STRUCT_FIELDS<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.generated.fragment/-r-p-c_-m-o-v-e_-s-t-r-u-c-t_-f-i-e-l-d-s/index.html">RPC_MOVE_STRUCT_FIELDS</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1844871014%2FClasslikes%2F-2062613305" anchor-label="Node2" id="-1844871014%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node2/index.html"><span><span>Node2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1844871014%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node2/index.html">Node2</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>__typename<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>rPC_MOVE_ENUM_FIELDS<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.generated.fragment/-r-p-c_-m-o-v-e_-e-n-u-m_-f-i-e-l-d-s/index.html">RPC_MOVE_ENUM_FIELDS</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1813851207%2FClasslikes%2F-2062613305" anchor-label="Node3" id="-1813851207%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node3/index.html"><span><span>Node3</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1813851207%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-node3/index.html">Node3</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>__typename<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>rPC_MOVE_FUNCTION_FIELDS<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.generated.fragment/-r-p-c_-m-o-v-e_-f-u-n-c-t-i-o-n_-f-i-e-l-d-s/index.html">RPC_MOVE_FUNCTION_FIELDS</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1464744935%2FClasslikes%2F-2062613305" anchor-label="Object" id="-1464744935%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-object/index.html"><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1464744935%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-object/index.html">Object</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>asMovePackage<span class="token operator">: </span><a href="-as-move-package/index.html">PaginateMoveModuleListsQuery.AsMovePackage</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-360928956%2FClasslikes%2F-2062613305" anchor-label="Package" id="-360928956%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-package/index.html"><span><span>Package</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-360928956%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-package/index.html">Package</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>address<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1744870533%2FClasslikes%2F-2062613305" anchor-label="PageInfo" id="-1744870533%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info/index.html"><span>Page</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1744870533%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info/index.html">PageInfo</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-384836842%2FClasslikes%2F-2062613305" anchor-label="PageInfo1" id="-384836842%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info1/index.html"><span>Page</span><wbr></wbr><span><span>Info1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-384836842%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info1/index.html">PageInfo1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-353817035%2FClasslikes%2F-2062613305" anchor-label="PageInfo2" id="-353817035%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info2/index.html"><span>Page</span><wbr></wbr><span><span>Info2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-353817035%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info2/index.html">PageInfo2</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-322797228%2FClasslikes%2F-2062613305" anchor-label="PageInfo3" id="-322797228%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info3/index.html"><span>Page</span><wbr></wbr><span><span>Info3</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-322797228%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-page-info3/index.html">PageInfo3</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasNextPage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>endCursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1674332852%2FClasslikes%2F-2062613305" anchor-label="Structs" id="-1674332852%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-structs/index.html"><span><span>Structs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1674332852%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-structs/index.html">Structs</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pageInfo<span class="token operator">: </span><a href="-page-info1/index.html">PaginateMoveModuleListsQuery.PageInfo1</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>nodes<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="-node1/index.html">PaginateMoveModuleListsQuery.Node1</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-566216019%2FProperties%2F-2062613305" anchor-label="afterEnums" id="-566216019%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="after-enums.html"><span>after</span><wbr></wbr><span><span>Enums</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-566216019%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="after-enums.html">afterEnums</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1944595850%2FProperties%2F-2062613305" anchor-label="afterFriends" id="1944595850%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="after-friends.html"><span>after</span><wbr></wbr><span><span>Friends</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1944595850%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="after-friends.html">afterFriends</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1352615484%2FProperties%2F-2062613305" anchor-label="afterFunctions" id="-1352615484%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="after-functions.html"><span>after</span><wbr></wbr><span><span>Functions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1352615484%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="after-functions.html">afterFunctions</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1599277057%2FProperties%2F-2062613305" anchor-label="afterStructs" id="1599277057%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="after-structs.html"><span>after</span><wbr></wbr><span><span>Structs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1599277057%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="after-structs.html">afterStructs</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Optional///PointingToDeclaration/">Optional</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1786316064%2FProperties%2F-2062613305" anchor-label="hasMoreEnums" id="1786316064%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-more-enums.html"><span>has</span><wbr></wbr><span>More</span><wbr></wbr><span><span>Enums</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1786316064%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="has-more-enums.html">hasMoreEnums</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-719837379%2FProperties%2F-2062613305" anchor-label="hasMoreFriends" id="-719837379%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-more-friends.html"><span>has</span><wbr></wbr><span>More</span><wbr></wbr><span><span>Friends</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-719837379%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="has-more-friends.html">hasMoreFriends</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2072440137%2FProperties%2F-2062613305" anchor-label="hasMoreFunctions" id="-2072440137%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-more-functions.html"><span>has</span><wbr></wbr><span>More</span><wbr></wbr><span><span>Functions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2072440137%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="has-more-functions.html">hasMoreFunctions</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1065156172%2FProperties%2F-2062613305" anchor-label="hasMoreStructs" id="-1065156172%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-more-structs.html"><span>has</span><wbr></wbr><span>More</span><wbr></wbr><span><span>Structs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065156172%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="has-more-structs.html">hasMoreStructs</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-634760425%2FProperties%2F-2062613305" anchor-label="module" id="-634760425%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="module.html"><span><span>module</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-634760425%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="module.html">module</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1526005974%2FProperties%2F-2062613305" anchor-label="packageId" id="1526005974%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="package-id.html"><span>package</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1526005974%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="package-id.html">packageId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="877726664%2FFunctions%2F-2062613305" anchor-label="adapter" id="877726664%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="adapter.html"><span><span>adapter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="877726664%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="adapter.html"><span class="token function">adapter</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="-data/index.html">PaginateMoveModuleListsQuery.Data</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="794575304%2FFunctions%2F-2062613305" anchor-label="document" id="794575304%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="document.html"><span><span>document</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="794575304%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="document.html"><span class="token function">document</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1804758456%2FFunctions%2F-2062613305" anchor-label="id" id="-1804758456%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="id.html"><span><span>id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1804758456%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="id.html"><span class="token function">id</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1695181144%2FFunctions%2F-2062613305" anchor-label="name" id="1695181144%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1695181144%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="name.html"><span class="token function">name</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-336473217%2FFunctions%2F-2062613305" anchor-label="rootField" id="-336473217%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="root-field.html"><span>root</span><wbr></wbr><span><span>Field</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-336473217%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="root-field.html"><span class="token function">rootField</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledField///PointingToDeclaration/">CompiledField</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="686015031%2FFunctions%2F-2062613305" anchor-label="serializeVariables" id="686015031%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="serialize-variables.html"><span>serialize</span><wbr></wbr><span><span>Variables</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="686015031%2FFunctions%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="serialize-variables.html"><span class="token function">serializeVariables</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">writer<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api.json/JsonWriter///PointingToDeclaration/">JsonWriter</span><span class="token punctuation">, </span></span><span class="parameter ">customScalarAdapters<span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CustomScalarAdapters///PointingToDeclaration/">CustomScalarAdapters</span><span class="token punctuation">, </span></span><span class="parameter ">withDefaultValues<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

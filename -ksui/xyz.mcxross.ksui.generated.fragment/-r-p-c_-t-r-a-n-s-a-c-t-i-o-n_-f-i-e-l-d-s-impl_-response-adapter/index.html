@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>RPC_TRANSACTION_FIELDSImpl_ResponseAdapter</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.1-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui/commonMain"
+                                       data-filter=":ksui/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.generated.fragment/RPC_TRANSACTION_FIELDSImpl_ResponseAdapter///PointingToDeclaration//-2062613305">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.generated.fragment</a><span class="delimiter">/</span><span class="current">RPC_TRANSACTION_FIELDSImpl_ResponseAdapter</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>RPC_</span><wbr></wbr><span>TRANSACTION_</span><wbr></wbr><span>FIELDSImpl_</span><wbr></wbr><span>Response</span><wbr></wbr><span><span>Adapter</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">RPC_TRANSACTION_FIELDSImpl_ResponseAdapter</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="430423144%2FClasslikes%2F-2062613305" anchor-label="AsAddress" id="430423144%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-address/index.html"><span>As</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="430423144%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-as-address/index.html">AsAddress</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-as-address/index.html">RPC_TRANSACTION_FIELDS.AsAddress</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="482737718%2FClasslikes%2F-2062613305" anchor-label="AsMoveObject" id="482737718%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-move-object/index.html"><span>As</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="482737718%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-as-move-object/index.html">AsMoveObject</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-as-move-object/index.html">RPC_TRANSACTION_FIELDS.AsMoveObject</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-48457797%2FClasslikes%2F-2062613305" anchor-label="AsMoveObject1" id="-48457797%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-move-object1/index.html"><span>As</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Object1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-48457797%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-as-move-object1/index.html">AsMoveObject1</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-as-move-object1/index.html">RPC_TRANSACTION_FIELDS.AsMoveObject1</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-118508857%2FClasslikes%2F-2062613305" anchor-label="AsMovePackage" id="-118508857%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-move-package/index.html"><span>As</span><wbr></wbr><span>Move</span><wbr></wbr><span><span>Package</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-118508857%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-as-move-package/index.html">AsMovePackage</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-as-move-package/index.html">RPC_TRANSACTION_FIELDS.AsMovePackage</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="646184647%2FClasslikes%2F-2062613305" anchor-label="AsObject" id="646184647%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-as-object/index.html"><span>As</span><wbr></wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="646184647%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-as-object/index.html">AsObject</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-as-object/index.html">RPC_TRANSACTION_FIELDS.AsObject</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1042389009%2FClasslikes%2F-2062613305" anchor-label="BalanceChanges" id="1042389009%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-balance-changes/index.html"><span>Balance</span><wbr></wbr><span><span>Changes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1042389009%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-balance-changes/index.html">BalanceChanges</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-balance-changes/index.html">RPC_TRANSACTION_FIELDS.BalanceChanges</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="389092720%2FClasslikes%2F-2062613305" anchor-label="Checkpoint" id="389092720%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-checkpoint/index.html"><span><span>Checkpoint</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="389092720%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-checkpoint/index.html">Checkpoint</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-checkpoint/index.html">RPC_TRANSACTION_FIELDS.Checkpoint</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="973587629%2FClasslikes%2F-2062613305" anchor-label="CoinType" id="973587629%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-coin-type/index.html"><span>Coin</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="973587629%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-coin-type/index.html">CoinType</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-coin-type/index.html">RPC_TRANSACTION_FIELDS.CoinType</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="186211806%2FClasslikes%2F-2062613305" anchor-label="Contents" id="186211806%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-contents/index.html"><span><span>Contents</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="186211806%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-contents/index.html">Contents</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-contents/index.html">RPC_TRANSACTION_FIELDS.Contents</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-650826477%2FClasslikes%2F-2062613305" anchor-label="Contents1" id="-650826477%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-contents1/index.html"><span><span>Contents1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-650826477%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-contents1/index.html">Contents1</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-contents1/index.html">RPC_TRANSACTION_FIELDS.Contents1</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-739556088%2FClasslikes%2F-2062613305" anchor-label="Effects" id="-739556088%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-effects/index.html"><span><span>Effects</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-739556088%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-effects/index.html">Effects</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-effects/index.html">RPC_TRANSACTION_FIELDS.Effects</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1021246079%2FClasslikes%2F-2062613305" anchor-label="Events" id="1021246079%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-events/index.html"><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1021246079%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-events/index.html">Events</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-events/index.html">RPC_TRANSACTION_FIELDS.Events</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="394205425%2FClasslikes%2F-2062613305" anchor-label="InputState" id="394205425%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-input-state/index.html"><span>Input</span><wbr></wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="394205425%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-input-state/index.html">InputState</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-input-state/index.html">RPC_TRANSACTION_FIELDS.InputState</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2133162461%2FClasslikes%2F-2062613305" anchor-label="Modules" id="-2133162461%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-modules/index.html"><span><span>Modules</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2133162461%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-modules/index.html">Modules</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-modules/index.html">RPC_TRANSACTION_FIELDS.Modules</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1270580362%2FClasslikes%2F-2062613305" anchor-label="Node" id="-1270580362%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node/index.html"><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1270580362%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-node/index.html">Node</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-node/index.html">RPC_TRANSACTION_FIELDS.Node</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1433256571%2FClasslikes%2F-2062613305" anchor-label="Node1" id="1433256571%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node1/index.html"><span><span>Node1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1433256571%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-node1/index.html">Node1</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-node1/index.html">RPC_TRANSACTION_FIELDS.Node1</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1464276378%2FClasslikes%2F-2062613305" anchor-label="Node2" id="1464276378%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node2/index.html"><span><span>Node2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1464276378%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-node2/index.html">Node2</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-node2/index.html">RPC_TRANSACTION_FIELDS.Node2</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1495296185%2FClasslikes%2F-2062613305" anchor-label="Node3" id="1495296185%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-node3/index.html"><span><span>Node3</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1495296185%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-node3/index.html">Node3</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-node3/index.html">RPC_TRANSACTION_FIELDS.Node3</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1760606982%2FClasslikes%2F-2062613305" anchor-label="ObjectChanges" id="1760606982%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-object-changes/index.html"><span>Object</span><wbr></wbr><span><span>Changes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1760606982%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-object-changes/index.html">ObjectChanges</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-object-changes/index.html">RPC_TRANSACTION_FIELDS.ObjectChanges</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1937178938%2FClasslikes%2F-2062613305" anchor-label="OutputState" id="1937178938%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-output-state/index.html"><span>Output</span><wbr></wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1937178938%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-output-state/index.html">OutputState</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-output-state/index.html">RPC_TRANSACTION_FIELDS.OutputState</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2131626313%2FClasslikes%2F-2062613305" anchor-label="Owner" id="-2131626313%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-owner/index.html"><span><span>Owner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2131626313%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-owner/index.html">Owner</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-owner/index.html">RPC_TRANSACTION_FIELDS.Owner</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1319260549%2FClasslikes%2F-2062613305" anchor-label="PageInfo" id="-1319260549%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info/index.html"><span>Page</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1319260549%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-page-info/index.html">PageInfo</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-page-info/index.html">RPC_TRANSACTION_FIELDS.PageInfo</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-75829226%2FClasslikes%2F-2062613305" anchor-label="PageInfo1" id="-75829226%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info1/index.html"><span>Page</span><wbr></wbr><span><span>Info1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-75829226%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-page-info1/index.html">PageInfo1</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-page-info1/index.html">RPC_TRANSACTION_FIELDS.PageInfo1</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-44809419%2FClasslikes%2F-2062613305" anchor-label="PageInfo2" id="-44809419%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-info2/index.html"><span>Page</span><wbr></wbr><span><span>Info2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-44809419%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-page-info2/index.html">PageInfo2</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-page-info2/index.html">RPC_TRANSACTION_FIELDS.PageInfo2</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-229179900%2FClasslikes%2F-2062613305" anchor-label="RPC_TRANSACTION_FIELDS" id="-229179900%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/index.html"><span>RPC_</span><wbr></wbr><span>TRANSACTION_</span><wbr></wbr><span>FIELDS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-229179900%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/index.html">RPC_TRANSACTION_FIELDS</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/index.html">RPC_TRANSACTION_FIELDS</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="70121699%2FClasslikes%2F-2062613305" anchor-label="Sender" id="70121699%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sender/index.html"><span><span>Sender</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="70121699%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-sender/index.html">Sender</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-sender/index.html">RPC_TRANSACTION_FIELDS.Sender</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1004869314%2FClasslikes%2F-2062613305" anchor-label="Type" id="-1004869314%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-type/index.html"><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1004869314%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-type/index.html">Type</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-type/index.html">RPC_TRANSACTION_FIELDS.Type</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1080364467%2FClasslikes%2F-2062613305" anchor-label="Type1" id="1080364467%2FClasslikes%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-type1/index.html"><span><span>Type1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1080364467%2FClasslikes%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-type1/index.html">Type1</a> : <span data-unresolved-link="com.apollographql.apollo.api/Adapter///PointingToDeclaration/">Adapter</span><span class="token operator">&lt;</span><a href="../-r-p-c_-t-r-a-n-s-a-c-t-i-o-n_-f-i-e-l-d-s/-type1/index.html">RPC_TRANSACTION_FIELDS.Type1</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
