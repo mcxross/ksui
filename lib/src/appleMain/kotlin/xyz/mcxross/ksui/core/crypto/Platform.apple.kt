@@ -15,6 +15,9 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.exception.E
+import xyz.mcxross.ksui.model.Result
+
 actual fun hash(hash: Hash, data: ByteArray): ByteArray {
   TODO("Not yet implemented")
 }
@@ -39,7 +42,7 @@ actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
   TODO("Not yet implemented")
 }
 
-actual fun sign(message: ByteArray, privateKey: PrivateKey): ByteArray {
+actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E> {
   TODO("Not yet implemented")
 }
 
@@ -55,6 +58,6 @@ actual fun verifySignature(
   publicKey: PublicKey,
   message: ByteArray,
   signature: ByteArray
-): Boolean {
+): Result<Boolean, E> {
   TODO("Not yet implemented")
 }

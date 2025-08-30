@@ -84,6 +84,6 @@ class CoinTest {
     assertNotNull(resp.coinMetadata.symbol, "Coin symbol is null")
     assertNotNull(resp.coinMetadata.address, "Coin type is null")
 
-    assertTrue(resp.coinMetadata.decimals == 9, "Coin decimals are not 9")
+    assertEquals(resp.coinMetadata.decimals, 9, "Coin decimals are not 9")
   }
 }

@@ -30,7 +30,7 @@ jobs:
         run: ./gradlew generateApolloSources
         shell: bash
       - name: Generate HTML docs
-        run: ./gradlew dokkaHtml
+        run: ./gradlew dokkaGenerate
         shell: bash
       - name: Deploy docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.7.3
