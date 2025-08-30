@@ -56,6 +56,14 @@ kotlin {
 
   applyDefaultHierarchyTemplate()
 
+  targets.configureEach {
+    compilations.configureEach {
+      compileTaskProvider.configure {
+        compilerOptions { freeCompilerArgs.add("-Xexpect-actual-classes") }
+      }
+    }
+  }
+
   sourceSets {
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
