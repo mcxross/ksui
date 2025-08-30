@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -55,6 +54,14 @@ kotlin {
   watchosArm64()
 
   applyDefaultHierarchyTemplate()
+
+  targets.configureEach {
+    compilations.configureEach {
+      compileTaskProvider.configure {
+        compilerOptions { freeCompilerArgs.add("-Xexpect-actual-classes") }
+      }
+    }
+  }
 
   sourceSets {
     val androidJvmMain by creating {
@@ -126,18 +133,28 @@ tasks.withType<DokkaTask>().configureEach {
   notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
 }
 
-tasks.getByName<DokkaTask>("dokkaHtml") {
+dokka {
   moduleName.set("Ksui")
-  outputDirectory.set(file(buildDir.resolve("dokka")))
+  dokkaPublications.html {
+    suppressInheritedMembers.set(true)
+    failOnWarning.set(true)
+  }
   dokkaSourceSets {
     configureEach {
       includes.from("Module.md")
       sourceLink {
         localDirectory.set(file("commonMain/kotlin"))
-        remoteUrl.set(URL("https://github.com/mcxross/ksui/blob/master/lib/src/commonMain/kotlin"))
+        remoteUrl("https://github.com/mcxross/ksui/blob/master/lib/src/commonMain/kotlin")
         remoteLineSuffix.set("#L")
       }
     }
+  }
+  dokkaPublications.html {
+    outputDirectory.set(layout.buildDirectory.dir("dokka"))
+  }
+
+  pluginsConfiguration.html {
+    footerMessage.set("(c) McXross")
   }
 }
 
@@ -146,7 +163,7 @@ mavenPublishing {
 
   configure(
     KotlinMultiplatform(
-      javadocJar = JavadocJar.Dokka("dokkaHtml"),
+      javadocJar = JavadocJar.Dokka("dokkaGenerate"),
       sourcesJar = true,
       androidVariantsToPublish = listOf("debug", "release"),
     ),
