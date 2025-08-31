@@ -34,7 +34,10 @@ internal suspend fun getMoveFunctionArgTypes(
   module: String,
   function: String,
 ): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetMoveFunctionArgTypesQuery(packageId, module, function)) }.toResult()
+  handleQuery {
+      getGraphqlClient(config).query(GetMoveFunctionArgTypesQuery(packageId, module, function))
+    }
+    .toResult()
 
 internal suspend fun getNormalizedMoveFunction(
   config: SuiConfig,
@@ -42,7 +45,9 @@ internal suspend fun getNormalizedMoveFunction(
   module: String,
   function: String,
 ): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveFunctionQuery(packageId, module, function)) }
+  handleQuery {
+      getGraphqlClient(config).query(GetNormalizedMoveFunctionQuery(packageId, module, function))
+    }
     .toResult()
 
 internal suspend fun getNormalizedMoveModule(
@@ -50,7 +55,8 @@ internal suspend fun getNormalizedMoveModule(
   packageId: Any,
   module: String,
 ): Result<GetNormalizedMoveModuleQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveModuleQuery(packageId, module)) }.toResult()
+  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveModuleQuery(packageId, module)) }
+    .toResult()
 
 internal suspend fun getNormalizedMoveModulesByPackage(
   config: SuiConfig,
@@ -58,9 +64,8 @@ internal suspend fun getNormalizedMoveModulesByPackage(
   cursor: String?,
 ): Result<GetNormalizedMoveModulesByPackageQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        GetNormalizedMoveModulesByPackageQuery(packageId, Optional.presentIfNotNull(cursor))
-      )
+      getGraphqlClient(config)
+        .query(GetNormalizedMoveModulesByPackageQuery(packageId, Optional.presentIfNotNull(cursor)))
     }
     .toResult()
 
@@ -70,7 +75,10 @@ internal suspend fun getNormalizedMoveStruct(
   module: String,
   struct: String,
 ): Result<GetNormalizedMoveStructQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveStructQuery(packageId, module, struct)) }.toResult()
+  handleQuery {
+      getGraphqlClient(config).query(GetNormalizedMoveStructQuery(packageId, module, struct))
+    }
+    .toResult()
 
 internal suspend fun getTypeLayout(
   config: SuiConfig,
@@ -92,19 +100,20 @@ internal suspend fun paginateMoveModuleLists(
   afterEnums: String?,
 ): Result<PaginateMoveModuleListsQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        PaginateMoveModuleListsQuery(
-          packageId,
-          module,
-          hasMoreFriends,
-          hasMoreStructs,
-          hasMoreFunctions,
-          hasMoreEnums,
-          afterFriends = Optional.presentIfNotNull(afterFriends),
-          afterStructs = Optional.presentIfNotNull(afterStructs),
-          afterFunctions = Optional.presentIfNotNull(afterFunctions),
-          afterEnums = Optional.presentIfNotNull(afterEnums),
+      getGraphqlClient(config)
+        .query(
+          PaginateMoveModuleListsQuery(
+            packageId,
+            module,
+            hasMoreFriends,
+            hasMoreStructs,
+            hasMoreFunctions,
+            hasMoreEnums,
+            afterFriends = Optional.presentIfNotNull(afterFriends),
+            afterStructs = Optional.presentIfNotNull(afterStructs),
+            afterFunctions = Optional.presentIfNotNull(afterFunctions),
+            afterEnums = Optional.presentIfNotNull(afterEnums),
+          )
         )
-      )
     }
     .toResult()

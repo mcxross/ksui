@@ -57,7 +57,7 @@ actual fun derivePrivateKeyFromMnemonic(
 actual fun verifySignature(
   publicKey: PublicKey,
   message: ByteArray,
-  signature: ByteArray
+  signature: ByteArray,
 ): Result<Boolean, E> {
   TODO("Not yet implemented")
 }

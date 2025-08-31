@@ -15,8 +15,8 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
 import xyz.mcxross.ksui.generated.GetBalanceQuery
 import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
@@ -25,22 +25,20 @@ import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Result
 
-/**
- * Defines the API for interacting with coin-related data on the Sui network.
- */
+/** Defines the API for interacting with coin-related data on the Sui network. */
 interface Coin {
   /**
    * Fetches the balance of a specific coin type for a given address.
    *
-   * If the `coinType` parameter is not provided, the function defaults to fetching the
-   * balance for the native SUI coin (`0x2::sui::SUI`).
+   * If the `coinType` parameter is not provided, the function defaults to fetching the balance for
+   * the native SUI coin (`0x2::sui::SUI`).
    *
    * @param address The [AccountAddress] for which to get the balance.
-   * @param coinType An optional string representing the coin type (e.g., "0x2::sui::SUI").
-   * Defaults to `0x2::sui::SUI` if `null`.
+   * @param coinType An optional string representing the coin type (e.g., "0x2::sui::SUI"). Defaults
+   *   to `0x2::sui::SUI` if `null`.
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [GetBalanceQuery.Data] object with the balance details.
-   * The data can be `null` if the address holds no coins of the specified type.
+   * - `Ok`: Containing a nullable [GetBalanceQuery.Data] object with the balance details. The data
+   *   can be `null` if the address holds no coins of the specified type.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getBalance(
@@ -56,10 +54,10 @@ interface Coin {
    * @param address The [AccountAddress] of the account to query.
    * @param limit An optional integer to specify the maximum number of balances to return per page.
    * @param cursor An optional cursor string for pagination. Use the `nextCursor` from a previous
-   * response to fetch the next page of results.
+   *   response to fetch the next page of results.
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [GetAllBalancesQuery.Data] object. This object includes a list
-   * of balances and a `nextCursor` field for pagination.
+   * - `Ok`: Containing a nullable [GetAllBalancesQuery.Data] object. This object includes a list of
+   *   balances and a `nextCursor` field for pagination.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getAllBalances(
@@ -74,13 +72,14 @@ interface Coin {
    * This method supports pagination and can be filtered by a specific coin type.
    *
    * @param address The [AccountAddress] of the owner.
-   * @param first An optional integer to specify the maximum number of coin objects to return per page.
+   * @param first An optional integer to specify the maximum number of coin objects to return per
+   *   page.
    * @param cursor An optional cursor string for pagination. Use the `nextCursor` from a previous
-   * response to fetch the next page of results.
+   *   response to fetch the next page of results.
    * @param type An optional string representing the coin type to filter by (e.g., "0x2::sui::SUI").
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [GetCoinsQuery.Data] object. This object includes a list
-   * of coin objects and a `nextCursor` field for pagination.
+   * - `Ok`: Containing a nullable [GetCoinsQuery.Data] object. This object includes a list of coin
+   *   objects and a `nextCursor` field for pagination.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getCoins(

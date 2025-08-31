@@ -60,8 +60,10 @@ class Transaction(val config: SuiConfig) : Transaction {
    * @param signer The [Account] containing the private key to sign with.
    * @return A [ByteArray] representing the resulting signature.
    */
-  override suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, Exception> =
-    xyz.mcxross.ksui.internal.signTransaction(message, signer)
+  override suspend fun signTransaction(
+    message: ByteArray,
+    signer: Account,
+  ): Result<ByteArray, Exception> = xyz.mcxross.ksui.internal.signTransaction(message, signer)
 
   /**
    * Runs a special developer-focused inspection of a transaction block.

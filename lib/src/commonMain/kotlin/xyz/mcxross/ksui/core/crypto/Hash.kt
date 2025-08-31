@@ -16,5 +16,5 @@
 package xyz.mcxross.ksui.core.crypto
 
 enum class Hash {
-  BLAKE2B256,
+  BLAKE2B256
 }

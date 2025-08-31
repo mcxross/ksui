@@ -54,7 +54,8 @@ fun main() = runBlocking {
         signer = ALICE_ACCOUNT,
         ptb = ptb,
         gasBudget = 15_000_000UL,
-        options = ExecuteTransactionBlockResponseOptions(showObjectChanges = true, showEffects = true),
+        options =
+          ExecuteTransactionBlockResponseOptions(showObjectChanges = true, showEffects = true),
       )
       .expect { "Transaction Execution Failed" }
 

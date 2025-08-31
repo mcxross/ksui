@@ -1,7 +1,6 @@
 package xyz.mcxross.ksui.model.serializer
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -10,7 +9,7 @@ import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ObjectDigest
 
 object ObjectDigestSerializer : KSerializer<ObjectDigest> {
-  override val descriptor: SerialDescriptor =  buildClassSerialDescriptor("ObjectDigest")
+  override val descriptor: SerialDescriptor = buildClassSerialDescriptor("ObjectDigest")
 
   override fun serialize(encoder: Encoder, value: ObjectDigest) {
     encoder.beginStructure(descriptor).apply {

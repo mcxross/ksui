@@ -17,8 +17,6 @@ package xyz.mcxross.ksui.unit
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.Command
 import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.inputs
@@ -69,7 +67,7 @@ class CommandTest {
 
   @Test
   fun testSplitCoins() = runBlocking {
-   /* val ptb = ptb {
+    /* val ptb = ptb {
       val splitCoins = splitCoins {
         coin = Argument.GasCoin
         into = listOf(1_000_000UL, 2_000_000UL, 3_000_000UL)
@@ -90,7 +88,7 @@ class CommandTest {
 
   @Test
   fun testPTB() = runBlocking {
-   /* val ptb = ptb {
+    /* val ptb = ptb {
       val splitCoins = splitCoins {
         coin = Argument.GasCoin
         into = inputs(1, 2, 3)

@@ -37,12 +37,13 @@ internal suspend fun resolveNameServiceNames(
   cursor: String? = null,
 ): Result<ResolveNameServiceNamesQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        ResolveNameServiceNamesQuery(
-          address.toString(),
-          limit = Optional.presentIfNotNull(limit),
-          cursor = Optional.presentIfNotNull(cursor),
+      getGraphqlClient(config)
+        .query(
+          ResolveNameServiceNamesQuery(
+            address.toString(),
+            limit = Optional.presentIfNotNull(limit),
+            cursor = Optional.presentIfNotNull(cursor),
+          )
         )
-      )
     }
     .toResult()

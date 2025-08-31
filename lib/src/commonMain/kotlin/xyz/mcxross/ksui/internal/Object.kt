@@ -36,18 +36,19 @@ internal suspend fun getObject(
   option: ObjectDataOptions,
 ): Result<GetObjectQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        GetObjectQuery(
-          id,
-          showBcs = Optional.presentIfNotNull(option.showBcs),
-          showOwner = Optional.presentIfNotNull(option.showOwner),
-          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
-          showContent = Optional.presentIfNotNull(option.showContent),
-          showDisplay = Optional.presentIfNotNull(option.showDisplay),
-          showType = Optional.presentIfNotNull(option.showType),
-          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      getGraphqlClient(config)
+        .query(
+          GetObjectQuery(
+            id,
+            showBcs = Optional.presentIfNotNull(option.showBcs),
+            showOwner = Optional.presentIfNotNull(option.showOwner),
+            showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+            showContent = Optional.presentIfNotNull(option.showContent),
+            showDisplay = Optional.presentIfNotNull(option.showDisplay),
+            showType = Optional.presentIfNotNull(option.showType),
+            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+          )
         )
-      )
     }
     .toResult()
 
@@ -59,20 +60,21 @@ internal suspend fun getOwnedObjects(
   option: ObjectDataOptions,
 ): Result<GetOwnedObjectsQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        GetOwnedObjectsQuery(
-          owner.toString(),
-          limit = Optional.presentIfNotNull(limit),
-          cursor = Optional.presentIfNotNull(cursor),
-          showBcs = Optional.presentIfNotNull(option.showBcs),
-          showOwner = Optional.presentIfNotNull(option.showOwner),
-          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
-          showContent = Optional.presentIfNotNull(option.showContent),
-          showDisplay = Optional.presentIfNotNull(option.showDisplay),
-          showType = Optional.presentIfNotNull(option.showType),
-          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      getGraphqlClient(config)
+        .query(
+          GetOwnedObjectsQuery(
+            owner.toString(),
+            limit = Optional.presentIfNotNull(limit),
+            cursor = Optional.presentIfNotNull(cursor),
+            showBcs = Optional.presentIfNotNull(option.showBcs),
+            showOwner = Optional.presentIfNotNull(option.showOwner),
+            showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+            showContent = Optional.presentIfNotNull(option.showContent),
+            showDisplay = Optional.presentIfNotNull(option.showDisplay),
+            showType = Optional.presentIfNotNull(option.showType),
+            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+          )
         )
-      )
     }
     .toResult()
 
@@ -84,20 +86,21 @@ suspend fun multiGetObjects(
   options: ObjectDataOptions,
 ): Result<MultiGetObjectsQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        MultiGetObjectsQuery(
-          ids,
-          Optional.presentIfNotNull(limit),
-          Optional.presentIfNotNull(cursor),
-          showBcs = Optional.presentIfNotNull(options.showBcs),
-          showOwner = Optional.presentIfNotNull(options.showOwner),
-          showPreviousTransaction = Optional.presentIfNotNull(options.showOwner),
-          showContent = Optional.presentIfNotNull(options.showContent),
-          showDisplay = Optional.presentIfNotNull(options.showDisplay),
-          showType = Optional.presentIfNotNull(options.showType),
-          showStorageRebate = Optional.presentIfNotNull(options.showStorageRebate),
+      getGraphqlClient(config)
+        .query(
+          MultiGetObjectsQuery(
+            ids,
+            Optional.presentIfNotNull(limit),
+            Optional.presentIfNotNull(cursor),
+            showBcs = Optional.presentIfNotNull(options.showBcs),
+            showOwner = Optional.presentIfNotNull(options.showOwner),
+            showPreviousTransaction = Optional.presentIfNotNull(options.showOwner),
+            showContent = Optional.presentIfNotNull(options.showContent),
+            showDisplay = Optional.presentIfNotNull(options.showDisplay),
+            showType = Optional.presentIfNotNull(options.showType),
+            showStorageRebate = Optional.presentIfNotNull(options.showStorageRebate),
+          )
         )
-      )
     }
     .toResult()
 
@@ -108,19 +111,20 @@ suspend fun tryGetPastObject(
   option: ObjectDataOptions,
 ): Result<TryGetPastObjectQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        TryGetPastObjectQuery(
-          id,
-          version = Optional.presentIfNotNull(version),
-          showBcs = Optional.presentIfNotNull(option.showBcs),
-          showOwner = Optional.presentIfNotNull(option.showOwner),
-          showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
-          showContent = Optional.presentIfNotNull(option.showContent),
-          showDisplay = Optional.presentIfNotNull(option.showDisplay),
-          showType = Optional.presentIfNotNull(option.showType),
-          showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      getGraphqlClient(config)
+        .query(
+          TryGetPastObjectQuery(
+            id,
+            version = Optional.presentIfNotNull(version),
+            showBcs = Optional.presentIfNotNull(option.showBcs),
+            showOwner = Optional.presentIfNotNull(option.showOwner),
+            showPreviousTransaction = Optional.presentIfNotNull(option.showOwner),
+            showContent = Optional.presentIfNotNull(option.showContent),
+            showDisplay = Optional.presentIfNotNull(option.showDisplay),
+            showType = Optional.presentIfNotNull(option.showType),
+            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+          )
         )
-      )
     }
     .toResult()
 
@@ -129,7 +133,8 @@ suspend fun getDynamicFieldObject(
   parentId: String,
   name: DynamicFieldName,
 ): Result<GetDynamicFieldObjectQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name)) }.toResult()
+  handleQuery { getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name)) }
+    .toResult()
 
 suspend fun getDynamicFields(
   config: SuiConfig,
@@ -138,12 +143,13 @@ suspend fun getDynamicFields(
   cursor: String?,
 ): Result<GetDynamicFieldsQuery.Data?, SuiError> =
   handleQuery {
-    getGraphqlClient(config).query(
-        GetDynamicFieldsQuery(
-          parentId,
-          first = Optional.presentIfNotNull(first),
-          cursor = Optional.presentIfNotNull(cursor),
+      getGraphqlClient(config)
+        .query(
+          GetDynamicFieldsQuery(
+            parentId,
+            first = Optional.presentIfNotNull(first),
+            cursor = Optional.presentIfNotNull(cursor),
+          )
         )
-      )
     }
     .toResult()
