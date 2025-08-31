@@ -16,6 +16,7 @@
 package xyz.mcxross.ksui.android.model
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
@@ -40,9 +41,14 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
     }
   }
 
-  fun createNewPasskeyAccount(name: String, displayName: String, onSuccess: () -> Unit) {
+  fun createNewPasskeyAccount(
+    context: Context,
+    name: String,
+    displayName: String,
+    onSuccess: () -> Unit,
+  ) {
     viewModelScope.launch {
-      manager.createNewPasskeyAccount(name, displayName)
+      manager.createNewPasskeyAccount(context,name, displayName)
       currentAccount = manager.currentAccount
       if (manager.currentAccount != null) {
         onSuccess()
@@ -52,9 +58,9 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
 
   /** Initiates the sign-in process and invokes the onSuccess callback upon completion. */
   @RequiresApi(Build.VERSION_CODES.O)
-  fun signIn(onSuccess: () -> Unit) {
+  fun signIn(context: Context, onSuccess: () -> Unit) {
     viewModelScope.launch {
-      val signedInSuccessfully = manager.signIn()
+      val signedInSuccessfully = manager.signIn(context)
       if (signedInSuccessfully) {
         onSuccess()
       }
