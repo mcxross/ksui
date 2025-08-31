@@ -47,7 +47,7 @@ $dokka.location:xyz.mcxross.ksui.account/Ed25519Account/sign/#kotlin.ByteArray/P
 $dokka.location:xyz.mcxross.ksui.account/Ed25519Account/toString/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-ed25519-account/to-string.html
 $dokka.location:xyz.mcxross.ksui.account/Ed25519Account/verify/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-ed25519-account/verify.html
 $dokka.location:xyz.mcxross.ksui.account/PasskeyAccount.Companion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/-companion/index.html
-$dokka.location:xyz.mcxross.ksui.account/PasskeyAccount.Companion/create/#xyz.mcxross.ksui.core.crypto.PasskeyProvider#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/-companion/create.html
+$dokka.location:xyz.mcxross.ksui.account/PasskeyAccount.Companion/create/#xyz.mcxross.ksui.core.crypto.PasskeyProvider#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/-companion/create.html
 $dokka.location:xyz.mcxross.ksui.account/PasskeyAccount///PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/index.html
 $dokka.location:xyz.mcxross.ksui.account/PasskeyAccount/PasskeyAccount/#xyz.mcxross.ksui.core.crypto.PasskeyPublicKey#xyz.mcxross.ksui.core.crypto.PasskeyProvider/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/-passkey-account.html
 $dokka.location:xyz.mcxross.ksui.account/PasskeyAccount/address/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.account/-passkey-account/address.html
