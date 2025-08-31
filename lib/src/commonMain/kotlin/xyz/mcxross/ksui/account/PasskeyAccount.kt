@@ -15,6 +15,8 @@
  */
 package xyz.mcxross.ksui.account
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import xyz.mcxross.ksui.core.crypto.PasskeyProvider
 import xyz.mcxross.ksui.core.crypto.PasskeyPublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
@@ -42,8 +44,15 @@ class PasskeyAccount(
   }
 
   companion object {
-    suspend fun create(provider: PasskeyProvider, name: String): Result<PasskeyAccount, E> {
-      return provider.create(name)
+    @OptIn(ExperimentalUuidApi::class)
+    suspend fun create(
+      provider: PasskeyProvider,
+      name: String,
+      displayName: String = name,
+      userId: String = Uuid.random().toHexDashString(),
+      challenge: String = Uuid.random().toHexDashString(),
+    ): Result<PasskeyAccount, E> {
+      return provider.create(name, displayName, userId, challenge)
     }
   }
 }
