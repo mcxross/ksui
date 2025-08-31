@@ -71,8 +71,15 @@ class PasskeyManager(private val context: Context) {
     }
   }
 
-  suspend fun createNewPasskeyAccount(name: String, displayName: String): Boolean {
-    return when (val newAccount = PasskeyAccount.create(provider, name, displayName)) {
+  suspend fun createNewPasskeyAccount(
+    activityContext: Context,
+    name: String,
+    displayName: String,
+  ): Boolean {
+
+    val uiProvider = PasskeyProvider(activityContext, "signin.mcxross.xyz")
+
+    return when (val newAccount = PasskeyAccount.create(uiProvider, name, displayName)) {
       is Result.Ok -> {
         saveAccount(newAccount.value)
         true
@@ -85,14 +92,20 @@ class PasskeyManager(private val context: Context) {
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
-  suspend fun signIn(): Boolean {
+  suspend fun signIn(activityContext: Context): Boolean {
     if (currentAccount == null) {
       Log.w(TAG, "Cannot sign in. No account has been created or loaded yet.")
       return false
     }
 
+    val accountForSignIn =
+      PasskeyAccount(
+        currentAccount!!.publicKey,
+        PasskeyProvider(activityContext, "signin.mcxross.xyz"),
+      )
+
     return try {
-      when (val signatureResult = currentAccount!!.sign(ByteArray(32))) {
+      when (val signatureResult = accountForSignIn.sign(ByteArray(32))) {
         is Result.Ok -> {
           if (signatureResult.value.isNotEmpty()) {
             Log.d(TAG, "Successfully signed in!")
