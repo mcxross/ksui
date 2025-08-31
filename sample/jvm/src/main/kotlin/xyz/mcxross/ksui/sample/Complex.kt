@@ -39,7 +39,8 @@ fun main() = runBlocking {
     val params = moveCall {
       target =
         "0x10c87c29ea5d5674458652ababa246742a763f9deafed11608b7f0baea296484::intents::new_params"
-      arguments = pure(randomString(10)) + pure("description") + pure(listOf(0UL)) + pure(900000UL) + clock()
+      arguments =
+        pure(randomString(10)) + pure("description") + pure(listOf(0UL)) + pure(900000UL) + clock()
     }
 
     val outcome = moveCall {
@@ -61,7 +62,6 @@ fun main() = runBlocking {
         "0x9c09daf59b0630762a712a9dd043eb35cec87d5ddbb77452497bdd87392b9b50::config::request_config_p2p_ramp"
       arguments = auth + params + outcome + ramp + members
     }
-
   }
 
   val res =

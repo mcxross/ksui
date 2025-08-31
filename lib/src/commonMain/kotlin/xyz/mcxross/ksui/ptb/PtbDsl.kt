@@ -20,33 +20,48 @@ import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.TypeTag
 
 /**
- * A dedicated DSL receiver for the `ptb { ... }` block, providing a context-specific API.
- * This class contains only the lambda-style command functions.
+ * A dedicated DSL receiver for the `ptb { ... }` block, providing a context-specific API. This
+ * class contains only the lambda-style command functions.
  */
 class PtbDsl(val builder: ProgrammableTransactionBuilder) {
 
   fun pure(bytes: ByteArray): Argument = builder.pure(bytes)
+
   inline fun <reified T> pure(value: T): Argument = builder.pure(value)
+
   fun `object`(id: String): Argument = builder.`object`(id)
+
   fun `object`(objectArg: ObjectArg): Argument = builder.`object`(objectArg)
+
   fun address(str: String): Argument = builder.address(str)
+
   fun address(account: xyz.mcxross.ksui.account.Account): Argument = builder.address(account)
+
   fun address(address: AccountAddress): Argument = builder.address(address)
 
   fun system(): Argument = builder.system()
+
   fun clock(): Argument = builder.clock()
+
   fun random(): Argument = builder.random()
+
   fun denyList(): Argument = builder.denyList()
 
   fun arg(value: Boolean): Argument = builder.arg(value)
-  fun arg(value: UByte): Argument = builder.arg(value)
-  fun arg(value: UShort): Argument = builder.arg(value)
-  fun arg(value: UInt): Argument = builder.arg(value)
-  fun arg(value: ULong): Argument = builder.arg(value)
-  fun arg(value: String): Argument = builder.arg(value)
-  fun arg(value: AccountAddress): Argument = builder.arg(value)
-  fun <T> arg(values: List<T>, elementType: TypeTag): Argument = builder.arg(values, elementType)
 
+  fun arg(value: UByte): Argument = builder.arg(value)
+
+  fun arg(value: UShort): Argument = builder.arg(value)
+
+  fun arg(value: UInt): Argument = builder.arg(value)
+
+  fun arg(value: ULong): Argument = builder.arg(value)
+
+  fun arg(value: String): Argument = builder.arg(value)
+
+  fun arg(value: AccountAddress): Argument = builder.arg(value)
+
+  fun <T> arg(values: List<T>, elementType: TypeTag): Argument = builder.arg(values, elementType)
 
   fun moveCall(block: MoveCallScope.() -> Unit): Argument.Result {
     val b = MoveCallBuilder().apply(block)
@@ -95,8 +110,8 @@ class PtbDsl(val builder: ProgrammableTransactionBuilder) {
   /**
    * Defines the unary plus operator for a single `Argument`.
    *
-   * This allows you to start an argument list with a single argument using the `+` prefix,
-   * which is a highly idiomatic way to begin a collection in a DSL.
+   * This allows you to start an argument list with a single argument using the `+` prefix, which is
+   * a highly idiomatic way to begin a collection in a DSL.
    *
    * @return A new `List<Argument>` containing just this single argument.
    */
@@ -107,9 +122,9 @@ class PtbDsl(val builder: ProgrammableTransactionBuilder) {
   /**
    * Defines the `+` operator for combining two `Argument` objects into a `List<Argument>`.
    *
-   * This is the starting point for creating a fluent, chainable syntax for building
-   * argument lists for a `moveCall`. Once a list is created, Kotlin's standard
-   * library `plus` operator can be used to append additional arguments.
+   * This is the starting point for creating a fluent, chainable syntax for building argument lists
+   * for a `moveCall`. Once a list is created, Kotlin's standard library `plus` operator can be used
+   * to append additional arguments.
    *
    * @param other The `Argument` to add to the right-hand side.
    * @return A new `List<Argument>` containing both arguments.

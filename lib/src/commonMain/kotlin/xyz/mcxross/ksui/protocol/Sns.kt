@@ -15,8 +15,8 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
 import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
 import xyz.mcxross.ksui.model.AccountAddress

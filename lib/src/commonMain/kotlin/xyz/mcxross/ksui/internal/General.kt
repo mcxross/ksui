@@ -54,14 +54,16 @@ internal suspend fun getCurrentEpoch(
 internal suspend fun getLatestCheckpointSequenceNumber(
   config: SuiConfig
 ): Result<GetLatestCheckpointSequenceNumberQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetLatestCheckpointSequenceNumberQuery()) }.toResult()
+  handleQuery { getGraphqlClient(config).query(GetLatestCheckpointSequenceNumberQuery()) }
+    .toResult()
 
 internal suspend fun getCheckpoint(
   config: SuiConfig,
   id: CheckpointId?,
 ): Result<GetCheckpointQuery.Data?, SuiError> =
   handleQuery {
-      getGraphqlClient(config).query(GetCheckpointQuery(Optional.presentIfNotNull(id?.toGenerated())))
+      getGraphqlClient(config)
+        .query(GetCheckpointQuery(Optional.presentIfNotNull(id?.toGenerated())))
     }
     .toResult()
 

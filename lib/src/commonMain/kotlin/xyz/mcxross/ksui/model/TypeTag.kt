@@ -17,6 +17,7 @@ package xyz.mcxross.ksui.model
 
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.serializer.TypeTagSerializer
+
 /**
  * A sealed class representing a fully-qualified Move type. This provides a type-safe way to
  * represent types for transaction building, eliminating the need for raw strings.

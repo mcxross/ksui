@@ -52,19 +52,20 @@ object SuiKit {
 /**
  * The primary entry point for interacting with the Sui network.
  *
- * This class provides a unified API surface by delegating to various specialized
- * API clients (e.g., `Coin`, `Events`, `Transaction`). This composition pattern
- * allows for clean separation of concerns while offering a simple, cohesive interface.
+ * This class provides a unified API surface by delegating to various specialized API clients (e.g.,
+ * `Coin`, `Events`, `Transaction`). This composition pattern allows for clean separation of
+ * concerns while offering a simple, cohesive interface.
  *
- * Upon instantiation, this class can automatically configure a default, globally-accessible
- * client instance via the [SuiKit] object. This enables the use of convenient top-level
- * functions like `ptb { ... }` without needing to pass the client instance explicitly.
+ * Upon instantiation, this class can automatically configure a default, globally-accessible client
+ * instance via the [SuiKit] object. This enables the use of convenient top-level functions like
+ * `ptb { ... }` without needing to pass the client instance explicitly.
  *
- * @param config The [SuiConfig] used to configure the connection and behavior of all underlying API clients.
- * @param makeDefault If `true`, this instance will be set as the default client in [SuiKit],
- * making it available for global functions. This is useful for setting up a primary client
- * at application startup. Set to `false` to create a temporary or secondary client
- * without overwriting the default.
+ * @param config The [SuiConfig] used to configure the connection and behavior of all underlying API
+ *   clients.
+ * @param makeDefault If `true`, this instance will be set as the default client in [SuiKit], making
+ *   it available for global functions. This is useful for setting up a primary client at
+ *   application startup. Set to `false` to create a temporary or secondary client without
+ *   overwriting the default.
  */
 class Sui(config: SuiConfig = SuiConfig(), makeDefault: Boolean = true) :
   Coin by xyz.mcxross.ksui.api.Coin(config),

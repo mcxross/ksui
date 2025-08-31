@@ -66,9 +66,7 @@ kotlin {
   sourceSets {
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
-      dependencies {
-        implementation(libs.bitcoinj.core)
-      }
+      dependencies { implementation(libs.bitcoinj.core) }
     }
     appleMain.dependencies { implementation(libs.ktor.client.darwin) }
     val androidMain by getting {
@@ -108,11 +106,7 @@ kotlin {
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(20))
 
-apollo {
-  service("service") {
-    packageName.set("xyz.mcxross.ksui.generated")
-  }
-}
+apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
 
 android {
   namespace = "xyz.mcxross.ksui"
@@ -149,13 +143,9 @@ dokka {
       }
     }
   }
-  dokkaPublications.html {
-    outputDirectory.set(layout.buildDirectory.dir("dokka"))
-  }
+  dokkaPublications.html { outputDirectory.set(layout.buildDirectory.dir("dokka")) }
 
-  pluginsConfiguration.html {
-    footerMessage.set("(c) McXross")
-  }
+  pluginsConfiguration.html { footerMessage.set("(c) McXross") }
 }
 
 mavenPublishing {
@@ -166,7 +156,7 @@ mavenPublishing {
       javadocJar = JavadocJar.Dokka("dokkaGenerate"),
       sourcesJar = true,
       androidVariantsToPublish = listOf("debug", "release"),
-    ),
+    )
   )
 
   pom {

@@ -17,11 +17,14 @@ package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.account.Account
 
-const val ALICE_PRIVATE_KEY = "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
+const val ALICE_PRIVATE_KEY =
+  "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
 val ALICE_ACCOUNT = Account.import(ALICE_PRIVATE_KEY)
 
-const val BOB_PASS_PHRASE = "oyster recycle orange priority diesel flash turn merit nation wood benefit fall"
+const val BOB_PASS_PHRASE =
+  "oyster recycle orange priority diesel flash turn merit nation wood benefit fall"
 val BOB_ACCOUNT = Account.import(BOB_PASS_PHRASE.split(" "))
 
-const val CAROL_PRIVATE_KEY = "suiprivkey1qpx4h5re3myaz9chqtp89szeqf3c865h8ma80vkudn0g6kkj0qpgvw69u8y"
+const val CAROL_PRIVATE_KEY =
+  "suiprivkey1qpx4h5re3myaz9chqtp89szeqf3c865h8ma80vkudn0g6kkj0qpgvw69u8y"
 val CAROL_ACCOUNT = Account.import(CAROL_PRIVATE_KEY)

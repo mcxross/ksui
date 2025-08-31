@@ -25,7 +25,7 @@ object V1Serializer : kotlinx.serialization.KSerializer<TransactionData> {
   override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: TransactionData) {
     when (value) {
       is TransactionData.V1 -> {
-        //encoder.encodeEnum(TransactionData.V1.serializer().descriptor)
+        // encoder.encodeEnum(TransactionData.V1.serializer().descriptor)
         encoder.beginStructure(descriptor).apply {
           encodeSerializableElement(descriptor, 0, serializer(), value)
           endStructure(descriptor)

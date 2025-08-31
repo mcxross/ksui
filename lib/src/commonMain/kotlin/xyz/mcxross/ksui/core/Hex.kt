@@ -33,8 +33,8 @@ enum class HexInvalidReason(val reason: String) {
  * - 0x1
  * - 0xaa86fe99004361f747f91342ca13c426ca0cccb0c1217677180c9493bad6ef0c
  *
- * @constructor Creates a hex string from a string.
  * @property data The data of the hex string.
+ * @constructor Creates a hex string from a string.
  */
 @Serializable
 class Hex() {

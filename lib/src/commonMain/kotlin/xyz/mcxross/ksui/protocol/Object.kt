@@ -15,8 +15,8 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.exception.GraphQLError
+import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
 import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
 import xyz.mcxross.ksui.generated.GetObjectQuery
@@ -28,9 +28,7 @@ import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Result
 
-/**
- * Defines the API for fetching and interacting with on-chain objects in the Sui network.
- */
+/** Defines the API for fetching and interacting with on-chain objects in the Sui network. */
 interface Object {
 
   /**
@@ -55,8 +53,8 @@ interface Object {
    * @param cursor An optional cursor string for pagination.
    * @param options The options specifying which fields of the objects to include in the response.
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [GetOwnedObjectsQuery.Data] object with a list of objects
-   * and a pagination cursor.
+   * - `Ok`: Containing a nullable [GetOwnedObjectsQuery.Data] object with a list of objects and a
+   *   pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getOwnedObjects(
@@ -87,14 +85,16 @@ interface Object {
   /**
    * Fetches a historical version of a specific object.
    *
-   * This allows querying for an object's state at a specific point in its history. The query
-   * may fail if the requested version has been pruned from the node.
+   * This allows querying for an object's state at a specific point in its history. The query may
+   * fail if the requested version has been pruned from the node.
    *
    * @param id The unique ID of the object.
    * @param version The version number of the object to retrieve.
-   * @param options The options specifying which fields of the past object to include in the response.
+   * @param options The options specifying which fields of the past object to include in the
+   *   response.
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [TryGetPastObjectQuery.Data] object with the past object's details.
+   * - `Ok`: Containing a nullable [TryGetPastObjectQuery.Data] object with the past object's
+   *   details.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun tryGetPastObject(
@@ -109,7 +109,8 @@ interface Object {
    * @param parentId The ID of the parent object that owns the dynamic field.
    * @param name The name of the dynamic field, which includes its type and value.
    * @return A [Result] which is either:
-   * - `Ok`: Containing a nullable [GetDynamicFieldObjectQuery.Data] object with the dynamic field's details.
+   * - `Ok`: Containing a nullable [GetDynamicFieldObjectQuery.Data] object with the dynamic field's
+   *   details.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getDynamicFieldObject(
@@ -125,7 +126,7 @@ interface Object {
    * @param cursor An optional cursor string for pagination.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetDynamicFieldsQuery.Data] object with a list of dynamic fields
-   * and a pagination cursor.
+   *   and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
    */
   suspend fun getDynamicFields(

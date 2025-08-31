@@ -39,13 +39,7 @@ internal suspend fun <D : Operation.Data> handleQuery(
     if (!errors.isNullOrEmpty()) {
       return Err(SuiError.from(errors))
     } else {
-      SuiError(
-        listOf(
-          GraphQLError(
-            message = "GraphQL errors in response"
-          )
-        )
-      )
+      SuiError(listOf(GraphQLError(message = "GraphQL errors in response")))
     }
 
     return Err(

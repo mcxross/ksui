@@ -79,8 +79,11 @@ class ProgrammableTransactionBuilder : Command() {
   }
 
   fun system(): Argument = `object`("0x5")
+
   fun clock(): Argument = `object`("0x6")
+
   fun random(): Argument = `object`("0x8")
+
   fun denyList(): Argument = `object`("0x403")
 
   fun `object`(id: String): Argument {
@@ -98,7 +101,13 @@ class ProgrammableTransactionBuilder : Command() {
   ): Argument.Result {
     val parts = target.asIdParts()
     val moveCall =
-      ProgrammableMoveCall(ObjectId(AccountAddress.fromString(parts.first)), parts.second, parts.third, typeArgs, args)
+      ProgrammableMoveCall(
+        ObjectId(AccountAddress.fromString(parts.first)),
+        parts.second,
+        parts.third,
+        typeArgs,
+        args,
+      )
     commands.add(Command.MoveCall(moveCall))
     return Argument.Result((commands.size - 1).toUShort())
   }
@@ -266,10 +275,7 @@ sealed class BuilderArg {
   @Serializable data class ForcedNonUniqueObject(val index: Int) : BuilderArg()
 }
 
-suspend fun ptb(
-  client: Sui = SuiKit.client,
-  block: PtbDsl.() -> Unit,
-): ProgrammableTransaction {
+suspend fun ptb(client: Sui = SuiKit.client, block: PtbDsl.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   val dsl = PtbDsl(builder)
   dsl.block()
