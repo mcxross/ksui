@@ -13,7 +13,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "2.2.1-SNAPSHOT"
+version = "2.2.2-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -39,10 +39,6 @@ kotlin {
       }
     }
     nodejs()
-    /*compilations.all {
-      kotlinOptions.sourceMap = true
-      kotlinOptions.moduleKind = "umd"
-    }*/
   }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
 
