@@ -67,14 +67,11 @@ internal suspend fun devInspectTransactionBlock(
         .query(
           DevInspectTransactionBlockQuery(
             txBytes,
-            txMetaData.toGenerated(),
             showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
             showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
-            showInput = Optional.presentIfNotNull(options.showInput),
             showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options.showRawInput),
           )
         )
     }
@@ -94,9 +91,7 @@ internal suspend fun dryRunTransactionBlock(
             showEffects = Optional.presentIfNotNull(options.showEffects),
             showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
-            showInput = Optional.presentIfNotNull(options.showInput),
             showBalanceChanges = Optional.presentIfNotNull(options.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options.showRawInput),
           )
         )
     }
@@ -173,7 +168,7 @@ internal suspend fun queryTransactionBlocks(
             showInput = Optional.presentIfNotNull(options.showInput),
             showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
             showRawInput = Optional.presentIfNotNull(options.showRawInput),
-            filter = Optional.presentIfNotNull(filter.toGenerated()),
+            //filter = Optional.presentIfNotNull(filter.toGenerated()),
           )
         )
     }
@@ -233,7 +228,7 @@ internal suspend fun signAndSubmitTransaction(
   val coins =
     paymentObject
       ?.address
-      ?.coins
+      ?.objects
       ?.nodes
       ?.map {
         ObjectReference(
@@ -278,7 +273,7 @@ internal suspend fun signAndSubmitTransaction(
     getGraphqlClient(config)
       .mutation(
         ExecuteTransactionBlockMutation(
-          txBytes = content.first,
+          transactionDataBcs = content.first,
           signatures = content.second,
           showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
           showEffects = Optional.presentIfNotNull(options.showEffects),

@@ -2,44 +2,75 @@
 # SPDX-License-Identifier: Apache-2.0
 
 query devInspectTransactionBlock(
-	$txBytes: String!
-	$txMeta: TransactionMetadata!
-	$showBalanceChanges: Boolean = false
-	$showEffects: Boolean = false
-	$showRawEffects: Boolean = false
-	$showEvents: Boolean = false
-	$showInput: Boolean = false
-	$showObjectChanges: Boolean = false
-	$showRawInput: Boolean = false
+    $transaction: JSON!
+    $showBalanceChanges: Boolean = false
+    $showEffects: Boolean = false
+    $showRawEffects: Boolean = false
+    $showEvents: Boolean = false
+    $showObjectChanges: Boolean = false
 ) {
-	dryRunTransactionBlock(txBytes: $txBytes, txMeta: $txMeta) {
-		error
-		results {
-			mutatedReferences {
-				input {
-					__typename
-					... on Input {
-						inputIndex: ix
-					}
-					... on Result {
-						cmd
-						resultIndex: ix
-					}
-				}
-				type {
-					repr
-				}
-				bcs
-			}
-			returnValues {
-				type {
-					repr
-				}
-				bcs
-			}
-		}
-		transaction {
-			...RPC_TRANSACTION_FIELDS
-		}
-	}
+    simulateTransaction(transaction: $transaction) {
+        error
+        outputs {
+            mutatedReferences {
+                argument {
+                    __typename
+                    ... on Input {
+                        inputIndex: ix
+                    }
+                    ... on TxResult {
+                        cmd
+                        resultIndex: ix
+                    }
+                }
+                value {
+                    type {
+                        repr
+                    }
+                    bcs
+                }
+            }
+            returnValues {
+                value {
+                    type {
+                        repr
+                    }
+                    bcs
+                }
+            }
+        }
+        effects {
+            effectsBcs @include(if: $showEffects)
+            effectsBcs @include(if: $showRawEffects)
+
+            balanceChanges @include(if: $showBalanceChanges) {
+                pageInfo {
+                    hasNextPage
+                    endCursor
+                }
+                nodes {
+                    owner { address }
+                    coinType { repr }
+                    amount
+                }
+            }
+
+            objectChanges @include(if: $showObjectChanges) {
+                pageInfo {
+                    hasNextPage
+                    endCursor
+                }
+                nodes {
+                    address
+                    inputState { version }
+                    outputState { version }
+                }
+            }
+        }
+        events @include(if: $showEvents) {
+            sender {
+                address
+            }
+        }
+    }
 }
