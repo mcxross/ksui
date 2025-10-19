@@ -76,7 +76,7 @@ private suspend fun composeTransaction(
   val coins =
     paymentObject
       ?.address
-      ?.coins
+      ?.objects
       ?.nodes
       ?.map {
         ObjectReference(

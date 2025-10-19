@@ -1,101 +1,104 @@
 # Copyright (c) Mysten Labs, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-query getCheckpoint($id: CheckpointId) {
-	checkpoint(id: $id) {
-		...RPC_Checkpoint_Fields
-	}
+query getCheckpoint($sequenceNumber: UInt53) {
+    checkpoint(sequenceNumber: $sequenceNumber) {
+        ...RPC_Checkpoint_Fields
+    }
 }
 
 query getCheckpoints($first: Int, $before: String, $last: Int, $after: String) {
-	checkpoints(first: $first, after: $after, last: $last, before: $before) {
-		pageInfo {
-			startCursor
-			endCursor
-			hasNextPage
-			hasPreviousPage
-		}
-		nodes {
-			...RPC_Checkpoint_Fields
-		}
-	}
+    checkpoints(first: $first, after: $after, last: $last, before: $before) {
+        pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+            hasPreviousPage
+        }
+        nodes {
+            ...RPC_Checkpoint_Fields
+        }
+    }
 }
 
-query paginateCheckpointTransactionBlocks($id: CheckpointId, $after: String) {
-	checkpoint(id: $id) {
-		transactionBlocks(after: $after) {
-			pageInfo {
-				hasNextPage
-				endCursor
-			}
-			nodes {
-				digest
-			}
-		}
-	}
+query paginateCheckpointTransactionBlocks($sequenceNumber: UInt53, $after: String) {
+    checkpoint(sequenceNumber: $sequenceNumber) {
+        transactions(after: $after) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+            nodes {
+                digest
+            }
+        }
+    }
 }
 
 fragment RPC_Checkpoint_Fields on Checkpoint {
-	# checkpointCommitments
-	digest
-	epoch {
-		epochId
-	}
+    # checkpointCommitments
+    digest
+    epoch {
+        epochId
+    }
 
-	rollingGasSummary {
-		computationCost
-		storageCost
-		storageRebate
-		nonRefundableStorageFee
-	}
-	networkTotalTransactions
-	previousCheckpointDigest
-	sequenceNumber
-	timestamp
-	validatorSignatures
-	transactionBlocks {
-		pageInfo {
-			hasNextPage
-			endCursor
-		}
-		nodes {
-			digest
-		}
-	}
-	endOfEpoch: transactionBlocks(last: 1, filter: { kind: SYSTEM_TX }) {
-		nodes {
-			kind {
-				__typename
-				... on EndOfEpochTransaction {
-					transactions(last: 1) {
-						nodes {
-							__typename
-							... on ChangeEpochTransaction {
-								epoch {
-									validatorSet {
-										activeValidators {
-											pageInfo {
-												hasNextPage
-												endCursor
-											}
-											nodes {
-												credentials {
-													protocolPubKey
-												}
-												votingPower
-											}
-										}
-									}
-									protocolConfigs {
-										protocolVersion
-									}
-									epochId
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    rollingGasSummary {
+        computationCost
+        storageCost
+        storageRebate
+        nonRefundableStorageFee
+    }
+    networkTotalTransactions
+    previousCheckpointDigest
+    sequenceNumber
+    timestamp
+    validatorSignatures {
+        signature
+        signersMap
+    }
+    transactions {
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        nodes {
+            digest
+        }
+    }
+    endOfEpoch: transactions(last: 1, filter: { kind: SYSTEM_TX }) {
+        nodes {
+            kind {
+                __typename
+                ... on EndOfEpochTransaction {
+                    transactions(last: 1) {
+                        nodes {
+                            __typename
+                            ... on ChangeEpochTransaction {
+                                epoch {
+                                    validatorSet {
+                                        activeValidators {
+                                            pageInfo {
+                                                hasNextPage
+                                                endCursor
+                                            }
+                                            nodes {
+                                                credentials {
+                                                    protocolPubKey
+                                                }
+                                                votingPower
+                                            }
+                                        }
+                                    }
+                                    protocolConfigs {
+                                        protocolVersion
+                                    }
+                                    epochId
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

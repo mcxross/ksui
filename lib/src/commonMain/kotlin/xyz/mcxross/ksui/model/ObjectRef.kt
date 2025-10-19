@@ -16,8 +16,6 @@
 
 package xyz.mcxross.ksui.model
 
-import xyz.mcxross.ksui.generated.type.ObjectRef
-
 /**
  * @param address ID of the object.
  * @param version Version or sequence number of the object.

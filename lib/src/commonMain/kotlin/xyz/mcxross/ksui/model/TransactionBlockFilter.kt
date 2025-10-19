@@ -17,7 +17,6 @@
 package xyz.mcxross.ksui.model
 
 import com.apollographql.apollo.api.Optional
-import xyz.mcxross.ksui.generated.type.TransactionBlockFilter
 
 public data class TransactionBlockFilter(
   val function: String? = null,
@@ -32,18 +31,5 @@ public data class TransactionBlockFilter(
   val transactionIds: List<String>? = emptyList(),
 ) {
 
-  fun toGenerated(): TransactionBlockFilter {
-    return TransactionBlockFilter(
-      function = Optional.presentIfNotNull(function),
-      kind = Optional.presentIfNotNull(kind?.toGenerated()),
-      afterCheckpoint = Optional.presentIfNotNull(afterCheckpoint),
-      atCheckpoint = Optional.presentIfNotNull(atCheckpoint),
-      beforeCheckpoint = Optional.presentIfNotNull(beforeCheckpoint),
-      affectedAddress = Optional.presentIfNotNull(affectedAddress),
-      sentAddress = Optional.presentIfNotNull(sentAddress),
-      inputObject = Optional.presentIfNotNull(inputObject),
-      changedObject = Optional.presentIfNotNull(changedObject),
-      transactionIds = Optional.presentIfNotNull(transactionIds),
-    )
-  }
+ 
 }

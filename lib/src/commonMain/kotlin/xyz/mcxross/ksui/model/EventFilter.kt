@@ -17,20 +17,23 @@
 package xyz.mcxross.ksui.model
 
 import com.apollographql.apollo.api.Optional
-import xyz.mcxross.ksui.generated.type.EventFilter
 
 data class EventFilter(
+  val afterCheckpoint: String? = null,
+  val atCheckpoint: String? = null,
+  val beforeCheckpoint: String? = null,
   val sender: String? = null,
-  val transactionDigest: String? = null,
-  val emittingModule: String? = null,
-  val eventType: String? = null,
+  val module: String? = null,
+  val type: String? = null
 ) {
-  fun toGenerated(): EventFilter {
-    return EventFilter(
+  fun toGenerated(): xyz.mcxross.ksui.generated.type.EventFilter {
+    return xyz.mcxross.ksui.generated.type.EventFilter(
+      afterCheckpoint = Optional.presentIfNotNull(afterCheckpoint),
+      atCheckpoint = Optional.presentIfNotNull(atCheckpoint),
+      beforeCheckpoint = Optional.presentIfNotNull(beforeCheckpoint),
       sender = Optional.presentIfNotNull(sender),
-      transactionDigest = Optional.presentIfNotNull(transactionDigest),
-      emittingModule = Optional.presentIfNotNull(emittingModule),
-      eventType = Optional.presentIfNotNull(eventType),
+      module = Optional.presentIfNotNull(module),
+      type = Optional.presentIfNotNull(type)
     )
   }
 }

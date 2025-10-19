@@ -20,9 +20,9 @@ import xyz.mcxross.ksui.model.Network
 
 val NetworkToIndexerAPI =
   mapOf(
-    "mainnet" to "https://sui-mainnet.mystenlabs.com/graphql",
-    "testnet" to "https://sui-testnet.mystenlabs.com/graphql",
-    "devnet" to "https://sui-devnet.mystenlabs.com/graphql",
+    "mainnet" to "https://graphql.mainnet.sui.io/graphql",
+    "testnet" to "https://graphql.testnet.sui.io/graphql",
+    "devnet" to "https://graphql.devnet.sui.io/graphql",
     "local" to "http://0.0.0.0:9125/graphql",
   )
 

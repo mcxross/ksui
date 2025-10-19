@@ -20,10 +20,9 @@ class CoinTest {
     assertNotNull(resp, "Failed to get all balances")
     assertNotNull(resp.address, "Balances are null")
 
-    assertTrue { resp.address.balances.nodes.isNotEmpty() }
-    assertTrue { resp.address.balances.nodes[0].totalBalance != null }
-    assertTrue { resp.address.balances.nodes[0].coinType.repr == SUI_TYPE }
-    assertTrue { resp.address.balances.nodes[0].coinObjectCount.toString().toInt() > 0 }
+    assertTrue { resp.address.balances?.nodes?.isNotEmpty() ?: false }
+    assertTrue { resp.address.balances?.nodes?.first()?.totalBalance != null }
+    assertTrue { resp.address.balances?.nodes?.first()?.coinType?.repr == SUI_TYPE }
   }
 
   @Test
@@ -33,7 +32,7 @@ class CoinTest {
     assertNotNull(resp, "Failed to get coins")
     assertNotNull(resp.address, "Coins are null")
 
-    assertTrue { resp.address.coins.nodes.isNotEmpty() }
+    assertTrue { resp.address.objects?.nodes?.isNotEmpty() ?: false }
   }
 
   @Test
@@ -50,7 +49,7 @@ class CoinTest {
     assertNotNull(resp.address, "Balance is null")
 
     assertTrue { resp.address.balance != null }
-    assertTrue { resp.address.balance!!.coinType.repr == SUI_TYPE }
+    assertTrue { resp.address.balance!!.coinType?.repr == SUI_TYPE }
   }
 
   @Test
@@ -61,7 +60,7 @@ class CoinTest {
     assertNotNull(resp.address, "Balance is null")
 
     assertTrue { resp.address.balance != null }
-    assertTrue { resp.address.balance!!.coinType.repr == SUI_TYPE }
+    assertTrue { resp.address.balance!!.coinType?.repr == SUI_TYPE }
   }
 
   @Test
