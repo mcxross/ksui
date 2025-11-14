@@ -46,7 +46,7 @@ fun main() = runBlocking {
   println(res)
   val waited =
     sui.waitForTransaction(
-      res?.executeTransactionBlock?.effects?.transactionBlock?.rPC_TRANSACTION_FIELDS?.digest!!
+      res?.executeTransaction?.effects?.transaction?.digest!!
     )
 
   when (waited) {

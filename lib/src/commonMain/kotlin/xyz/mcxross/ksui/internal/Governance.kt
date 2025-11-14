@@ -19,10 +19,7 @@ import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.GetCommitteeInfoQuery
-import xyz.mcxross.ksui.generated.GetStakesByIdsQuery
-import xyz.mcxross.ksui.generated.GetStakesQuery
 import xyz.mcxross.ksui.generated.GetValidatorsApyQuery
-import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 
@@ -37,42 +34,6 @@ internal suspend fun getCommitteeInfo(
           GetCommitteeInfoQuery(
             Optional.presentIfNotNull(epochId),
             Optional.presentIfNotNull(after),
-          )
-        )
-    }
-    .toResult()
-
-internal suspend fun getStakes(
-  config: SuiConfig,
-  address: AccountAddress,
-  limit: Int?,
-  cursor: String?,
-): Result<GetStakesQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetStakesQuery(
-            address.toString(),
-            Optional.presentIfNotNull(limit),
-            Optional.presentIfNotNull(cursor),
-          )
-        )
-    }
-    .toResult()
-
-internal suspend fun getStakesByIds(
-  config: SuiConfig,
-  ids: List<String>,
-  limit: Int?,
-  cursor: String?,
-): Result<GetStakesByIdsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetStakesByIdsQuery(
-            ids = ids,
-            limit = Optional.presentIfNotNull(limit),
-            cursor = Optional.presentIfNotNull(cursor),
           )
         )
     }

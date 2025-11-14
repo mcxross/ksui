@@ -25,6 +25,7 @@ import xyz.mcxross.ksui.generated.GetOwnedObjectsQuery
 import xyz.mcxross.ksui.generated.MultiGetObjectsQuery
 import xyz.mcxross.ksui.generated.TryGetPastObjectQuery
 import xyz.mcxross.ksui.generated.type.DynamicFieldName
+import xyz.mcxross.ksui.generated.type.ObjectKey
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectDataOptions
 import xyz.mcxross.ksui.model.Result
@@ -89,9 +90,7 @@ suspend fun multiGetObjects(
       getGraphqlClient(config)
         .query(
           MultiGetObjectsQuery(
-            ids,
-            Optional.presentIfNotNull(limit),
-            Optional.presentIfNotNull(cursor),
+            ids.map { ObjectKey(it) },
             showBcs = Optional.presentIfNotNull(options.showBcs),
             showOwner = Optional.presentIfNotNull(options.showOwner),
             showPreviousTransaction = Optional.presentIfNotNull(options.showOwner),
