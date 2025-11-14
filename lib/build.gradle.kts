@@ -13,7 +13,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "2.2.2-SNAPSHOT"
+version = "2.2.3-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
