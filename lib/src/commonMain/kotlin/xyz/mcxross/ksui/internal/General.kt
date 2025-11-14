@@ -63,7 +63,7 @@ internal suspend fun getCheckpoint(
 ): Result<GetCheckpointQuery.Data?, SuiError> =
   handleQuery {
       getGraphqlClient(config)
-        .query(GetCheckpointQuery(Optional.presentIfNotNull(id?.toGenerated())))
+        .query(GetCheckpointQuery(Optional.presentIfNotNull(id?.sequenceNumber)))
     }
     .toResult()
 
