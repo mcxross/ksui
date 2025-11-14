@@ -44,10 +44,7 @@ fun main() = runBlocking {
       "Transaction Execution Failed"
     }
   println(res)
-  val waited =
-    sui.waitForTransaction(
-      res?.executeTransaction?.effects?.transaction?.digest!!
-    )
+  val waited = sui.waitForTransaction(res?.executeTransaction?.effects?.transaction?.digest!!)
 
   when (waited) {
     is Result.Ok -> println("Transaction executed successfully")

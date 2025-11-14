@@ -24,7 +24,7 @@ data class EventFilter(
   val beforeCheckpoint: String? = null,
   val sender: String? = null,
   val module: String? = null,
-  val type: String? = null
+  val type: String? = null,
 ) {
   fun toGenerated(): xyz.mcxross.ksui.generated.type.EventFilter {
     return xyz.mcxross.ksui.generated.type.EventFilter(
@@ -33,7 +33,7 @@ data class EventFilter(
       beforeCheckpoint = Optional.presentIfNotNull(beforeCheckpoint),
       sender = Optional.presentIfNotNull(sender),
       module = Optional.presentIfNotNull(module),
-      type = Optional.presentIfNotNull(type)
+      type = Optional.presentIfNotNull(type),
     )
   }
 }

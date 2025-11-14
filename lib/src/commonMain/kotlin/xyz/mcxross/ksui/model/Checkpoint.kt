@@ -20,9 +20,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CheckpointId(val digest: String? = null, val sequenceNumber: Long? = null) {
   fun toGenerated(): CheckpointId {
-    return CheckpointId(
-      digest,
-      sequenceNumber,
-    )
+    return CheckpointId(digest, sequenceNumber)
   }
 }

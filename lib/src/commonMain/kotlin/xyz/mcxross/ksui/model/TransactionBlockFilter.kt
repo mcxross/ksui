@@ -16,8 +16,6 @@
 
 package xyz.mcxross.ksui.model
 
-import com.apollographql.apollo.api.Optional
-
 public data class TransactionBlockFilter(
   val function: String? = null,
   val kind: TransactionBlockKindInput? = null,
@@ -29,7 +27,4 @@ public data class TransactionBlockFilter(
   val inputObject: String? = null,
   val changedObject: String? = null,
   val transactionIds: List<String>? = emptyList(),
-) {
-
- 
-}
+) {}

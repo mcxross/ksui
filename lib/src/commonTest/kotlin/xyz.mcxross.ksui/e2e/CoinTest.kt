@@ -4,12 +4,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.test.fail
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.util.runBlocking
-import kotlin.test.assertNull
-import kotlin.test.fail
 
 class CoinTest {
 
@@ -76,7 +75,6 @@ class CoinTest {
         fail("Failed to get balance")
       }
     }
-
   }
 
   @Test
