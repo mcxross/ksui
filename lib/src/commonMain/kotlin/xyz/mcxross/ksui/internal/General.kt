@@ -111,7 +111,7 @@ internal suspend fun paginateCheckpointTransactionBlocks(
       getGraphqlClient(config)
         .query(
           PaginateCheckpointTransactionBlocksQuery(
-            id = Optional.presentIfNotNull(id?.toGenerated()),
+            sequenceNumber = Optional.presentIfNotNull(id?.toGenerated()),
             Optional.presentIfNotNull(after),
           )
         )

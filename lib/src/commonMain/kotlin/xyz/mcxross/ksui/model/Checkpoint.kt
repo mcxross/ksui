@@ -15,16 +15,14 @@
  */
 package xyz.mcxross.ksui.model
 
-import com.apollographql.apollo.api.Optional
 import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.generated.type.CheckpointId
 
 @Serializable
 data class CheckpointId(val digest: String? = null, val sequenceNumber: Long? = null) {
   fun toGenerated(): CheckpointId {
     return CheckpointId(
-      Optional.presentIfNotNull(digest),
-      Optional.presentIfNotNull(sequenceNumber),
+      digest,
+      sequenceNumber,
     )
   }
 }

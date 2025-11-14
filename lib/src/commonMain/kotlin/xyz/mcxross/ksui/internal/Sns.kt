@@ -15,7 +15,6 @@
  */
 package xyz.mcxross.ksui.internal
 
-import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
@@ -41,8 +40,6 @@ internal suspend fun resolveNameServiceNames(
         .query(
           ResolveNameServiceNamesQuery(
             address.toString(),
-            limit = Optional.presentIfNotNull(limit),
-            cursor = Optional.presentIfNotNull(cursor),
           )
         )
     }

@@ -25,13 +25,13 @@ enum class TransactionBlockKindInput(public val rawValue: String) {
   /** Auto generated constant for unknown enum values */
   UNKNOWN__("UNKNOWN__");
 
-  fun toGenerated(): xyz.mcxross.ksui.generated.type.TransactionBlockKindInput {
-    return xyz.mcxross.ksui.generated.type.TransactionBlockKindInput.safeValueOf(this.rawValue)
+  fun toGenerated(): xyz.mcxross.ksui.generated.type.TransactionKindInput {
+    return xyz.mcxross.ksui.generated.type.TransactionKindInput.safeValueOf(this.rawValue)
   }
 
   companion object {
     fun fromGenerated(
-      value: xyz.mcxross.ksui.generated.type.TransactionBlockKindInput
+      value: xyz.mcxross.ksui.generated.type.TransactionKindInput
     ): TransactionBlockKindInput {
       return entries.find { it.rawValue == value.rawValue } ?: UNKNOWN__
     }

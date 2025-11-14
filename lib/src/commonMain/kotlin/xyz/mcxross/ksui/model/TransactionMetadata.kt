@@ -17,7 +17,6 @@
 package xyz.mcxross.ksui.model
 
 import com.apollographql.apollo.api.Optional
-import xyz.mcxross.ksui.generated.type.TransactionMetadata
 
 data class TransactionMetaData(
   val sender: String? = null,
@@ -26,13 +25,5 @@ data class TransactionMetaData(
   val gasBudget: Long?,
   val gasSponsor: AccountAddress,
 ) {
-  fun toGenerated(): TransactionMetadata {
-    return TransactionMetadata(
-      Optional.presentIfNotNull(sender),
-      Optional.presentIfNotNull(gasPrice),
-      Optional.presentIfNotNull(gasObjects?.map { it.toGenerated() }),
-      Optional.presentIfNotNull(gasBudget),
-      Optional.presentIfNotNull(gasSponsor.toString()),
-    )
-  }
+
 }

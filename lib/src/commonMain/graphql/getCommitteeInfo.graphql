@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 query getCommitteeInfo($epochId: UInt53, $after: String) {
-	epoch(id: $epochId) {
+	epoch(epochId: $epochId) {
 		epochId
 		validatorSet {
 			activeValidators(after: $after) {

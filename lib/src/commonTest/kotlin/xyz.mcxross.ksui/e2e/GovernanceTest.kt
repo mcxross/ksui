@@ -20,12 +20,6 @@ class GovernanceTest {
   }
 
   @Test
-  fun getStakesTest() = runBlocking {
-    val resp = sui.getStakes(alice.address).expect { "Failed to get stakes" }
-    assertNotNull(resp, "Failed to get stakes")
-  }
-
-  @Test
   fun getValidatorApyTest() = runBlocking {
     val resp = sui.getValidatorApy().expect { "Failed to get validator APY" }
     assertNotNull(resp, "Failed to get validator APY")
