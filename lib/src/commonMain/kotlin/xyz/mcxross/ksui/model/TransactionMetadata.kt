@@ -16,14 +16,10 @@
 
 package xyz.mcxross.ksui.model
 
-import com.apollographql.apollo.api.Optional
-
 data class TransactionMetaData(
   val sender: String? = null,
   val gasPrice: Long? = null,
   val gasObjects: List<ObjectRef>? = emptyList(),
   val gasBudget: Long?,
   val gasSponsor: AccountAddress,
-) {
-
-}
+) {}

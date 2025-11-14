@@ -18,7 +18,6 @@ package xyz.mcxross.ksui.protocol
 import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.generated.GetCommitteeInfoQuery
 import xyz.mcxross.ksui.generated.GetValidatorsApyQuery
-import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Result
 
 /**
@@ -43,7 +42,6 @@ interface Governance {
     epochId: Long? = null,
     after: String? = null,
   ): Result<GetCommitteeInfoQuery.Data?, SuiError>
-
 
   /**
    * Fetches the Annual Percentage Yield (APY) for all active validators.

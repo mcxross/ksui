@@ -168,7 +168,7 @@ internal suspend fun queryTransactionBlocks(
             showInput = Optional.presentIfNotNull(options.showInput),
             showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
             showRawInput = Optional.presentIfNotNull(options.showRawInput),
-            //filter = Optional.presentIfNotNull(filter.toGenerated()),
+            // filter = Optional.presentIfNotNull(filter.toGenerated()),
           )
         )
     }

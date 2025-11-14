@@ -48,7 +48,7 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
     onSuccess: () -> Unit,
   ) {
     viewModelScope.launch {
-      manager.createNewPasskeyAccount(context,name, displayName)
+      manager.createNewPasskeyAccount(context, name, displayName)
       currentAccount = manager.currentAccount
       if (manager.currentAccount != null) {
         onSuccess()

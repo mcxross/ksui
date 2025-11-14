@@ -3,7 +3,6 @@ package xyz.mcxross.ksui.e2e
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import xyz.mcxross.ksui.TestResources.alice
 import xyz.mcxross.ksui.TestResources.sui
 import xyz.mcxross.ksui.util.runBlocking
 
