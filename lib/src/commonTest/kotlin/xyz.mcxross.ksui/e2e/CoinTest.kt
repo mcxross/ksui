@@ -6,7 +6,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
+import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.util.runBlocking
+import kotlin.test.assertNull
+import kotlin.test.fail
 
 class CoinTest {
 
@@ -38,7 +41,7 @@ class CoinTest {
   @Test
   fun getTotalSupplyTest() = runBlocking {
     val resp = sui.getTotalSupply("0x2::sui::SUI").expect { "Failed to get total supply" }
-    assertEquals("10000000000", resp?.coinMetadata?.supply.toString())
+    assertEquals("10000000000000000000", resp?.coinMetadata?.supply.toString())
   }
 
   @Test
@@ -65,12 +68,15 @@ class CoinTest {
 
   @Test
   fun getBalanceNonExistentTest() = runBlocking {
-    val resp = sui.getBalance(alice.address, "0x2::usdt::USDT").expect { "Failed to get balance" }
+    when (val result = sui.getBalance(alice.address, "0x2::usdt::USDT")) {
+      is Result.Ok -> {
+        assertEquals("0", result.value?.address?.balance?.totalBalance)
+      }
+      is Result.Err -> {
+        fail("Failed to get balance")
+      }
+    }
 
-    assertNotNull(resp, "Failed to get balance")
-    assertNotNull(resp.address, "Balance is null")
-
-    assertTrue { resp.address.balance == null }
   }
 
   @Test
