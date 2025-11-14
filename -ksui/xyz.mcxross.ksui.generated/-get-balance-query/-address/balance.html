@@ -109,7 +109,7 @@
   <div class="cover ">
     <h1 class="cover"><span><span>balance</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="balance.html">balance</a><span class="token operator">: </span><a href="../-balance/index.html">GetBalanceQuery.Balance</a><span class="token operator">?</span></div><p class="paragraph">Total balance of all coins with marker type owned by this address. If type is not supplied, it defaults to <code class="lang-kotlin">0x2::sui::SUI</code>.</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="balance.html">balance</a><span class="token operator">: </span><a href="../-balance/index.html">GetBalanceQuery.Balance</a><span class="token operator">?</span></div><p class="paragraph">Fetch the total balance for coins with marker type <code class="lang-kotlin">coinType</code> (e.g. <code class="lang-kotlin">0x2::sui::SUI</code>), owned by this address.</p><p class="paragraph">Returns <code class="lang-kotlin">None</code> when no checkpoint is set in scope (e.g. execution scope). If the address does not own any coins of that type, a balance of zero is returned.</p></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>

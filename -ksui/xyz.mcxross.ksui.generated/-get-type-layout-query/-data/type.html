@@ -109,7 +109,7 @@
   <div class="cover ">
     <h1 class="cover"><span><span>type</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="type.html">type</a><span class="token operator">: </span><a href="../-type/index.html">GetTypeLayoutQuery.Type</a></div><p class="paragraph">Fetch a structured representation of a concrete type, including its layout information. Fails if the type is malformed.</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="type.html">type</a><span class="token operator">: </span><a href="../-type/index.html">GetTypeLayoutQuery.Type</a><span class="token operator">?</span></div><p class="paragraph">Fetch a structured representation of a concrete type, including its layout information.</p><p class="paragraph">Types are canonicalized: In the input they can be at any package address at or after the package that first defines them, and in the output they will be relocated to the package that first defines them.</p><p class="paragraph">Fails if the type is malformed, returns <code class="lang-kotlin">null</code> if a type mentioned does not exist.</p></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>

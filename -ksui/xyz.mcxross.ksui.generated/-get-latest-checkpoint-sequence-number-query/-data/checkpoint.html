@@ -109,7 +109,7 @@
   <div class="cover ">
     <h1 class="cover"><span><span>checkpoint</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="checkpoint.html">checkpoint</a><span class="token operator">: </span><a href="../-checkpoint/index.html">GetLatestCheckpointSequenceNumberQuery.Checkpoint</a><span class="token operator">?</span></div><p class="paragraph">Fetch checkpoint information by sequence number or digest (defaults to the latest available checkpoint).</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="checkpoint.html">checkpoint</a><span class="token operator">: </span><a href="../-checkpoint/index.html">GetLatestCheckpointSequenceNumberQuery.Checkpoint</a><span class="token operator">?</span></div><p class="paragraph">Fetch a checkpoint by its sequence number, or the latest checkpoint if no sequence number is provided.</p><p class="paragraph">Returns <code class="lang-kotlin">null</code> if the checkpoint does not exist in the store, either because it never existed or because it was pruned.</p></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
