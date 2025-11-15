@@ -30,6 +30,41 @@ data class TransactionBlockResponseOptions(
   val showRawInput: Boolean? = null,
 )
 
+fun transactionBlockResponseOptions(
+  block: TransactionBlockResponseOptionsBuilder.() -> Unit
+): TransactionBlockResponseOptions {
+  return TransactionBlockResponseOptionsBuilder().apply(block).build()
+}
+
+class TransactionBlockResponseOptionsBuilder {
+  var first: Int? = null
+  var last: Int? = null
+  var before: String? = null
+  var after: String? = null
+  var showBalanceChanges: Boolean? = null
+  var showEffects: Boolean? = null
+  var showRawEffects: Boolean? = null
+  var showEvents: Boolean? = null
+  var showInput: Boolean? = null
+  var showObjectChanges: Boolean? = null
+  var showRawInput: Boolean? = null
+
+  fun build(): TransactionBlockResponseOptions =
+    TransactionBlockResponseOptions(
+      first = first,
+      last = last,
+      before = before,
+      after = after,
+      showBalanceChanges = showBalanceChanges,
+      showEffects = showEffects,
+      showRawEffects = showRawEffects,
+      showEvents = showEvents,
+      showInput = showInput,
+      showObjectChanges = showObjectChanges,
+      showRawInput = showRawInput,
+    )
+}
+
 data class ExecuteTransactionBlockResponseOptions(
   val showBalanceChanges: Boolean = false,
   val showEffects: Boolean = false,
