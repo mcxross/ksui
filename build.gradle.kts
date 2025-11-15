@@ -1,6 +1,6 @@
 group = "xyz.mcxross.ksui"
 
-version = "2.2.3-SNAPSHOT"
+version = "2.2.4-SNAPSHOT"
 
 plugins {
   alias(libs.plugins.jvm) apply false
