@@ -16,15 +16,55 @@
 
 package xyz.mcxross.ksui.model
 
-public data class TransactionBlockFilter(
-  val function: String? = null,
-  val kind: TransactionBlockKindInput? = null,
+import com.apollographql.apollo.api.Optional
+import xyz.mcxross.ksui.generated.type.TransactionFilter
+
+data class TransactionBlockFilter(
   val afterCheckpoint: String? = null,
   val atCheckpoint: String? = null,
   val beforeCheckpoint: String? = null,
+  val function: String? = null,
+  val kind: TransactionBlockKindInput? = null,
   val affectedAddress: String? = null,
+  val affectedObjects: String? = null,
   val sentAddress: String? = null,
-  val inputObject: String? = null,
-  val changedObject: String? = null,
-  val transactionIds: List<String>? = emptyList(),
-) {}
+) {
+  fun toGenerated(): TransactionFilter =
+    TransactionFilter(
+      afterCheckpoint = Optional.presentIfNotNull(afterCheckpoint),
+      atCheckpoint = Optional.presentIfNotNull(atCheckpoint),
+      beforeCheckpoint = Optional.presentIfNotNull(beforeCheckpoint),
+      function = Optional.presentIfNotNull(function),
+      kind = Optional.presentIfNotNull(kind?.toGenerated()),
+      affectedAddress = Optional.presentIfNotNull(affectedAddress),
+      sentAddress = Optional.presentIfNotNull(sentAddress),
+      affectedObject = Optional.presentIfNotNull(affectedObjects),
+    )
+}
+
+fun transactionFilter(block: TransactionFilterBuilder.() -> Unit): TransactionBlockFilter {
+  return TransactionFilterBuilder().apply(block).build()
+}
+
+class TransactionFilterBuilder {
+  var afterCheckpoint: String? = null
+  var atCheckpoint: String? = null
+  var beforeCheckpoint: String? = null
+  var function: String? = null
+  var kind: TransactionBlockKindInput? = null
+  var affectedAddress: String? = null
+  var affectedObjects: String? = null
+  var sentAddress: String? = null
+
+  fun build(): TransactionBlockFilter =
+    TransactionBlockFilter(
+      afterCheckpoint = afterCheckpoint,
+      atCheckpoint = atCheckpoint,
+      beforeCheckpoint = beforeCheckpoint,
+      function = function,
+      kind = kind,
+      affectedAddress = affectedAddress,
+      affectedObjects = affectedObjects,
+      sentAddress = sentAddress,
+    )
+}

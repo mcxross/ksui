@@ -150,25 +150,25 @@ internal suspend fun getTotalTransactionBlocks(
 
 internal suspend fun queryTransactionBlocks(
   config: SuiConfig,
-  filter: TransactionBlockFilter,
-  options: TransactionBlockResponseOptions,
+  filter: TransactionBlockFilter?,
+  options: TransactionBlockResponseOptions?,
 ): Result<QueryTransactionBlocksQuery.Data?, SuiError> =
   handleQuery {
       getGraphqlClient(config)
         .query(
           QueryTransactionBlocksQuery(
-            first = Optional.presentIfNotNull(options.first),
-            last = Optional.presentIfNotNull(options.last),
-            before = Optional.presentIfNotNull(options.before),
-            after = Optional.presentIfNotNull(options.after),
-            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
-            showEvents = Optional.presentIfNotNull(options.showEvents),
-            showInput = Optional.presentIfNotNull(options.showInput),
-            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options.showRawInput),
-            // filter = Optional.presentIfNotNull(filter.toGenerated()),
+            first = Optional.presentIfNotNull(options?.first),
+            last = Optional.presentIfNotNull(options?.last),
+            before = Optional.presentIfNotNull(options?.before),
+            after = Optional.presentIfNotNull(options?.after),
+            showBalanceChanges = Optional.presentIfNotNull(options?.showBalanceChanges),
+            showEffects = Optional.presentIfNotNull(options?.showEffects),
+            showRawEffects = Optional.presentIfNotNull(options?.showRawEffects),
+            showEvents = Optional.presentIfNotNull(options?.showEvents),
+            showInput = Optional.presentIfNotNull(options?.showInput),
+            showObjectChanges = Optional.presentIfNotNull(options?.showObjectChanges),
+            showRawInput = Optional.presentIfNotNull(options?.showRawInput),
+            filter = Optional.presentIfNotNull(filter?.toGenerated()),
           )
         )
     }
