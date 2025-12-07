@@ -93,17 +93,9 @@ sealed class TypeTag {
   }
 }
 
-/**
- * Represents the fully-qualified identifier of a Move struct.
- *
- * @param address The address of the package where the struct is defined.
- * @param module The name of the module where the struct is defined.
- * @param name The name of the struct.
- * @param typeParams A list of `TypeTag`s for any generic type parameters.
- */
 @Serializable
 data class StructTag(
-  val address: String,
+  val address: AccountAddress,
   val module: String,
   val name: String,
   val typeParams: List<TypeTag> = emptyList(),
@@ -119,6 +111,6 @@ data class StructTag(
   }
 
   companion object {
-    val STRING = StructTag("0x1", "string", "String")
+    val STRING = StructTag(AccountAddress.fromString("0x1"), "string", "String")
   }
 }

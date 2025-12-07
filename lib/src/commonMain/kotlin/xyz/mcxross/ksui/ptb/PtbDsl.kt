@@ -18,6 +18,7 @@ package xyz.mcxross.ksui.ptb
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ObjectArg
 import xyz.mcxross.ksui.model.TypeTag
+import xyz.mcxross.ksui.util.toTypeTag
 
 /**
  * A dedicated DSL receiver for the `ptb { ... }` block, providing a context-specific API. This
@@ -132,4 +133,10 @@ class PtbDsl(val builder: ProgrammableTransactionBuilder) {
   operator fun Argument.plus(other: Argument): List<Argument> {
     return listOf(this, other)
   }
+
+  operator fun TypeTag.unaryPlus(): List<TypeTag> = listOf(this)
+
+  operator fun TypeTag.plus(other: TypeTag): List<TypeTag> = listOf(this, other)
+
+  operator fun String.unaryPlus(): List<TypeTag> = listOf(this.toTypeTag())
 }
