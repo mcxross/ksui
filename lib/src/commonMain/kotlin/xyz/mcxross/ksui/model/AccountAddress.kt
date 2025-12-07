@@ -48,7 +48,7 @@ data class AccountAddress(val data: ByteArray) {
 
   companion object {
 
-    private const val LENGTH: Int = 32
+    const val LENGTH: Int = 32
 
     val EMPTY = AccountAddress(ByteArray(LENGTH))
 

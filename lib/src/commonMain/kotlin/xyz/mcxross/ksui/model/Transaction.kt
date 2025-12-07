@@ -222,7 +222,16 @@ sealed class TransactionData {
 // TODO: This is a placeholder for now, look back at this later
 
 enum class B {
-  A
+  A;
+
+  companion object {
+    fun fromInt(int: Int): B {
+      return when (int) {
+        0 -> A
+        else -> throw IllegalArgumentException("Invalid value for B: $int")
+      }
+    }
+  }
 }
 
 @Serializable
