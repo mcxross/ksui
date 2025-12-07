@@ -33,6 +33,7 @@ import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
 import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.model.StructTag
 import xyz.mcxross.ksui.model.TransactionDataComposer
 import xyz.mcxross.ksui.model.TransactionDigest
 import xyz.mcxross.ksui.model.TypeTag
@@ -137,4 +138,43 @@ suspend fun ProgrammableTransaction.compose(
 @OptIn(ExperimentalEncodingApi::class)
 suspend infix fun ProgrammableTransaction.compose(details: Pair<Account, ULong>): String {
   return composeTransaction(this, details.first, details.second, SuiKit.client)
+}
+
+fun String.toTypeTag(): TypeTag {
+
+  when (this) {
+    "bool" -> return TypeTag.Bool
+    "u8" -> return TypeTag.U8
+    "u16" -> return TypeTag.U16
+    "u32" -> return TypeTag.U32
+    "u64" -> return TypeTag.U64
+    "u128" -> return TypeTag.U128
+    "u256" -> return TypeTag.U256
+    "address" -> return TypeTag.Address
+    "signer" -> return TypeTag.Signer
+  }
+
+  if (this.startsWith("vector<") && this.endsWith(">")) {
+    val innerContent = this.substring(7, this.length - 1)
+    return TypeTag.Vector(innerContent.toTypeTag())
+  }
+
+  val parts = this.split("::")
+  if (parts.size >= 3) {
+    val address = parts[0]
+    val module = parts[1]
+    val namePart = parts.subList(2, parts.size).joinToString("::")
+    val name = namePart.substringBefore("<")
+
+    return TypeTag.Struct(
+      StructTag(
+        address = AccountAddress.fromString(address),
+        module = module,
+        name = name,
+        typeParams = emptyList(),
+      )
+    )
+  }
+
+  throw IllegalArgumentException("Could not parse TypeTag: $this")
 }
