@@ -37,6 +37,17 @@ class ProgrammableTransactionBuilder : Command() {
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
 
   private fun addInput(arg: BuilderArg, value: CallArg): Argument {
+    // 1. Check if this argument already exists in the map
+    // distinct inputs are keys in the LinkedHashMap, so iteration order is preserved (0, 1, 2...)
+    var index = 0
+    for (key in inputs.keys) {
+      if (key == arg) {
+        return Argument.Input(index.toUShort())
+      }
+      index++
+    }
+
+    // 2. If it's new, add it to the map
     inputs[arg] = value
     return Argument.Input((inputs.size - 1).toUShort())
   }
