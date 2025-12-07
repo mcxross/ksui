@@ -22,6 +22,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import xyz.mcxross.bcs.internal.BcsDecoder
 import xyz.mcxross.ksui.model.AccountAddress
 
 object AccountAddressSerializer : KSerializer<AccountAddress> {
@@ -38,6 +39,11 @@ object AccountAddressSerializer : KSerializer<AccountAddress> {
   }
 
   override fun deserialize(decoder: Decoder): AccountAddress {
-    TODO()
+    decoder as BcsDecoder
+    val bytes = ByteArray(AccountAddress.LENGTH)
+    for (i in 0 until AccountAddress.LENGTH) {
+      bytes[i] = decoder.decodeByte()
+    }
+    return AccountAddress(bytes)
   }
 }

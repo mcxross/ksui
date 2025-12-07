@@ -15,12 +15,22 @@
  */
 package xyz.mcxross.ksui.serializer
 
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.serializer
 import xyz.mcxross.ksui.ptb.TransactionKind
 
 object TransactionKindSerializer : kotlinx.serialization.KSerializer<TransactionKind> {
-  override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
-    kotlinx.serialization.descriptors.buildClassSerialDescriptor("TransactionKind")
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("TransactionKind") {
+      element(
+        "ProgrammableTransaction",
+        TransactionKind.ProgrammableTransaction.serializer().descriptor,
+      )
+    }
 
   override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: TransactionKind) {
     when (value) {
@@ -39,6 +49,34 @@ object TransactionKindSerializer : kotlinx.serialization.KSerializer<Transaction
   }
 
   override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): TransactionKind {
-    throw NotImplementedError("Command.SplitCoins is not implemented")
+
+    val index = decoder.decodeEnum(descriptor)
+
+    return when (index) {
+      0 -> {
+        decoder.decodeStructure(descriptor) {
+          var pt: TransactionKind.ProgrammableTransaction? = null
+
+          loop@ while (true) {
+            when (val i = decodeElementIndex(descriptor)) {
+              CompositeDecoder.DECODE_DONE -> break@loop
+              0 -> {
+                pt =
+                  decodeSerializableElement(
+                    descriptor,
+                    0,
+                    TransactionKind.ProgrammableTransaction.serializer(),
+                  )
+              }
+              else -> throw SerializationException("Unknown index $i")
+            }
+          }
+          pt ?: throw SerializationException("Failed to decode ProgrammableTransaction")
+        }
+      }
+      else -> {
+        throw NotImplementedError("TransactionKind variant index $index is not implemented")
+      }
+    }
   }
 }
