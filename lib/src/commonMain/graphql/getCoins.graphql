@@ -10,7 +10,12 @@ query getCoins($owner: SuiAddress!, $first: Int, $cursor: String, $type: String 
                 endCursor
             }
             nodes {
+                owner {
+                    ...RPC_OBJECT_OWNER_FIELDS
+                }
                 contents {
+                    bcs
+                    json
                     type {
                         repr
                     }
