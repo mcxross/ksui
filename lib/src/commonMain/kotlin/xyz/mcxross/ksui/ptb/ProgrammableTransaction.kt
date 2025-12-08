@@ -36,9 +36,21 @@ class ProgrammableTransactionBuilder : Command() {
 
   private val inputs: MutableMap<BuilderArg, CallArg> = mutableMapOf()
 
+  private fun normalize(id: String): String {
+    val clean = id.removePrefix("0x")
+    val padded = clean.padStart(64, '0')
+    return "0x$padded"
+  }
+
+  private val SYSTEM_ADDRESSES =
+    setOf(
+      normalize("0x5"), // System State
+      normalize("0x6"), // Clock
+      normalize("0x8"), // Random
+      normalize("0x403"), // DenyList
+    )
+
   private fun addInput(arg: BuilderArg, value: CallArg): Argument {
-    // 1. Check if this argument already exists in the map
-    // distinct inputs are keys in the LinkedHashMap, so iteration order is preserved (0, 1, 2...)
     var index = 0
     for (key in inputs.keys) {
       if (key == arg) {
@@ -46,8 +58,6 @@ class ProgrammableTransactionBuilder : Command() {
       }
       index++
     }
-
-    // 2. If it's new, add it to the map
     inputs[arg] = value
     return Argument.Input((inputs.size - 1).toUShort())
   }
@@ -208,49 +218,83 @@ class ProgrammableTransactionBuilder : Command() {
 
   private suspend fun resolveAllInputs(sui: Sui, mutabilityMap: Map<Int, Boolean>): List<CallArg> {
     val inputList = inputs.values.toList()
+
+    val idsToResolve =
+      inputList
+        .filterIsInstance<CallArg.ObjectStr>()
+        .map { normalize(it.id) }
+        .filter { !SYSTEM_ADDRESSES.contains(it) }
+        .distinct()
+
+    val objectsMap =
+      if (idsToResolve.isNotEmpty()) {
+        when (
+          val result =
+            sui.multiGetObjects(idsToResolve, options = ObjectDataOptions(showOwner = true))
+        ) {
+          is Result.Ok -> {
+            result.value?.multiGetObjects?.filterNotNull()?.associateBy {
+              normalize(it.rPC_OBJECT_FIELDS.objectId.toString())
+            } ?: emptyMap()
+          }
+          is Result.Err -> throw IllegalStateException("Failed to resolve objects: ${result.error}")
+        }
+      } else {
+        emptyMap()
+      }
+
     return inputList.withIndex().map { (index, callArg) ->
       if (callArg is CallArg.ObjectStr) {
-        val objResult = sui.getObject(callArg.id, ObjectDataOptions(showOwner = true))
-        when (objResult) {
-          is Result.Ok -> {
-            val suiObject = objResult.value?.`object`
-            val owner = suiObject?.rPC_OBJECT_FIELDS?.owner?.rPC_OBJECT_OWNER_FIELDS
-            val objectId =
-              suiObject?.rPC_OBJECT_FIELDS?.objectId
-                ?: throw IllegalStateException("Object data is missing objectId")
+        val normalizedId = normalize(callArg.id)
 
-            val resolvedObjectArg =
-              when (owner?.__typename) {
-                "Shared" -> {
-                  val isMutable = mutabilityMap[index] ?: false
-                  ObjectArg.SharedObject(
-                    id = ObjectId(AccountAddress.fromString(objectId.toString())),
-                    initialSharedVersion =
-                      owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L,
-                    mutable = isMutable,
-                  )
-                }
-                "AddressOwner" -> {
-                  if (suiObject.rPC_OBJECT_FIELDS.digest.isNullOrEmpty()) {
-                    throw IllegalStateException("Couldn't Resolve digest")
-                  }
-                  ObjectArg.ImmOrOwnedObject(
-                    ObjectReference(
-                      Reference(
-                        AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.objectId.toString())
-                      ),
-                      suiObject.rPC_OBJECT_FIELDS.version.toString().toLong(),
-                      ObjectDigest(Digest.fromString(suiObject.rPC_OBJECT_FIELDS.digest)),
-                    )
-                  )
-                }
-                else ->
-                  throw IllegalStateException("Unsupported object owner type: ${owner?.__typename}")
+        if (SYSTEM_ADDRESSES.contains(normalizedId)) {
+          val isMutable = mutabilityMap[index] ?: false
+          CallArg.Object(
+            ObjectArg.SharedObject(
+              id = ObjectId(AccountAddress.fromString(normalizedId)),
+              initialSharedVersion = 1L,
+              mutable = isMutable,
+            )
+          )
+        } else {
+          val suiObject =
+            objectsMap[normalizedId]
+              ?: throw IllegalStateException(
+                "Object ${callArg.id} not found on chain. (Normalized lookup: $normalizedId)"
+              )
+
+          val owner = suiObject.rPC_OBJECT_FIELDS.owner?.rPC_OBJECT_OWNER_FIELDS
+          val objectId = suiObject.rPC_OBJECT_FIELDS.objectId
+
+          val resolvedObjectArg =
+            when (owner?.__typename) {
+              "Shared" -> {
+                val isMutable = mutabilityMap[index] ?: false
+                ObjectArg.SharedObject(
+                  id = ObjectId(AccountAddress.fromString(objectId.toString())),
+                  initialSharedVersion =
+                    owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L,
+                  mutable = isMutable,
+                )
               }
-            CallArg.Object(resolvedObjectArg)
-          }
-          is Result.Err ->
-            throw IllegalStateException("Failed to fetch object details for ${callArg.id}")
+              "AddressOwner" -> {
+                if (suiObject.rPC_OBJECT_FIELDS.digest.isNullOrEmpty()) {
+                  throw IllegalStateException("Couldn't Resolve digest for ${callArg.id}")
+                }
+                ObjectArg.ImmOrOwnedObject(
+                  ObjectReference(
+                    Reference(
+                      AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.objectId.toString())
+                    ),
+                    suiObject.rPC_OBJECT_FIELDS.version.toString().toLong(),
+                    ObjectDigest(Digest.fromString(suiObject.rPC_OBJECT_FIELDS.digest)),
+                  )
+                )
+              }
+              else ->
+                throw IllegalStateException("Unsupported object owner type: ${owner?.__typename}")
+            }
+          CallArg.Object(resolvedObjectArg)
         }
       } else {
         callArg
