@@ -59,6 +59,12 @@ mutation executeTransactionBlock(
                 transactionBcs @include(if: $showInput)
                 transactionBcs @include(if: $showRawInput)
             }
+
+            status
+
+            executionError {
+                message
+            }
         }
     }
 }
