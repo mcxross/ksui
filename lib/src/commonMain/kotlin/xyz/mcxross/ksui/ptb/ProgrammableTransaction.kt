@@ -108,6 +108,15 @@ class ProgrammableTransactionBuilder : Command() {
   fun denyList(): Argument = `object`("0x403")
 
   fun `object`(id: String): Argument {
+    val normalizedId = normalize(id)
+
+    inputs.entries.forEachIndexed { index, entry ->
+      val value = entry.value
+      if (value is CallArg.ObjectStr && normalize(value.id) == normalizedId) {
+        return Argument.Input(index.toUShort())
+      }
+    }
+
     return addInput(BuilderArg.ForcedNonUniqueObject(inputs.size), CallArg.ObjectStr(id))
   }
 
