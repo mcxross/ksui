@@ -81,12 +81,15 @@ internal suspend fun dryRunTransactionBlock(
   config: SuiConfig,
   txBytes: String,
   options: ExecuteTransactionBlockResponseOptions,
-): Result<DryRunTransactionBlockQuery.Data?, SuiError> =
-  handleQuery {
+): Result<DryRunTransactionBlockQuery.Data?, SuiError> {
+
+  val transactionInput = mapOf("bcs" to mapOf("value" to txBytes))
+
+  return handleQuery {
       getGraphqlClient(config)
         .query(
           DryRunTransactionBlockQuery(
-            txBytes,
+            transaction = transactionInput,
             showObjectChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
             showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
@@ -96,6 +99,7 @@ internal suspend fun dryRunTransactionBlock(
         )
     }
     .toResult()
+}
 
 internal suspend fun executeTransactionBlock(
   config: SuiConfig,

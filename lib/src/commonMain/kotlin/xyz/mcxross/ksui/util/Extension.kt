@@ -17,18 +17,12 @@ package xyz.mcxross.ksui.util
 
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
-import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.account.Account
-import xyz.mcxross.ksui.core.crypto.Hash
-import xyz.mcxross.ksui.core.crypto.SignatureScheme
-import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.exception.SuiException
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.Intent
-import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
 import xyz.mcxross.ksui.model.Reference
@@ -94,26 +88,10 @@ private suspend fun composeTransaction(
       gasPayment = coins,
       pt = ptb,
       gasBudget = gasBudget,
-      gasPrice =
-        gasPrice?.epoch?.referenceGasPrice.toString().toULong()
-          ?: throw SuiException("Failed to get gas price"),
+      gasPrice = gasPrice?.epoch?.referenceGasPrice.toString().toULong(),
     )
 
-  val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
-  val serializedSignatureBytes: ByteArray =
-    when (val sig = account.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))) {
-      is Result.Ok -> {
-        when (account.scheme) {
-          SignatureScheme.PASSKEY -> sig.value
-          else -> byteArrayOf(account.scheme.scheme) + sig.value + account.publicKey.data
-        }
-      }
-      is Result.Err -> {
-        throw sig.error
-      }
-    }
-
-  val tx = txData with listOf(Base64.encode(serializedSignatureBytes))
+  val tx = txData with listOf(Base64.encode(byteArrayOf(0)))
   val content = tx.content()
 
   return content.first
