@@ -38,16 +38,32 @@ query dryRunTransactionBlock(
                     outputState { version }
                 }
             }
-        }
-        events @include(if: $showEvents) {
-            sender {
-                address
+
+            status
+            executionError {
+                message
             }
-            contents {
-                json
-                bcs
+            gasEffects {
+                gasSummary {
+                    computationCost
+                    storageCost
+                    storageRebate
+                    nonRefundableStorageFee
+                }
             }
-            timestamp
+
+            events @include(if: $showEvents) {
+                nodes {
+                    sender {
+                        address
+                    }
+                    contents {
+                        json
+                        bcs
+                    }
+                    timestamp
+                }
+            }
         }
     }
 }
