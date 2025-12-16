@@ -5293,6 +5293,7 @@ $dokka.location:xyz.mcxross.ksui.model/ObjectDigest/digest/#/PointingToDeclarati
 $dokka.location:xyz.mcxross.ksui.model/ObjectId///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-id/index.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectId/ObjectId/#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-id/-object-id.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectId/hash/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-id/hash.html
+$dokka.location:xyz.mcxross.ksui.model/ObjectId/toString/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-id/to-string.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectRef///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-ref/index.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectRef/ObjectRef/#kotlin.Any#kotlin.Any#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-ref/-object-ref.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectRef/address/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-ref/address.html
