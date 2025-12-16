@@ -108,7 +108,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../index.html">xyz.mcxross.ksui.model</a><span class="delimiter">/</span><span class="current">TransactionData</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Transaction</span><wbr></wbr><span><span>Data</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span><span class="token punctuation">(</span><span>with<span class="token operator"> = </span><a href="../../xyz.mcxross.ksui.serializer/-v1-serializer/index.html">V1Serializer::class</a></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">TransactionData</a></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-v1/index.html">V1</a></div></span></div><div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span><span class="token punctuation">(</span><span>with<span class="token operator"> = </span><a href="../../xyz.mcxross.ksui.serializer/-transaction-data-serializer/index.html">TransactionDataSerializer::class</a></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">TransactionData</a></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-v1/index.html">V1</a></div></span></div><div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
@@ -140,32 +140,17 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="-v1/index.html">V1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>data<span class="token operator">: </span><a href="../-transaction-data-v1/index.html">TransactionDataV1</a></span></span><span class="token punctuation">)</span> : <a href="index.html">TransactionData</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="-v1/index.html">V1</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>kind<span class="token operator">: </span><a href="../../xyz.mcxross.ksui.ptb/-transaction-kind/index.html">TransactionKind</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sender<span class="token operator">: </span><a href="../-account-address/index.html">AccountAddress</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>gasData<span class="token operator">: </span><a href="../-gas-data/index.html">GasData</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>expiration<span class="token operator">: </span><a href="../-transaction-expiration/index.html">TransactionExpiration</a></span></span><span class="token punctuation">)</span> : <a href="index.html">TransactionData</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div data-togglable="FUNCTION">
+      <div data-togglable="EXTENSION_FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="305165633%2FFunctions%2F-2062613305" anchor-label="toBcs" id="305165633%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+        <div class="table"><a data-name="313127732%2FFunctions%2F-2062613305" anchor-label="toTransaction" id="313127732%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
           <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="to-bcs.html"><span>to</span><wbr></wbr><span><span>Bcs</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="305165633%2FFunctions%2F-2062613305"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="to-bcs.html"><span class="token function">toBcs</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="313127732%2FFunctions%2F-2062613305" anchor-label="toTransaction" id="313127732%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../to-transaction.html"><span>to</span><wbr></wbr><span><span>Transaction</span></span></a></div>
@@ -180,7 +165,7 @@
             </div>
           </div>
 <a data-name="1960305051%2FFunctions%2F-2062613305" anchor-label="with" id="1960305051%2FFunctions%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../with.html"><span><span>with</span></span></a></div>
