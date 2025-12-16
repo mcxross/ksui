@@ -15,28 +15,40 @@
  */
 package xyz.mcxross.ksui.serializer
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import xyz.mcxross.ksui.model.TransactionExpiration
 
-object TransactionExpirationSerializer : kotlinx.serialization.KSerializer<TransactionExpiration> {
-  override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
-    kotlinx.serialization.descriptors.buildClassSerialDescriptor("TransactionExpiration")
+object TransactionExpirationSerializer : KSerializer<TransactionExpiration> {
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("TransactionExpiration") {
+      element("None", buildClassSerialDescriptor("None"))
+      element("Epoch", Long.serializer().descriptor)
+    }
 
-  override fun serialize(
-    encoder: kotlinx.serialization.encoding.Encoder,
-    value: TransactionExpiration,
-  ) {
+  override fun serialize(encoder: Encoder, value: TransactionExpiration) {
     when (value) {
-      is TransactionExpiration.None -> {
-        encoder.encodeEnum(descriptor, 0)
-      }
-
-      else -> {
-        throw NotImplementedError("Not yet implemented for tx kind")
+      is TransactionExpiration.None -> encoder.encodeEnum(descriptor, 0)
+      is TransactionExpiration.Epoch -> {
+        encoder.encodeEnum(descriptor, 1)
+        encoder.encodeSerializableValue(Long.serializer(), value.epoch.id.toLong())
       }
     }
   }
 
-  override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): TransactionExpiration {
-    throw NotImplementedError("Command.SplitCoins is not implemented")
+  override fun deserialize(decoder: Decoder): TransactionExpiration {
+    return when (val index = decoder.decodeEnum(descriptor)) {
+      0 -> TransactionExpiration.None
+      1 -> {
+        val epochVal = decoder.decodeSerializableValue(Long.serializer())
+        TransactionExpiration.Epoch(xyz.mcxross.ksui.model.Epoch(epochVal.toString()))
+      }
+      else -> throw SerializationException("Unknown Expiration index: $index")
+    }
   }
 }

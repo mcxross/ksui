@@ -15,68 +15,38 @@
  */
 package xyz.mcxross.ksui.serializer
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.CompositeDecoder
-import kotlinx.serialization.encoding.decodeStructure
-import kotlinx.serialization.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.ptb.TransactionKind
 
-object TransactionKindSerializer : kotlinx.serialization.KSerializer<TransactionKind> {
+object TransactionKindSerializer : KSerializer<TransactionKind> {
   override val descriptor: SerialDescriptor =
     buildClassSerialDescriptor("TransactionKind") {
-      element(
-        "ProgrammableTransaction",
-        TransactionKind.ProgrammableTransaction.serializer().descriptor,
-      )
+      element("ProgrammableTransaction", ProgrammableTransaction.serializer().descriptor)
     }
 
-  override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: TransactionKind) {
+  override fun serialize(encoder: Encoder, value: TransactionKind) {
     when (value) {
       is TransactionKind.ProgrammableTransaction -> {
         encoder.encodeEnum(descriptor, 0)
-        encoder.beginStructure(descriptor).apply {
-          encodeSerializableElement(descriptor, 0, serializer(), value)
-          endStructure(descriptor)
-        }
+        encoder.encodeSerializableValue(ProgrammableTransaction.serializer(), value.pt)
       }
-
-      else -> {
-        throw NotImplementedError("Not yet implemented for tx kind")
-      }
+      else -> throw SerializationException("Unsupported TransactionKind: $value")
     }
   }
 
-  override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): TransactionKind {
-
-    val index = decoder.decodeEnum(descriptor)
-
-    return when (index) {
+  override fun deserialize(decoder: Decoder): TransactionKind {
+    return when (val index = decoder.decodeEnum(descriptor)) {
       0 -> {
-        decoder.decodeStructure(descriptor) {
-          var pt: TransactionKind.ProgrammableTransaction? = null
-
-          loop@ while (true) {
-            when (val i = decodeElementIndex(descriptor)) {
-              CompositeDecoder.DECODE_DONE -> break@loop
-              0 -> {
-                pt =
-                  decodeSerializableElement(
-                    descriptor,
-                    0,
-                    TransactionKind.ProgrammableTransaction.serializer(),
-                  )
-              }
-              else -> throw SerializationException("Unknown index $i")
-            }
-          }
-          pt ?: throw SerializationException("Failed to decode ProgrammableTransaction")
-        }
+        val pt = decoder.decodeSerializableValue(ProgrammableTransaction.serializer())
+        TransactionKind.ProgrammableTransaction(pt)
       }
-      else -> {
-        throw NotImplementedError("TransactionKind variant index $index is not implemented")
-      }
+      else -> throw SerializationException("Unknown TransactionKind index: $index")
     }
   }
 }
