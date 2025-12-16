@@ -15,6 +15,11 @@
  */
 package xyz.mcxross.ksui.util
 
+import kotlin.io.encoding.Base64
+import xyz.mcxross.bcs.Bcs
+import xyz.mcxross.ksui.model.SenderSignedData
+import xyz.mcxross.ksui.model.TransactionData
+
 fun formatSuiDomain(domain: String): String {
   val lowerCase = domain.lowercase()
   val parts = lowerCase.split(".")
@@ -67,4 +72,13 @@ fun convertBits(data: ByteArray, fromBits: Int, toBits: Int, pad: Boolean): Byte
   }
 
   return result.toByteArray()
+}
+
+fun TransactionData.Companion.fromBase64(base64String: String): TransactionData {
+  val bytes = Base64.decode(base64String)
+  return Bcs.decodeFromByteArray<SenderSignedData>(bytes)
+    .senderSignedTransactions
+    .first()
+    .intentMessage
+    .value
 }

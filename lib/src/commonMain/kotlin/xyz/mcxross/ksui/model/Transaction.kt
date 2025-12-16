@@ -18,14 +18,13 @@ package xyz.mcxross.ksui.model
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.serialization.Serializable
-import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.ptb.TransactionKind
 import xyz.mcxross.ksui.serializer.CallArgSerializer
 import xyz.mcxross.ksui.serializer.ObjectArgSerializer
+import xyz.mcxross.ksui.serializer.TransactionDataSerializer
 import xyz.mcxross.ksui.serializer.TransactionExpirationSerializer
 import xyz.mcxross.ksui.serializer.TransactionFilterSerializer
-import xyz.mcxross.ksui.serializer.V1Serializer
 import xyz.mcxross.ksui.util.bcsEncode
 
 @Serializable data class TransactionDigest(val value: String)
@@ -149,19 +148,23 @@ object TransactionDataComposer {
     sponsor: AccountAddress,
   ): TransactionData =
     TransactionData.V1(
-      TransactionDataV1(
-        kind = kind,
-        sender = sender,
-        gasData =
-          GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
-        expiration = TransactionExpiration.None,
-      )
+      kind = kind,
+      sender = sender,
+      gasData =
+        GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
+      expiration = TransactionExpiration.None,
     )
 }
 
-@Serializable(with = V1Serializer::class)
+@Serializable(with = TransactionDataSerializer::class)
 sealed class TransactionData {
-  abstract fun toBcs(): ByteArray
+  @Serializable
+  data class V1(
+    val kind: TransactionKind,
+    val sender: AccountAddress,
+    val gasData: GasData,
+    val expiration: TransactionExpiration,
+  ) : TransactionData()
 
   companion object {
 
@@ -202,47 +205,14 @@ sealed class TransactionData {
       gasPrice: ULong,
       gasSponsor: AccountAddress,
     ): TransactionData =
-      (TransactionData::V1)(
-        TransactionDataV1(
-          kind = kind,
-          sender = sender,
-          gasData = GasData(gasPayment, gasSponsor, gasPrice, gasBudget),
-          expiration = TransactionExpiration.None,
-        )
+      V1(
+        kind = kind,
+        sender = sender,
+        gasData = GasData(gasPayment, gasSponsor, gasPrice, gasBudget),
+        expiration = TransactionExpiration.None,
       )
   }
-
-  @Serializable
-  data class V1(val data: TransactionDataV1) : TransactionData() {
-    override fun toBcs(): ByteArray = Bcs.encodeToByteArray(data)
-  }
 }
-
-// TODO: This is a placeholder for now, look back at this later
-
-enum class B {
-  A;
-
-  companion object {
-    fun fromInt(int: Int): B {
-      return when (int) {
-        0 -> A
-        else -> throw IllegalArgumentException("Invalid value for B: $int")
-      }
-    }
-  }
-}
-
-@Serializable
-data class TransactionDataV1(
-  val a: B = B.A,
-  val kind: TransactionKind,
-  val sender: AccountAddress,
-  val gasData: GasData,
-  val expiration: TransactionExpiration,
-) : TransactionDataVersion
-
-interface TransactionDataVersion
 
 @Serializable(with = TransactionExpirationSerializer::class)
 sealed class TransactionExpiration {
