@@ -1,0 +1,21 @@
+package xyz.mcxross.ksui.unit
+
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.types.shouldBeInstanceOf
+import xyz.mcxross.ksui.model.TransactionData
+import xyz.mcxross.ksui.ptb.TransactionKind
+import xyz.mcxross.ksui.util.fromBase64
+
+class TransactionDataTest :
+  StringSpec({
+    "Restore Base64 Envelope" {
+      val base64 =
+        "AQAAAAAABwEAZ6YDUpCZh8Cjd30VRE6INZnuh5nHQqqXtqIyBdophnpU52ApAAAAACA3cOl7frG7eApDMDIem+i31XjdrKpAEs+fbhFdB+NNYQALCjFMT1pvWXBrUHUADAtkZXNjcmlwdGlvbgAJAQAAAAAAAAAAAAiguw0AAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAAAAAAAAAAQQJ6rsGiTO1PNNScJ/ALIfXjx6myDyXleh/ShjsVq+OpBHquwaJM7U801Jwn8Ash9ePHqbIPJeV6H9KGOxWr46kCBACcCdr1mwYwdipxKp3QQ+s1zsh9Xdu3dFJJe92HOSubUAhwMnBfcmFtcAxhdXRoZW50aWNhdGUAAQEAAAAQyHwp6l1WdEWGUqurokZ0KnY/ner+0RYIt/C66ilkhAdpbnRlbnRzCm5ld19wYXJhbXMABQEBAAECAAEDAAEEAAEFAACcCdr1mwYwdipxKp3QQ+s1zsh9Xdu3dFJJe92HOSubUAhwMnBfcmFtcBZlbXB0eV9hcHByb3ZlZF9vdXRjb21lAAAAnAna9ZsGMHYqcSqd0EPrNc7IfV3bt3RSSXvdhzkrm1AGY29uZmlnF3JlcXVlc3RfY29uZmlnX3AycF9yYW1wAAUCAAACAQACAgABAAABBgB6rsGiTO1PNNScJ/ALIfXjx6myDyXleh/ShjsVq+OpBAHroNwNwu/AbXQJqV5v4ArHUolnwjQxjzf5a72EyknD11TnYCkAAAAAIAroFm5teT7w/i3c0A4E5GZmmr+PFNLYGqAWGV0B5P0Yeq7BokztTzTUnCfwCyH148epsg8l5Xof0oY7FavjqQToAwAAAAAAAMDh5AAAAAAAAAFhACfB5kMSH7cIEThY5b1zV+dSHXn7laOCgWa7gT8VFEZ1XMawGgu5RNyy6aKlV1EWV5WOBaWZuEaTufaMoRXccgKGCqQKA5cdaGA6Nc0HniyXvTTmMZZRwNbIsGppr9/iUQ=="
+
+      val txData = TransactionData.fromBase64(base64)
+
+      txData.shouldBeInstanceOf<TransactionData.V1>()
+
+      txData.kind.shouldBeInstanceOf<TransactionKind.ProgrammableTransaction>()
+    }
+  })
