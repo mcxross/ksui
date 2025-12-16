@@ -24,13 +24,11 @@ import xyz.mcxross.ksui.extension.asIdParts
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 import xyz.mcxross.ksui.model.*
-import xyz.mcxross.ksui.serializer.AnySerializer
+import xyz.mcxross.ksui.serializer.ProgrammableTransactionSerializer
 
-@Serializable
-data class ProgrammableTransaction(
-  val inputs: List<@Serializable(with = AnySerializer::class) Any>,
-  val commands: List<@Serializable(with = AnySerializer::class) Any>,
-) : TransactionKind()
+@Serializable(with = ProgrammableTransactionSerializer::class)
+data class ProgrammableTransaction(val inputs: List<CallArg>, val commands: List<Command>) :
+  TransactionKind()
 
 class ProgrammableTransactionBuilder : Command() {
 
