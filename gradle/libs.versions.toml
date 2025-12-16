@@ -20,6 +20,8 @@ logback-classic = "1.5.21"
 navigation-compose = "2.9.6"
 play-services-identity-credentials = "16.0.0-alpha08"
 security-crypto = "1.1.0"
+ksp = "2.2.21-2.0.4"
+kotest = "6.0.7"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
@@ -63,6 +65,8 @@ ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.re
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 play-services-identity-credentials = { group = "com.google.android.gms", name = "play-services-identity-credentials", version.ref = "play-services-identity-credentials" }
+kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-assertions-core =  { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -74,3 +78,5 @@ jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotest = { id = "io.kotest", version.ref = "kotest" }
