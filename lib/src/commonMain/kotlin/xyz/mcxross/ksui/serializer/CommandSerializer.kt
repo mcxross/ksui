@@ -1,18 +1,3 @@
-/*
- * Copyright 2024 McXross
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package xyz.mcxross.ksui.serializer
 
 import kotlinx.serialization.KSerializer
@@ -20,17 +5,24 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
-import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.Command
 import xyz.mcxross.ksui.ptb.ProgrammableMoveCall
 
 object CommandSerializer : KSerializer<Command> {
-  override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Command")
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("Command") {
+      element("MoveCall", ProgrammableMoveCall.serializer().descriptor)
+      element("TransferObjects", buildClassSerialDescriptor("TransferObjects"))
+      element("SplitCoins", buildClassSerialDescriptor("SplitCoins"))
+      element("MergeCoins", buildClassSerialDescriptor("MergeCoins"))
+      element("Publish", Command.Publish.serializer().descriptor)
+      element("MakeMoveVec", Command.MakeMoveVec.serializer().descriptor)
+      element("Upgrade", Command.Upgrade.serializer().descriptor)
+    }
 
   override fun serialize(encoder: Encoder, value: Command) {
     when (value) {
@@ -96,82 +88,41 @@ object CommandSerializer : KSerializer<Command> {
     val index = decoder.decodeEnum(descriptor)
     return decoder.decodeStructure(descriptor) {
       when (index) {
-        0 -> { // MoveCall
-          var moveCall: ProgrammableMoveCall? = null
-          if (decodeElementIndex(descriptor) == 0) {
-            moveCall = decodeSerializableElement(descriptor, 0, ProgrammableMoveCall.serializer())
-          }
-          Command.MoveCall(moveCall ?: throw SerializationException("Missing MoveCall data"))
+        0 -> {
+          val moveCall = decodeSerializableElement(descriptor, 0, ProgrammableMoveCall.serializer())
+          Command.MoveCall(moveCall)
         }
-        1 -> { // TransferObjects
-          var objects: List<Argument>? = null
-          var address: Argument? = null
-          loop@ while (true) {
-            when (decodeElementIndex(descriptor)) {
-              CompositeDecoder.DECODE_DONE -> break@loop
-              0 ->
-                objects =
-                  decodeSerializableElement(descriptor, 0, ListSerializer(ArgumentSerializer))
-              1 -> address = decodeSerializableElement(descriptor, 1, ArgumentSerializer)
-            }
-          }
-          Command.TransferObjects(
-            objects ?: throw SerializationException("Missing objects"),
-            address ?: throw SerializationException("Missing address"),
-          )
+        1 -> {
+          val objects = decodeSerializableElement(descriptor, 0, ListSerializer(ArgumentSerializer))
+          val address = decodeSerializableElement(descriptor, 1, ArgumentSerializer)
+          Command.TransferObjects(objects, address)
         }
         2 -> {
-          var coin: Argument? = null
-          var into: List<Argument>? = null
-          loop@ while (true) {
-            when (decodeElementIndex(descriptor)) {
-              CompositeDecoder.DECODE_DONE -> break@loop
-              0 -> coin = decodeSerializableElement(descriptor, 0, ArgumentSerializer)
-              1 ->
-                into = decodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer))
-            }
-          }
-          Command.SplitCoins(
-            coin ?: throw SerializationException("Missing coin"),
-            into ?: throw SerializationException("Missing into"),
-          )
+          val coin = decodeSerializableElement(descriptor, 0, ArgumentSerializer)
+          val into = decodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer))
+          Command.SplitCoins(coin, into)
         }
         3 -> {
-          var coin: Argument? = null
-          var coins: List<Argument>? = null
-          loop@ while (true) {
-            when (decodeElementIndex(descriptor)) {
-              CompositeDecoder.DECODE_DONE -> break@loop
-              0 -> coin = decodeSerializableElement(descriptor, 0, ArgumentSerializer)
-              1 ->
-                coins = decodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer))
-            }
-          }
-          Command.MergeCoins(
-            coin ?: throw SerializationException("Missing coin"),
-            coins ?: throw SerializationException("Missing coins"),
-          )
+          val coin = decodeSerializableElement(descriptor, 0, ArgumentSerializer)
+          val coins = decodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer))
+          Command.MergeCoins(coin, coins)
         }
         4 -> {
-          var publish: Command.Publish? = null
-          if (decodeElementIndex(descriptor) == 0) {
-            publish = decodeSerializableElement(descriptor, 0, Command.Publish.serializer())
-          }
-          publish ?: throw SerializationException("Missing Publish data")
+          val publish = decodeSerializableElement(descriptor, 0, Command.Publish.serializer())
+          Command.Publish(publish.bytes, publish.dependencies)
         }
         5 -> {
-          var vec: Command.MakeMoveVec? = null
-          if (decodeElementIndex(descriptor) == 0) {
-            vec = decodeSerializableElement(descriptor, 0, Command.MakeMoveVec.serializer())
-          }
-          vec ?: throw SerializationException("Missing MakeMoveVec data")
+          val vec = decodeSerializableElement(descriptor, 0, Command.MakeMoveVec.serializer())
+          Command.MakeMoveVec(vec.typeTag, vec.values)
         }
         6 -> {
-          var upgrade: Command.Upgrade? = null
-          if (decodeElementIndex(descriptor) == 0) {
-            upgrade = decodeSerializableElement(descriptor, 0, Command.Upgrade.serializer())
-          }
-          upgrade ?: throw SerializationException("Missing Upgrade data")
+          val upgrade = decodeSerializableElement(descriptor, 0, Command.Upgrade.serializer())
+          Command.Upgrade(
+            upgrade.modules,
+            upgrade.dependencies,
+            upgrade.packageId,
+            upgrade.upgradeTicket,
+          )
         }
         else -> throw SerializationException("Unknown Command index: $index")
       }

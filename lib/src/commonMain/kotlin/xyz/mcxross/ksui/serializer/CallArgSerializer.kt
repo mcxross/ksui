@@ -20,7 +20,6 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ByteArraySerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
@@ -28,7 +27,11 @@ import kotlinx.serialization.encoding.encodeStructure
 import xyz.mcxross.ksui.model.CallArg
 
 object CallArgSerializer : KSerializer<CallArg> {
-  override val descriptor: SerialDescriptor = buildClassSerialDescriptor("CallArg")
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("CallArg") {
+      element("Pure", ByteArraySerializer().descriptor)
+      element("Object", ObjectArgSerializer.descriptor)
+    }
 
   override fun serialize(encoder: Encoder, value: CallArg) {
     when (value) {
@@ -45,35 +48,24 @@ object CallArgSerializer : KSerializer<CallArg> {
         }
       }
 
-      else -> {
-        throw SerializationException("Unknown call arg type")
-      }
+      else -> {}
     }
   }
 
   override fun deserialize(decoder: Decoder): CallArg {
     val index = decoder.decodeEnum(descriptor)
     return decoder.decodeStructure(descriptor) {
-      var result: CallArg? = null
-      while (true) {
-        when (val i = decodeElementIndex(descriptor)) {
-          CompositeDecoder.DECODE_DONE -> break
-          0 -> {
-            if (index == 0) {
-              val data = decodeSerializableElement(descriptor, 0, ByteArraySerializer())
-              result = CallArg.Pure(data)
-            }
-          }
-          1 -> {
-            if (index == 1) {
-              val arg = decodeSerializableElement(descriptor, 1, ObjectArgSerializer)
-              result = CallArg.Object(arg)
-            }
-          }
-          else -> throw SerializationException("Unexpected index $i for CallArg")
+      when (index) {
+        0 -> {
+          val data = decodeSerializableElement(descriptor, 0, ByteArraySerializer())
+          CallArg.Pure(data)
         }
+        1 -> {
+          val arg = decodeSerializableElement(descriptor, 1, ObjectArgSerializer)
+          CallArg.Object(arg)
+        }
+        else -> throw SerializationException("Unknown CallArg index: $index")
       }
-      result ?: throw SerializationException("Failed to decode CallArg content")
     }
   }
 }
