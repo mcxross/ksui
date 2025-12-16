@@ -15,46 +15,71 @@
  */
 package xyz.mcxross.ksui.serializer
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.element
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.serializer
+import kotlinx.serialization.encoding.decodeStructure
+import kotlinx.serialization.encoding.encodeStructure
 import xyz.mcxross.ksui.ptb.Argument
 
-object ArgumentSerializer : kotlinx.serialization.KSerializer<Argument> {
-  override val descriptor: kotlinx.serialization.descriptors.SerialDescriptor =
-    buildClassSerialDescriptor("GasCoin")
+object ArgumentSerializer : KSerializer<Argument> {
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("Argument") {
+      element("GasCoin", buildClassSerialDescriptor("GasCoin"))
+      element("Input", Argument.Input.serializer().descriptor)
+      element("Result", Argument.Result.serializer().descriptor)
+      element("NestedResult", Argument.NestedResult.serializer().descriptor)
+    }
 
   override fun serialize(encoder: Encoder, value: Argument) {
     when (value) {
       is Argument.GasCoin -> {
         encoder.encodeEnum(descriptor, 0)
+        encoder.encodeStructure(descriptor) {}
       }
       is Argument.Input -> {
         encoder.encodeEnum(descriptor, 1)
-        encoder.beginStructure(descriptor).apply {
-          encodeSerializableElement(descriptor, 0, serializer(), value)
-          endStructure(descriptor)
+        encoder.encodeStructure(descriptor) {
+          encodeSerializableElement(descriptor, 1, Argument.Input.serializer(), value)
         }
       }
       is Argument.Result -> {
         encoder.encodeEnum(descriptor, 2)
-        encoder.beginStructure(descriptor).apply {
-          encodeSerializableElement(descriptor, 0, serializer(), value)
-          endStructure(descriptor)
+        encoder.encodeStructure(descriptor) {
+          encodeSerializableElement(descriptor, 2, Argument.Result.serializer(), value)
         }
       }
       is Argument.NestedResult -> {
         encoder.encodeEnum(descriptor, 3)
-        encoder.beginStructure(descriptor).apply {
-          encodeSerializableElement(descriptor, 0, serializer(), value)
-          endStructure(descriptor)
+        encoder.encodeStructure(descriptor) {
+          encodeSerializableElement(descriptor, 3, Argument.NestedResult.serializer(), value)
         }
       }
     }
   }
 
   override fun deserialize(decoder: Decoder): Argument {
-    return Argument.GasCoin
+    val index = decoder.decodeEnum(descriptor)
+    return decoder.decodeStructure(descriptor) {
+      when (index) {
+        0 -> {
+          Argument.GasCoin
+        }
+        1 -> {
+          decodeSerializableElement(descriptor, 1, Argument.Input.serializer())
+        }
+        2 -> {
+          decodeSerializableElement(descriptor, 2, Argument.Result.serializer())
+        }
+        3 -> {
+          decodeSerializableElement(descriptor, 3, Argument.NestedResult.serializer())
+        }
+        else -> throw SerializationException("Unknown Argument index: $index")
+      }
+    }
   }
 }

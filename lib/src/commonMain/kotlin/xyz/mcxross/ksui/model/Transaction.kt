@@ -21,8 +21,8 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.ptb.TransactionKind
-import xyz.mcxross.ksui.serializer.CallArgObjectSerializer
-import xyz.mcxross.ksui.serializer.PureSerializer
+import xyz.mcxross.ksui.serializer.CallArgSerializer
+import xyz.mcxross.ksui.serializer.ObjectArgSerializer
 import xyz.mcxross.ksui.serializer.TransactionExpirationSerializer
 import xyz.mcxross.ksui.serializer.TransactionFilterSerializer
 import xyz.mcxross.ksui.serializer.V1Serializer
@@ -54,10 +54,10 @@ enum class TransactionBlockBuilderMode {
 
 @Serializable data class Transaction(val data: Data, val txSignatures: List<String>)
 
-@Serializable
+@Serializable(with = CallArgSerializer::class)
 sealed class CallArg {
 
-  @Serializable(with = PureSerializer::class)
+  @Serializable
   data class Pure(val data: ByteArray) : CallArg() {
     override fun equals(other: Any?): Boolean {
       if (this === other) return true
@@ -73,14 +73,13 @@ sealed class CallArg {
     }
   }
 
-  @Serializable(with = CallArgObjectSerializer::class)
-  data class Object(val arg: ObjectArg) : CallArg()
+  @Serializable data class Object(val arg: ObjectArg) : CallArg()
 
   // need to fetch before serializing
   data class ObjectStr(val id: String) : CallArg()
 }
 
-@Serializable
+@Serializable(with = ObjectArgSerializer::class)
 sealed class ObjectArg {
 
   @Serializable data class ImmOrOwnedObject(val objectRef: ObjectReference) : ObjectArg()

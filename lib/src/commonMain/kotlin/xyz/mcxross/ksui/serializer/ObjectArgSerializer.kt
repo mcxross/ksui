@@ -19,7 +19,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.descriptors.element
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
@@ -27,7 +27,12 @@ import kotlinx.serialization.encoding.encodeStructure
 import xyz.mcxross.ksui.model.ObjectArg
 
 object ObjectArgSerializer : KSerializer<ObjectArg> {
-  override val descriptor: SerialDescriptor = buildClassSerialDescriptor("ObjectArg")
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("ObjectArg") {
+      element("ImmOrOwnedObject", ObjectArg.ImmOrOwnedObject.serializer().descriptor)
+      element("SharedObject", ObjectArg.SharedObject.serializer().descriptor)
+      element("Receiving", ObjectArg.Receiving.serializer().descriptor)
+    }
 
   override fun serialize(encoder: Encoder, value: ObjectArg) {
     when (value) {
@@ -40,13 +45,13 @@ object ObjectArgSerializer : KSerializer<ObjectArg> {
       is ObjectArg.SharedObject -> {
         encoder.encodeEnum(descriptor, 1)
         encoder.encodeStructure(descriptor) {
-          encodeSerializableElement(descriptor, 0, ObjectArg.SharedObject.serializer(), value)
+          encodeSerializableElement(descriptor, 1, ObjectArg.SharedObject.serializer(), value)
         }
       }
       is ObjectArg.Receiving -> {
         encoder.encodeEnum(descriptor, 2)
         encoder.encodeStructure(descriptor) {
-          encodeSerializableElement(descriptor, 0, ObjectArg.Receiving.serializer(), value)
+          encodeSerializableElement(descriptor, 2, ObjectArg.Receiving.serializer(), value)
         }
       }
     }
@@ -55,24 +60,12 @@ object ObjectArgSerializer : KSerializer<ObjectArg> {
   override fun deserialize(decoder: Decoder): ObjectArg {
     val index = decoder.decodeEnum(descriptor)
     return decoder.decodeStructure(descriptor) {
-      var result: ObjectArg? = null
-      while (true) {
-        when (val i = decodeElementIndex(descriptor)) {
-          CompositeDecoder.DECODE_DONE -> break
-          0 -> {
-            result =
-              when (index) {
-                0 ->
-                  decodeSerializableElement(descriptor, 0, ObjectArg.ImmOrOwnedObject.serializer())
-                1 -> decodeSerializableElement(descriptor, 0, ObjectArg.SharedObject.serializer())
-                2 -> decodeSerializableElement(descriptor, 0, ObjectArg.Receiving.serializer())
-                else -> throw SerializationException("Unknown ObjectArg index: $index")
-              }
-          }
-          else -> throw SerializationException("Unexpected index $i for ObjectArg")
-        }
+      when (index) {
+        0 -> decodeSerializableElement(descriptor, 0, ObjectArg.ImmOrOwnedObject.serializer())
+        1 -> decodeSerializableElement(descriptor, 1, ObjectArg.SharedObject.serializer())
+        2 -> decodeSerializableElement(descriptor, 2, ObjectArg.Receiving.serializer())
+        else -> throw SerializationException("Unknown ObjectArg index: $index")
       }
-      result ?: throw SerializationException("Failed to decode ObjectArg content")
     }
   }
 }
