@@ -15,88 +15,180 @@
  */
 package xyz.mcxross.ksui.unit
 
-import kotlin.test.Test
-import kotlin.test.assertTrue
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
+import xyz.mcxross.ksui.model.TypeTag
+import xyz.mcxross.ksui.ptb.Argument
 import xyz.mcxross.ksui.ptb.Command
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.inputs
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder
+import xyz.mcxross.ksui.ptb.PtbDsl
+import xyz.mcxross.ksui.util.toTypeTag
 
 const val HELLO_WORLD =
   "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
 
-class CommandTest {
+const val VALID_ADDR = "0x0000000000000000000000000000000000000000000000000000000000000123"
 
-  @Test
-  fun testCommandGeneration() = runBlocking {
-    val ptb = ptb { moveCall { target = HELLO_WORLD } }
-    assertTrue { ptb.commands.size == 1 }
-    assertTrue { ptb.inputs.isEmpty() }
-  }
+class CommandTest :
+  StringSpec({
+    fun testPtbConstruction(block: PtbDsl.() -> Unit): ProgrammableTransactionBuilder {
+      val builder = ProgrammableTransactionBuilder()
+      val dsl = PtbDsl(builder)
+      dsl.block()
+      return builder
+    }
 
-  @Test
-  fun testMoveCall() = runBlocking {
-    val ptb = ptb { moveCall { target = HELLO_WORLD } }
-    val moveCallCommand = ptb.commands[0] as Command.MoveCall
-    val moveCall = moveCallCommand.moveCall
-    assertTrue { ptb.commands[0] is Command.MoveCall }
-    assertTrue { moveCall.arguments.isEmpty() }
-    println(moveCall.pakage.toString())
-    assertTrue {
-      moveCall.pakage.hash.toString() ==
+    "should generate a single command from moveCall" {
+      val builder = testPtbConstruction { moveCall { target = HELLO_WORLD } }
+
+      builder.list shouldHaveSize 1
+    }
+
+    "should parse moveCall package, module, and function correctly" {
+      val builder = testPtbConstruction { moveCall { target = HELLO_WORLD } }
+
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.MoveCall>()
+
+      val moveCall = command.moveCall
+
+      moveCall.pakage.toString() shouldBe
         "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d"
-    }
-    assertTrue { moveCall.module == "hello_wolrd" }
-    assertTrue { moveCall.function == "hello_world" }
-    assertTrue { ptb.inputs.isEmpty() }
-  }
 
-  @Test
-  fun testTransferObjects() = runBlocking {
-    /*val ptb = ptb {
-      transferObjects {
-        objects = inputs("0x1234567890", "0x0987654321")
-        to = input(AccountAddress.EMPTY)
-      }
-    }
-    val transferObjectsCommand = ptb.commands[0] as Command.TransferObjects
-    val transferObjects = transferObjectsCommand.objects
-    assertTrue { ptb.commands[0] is Command.TransferObjects }
-    assertTrue { transferObjects.size == 2 }*/
-  }
-
-  @Test
-  fun testSplitCoins() = runBlocking {
-    /* val ptb = ptb {
-      val splitCoins = splitCoins {
-        coin = Argument.GasCoin
-        into = listOf(1_000_000UL, 2_000_000UL, 3_000_000UL)
-      }
-      transferObjects {
-        objects = inputs(splitCoins)
-        to = input(AccountAddress.EMPTY)
-      }
+      moveCall.module shouldBe "hello_wolrd"
+      moveCall.function shouldBe "hello_world"
+      moveCall.arguments shouldHaveSize 0
     }
 
-    val splitCoinsCommand = ptb.commands[0] as Command.SplitCoins
-    val coin = splitCoinsCommand.coin
-    val into = splitCoinsCommand.into
-    assertTrue { ptb.commands[0] is Command.SplitCoins }
-    assertTrue { coin == Argument.GasCoin }
-    assertTrue { into.size == 3 }*/
-  }
+    "should handle moveCall with multiple type arguments" {
+      val builder = testPtbConstruction {
+        moveCall {
+          target = "0x2::coin::withdraw"
+          typeArguments = listOf(TypeTag.U64, "0x2::sui::SUI".toTypeTag())
+          arguments = listOf(pure(100UL))
+        }
+      }
 
-  @Test
-  fun testPTB() = runBlocking {
-    /* val ptb = ptb {
-      val splitCoins = splitCoins {
-        coin = Argument.GasCoin
-        into = inputs(1, 2, 3)
+      builder.list shouldHaveSize 1
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.MoveCall>()
+
+      val moveCall = command.moveCall
+      moveCall.typeArguments shouldHaveSize 2
+
+      moveCall.typeArguments[0] shouldBe TypeTag.U64
+
+      val secondArg = moveCall.typeArguments[1]
+      secondArg.shouldBeInstanceOf<TypeTag.Struct>()
+
+      val structTag = secondArg.tag
+      structTag.address.toString() shouldBe
+        "0x0000000000000000000000000000000000000000000000000000000000000002"
+      structTag.module shouldBe "sui"
+      structTag.name shouldBe "SUI"
+    }
+
+    "should correctly map arguments in transferObjects" {
+      val builder = testPtbConstruction {
+        val obj1 = pure(100UL)
+        val obj2 = pure(200UL)
+        val recipient = address(VALID_ADDR)
+
+        transferObjects {
+          objects = listOf(obj1, obj2)
+          to = recipient
+        }
       }
-      val transferObjects = transferObjects {
-        this.objects = inputs(splitCoins)
-        to = input(AccountAddress.EMPTY)
+
+      builder.list shouldHaveSize 1
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.TransferObjects>()
+
+      command.objects shouldHaveSize 2
+      command.objects[0] shouldBe Argument.Input(0u)
+      command.objects[1] shouldBe Argument.Input(1u)
+      command.address shouldBe Argument.Input(2u)
+    }
+
+    "should correctly construct splitCoins with GasCoin" {
+      val builder = testPtbConstruction {
+        splitCoins {
+          coin = Argument.GasCoin
+          into = listOf(pure(1_000_000UL), pure(2_000_000UL), pure(3_000_000UL))
+        }
       }
-    }*/
-  }
-}
+
+      builder.list shouldHaveSize 1
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.SplitCoins>()
+
+      command.coin shouldBe Argument.GasCoin
+      command.into shouldHaveSize 3
+      command.into[0] shouldBe Argument.Input(0u)
+    }
+
+    "should construct mergeCoins with correct input indices" {
+      val builder = testPtbConstruction {
+        val destCoin = pure(100UL)
+        val srcCoin1 = pure(10UL)
+        val srcCoin2 = pure(20UL)
+
+        mergeCoins {
+          coin = destCoin
+          coins = listOf(srcCoin1, srcCoin2)
+        }
+      }
+
+      builder.list shouldHaveSize 1
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.MergeCoins>()
+
+      command.coin shouldBe Argument.Input(0u)
+      command.coins shouldHaveSize 2
+      command.coins[0] shouldBe Argument.Input(1u)
+    }
+
+    "should handle makeMoveVec with type tags" {
+      val builder = testPtbConstruction {
+        val item1 = pure(1.toByte())
+        val item2 = pure(2.toByte())
+
+        makeMoveVec {
+          typeTag = TypeTag.U8
+          values = listOf(item1, item2)
+        }
+      }
+
+      builder.list shouldHaveSize 1
+      val command = builder.list.first()
+      command.shouldBeInstanceOf<Command.MakeMoveVec>()
+
+      command.typeTag shouldBe TypeTag.U8
+      command.values shouldHaveSize 2
+    }
+
+    "should chain results from one command to another (NestedResult)" {
+      val builder = testPtbConstruction {
+        val newCoins = splitCoins {
+          coin = Argument.GasCoin
+          into = listOf(pure(500UL))
+        }
+
+        transferObjects {
+          objects = listOf(newCoins[0])
+          to = address(VALID_ADDR)
+        }
+      }
+
+      builder.list shouldHaveSize 2
+      val transferCmd = builder.list[1]
+      transferCmd.shouldBeInstanceOf<Command.TransferObjects>()
+
+      val objectArg = transferCmd.objects[0]
+      objectArg.shouldBeInstanceOf<Argument.NestedResult>()
+      objectArg.commandIndex shouldBe 0u
+      objectArg.returnValueIndex shouldBe 0u
+    }
+  })

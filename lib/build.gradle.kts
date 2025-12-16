@@ -9,6 +9,8 @@ plugins {
   alias(libs.plugins.dokka)
   alias(libs.plugins.apollo.graphql)
   alias(libs.plugins.maven.publish)
+  alias(libs.plugins.ksp)
+  alias(libs.plugins.kotest)
 }
 
 group = "xyz.mcxross.ksui"
@@ -88,6 +90,8 @@ kotlin {
     commonTest.dependencies {
       implementation(libs.ktor.client.mock)
       implementation(libs.kotlin.test)
+      implementation(libs.kotest.framework.engine)
+      implementation(libs.kotest.assertions.core)
     }
     jsMain.dependencies { implementation(libs.ktor.client.js) }
     val jvmMain by getting {
@@ -96,6 +100,9 @@ kotlin {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
       }
+    }
+    jvmTest.dependencies {
+      implementation("io.kotest:kotest-runner-junit5:6.0.7")
     }
   }
 }
