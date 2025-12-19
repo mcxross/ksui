@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.libs
+
 plugins {
   kotlin("jvm")
   application
@@ -18,6 +20,7 @@ dependencies {
   implementation(project(":ksui"))
   implementation(libs.ktor.serialization.kotlinx.json)
   implementation(libs.apollo.runtime)
+  implementation(libs.bcs)
   testImplementation(libs.junit.jupiter.api)
   testRuntimeOnly(libs.junit.jupiter.engine)
 }
