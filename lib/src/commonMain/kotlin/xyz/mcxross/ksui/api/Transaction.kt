@@ -85,10 +85,9 @@ class Transaction(val config: SuiConfig) : Transaction {
    */
   override suspend fun devInspectTransactionBlock(
     txBytes: String,
-    txMetaData: TransactionMetaData,
     options: ExecuteTransactionBlockResponseOptions,
   ): Result<DevInspectTransactionBlockQuery.Data?, SuiError> =
-    devInspectTransactionBlock(config, txBytes, txMetaData, options)
+    devInspectTransactionBlock(config, txBytes, options)
 
   /**
    * Simulates the execution of a transaction block without committing it to the network.
