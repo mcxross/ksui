@@ -71,8 +71,7 @@ interface Transaction {
    */
   suspend fun devInspectTransactionBlock(
     txBytes: String,
-    txMetaData: TransactionMetaData,
-    options: ExecuteTransactionBlockResponseOptions,
+    options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<DevInspectTransactionBlockQuery.Data?, SuiError>
 
   /**

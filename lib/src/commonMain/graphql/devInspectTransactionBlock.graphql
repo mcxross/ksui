@@ -66,10 +66,13 @@ query devInspectTransactionBlock(
                     outputState { version }
                 }
             }
-        }
-        events @include(if: $showEvents) {
-            sender {
-                address
+
+            events @include(if: $showEvents) {
+                nodes {
+                    sender {
+                        address
+                    }
+                }
             }
         }
     }

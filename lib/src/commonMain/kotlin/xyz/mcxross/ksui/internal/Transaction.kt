@@ -51,7 +51,6 @@ import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionDataComposer
-import xyz.mcxross.ksui.model.TransactionMetaData
 import xyz.mcxross.ksui.model.content
 import xyz.mcxross.ksui.model.with
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
@@ -59,14 +58,15 @@ import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 internal suspend fun devInspectTransactionBlock(
   config: SuiConfig,
   txBytes: String,
-  txMetaData: TransactionMetaData,
   options: ExecuteTransactionBlockResponseOptions,
-): Result<DevInspectTransactionBlockQuery.Data?, SuiError> =
-  handleQuery {
+): Result<DevInspectTransactionBlockQuery.Data?, SuiError> {
+  val transactionInput = mapOf("bcs" to mapOf("value" to txBytes))
+
+  return handleQuery {
       getGraphqlClient(config)
         .query(
           DevInspectTransactionBlockQuery(
-            txBytes,
+            transactionInput,
             showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
             showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
@@ -76,6 +76,7 @@ internal suspend fun devInspectTransactionBlock(
         )
     }
     .toResult()
+}
 
 internal suspend fun dryRunTransactionBlock(
   config: SuiConfig,
