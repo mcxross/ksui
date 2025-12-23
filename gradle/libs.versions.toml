@@ -11,7 +11,7 @@ datastore-preferences = "1.2.0"
 espresso-core = "3.7.0"
 junit = "6.0.1"
 junit-version = "4.13.2"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlin-result = "2.1.0"
 ktor = "3.3.3"
 lifecycle-runtime-ktx = "2.10.0"
@@ -22,6 +22,7 @@ play-services-identity-credentials = "16.0.0-alpha08"
 security-crypto = "1.1.0"
 ksp = "2.2.21-2.0.4"
 kotest = "6.0.7"
+fastcrypto = "0.1.6-SNAPSHOT"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
@@ -67,6 +68,14 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 play-services-identity-credentials = { group = "com.google.android.gms", name = "play-services-identity-credentials", version.ref = "play-services-identity-credentials" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-assertions-core =  { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
+fastcrypto = { module = "xyz.mcxross.fastkrypto:fastcrypto", version.ref = "fastcrypto" }
+fastcrypto-android = { module = "xyz.mcxross.fastkrypto:fastkrypto-android", version.ref = "fastcrypto" }
+fastcrypto-jvm = { module = "xyz.mcxross.fastkrypto:fastkrypto-jvm", version.ref = "fastcrypto" }
+fastcrypto-iosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosarm64", version.ref = "fastcrypto" }
+fastcrypto-iosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosx64", version.ref = "fastcrypto" }
+fastcrypto-iossimulatorarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iossimulatorarm64", version.ref = "fastcrypto" }
+fastcrypto-macosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosarm64", version.ref = "fastcrypto" }
+fastcrypto-macosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosx64", version.ref = "fastcrypto" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
