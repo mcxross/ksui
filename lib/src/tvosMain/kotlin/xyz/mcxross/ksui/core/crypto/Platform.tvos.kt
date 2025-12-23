@@ -19,7 +19,7 @@ import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.model.Result
 
 private fun unsupported(): Nothing =
-  throw UnsupportedOperationException("fastkrypto bindings are not available for JS")
+  throw UnsupportedOperationException("fastkrypto bindings are not available for tvOS")
 
 actual fun hash(hash: Hash, data: ByteArray): ByteArray = unsupported()
 

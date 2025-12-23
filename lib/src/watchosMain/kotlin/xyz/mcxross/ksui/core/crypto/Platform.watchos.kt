@@ -18,46 +18,31 @@ package xyz.mcxross.ksui.core.crypto
 import xyz.mcxross.ksui.exception.E
 import xyz.mcxross.ksui.model.Result
 
-actual fun hash(hash: Hash, data: ByteArray): ByteArray {
-  TODO("Not yet implemented")
-}
+private fun unsupported(): Nothing =
+  throw UnsupportedOperationException("fastkrypto bindings are not available for watchOS")
 
-actual fun generateMnemonic(): String {
-  TODO("Not yet implemented")
-}
+actual fun hash(hash: Hash, data: ByteArray): ByteArray = unsupported()
 
-actual fun generateSeed(mnemonic: List<String>): ByteArray {
-  TODO("Not yet implemented")
-}
+actual fun generateMnemonic(): String = unsupported()
 
-actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey {
-  TODO("Not yet implemented")
-}
+actual fun generateSeed(mnemonic: List<String>): ByteArray = unsupported()
 
-actual fun importFromMnemonic(mnemonic: String): KeyPair {
-  TODO("Not yet implemented")
-}
+actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey = unsupported()
 
-actual fun importFromMnemonic(mnemonic: List<String>): KeyPair {
-  TODO("Not yet implemented")
-}
+actual fun importFromMnemonic(mnemonic: String): KeyPair = unsupported()
 
-actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E> {
-  TODO("Not yet implemented")
-}
+actual fun importFromMnemonic(mnemonic: List<String>): KeyPair = unsupported()
+
+actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E> = unsupported()
 
 actual fun derivePrivateKeyFromMnemonic(
   mnemonic: List<String>,
   scheme: SignatureScheme,
   path: String,
-): ByteArray {
-  TODO("Not yet implemented")
-}
+): ByteArray = unsupported()
 
 actual fun verifySignature(
   publicKey: PublicKey,
   message: ByteArray,
   signature: ByteArray,
-): Result<Boolean, E> {
-  TODO("Not yet implemented")
-}
+): Result<Boolean, E> = unsupported()
