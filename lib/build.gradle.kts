@@ -1,6 +1,7 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
@@ -15,7 +16,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "2.2.4-SNAPSHOT"
+version = "2.3.6-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -25,6 +26,8 @@ repositories {
 }
 
 kotlin {
+  jvmToolchain(17)
+
   androidTarget { publishLibraryVariants("release", "debug") }
 
   iosX64()
@@ -42,7 +45,10 @@ kotlin {
     }
     nodejs()
   }
-  jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
+  jvm {
+    compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
+    testRuns["test"].executionTask.configure { useJUnitPlatform() }
+  }
 
   macosArm64()
   macosX64()
@@ -74,6 +80,7 @@ kotlin {
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
         implementation(libs.play.services.identity.credentials)
+        implementation(libs.fastcrypto.android)
       }
     }
     commonMain.dependencies {
@@ -99,15 +106,19 @@ kotlin {
       dependencies {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
+        implementation(libs.fastcrypto.jvm)
       }
     }
-    jvmTest.dependencies {
-      implementation("io.kotest:kotest-runner-junit5:6.0.7")
-    }
+    jvmTest.dependencies { implementation("io.kotest:kotest-runner-junit5:6.0.7") }
+    iosArm64Main.dependencies { implementation(libs.fastcrypto.iosarm64) }
+    iosX64Main.dependencies { implementation(libs.fastcrypto.iosx64) }
+    iosSimulatorArm64Main.dependencies { implementation(libs.fastcrypto.iossimulatorarm64) }
+    macosArm64Main.dependencies { implementation(libs.fastcrypto.macosarm64) }
+    macosX64Main.dependencies { implementation(libs.fastcrypto.macosx64) }
   }
 }
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(20))
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
 
