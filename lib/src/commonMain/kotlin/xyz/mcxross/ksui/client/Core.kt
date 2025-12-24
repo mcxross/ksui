@@ -37,5 +37,10 @@ expect class ClientConfig {
 
 fun getClient(clientConfig: ClientConfig) = httpClient(clientConfig)
 
-fun getGraphqlClient(config: SuiConfig) =
-  ApolloClient.Builder().serverUrl(config.getRequestUrl(SuiApiType.INDEXER)).build()
+fun getGraphqlClient(config: SuiConfig): ApolloClient {
+  val builder = ApolloClient.Builder().serverUrl(config.getRequestUrl(SuiApiType.INDEXER))
+  config.getHeaders(SuiApiType.INDEXER)?.forEach { (key, value) ->
+    builder.addHttpHeader(key, value.toString())
+  }
+  return builder.build()
+}
