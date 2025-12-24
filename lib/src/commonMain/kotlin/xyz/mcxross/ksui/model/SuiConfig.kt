@@ -59,6 +59,18 @@ class SuiConfig(settings: SuiSettings? = null) {
       }
     }
   }
+
+  fun getHeaders(apiType: SuiApiType): Map<String, Any>? {
+    return when (apiType) {
+      SuiApiType.FULLNODE -> fullNodeConfig.headers
+      SuiApiType.INDEXER -> indexerConfig.headers
+      SuiApiType.FAUCET -> {
+        val headers = faucetConfig.headers?.toMutableMap() ?: mutableMapOf()
+        faucetConfig.authToken?.let { headers["Authorization"] = "Bearer $it" }
+        headers.ifEmpty { null }
+      }
+    }
+  }
 }
 
 /** General type definition for client headers */
