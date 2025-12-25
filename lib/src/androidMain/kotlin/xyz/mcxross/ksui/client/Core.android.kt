@@ -50,10 +50,12 @@ actual fun httpClient(clientConfig: ClientConfig) =
     install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) }
 
     // How about retries? Things can go wrong, so let's retry a few times.
-    install(HttpRequestRetry) {
-      retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
-      maxRetries = clientConfig.maxRetries
-      exponentialDelay()
+    if (clientConfig.maxRetries > 0 || clientConfig.retryOnServerErrors > 0) {
+      install(HttpRequestRetry) {
+        retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
+        maxRetries = clientConfig.maxRetries
+        exponentialDelay()
+      }
     }
 
     // Enable caching if the user wants it.

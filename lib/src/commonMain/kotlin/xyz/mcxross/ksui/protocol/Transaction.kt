@@ -26,10 +26,13 @@ import xyz.mcxross.ksui.generated.GetTotalTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
 import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.GasLessTransactionData
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.TransactionExpiration
 import xyz.mcxross.ksui.model.TransactionMetaData
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
 
@@ -123,6 +126,18 @@ interface Transaction {
     gasBudget: ULong = 5_000_000UL,
     options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
+
+  suspend fun sponsoredTransaction(
+    ptb: ProgrammableTransaction,
+    sender: AccountAddress,
+    expiration: TransactionExpiration = TransactionExpiration.None,
+  ): Result<GasLessTransactionData, Exception>
+
+  suspend fun sponsoredTransaction(
+    ptb: ProgrammableTransaction,
+    sender: String,
+    expiration: TransactionExpiration = TransactionExpiration.None,
+  ): Result<GasLessTransactionData, Exception>
 
   /**
    * Fetches the details of a specific transaction block by its digest.
