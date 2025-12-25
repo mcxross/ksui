@@ -1,3 +1,18 @@
+/*
+ * Copyright 2025 McXross
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package xyz.mcxross.ksui.sample
 
 import io.ktor.client.HttpClient
@@ -13,7 +28,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlin.io.encoding.Base64
-import kotlinx.serialization.Serializable
+import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.model.GasLessTransactionData
@@ -25,9 +40,7 @@ import xyz.mcxross.ksui.model.sign
 import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.runBlocking
 
-@Serializable
-data class SponsoredResponseManual(val txBytes: String, val sponsorSignature: String, val status: String)
-
+@OptIn(ExperimentalEncodingApi::class)
 fun main() = runBlocking {
   val sui = Sui(config = SuiConfig(SuiSettings(Network.TESTNET)))
 
@@ -48,20 +61,17 @@ fun main() = runBlocking {
     }
 
   val res =
-    httpClient.post("http://0.0.0.0:8080/gas") {
+    httpClient.post(GAS_STATION_URL) {
       contentType(ContentType.Application.Json)
-      header(
-        "X-API-Key",
-        "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA",
-      )
-      setBody(GasRequestManual(txBytes = base64, sender = ALICE_ACCOUNT.address.toString()))
+      header("X-API-Key", GAS_STATION_API_KEY)
+      setBody(GasRequest(txBytes = base64, sender = ALICE_ACCOUNT.address.toString()))
     }
 
   if (res.status != HttpStatusCode.OK) {
     throw Exception("HTTP error ${res.status}: ${res.bodyAsText()}")
   }
 
-  val sponsoredResponse = res.body<SponsoredResponseManual>()
+  val sponsoredResponse = res.body<SponsoredResponse>()
 
   val txDataBytes = Base64.decode(sponsoredResponse.txBytes)
   val txData = xyz.mcxross.ksui.util.bcsDecode<TransactionData>(txDataBytes)
@@ -80,5 +90,3 @@ fun main() = runBlocking {
 
   println(response)
 }
-
-@Serializable data class GasRequestManual(val txBytes: String, val sender: String)
