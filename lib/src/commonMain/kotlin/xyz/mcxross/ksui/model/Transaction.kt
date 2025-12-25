@@ -242,9 +242,52 @@ fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
 
 @OptIn(ExperimentalEncodingApi::class)
+suspend fun TransactionData.sign(signer: xyz.mcxross.ksui.account.Account): Result<String, Exception> {
+  val intentMessage = IntentMessage(Intent.suiTransaction(), this)
+  val messageHash =
+    xyz.mcxross.ksui.core.crypto.hash(
+      xyz.mcxross.ksui.core.crypto.Hash.BLAKE2B256,
+      xyz.mcxross.ksui.util.bcsEncode(intentMessage),
+    )
+
+  return when (val sig = signer.sign(messageHash)) {
+    is Result.Ok -> {
+      val serializedSignature =
+        when (signer.scheme) {
+          xyz.mcxross.ksui.core.crypto.SignatureScheme.PASSKEY -> sig.value
+          else ->
+            byteArrayOf(signer.scheme.scheme) + sig.value + signer.publicKey.data
+        }
+      Result.Ok(Base64.encode(serializedSignature))
+    }
+    is Result.Err -> Result.Err(Exception(sig.error.toString()))
+  }
+}
+
+@OptIn(ExperimentalEncodingApi::class)
 fun Txn.data(): String =
   Base64.encode(bcsEncode(this.data.senderSignedTransactions[0].intentMessage.value))
 
 fun Txn.signatures(): List<String> = this.data.senderSignedTransactions.first().txSignatures
 
 fun Txn.content(): Pair<String, List<String>> = this.data() to this.signatures()
+
+@Serializable
+data class GasLessTransactionData(
+  val kind: TransactionKind,
+  val sender: AccountAddress,
+  val expiration: TransactionExpiration = TransactionExpiration.None,
+) {
+  companion object {
+    fun new(
+      pt: ProgrammableTransaction,
+      sender: AccountAddress,
+      expiration: TransactionExpiration = TransactionExpiration.None,
+    ) =
+      GasLessTransactionData(
+        kind = (TransactionKind::ProgrammableTransaction)(pt),
+        sender = sender,
+        expiration = expiration,
+      )
+  }
+}
