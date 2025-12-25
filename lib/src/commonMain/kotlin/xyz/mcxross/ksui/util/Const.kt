@@ -22,3 +22,5 @@ const val MODULE = "module"
 const val FUNCTION = "function"
 
 const val SUI_PRIVATE_KEY_PREFIX = "suiprivkey"
+
+const val MAX_COMMANDS_IN_PTB = 1024

@@ -25,10 +25,18 @@ import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 import xyz.mcxross.ksui.model.*
 import xyz.mcxross.ksui.serializer.ProgrammableTransactionSerializer
+import xyz.mcxross.ksui.util.MAX_COMMANDS_IN_PTB
 
 @Serializable(with = ProgrammableTransactionSerializer::class)
 data class ProgrammableTransaction(val inputs: List<CallArg>, val commands: List<Command>) :
-  TransactionKind()
+  TransactionKind() {
+  init {
+    require(commands.size <= MAX_COMMANDS_IN_PTB) { "Maximum number of commands is 1024" }
+    require(inputs.none { it is CallArg.ObjectStr }) {
+      "ProgrammableTransaction contains unresolved ObjectStr inputs. Call build(sui) first."
+    }
+  }
+}
 
 class ProgrammableTransactionBuilder : Command() {
 
