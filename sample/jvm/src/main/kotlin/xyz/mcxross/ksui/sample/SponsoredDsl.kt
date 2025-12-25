@@ -16,7 +16,7 @@
 package xyz.mcxross.ksui.sample
 
 import kotlin.io.encoding.Base64
-import kotlinx.serialization.Serializable
+import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.dsl.sponsoredTransaction
 import xyz.mcxross.ksui.model.Network
@@ -27,15 +27,20 @@ import xyz.mcxross.ksui.model.sign
 import xyz.mcxross.ksui.util.bcsDecode
 import xyz.mcxross.ksui.util.runBlocking
 
+@OptIn(ExperimentalEncodingApi::class)
 fun main() = runBlocking {
   val sui = Sui(config = SuiConfig(SuiSettings(Network.TESTNET)))
 
+  // Using the new sponsoredTransaction DSL
   val sponsoredResponse: SponsoredResponse =
-    sponsoredTransaction(requestFactory = { txBytes, sender -> GasRequest(txBytes, sender) }) {
+    sponsoredTransaction(
+      sui = sui,
+      requestFactory = { txBytes, sender -> GasRequest(txBytes, sender) },
+    ) {
       sender = ALICE_ACCOUNT.address
       gasStation {
-        url = "http://0.0.0.0:8080/gas"
-        headers["X-API-Key"] = "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA"
+        url = GAS_STATION_URL
+        headers["X-API-Key"] = GAS_STATION_API_KEY
       }
       ptb {
         moveCall {
@@ -45,6 +50,7 @@ fun main() = runBlocking {
       }
     }
 
+  // After obtaining sponsorship, the user signs the transaction
   val txData = bcsDecode<TransactionData>(Base64.decode(sponsoredResponse.txBytes))
 
   val userSignature =
@@ -53,6 +59,7 @@ fun main() = runBlocking {
       is xyz.mcxross.ksui.model.Result.Err -> throw sig.error
     }
 
+  // Finally, execute the transaction block with both signatures
   val response =
     sui.executeTransactionBlock(
       sponsoredResponse.txBytes,
@@ -61,7 +68,3 @@ fun main() = runBlocking {
 
   println("Transaction response: $response")
 }
-
-@Serializable data class SponsoredResponse(val txBytes: String, val sponsorSignature: String)
-
-@Serializable data class GasRequest(val txBytes: String, val sender: String)
