@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 McXross
+ * Copyright 2025 McXross
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.util
+package xyz.mcxross.ksui.sample
 
-const val LENGTH: Int = 32
+import kotlinx.serialization.Serializable
 
-const val PACKAGE_ID = "packageId"
-const val MODULE = "module"
-const val FUNCTION = "function"
+const val GAS_STATION_URL = "http://0.0.0.0:8080/gas"
+const val GAS_STATION_API_KEY = "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA"
 
-const val SUI_PRIVATE_KEY_PREFIX = "suiprivkey"
+@Serializable
+data class GasRequest(val txBytes: String, val sender: String)
 
-const val MAX_COMMANDS_IN_PTB = 1024
+@Serializable
+data class SponsoredResponse(val txBytes: String, val sponsorSignature: String)
