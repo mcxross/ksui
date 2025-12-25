@@ -23,9 +23,6 @@ import xyz.mcxross.ksui.model.SuiSettings
 import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.runBlocking
 
-const val HELLO_WORLD =
-  "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
-
 fun main() = runBlocking {
   val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))
 
