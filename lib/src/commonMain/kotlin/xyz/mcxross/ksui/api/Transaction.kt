@@ -31,12 +31,15 @@ import xyz.mcxross.ksui.internal.getTransactionBlock
 import xyz.mcxross.ksui.internal.paginateTransactionBlockLists
 import xyz.mcxross.ksui.internal.queryTransactionBlocks
 import xyz.mcxross.ksui.internal.signAndSubmitTransaction
+import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.GasLessTransactionData
 import xyz.mcxross.ksui.model.Option
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.TransactionExpiration
 import xyz.mcxross.ksui.model.TransactionMetaData
 import xyz.mcxross.ksui.protocol.Transaction
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
@@ -139,6 +142,24 @@ class Transaction(val config: SuiConfig) : Transaction {
     options: ExecuteTransactionBlockResponseOptions,
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError> =
     signAndSubmitTransaction(config, signer, ptb, gasBudget, options)
+
+  override suspend fun sponsoredTransaction(
+    ptb: ProgrammableTransaction,
+    sender: AccountAddress,
+    expiration: TransactionExpiration,
+  ): Result<GasLessTransactionData, Exception> =
+    xyz.mcxross.ksui.internal.sponsoredTransaction(ptb, sender, expiration)
+
+  override suspend fun sponsoredTransaction(
+    ptb: ProgrammableTransaction,
+    sender: String,
+    expiration: TransactionExpiration,
+  ): Result<GasLessTransactionData, Exception> =
+    xyz.mcxross.ksui.internal.sponsoredTransaction(
+      ptb,
+      AccountAddress.fromString(sender),
+      expiration,
+    )
 
   /**
    * Fetches the details of a specific transaction block by its digest.

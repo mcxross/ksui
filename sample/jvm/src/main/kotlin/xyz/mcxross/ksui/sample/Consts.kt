@@ -28,3 +28,5 @@ val BOB_ACCOUNT = Account.import(BOB_PASS_PHRASE.split(" "))
 const val CAROL_PRIVATE_KEY =
   "***REMOVED***"
 val CAROL_ACCOUNT = Account.import(CAROL_PRIVATE_KEY)
+
+const val HELLO_WORLD = "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"

@@ -41,6 +41,7 @@ import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.GasLessTransactionData
 import xyz.mcxross.ksui.model.Intent
 import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.ObjectDigest
@@ -51,6 +52,7 @@ import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionDataComposer
+import xyz.mcxross.ksui.model.TransactionExpiration
 import xyz.mcxross.ksui.model.content
 import xyz.mcxross.ksui.model.with
 import xyz.mcxross.ksui.ptb.ProgrammableTransaction
@@ -251,8 +253,7 @@ internal suspend fun signAndSubmitTransaction(
       pt = ptb,
       gasBudget = gasBudget,
       gasPrice =
-        gasPrice?.epoch?.referenceGasPrice.toString().toULong()
-          ?: throw SuiException("Failed to get gas price"),
+        gasPrice?.epoch?.referenceGasPrice.toString().toULong(),
     )
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
@@ -296,6 +297,18 @@ internal suspend fun signAndSubmitTransaction(
   }
 
   return Result.Ok(response.data)
+}
+
+internal fun sponsoredTransaction(
+  ptb: ProgrammableTransaction,
+  sender: AccountAddress,
+  expiration: TransactionExpiration,
+): Result<GasLessTransactionData, Exception> {
+  return if (sender == AccountAddress.EMPTY) {
+    Result.Err(Exception("Sender address cannot be empty"))
+  } else {
+    Result.Ok(GasLessTransactionData.new(ptb, sender, expiration))
+  }
 }
 
 /**
