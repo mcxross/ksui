@@ -11,6 +11,7 @@ datastore-preferences = "1.2.0"
 espresso-core = "3.7.0"
 junit = "6.0.1"
 junit-version = "4.13.2"
+kotest-runner-junit5 = "6.0.7"
 kotlin = "2.3.0"
 kotlin-result = "2.1.0"
 ktor = "3.3.3"
@@ -22,7 +23,7 @@ play-services-identity-credentials = "16.0.0-alpha08"
 security-crypto = "1.1.0"
 ksp = "2.2.21-2.0.4"
 kotest = "6.0.7"
-fastcrypto = "0.2.0-SNAPSHOT"
+fastkrypto = "0.1.0"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
@@ -51,6 +52,7 @@ bitcoinj-core = { module = "org.bitcoinj:bitcoinj-core", version = "0.17" }
 junit = { module = "junit:junit", version.ref = "junit-version" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest-runner-junit5" }
 kotlin-result = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "kotlin-result" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version = "2.2.0" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
@@ -68,14 +70,14 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 play-services-identity-credentials = { group = "com.google.android.gms", name = "play-services-identity-credentials", version.ref = "play-services-identity-credentials" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-assertions-core =  { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
-fastcrypto = { module = "xyz.mcxross.fastkrypto:fastcrypto", version.ref = "fastcrypto" }
-fastcrypto-android = { module = "xyz.mcxross.fastkrypto:fastkrypto-android", version.ref = "fastcrypto" }
-fastcrypto-jvm = { module = "xyz.mcxross.fastkrypto:fastkrypto-jvm", version.ref = "fastcrypto" }
-fastcrypto-iosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosarm64", version.ref = "fastcrypto" }
-fastcrypto-iosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosx64", version.ref = "fastcrypto" }
-fastcrypto-iossimulatorarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iossimulatorarm64", version.ref = "fastcrypto" }
-fastcrypto-macosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosarm64", version.ref = "fastcrypto" }
-fastcrypto-macosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosx64", version.ref = "fastcrypto" }
+fastkrypto = { module = "xyz.mcxross.fastkrypto:fastkrypto", version.ref = "fastkrypto" }
+fastkrypto-android = { module = "xyz.mcxross.fastkrypto:fastkrypto-android", version.ref = "fastkrypto" }
+fastkrypto-jvm = { module = "xyz.mcxross.fastkrypto:fastkrypto-jvm", version.ref = "fastkrypto" }
+fastkrypto-iosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosarm64", version.ref = "fastkrypto" }
+fastkrypto-iosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iosx64", version.ref = "fastkrypto" }
+fastkrypto-iossimulatorarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-iossimulatorarm64", version.ref = "fastkrypto" }
+fastkrypto-macosarm64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosarm64", version.ref = "fastkrypto" }
+fastkrypto-macosx64 = { module = "xyz.mcxross.fastkrypto:fastkrypto-macosx64", version.ref = "fastkrypto" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
