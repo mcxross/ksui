@@ -30,3 +30,6 @@ const val CAROL_PRIVATE_KEY =
 val CAROL_ACCOUNT = Account.import(CAROL_PRIVATE_KEY)
 
 const val HELLO_WORLD = "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
+
+val GAS_STATION_URL = System.getenv("GAS_STATION_URL")
+val GAS_STATION_API_KEY = System.getenv("GAS_STATION_API_KEY")

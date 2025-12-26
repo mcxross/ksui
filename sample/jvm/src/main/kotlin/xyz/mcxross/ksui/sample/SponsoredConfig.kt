@@ -17,9 +17,6 @@ package xyz.mcxross.ksui.sample
 
 import kotlinx.serialization.Serializable
 
-const val GAS_STATION_URL = "http://0.0.0.0:8080/gas"
-const val GAS_STATION_API_KEY = "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA"
-
 @Serializable
 data class GasRequest(val txBytes: String, val sender: String)
 
