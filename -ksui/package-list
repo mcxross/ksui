@@ -150,8 +150,10 @@ $dokka.location:xyz.mcxross.ksui.api/Transaction/getTotalTransactionBlocks/#/Poi
 $dokka.location:xyz.mcxross.ksui.api/Transaction/getTransactionBlock/#kotlin.String#xyz.mcxross.ksui.model.TransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/get-transaction-block.html
 $dokka.location:xyz.mcxross.ksui.api/Transaction/paginateTransactionBlockLists/#kotlin.String#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.String?#kotlin.String?#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/paginate-transaction-block-lists.html
 $dokka.location:xyz.mcxross.ksui.api/Transaction/queryTransactionBlocks/#xyz.mcxross.ksui.model.TransactionBlockFilter#xyz.mcxross.ksui.model.TransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/query-transaction-blocks.html
-$dokka.location:xyz.mcxross.ksui.api/Transaction/signAndExecuteTransactionBlock/#xyz.mcxross.ksui.account.Account#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/sign-and-execute-transaction-block.html
+$dokka.location:xyz.mcxross.ksui.api/Transaction/signAndExecuteTransactionBlock/#xyz.mcxross.ksui.account.Account#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/sign-and-execute-transaction-block.html
 $dokka.location:xyz.mcxross.ksui.api/Transaction/signTransaction/#kotlin.ByteArray#xyz.mcxross.ksui.account.Account/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/sign-transaction.html
+$dokka.location:xyz.mcxross.ksui.api/Transaction/sponsoredTransaction/#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.String#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/sponsored-transaction.html
+$dokka.location:xyz.mcxross.ksui.api/Transaction/sponsoredTransaction/#xyz.mcxross.ksui.ptb.ProgrammableTransaction#xyz.mcxross.ksui.model.AccountAddress#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/sponsored-transaction.html
 $dokka.location:xyz.mcxross.ksui.api/Transaction/waitForTransaction/#kotlin.String#xyz.mcxross.ksui.model.TransactionBlockResponseOptions#kotlin.Long#kotlin.Long/PointingToDeclaration/-ksui/xyz.mcxross.ksui.api/-transaction/wait-for-transaction.html
 $dokka.location:xyz.mcxross.ksui.client////PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/index.html
 $dokka.location:xyz.mcxross.ksui.client//getClient/#xyz.mcxross.ksui.client.ClientConfig/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/get-client.html
@@ -166,7 +168,7 @@ $dokka.location:xyz.mcxross.ksui.client/ClientConfig///PointingToDeclaration/-k
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#kotlin.Boolean#[Error type: Unresolved type for xyz.mcxross.ksui.model.UserAgent]?#kotlin.String#kotlin.Long#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#kotlin.Boolean#kotlin.Boolean#kotlin.Long#kotlin.Long#kotlin.Long#kotlin.String?#kotlin.String#xyz.mcxross.ksui.model.UserAgent?#kotlin.Int#kotlin.Int#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#kotlin.Boolean#kotlin.Int#kotlin.Boolean#kotlin.Int#kotlin.Int#kotlin.Long#kotlin.Long#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.String#xyz.mcxross.ksui.model.UserAgent?#kotlin.Long#kotlin.Long#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
-$dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#kotlin.Boolean#kotlin.String#xyz.mcxross.ksui.model.UserAgent?#kotlin.Long#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
+$dokka.location:xyz.mcxross.ksui.client/ClientConfig/ClientConfig/#kotlin.Boolean#kotlin.String#[Error type: Unresolved type for xyz.mcxross.ksui.model.UserAgent]?#kotlin.Long#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/-client-config.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/agent/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/[jvm]agent.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/cache/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/[jvm]cache.html
 $dokka.location:xyz.mcxross.ksui.client/ClientConfig/connectAttempts/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.client/-client-config/connect-attempts.html
@@ -192,7 +194,6 @@ $dokka.location:xyz.mcxross.ksui.core.crypto//derivePrivateKeyFromMnemonic/#kotl
 $dokka.location:xyz.mcxross.ksui.core.crypto//derivePublicKey/#[Error type: Unresolved type for PrivateKey]#[Error type: Unresolved type for SignatureScheme]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/derive-public-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//derivePublicKey/#xyz.mcxross.ksui.core.crypto.PrivateKey#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/derive-public-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//findCommonPublicKey/#kotlin.collections.List[xyz.mcxross.ksui.core.crypto.PasskeyPublicKey]#kotlin.collections.List[xyz.mcxross.ksui.core.crypto.PasskeyPublicKey]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/find-common-public-key.html
-$dokka.location:xyz.mcxross.ksui.core.crypto//generateKeyPair/#kotlin.ByteArray#xyz.mcxross.ksui.core.crypto.SignatureScheme/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-key-pair.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//generateMnemonic/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-mnemonic.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//generateSeed/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/generate-seed.html
 $dokka.location:xyz.mcxross.ksui.core.crypto//hash/#[Error type: Unresolved type for Hash]#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/hash.html
@@ -230,7 +231,6 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PublicKey/toString/#/Pointin
 $dokka.location:xyz.mcxross.ksui.core.crypto/Ed25519PublicKey/verify/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-ed25519-public-key/verify.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Hash.BLAKE2B256///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core.crypto/-hash/-b-l-a-k-e2-b256/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Hash///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-hash/index.html
-$dokka.location:xyz.mcxross.ksui.core.crypto/Hash/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-hash/entries.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Hash/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-hash/value-of.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/Hash/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-hash/values.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-key-pair/index.html
@@ -299,7 +299,6 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme.PASSKEY///PointingT
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme.Secp256k1///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/-secp256k1/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme.Secp256r1///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/-secp256r1/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/index.html
-$dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/entries.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme/scheme/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/scheme.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/value-of.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/SignatureScheme/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core.crypto/-signature-scheme/values.html
@@ -321,10 +320,21 @@ $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason.INVALID_HEX_CHARS///Point
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason.INVALID_LENGTH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/-i-n-v-a-l-i-d_-l-e-n-g-t-h/index.html
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason.TOO_SHORT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/-t-o-o_-s-h-o-r-t/index.html
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason///PointingToDeclaration/-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/index.html
-$dokka.location:xyz.mcxross.ksui.core/HexInvalidReason/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/entries.html
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason/reason/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/reason.html
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/value-of.html
 $dokka.location:xyz.mcxross.ksui.core/HexInvalidReason/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.core/-hex-invalid-reason/values.html
+$dokka.location:xyz.mcxross.ksui.dsl////PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/index.html
+$dokka.location:xyz.mcxross.ksui.dsl//sponsoredTransaction/#xyz.mcxross.ksui.Sui#kotlin.Function2[kotlin.String,kotlin.String,TypeParam(bounds=[kotlin.Any?])]#io.ktor.client.HttpClient?#kotlin.coroutines.SuspendFunction1[xyz.mcxross.ksui.dsl.SponsoredPtbScope,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/sponsored-transaction.html
+$dokka.location:xyz.mcxross.ksui.dsl/GasStationConfig///PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-gas-station-config/index.html
+$dokka.location:xyz.mcxross.ksui.dsl/GasStationConfig/GasStationConfig/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-gas-station-config/-gas-station-config.html
+$dokka.location:xyz.mcxross.ksui.dsl/GasStationConfig/headers/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-gas-station-config/headers.html
+$dokka.location:xyz.mcxross.ksui.dsl/GasStationConfig/url/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-gas-station-config/url.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope///PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/index.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope/SponsoredPtbScope/#xyz.mcxross.ksui.Sui/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/-sponsored-ptb-scope.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope/build/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/build.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope/gasStation/#kotlin.Function1[xyz.mcxross.ksui.dsl.GasStationConfig,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/gas-station.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope/ptb/#kotlin.Function1[xyz.mcxross.ksui.ptb.PtbDsl,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/ptb.html
+$dokka.location:xyz.mcxross.ksui.dsl/SponsoredPtbScope/sender/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.dsl/-sponsored-ptb-scope/sender.html
 $dokka.location:xyz.mcxross.ksui.exception////PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/index.html
 $dokka.location:xyz.mcxross.ksui.exception/E///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-e/index.html
 $dokka.location:xyz.mcxross.ksui.exception/ErrorLocation///PointingToDeclaration/-ksui/xyz.mcxross.ksui.exception/-error-location/index.html
@@ -354,7 +364,7 @@ $dokka.location:xyz.mcxross.ksui.exception/SuiException/SuiException/#kotlin.Str
 $dokka.location:xyz.mcxross.ksui.extension////PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/index.html
 $dokka.location:xyz.mcxross.ksui.extension//asIdParts/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/as-id-parts.html
 $dokka.location:xyz.mcxross.ksui.extension//formatAsSuiDomain/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/format-as-sui-domain.html
-$dokka.location:xyz.mcxross.ksui.extension//toId/kotlin.Triple[kotlin.String,kotlin.String,kotlin.String]#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/to-id.html
+$dokka.location:xyz.mcxross.ksui.extension//toId/[Error type: Unresolved type for Triple<String, String, String>][kotlin.String,kotlin.String,kotlin.String]#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/to-id.html
 $dokka.location:xyz.mcxross.ksui.extension//toObjectDigest/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/to-object-digest.html
 $dokka.location:xyz.mcxross.ksui.extension//toReference/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/to-reference.html
 $dokka.location:xyz.mcxross.ksui.extension/IdParts///PointingToDeclaration/-ksui/xyz.mcxross.ksui.extension/-id-parts/index.html
@@ -2927,7 +2937,6 @@ $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus.FAILURE///Pointi
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus.SUCCESS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-execution-status/-s-u-c-c-e-s-s/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-execution-status/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus///PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-execution-status/index.html
-$dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-execution-status/entries.html
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-execution-status/raw-value.html
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-execution-status/value-of.html
 $dokka.location:xyz.mcxross.ksui.generated.type/ExecutionStatus/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-execution-status/values.html
@@ -3010,7 +3019,6 @@ $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility.KEY///PointingToDecl
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility.STORE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-move-ability/-s-t-o-r-e/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-move-ability/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility///PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-ability/index.html
-$dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-ability/entries.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-ability/raw-value.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-ability/value-of.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveAbility/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-ability/values.html
@@ -3109,7 +3117,6 @@ $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility.PRIVATE///Pointin
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility.PUBLIC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/-p-u-b-l-i-c/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility///PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/index.html
-$dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/entries.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/raw-value.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/value-of.html
 $dokka.location:xyz.mcxross.ksui.generated.type/MoveVisibility/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-move-visibility/values.html
@@ -3169,7 +3176,6 @@ $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind.OBJECT///PointingToDec
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind.SHARED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/-s-h-a-r-e-d/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind///PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/index.html
-$dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/entries.html
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/raw-value.html
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/value-of.html
 $dokka.location:xyz.mcxross.ksui.generated.type/OwnerKind/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-owner-kind/values.html
@@ -3306,7 +3312,6 @@ $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput.PROGRAMMABL
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput.SYSTEM_TX///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/-s-y-s-t-e-m_-t-x/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput///PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/index.html
-$dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/entries.html
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/raw-value.html
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/value-of.html
 $dokka.location:xyz.mcxross.ksui.generated.type/TransactionKindInput/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.generated.type/-transaction-kind-input/values.html
@@ -5004,6 +5009,7 @@ $dokka.location:xyz.mcxross.ksui.model.serializer/ObjectDigestSerializer/seriali
 $dokka.location:xyz.mcxross.ksui.model////PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/index.html
 $dokka.location:xyz.mcxross.ksui.model//content/xyz.mcxross.ksui.model.Envelope[xyz.mcxross.ksui.model.SenderSignedData]#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/content.html
 $dokka.location:xyz.mcxross.ksui.model//data/xyz.mcxross.ksui.model.Envelope[xyz.mcxross.ksui.model.SenderSignedData]#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/data.html
+$dokka.location:xyz.mcxross.ksui.model//sign/xyz.mcxross.ksui.model.TransactionData#xyz.mcxross.ksui.account.Account/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/sign.html
 $dokka.location:xyz.mcxross.ksui.model//signatures/xyz.mcxross.ksui.model.Envelope[xyz.mcxross.ksui.model.SenderSignedData]#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/signatures.html
 $dokka.location:xyz.mcxross.ksui.model//toTransaction/xyz.mcxross.ksui.model.TransactionData#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/to-transaction.html
 $dokka.location:xyz.mcxross.ksui.model//transactionBlockResponseOptions/#kotlin.Function1[xyz.mcxross.ksui.model.TransactionBlockResponseOptionsBuilder,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/transaction-block-response-options.html
@@ -5025,7 +5031,6 @@ $dokka.location:xyz.mcxross.ksui.model/AccountAddress/toString/#/PointingToDecla
 $dokka.location:xyz.mcxross.ksui.model/AppId.NARWAL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-app-id/-n-a-r-w-a-l/index.html
 $dokka.location:xyz.mcxross.ksui.model/AppId.SUI///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-app-id/-s-u-i/index.html
 $dokka.location:xyz.mcxross.ksui.model/AppId///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-app-id/index.html
-$dokka.location:xyz.mcxross.ksui.model/AppId/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-app-id/entries.html
 $dokka.location:xyz.mcxross.ksui.model/AppId/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-app-id/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/AppId/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-app-id/values.html
 $dokka.location:xyz.mcxross.ksui.model/AuthenticationCredentialResponse///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-authentication-credential-response/index.html
@@ -5138,7 +5143,6 @@ $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFOREFFE
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFORLOCALEXECUTION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/-w-a-i-t-f-o-r-l-o-c-a-l-e-x-e-c-u-t-i-o-n/index.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType.WAITFORLOCALEXECUTION/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/-w-a-i-t-f-o-r-l-o-c-a-l-e-x-e-c-u-t-i-o-n/value.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/index.html
-$dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/entries.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/value.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/ExecuteTransactionRequestType/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-execute-transaction-request-type/values.html
@@ -5160,11 +5164,18 @@ $dokka.location:xyz.mcxross.ksui.model/FullNodeConfig///PointingToDeclaration/-
 $dokka.location:xyz.mcxross.ksui.model/FullNodeConfig/FullNodeConfig/#kotlin.collections.Map[kotlin.String,kotlin.Any]?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-full-node-config/-full-node-config.html
 $dokka.location:xyz.mcxross.ksui.model/FullNodeConfig/headers/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-full-node-config/headers.html
 $dokka.location:xyz.mcxross.ksui.model/GasData///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/index.html
-$dokka.location:xyz.mcxross.ksui.model/GasData/GasData/#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.model.AccountAddress#kotlin.ULong#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/-gas-data.html
+$dokka.location:xyz.mcxross.ksui.model/GasData/GasData/#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.model.AccountAddress#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/-gas-data.html
 $dokka.location:xyz.mcxross.ksui.model/GasData/budget/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/budget.html
 $dokka.location:xyz.mcxross.ksui.model/GasData/owner/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/owner.html
 $dokka.location:xyz.mcxross.ksui.model/GasData/payment/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/payment.html
 $dokka.location:xyz.mcxross.ksui.model/GasData/price/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-data/price.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData.Companion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/-companion/index.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData.Companion/new/#xyz.mcxross.ksui.ptb.ProgrammableTransaction#xyz.mcxross.ksui.model.AccountAddress#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/-companion/new.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/index.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData/GasLessTransactionData/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/-gas-less-transaction-data.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData/expiration/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/expiration.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData/kind/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/kind.html
+$dokka.location:xyz.mcxross.ksui.model/GasLessTransactionData/sender/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-gas-less-transaction-data/sender.html
 $dokka.location:xyz.mcxross.ksui.model/GraphqlQuery///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-graphql-query/index.html
 $dokka.location:xyz.mcxross.ksui.model/GraphqlQuery/GraphqlQuery/#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.String]?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-graphql-query/-graphql-query.html
 $dokka.location:xyz.mcxross.ksui.model/GraphqlQuery/query/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-graphql-query/query.html
@@ -5194,7 +5205,6 @@ $dokka.location:xyz.mcxross.ksui.model/IntentScope.SENDERSIGNEDTRANSACTION///Poi
 $dokka.location:xyz.mcxross.ksui.model/IntentScope.TRANSACTIONDATA///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-intent-scope/-t-r-a-n-s-a-c-t-i-o-n-d-a-t-a/index.html
 $dokka.location:xyz.mcxross.ksui.model/IntentScope.TRANSACTIONEFFECTS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-intent-scope/-t-r-a-n-s-a-c-t-i-o-n-e-f-f-e-c-t-s/index.html
 $dokka.location:xyz.mcxross.ksui.model/IntentScope///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-scope/index.html
-$dokka.location:xyz.mcxross.ksui.model/IntentScope/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-scope/entries.html
 $dokka.location:xyz.mcxross.ksui.model/IntentScope/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-scope/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/IntentScope/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-scope/values.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType.SUI_APP///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-intent-type/-s-u-i_-a-p-p/index.html
@@ -5202,13 +5212,11 @@ $dokka.location:xyz.mcxross.ksui.model/IntentType.SUI_APP/intent/#xyz.mcxross.ks
 $dokka.location:xyz.mcxross.ksui.model/IntentType.SUI_TX///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-intent-type/-s-u-i_-t-x/index.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType.SUI_TX/intent/#xyz.mcxross.ksui.model.IntentScope#xyz.mcxross.ksui.model.IntentVersion#xyz.mcxross.ksui.model.AppId/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/-s-u-i_-t-x/intent.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/index.html
-$dokka.location:xyz.mcxross.ksui.model/IntentType/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/entries.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType/intent/#xyz.mcxross.ksui.model.IntentScope#xyz.mcxross.ksui.model.IntentVersion#xyz.mcxross.ksui.model.AppId/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/intent.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/IntentType/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-type/values.html
 $dokka.location:xyz.mcxross.ksui.model/IntentVersion.V0///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-intent-version/-v0/index.html
 $dokka.location:xyz.mcxross.ksui.model/IntentVersion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-version/index.html
-$dokka.location:xyz.mcxross.ksui.model/IntentVersion/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-version/entries.html
 $dokka.location:xyz.mcxross.ksui.model/IntentVersion/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-version/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/IntentVersion/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-intent-version/values.html
 $dokka.location:xyz.mcxross.ksui.model/MoveFunctionArgType.MoveFunctionArgDefault///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-move-function-arg-type/-move-function-arg-default/index.html
@@ -5263,7 +5271,6 @@ $dokka.location:xyz.mcxross.ksui.model/Network.LOCAL///PointingToDeclaration/{"o
 $dokka.location:xyz.mcxross.ksui.model/Network.MAINNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-network/-m-a-i-n-n-e-t/index.html
 $dokka.location:xyz.mcxross.ksui.model/Network.TESTNET///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-network/-t-e-s-t-n-e-t/index.html
 $dokka.location:xyz.mcxross.ksui.model/Network///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-network/index.html
-$dokka.location:xyz.mcxross.ksui.model/Network/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-network/entries.html
 $dokka.location:xyz.mcxross.ksui.model/Network/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-network/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/Network/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-network/values.html
 $dokka.location:xyz.mcxross.ksui.model/ObjectArg.ImmOrOwnedObject///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-object-arg/-imm-or-owned-object/index.html
@@ -5398,7 +5405,6 @@ $dokka.location:xyz.mcxross.ksui.model/SuiApiType.FAUCET///PointingToDeclaration
 $dokka.location:xyz.mcxross.ksui.model/SuiApiType.FULLNODE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-api-type/-f-u-l-l-n-o-d-e/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiApiType.INDEXER///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-api-type/-i-n-d-e-x-e-r/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiApiType///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-api-type/index.html
-$dokka.location:xyz.mcxross.ksui.model/SuiApiType/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-api-type/entries.html
 $dokka.location:xyz.mcxross.ksui.model/SuiApiType/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-api-type/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/SuiApiType/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-api-type/values.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/index.html
@@ -5425,7 +5431,6 @@ $dokka.location:xyz.mcxross.ksui.model/SuiSettings/network/#/PointingToDeclarati
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode.DEV_INSPECT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/-d-e-v_-i-n-s-p-e-c-t/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode.REGULAR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/-r-e-g-u-l-a-r/index.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/index.html
-$dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/entries.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/SuiTransactionBuilderMode/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-transaction-builder-mode/values.html
 $dokka.location:xyz.mcxross.ksui.model/Transaction///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction/index.html
@@ -5437,7 +5442,6 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.Commit/value/
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.DevInspect///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/-dev-inspect/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode.DevInspect/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/-dev-inspect/value.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/index.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/entries.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/value.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockBuilderMode/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-builder-mode/values.html
@@ -5458,7 +5462,6 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput.PROGRAMMABLE_TX
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput.SYSTEM_TX///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/-s-y-s-t-e-m_-t-x/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput.UNKNOWN__///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/-u-n-k-n-o-w-n__/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/index.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/entries.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput/rawValue/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/raw-value.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput/toGenerated/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/to-generated.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockKindInput/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-kind-input/value-of.html
@@ -5491,10 +5494,10 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptionsBuilder/sh
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptionsBuilder/showRawEffects/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-options-builder/show-raw-effects.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionBlockResponseOptionsBuilder/showRawInput/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-block-response-options-builder/show-raw-input.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/index.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/newWithGasCoinsAllowSponsor/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#kotlin.ULong#kotlin.ULong#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/new-with-gas-coins-allow-sponsor.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmable/#kotlin.String#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmable/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmableAllowSponsor/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#kotlin.ULong#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable-allow-sponsor.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/newWithGasCoinsAllowSponsor/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/new-with-gas-coins-allow-sponsor.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmable/#kotlin.String#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmable/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionData.Companion/programmableAllowSponsor/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-companion/programmable-allow-sponsor.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionData.V1///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-v1/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionData.V1/V1/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#xyz.mcxross.ksui.model.GasData#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-v1/-v1.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionData.V1/expiration/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-v1/expiration.html
@@ -5503,9 +5506,9 @@ $dokka.location:xyz.mcxross.ksui.model/TransactionData.V1/kind/#/PointingToDecla
 $dokka.location:xyz.mcxross.ksui.model/TransactionData.V1/sender/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/-v1/sender.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionData///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/index.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/programmable/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/programmable.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/programmableAllowSponsor/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#kotlin.ULong#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/programmable-allow-sponsor.html
-$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/withGasCoinsAllowSponsor/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#kotlin.ULong#kotlin.ULong#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/with-gas-coins-allow-sponsor.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/programmable/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/programmable.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/programmableAllowSponsor/#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/programmable-allow-sponsor.html
+$dokka.location:xyz.mcxross.ksui.model/TransactionDataComposer/withGasCoinsAllowSponsor/#xyz.mcxross.ksui.ptb.TransactionKind#xyz.mcxross.ksui.model.AccountAddress#kotlin.collections.List[xyz.mcxross.ksui.model.ObjectReference]#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-data-composer/with-gas-coins-allow-sponsor.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionDigest///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-digest/index.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionDigest/TransactionDigest/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-digest/-transaction-digest.html
 $dokka.location:xyz.mcxross.ksui.model/TransactionDigest/value/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-transaction-digest/value.html
@@ -5598,7 +5601,6 @@ $dokka.location:xyz.mcxross.ksui.model/TypeTag/toString/#/PointingToDeclaration/
 $dokka.location:xyz.mcxross.ksui.model/UserAgent.BROWSER///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-user-agent/-b-r-o-w-s-e-r/index.html
 $dokka.location:xyz.mcxross.ksui.model/UserAgent.CURL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.model/-user-agent/-c-u-r-l/index.html
 $dokka.location:xyz.mcxross.ksui.model/UserAgent///PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-user-agent/index.html
-$dokka.location:xyz.mcxross.ksui.model/UserAgent/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-user-agent/entries.html
 $dokka.location:xyz.mcxross.ksui.model/UserAgent/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-user-agent/value-of.html
 $dokka.location:xyz.mcxross.ksui.model/UserAgent/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-user-agent/values.html
 $dokka.location:xyz.mcxross.ksui.protocol////PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/index.html
@@ -5654,16 +5656,18 @@ $dokka.location:xyz.mcxross.ksui.protocol/Transaction/getTotalTransactionBlocks/
 $dokka.location:xyz.mcxross.ksui.protocol/Transaction/getTransactionBlock/#kotlin.String#xyz.mcxross.ksui.model.TransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/get-transaction-block.html
 $dokka.location:xyz.mcxross.ksui.protocol/Transaction/paginateTransactionBlockLists/#kotlin.String#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.String?#kotlin.String?#kotlin.String?/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/paginate-transaction-block-lists.html
 $dokka.location:xyz.mcxross.ksui.protocol/Transaction/queryTransactionBlocks/#xyz.mcxross.ksui.model.TransactionBlockFilter#xyz.mcxross.ksui.model.TransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/query-transaction-blocks.html
-$dokka.location:xyz.mcxross.ksui.protocol/Transaction/signAndExecuteTransactionBlock/#xyz.mcxross.ksui.account.Account#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.ULong#xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/sign-and-execute-transaction-block.html
+$dokka.location:xyz.mcxross.ksui.protocol/Transaction/signAndExecuteTransactionBlock/#xyz.mcxross.ksui.account.Account#xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/sign-and-execute-transaction-block.html
 $dokka.location:xyz.mcxross.ksui.protocol/Transaction/signTransaction/#kotlin.ByteArray#xyz.mcxross.ksui.account.Account/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/sign-transaction.html
+$dokka.location:xyz.mcxross.ksui.protocol/Transaction/sponsoredTransaction/#xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.String#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/sponsored-transaction.html
+$dokka.location:xyz.mcxross.ksui.protocol/Transaction/sponsoredTransaction/#xyz.mcxross.ksui.ptb.ProgrammableTransaction#xyz.mcxross.ksui.model.AccountAddress#xyz.mcxross.ksui.model.TransactionExpiration/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/sponsored-transaction.html
 $dokka.location:xyz.mcxross.ksui.protocol/Transaction/waitForTransaction/#kotlin.String#xyz.mcxross.ksui.model.TransactionBlockResponseOptions#kotlin.Long#kotlin.Long/PointingToDeclaration/-ksui/xyz.mcxross.ksui.protocol/-transaction/wait-for-transaction.html
 $dokka.location:xyz.mcxross.ksui.ptb////PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/index.html
+$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#[Error type: Unresolved type for UByte]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#[Error type: Unresolved type for UInt]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#[Error type: Unresolved type for UShort]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.UByte/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.UInt/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.UShort/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]#xyz.mcxross.ksui.model.TypeTag/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb//arg/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb//hexStringToByteArray/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/hex-string-to-byte-array.html
@@ -5671,14 +5675,14 @@ $dokka.location:xyz.mcxross.ksui.ptb//isPure/#xyz.mcxross.ksui.model.TypeTag/Poi
 $dokka.location:xyz.mcxross.ksui.ptb//ptb/#xyz.mcxross.ksui.Sui#kotlin.Function1[xyz.mcxross.ksui.ptb.PtbDsl,kotlin.Unit]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/ptb.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.GasCoin///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-gas-coin/index.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.Input///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-input/index.html
-$dokka.location:xyz.mcxross.ksui.ptb/Argument.Input/Input/#kotlin.UShort/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-input/-input.html
+$dokka.location:xyz.mcxross.ksui.ptb/Argument.Input/Input/#[Error type: Unresolved type for UShort]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-input/-input.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.Input/index/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-input/--index--.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.NestedResult///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-nested-result/index.html
-$dokka.location:xyz.mcxross.ksui.ptb/Argument.NestedResult/NestedResult/#kotlin.UShort#kotlin.UShort/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-nested-result/-nested-result.html
+$dokka.location:xyz.mcxross.ksui.ptb/Argument.NestedResult/NestedResult/#[Error type: Unresolved type for UShort]#[Error type: Unresolved type for UShort]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-nested-result/-nested-result.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.NestedResult/commandIndex/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-nested-result/command-index.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.NestedResult/returnValueIndex/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-nested-result/return-value-index.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.Result///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-result/index.html
-$dokka.location:xyz.mcxross.ksui.ptb/Argument.Result/Result/#kotlin.UShort/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-result/-result.html
+$dokka.location:xyz.mcxross.ksui.ptb/Argument.Result/Result/#[Error type: Unresolved type for UShort]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-result/-result.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument.Result/commandResult/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/-result/command-result.html
 $dokka.location:xyz.mcxross.ksui.ptb/Argument///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-argument/index.html
 $dokka.location:xyz.mcxross.ksui.ptb/BuilderArg.ForcedNonUniqueObject///PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-builder-arg/-forced-non-unique-object/index.html
@@ -5774,12 +5778,12 @@ $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/PtbDsl/#xyz.mcxross.ksui.ptb.Program
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/address/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/address.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/address/#xyz.mcxross.ksui.account.Account/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/address.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/address/#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/address.html
+$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#[Error type: Unresolved type for UByte]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#[Error type: Unresolved type for UInt]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#[Error type: Unresolved type for ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
+$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#[Error type: Unresolved type for UShort]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.UByte/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.UInt/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.ULong/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
-$dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.UShort/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]#xyz.mcxross.ksui.model.TypeTag/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/arg/#xyz.mcxross.ksui.model.AccountAddress/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/arg.html
 $dokka.location:xyz.mcxross.ksui.ptb/PtbDsl/builder/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.ptb/-ptb-dsl/builder.html
@@ -5946,6 +5950,7 @@ $dokka.location:xyz.mcxross.ksui.serializer/TypeTagSerializer/serialize/#kotlinx
 $dokka.location:xyz.mcxross.ksui.util////PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/index.html
 $dokka.location:xyz.mcxross.ksui.util//FUNCTION/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-f-u-n-c-t-i-o-n.html
 $dokka.location:xyz.mcxross.ksui.util//LENGTH/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-l-e-n-g-t-h.html
+$dokka.location:xyz.mcxross.ksui.util//MAX_COMMANDS_IN_PTB/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-m-a-x_-c-o-m-m-a-n-d-s_-i-n_-p-t-b.html
 $dokka.location:xyz.mcxross.ksui.util//MODULE/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-m-o-d-u-l-e.html
 $dokka.location:xyz.mcxross.ksui.util//NetworkToChainId/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-network-to-chain-id.html
 $dokka.location:xyz.mcxross.ksui.util//NetworkToFaucetAPI/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-network-to-faucet-a-p-i.html
@@ -5956,8 +5961,8 @@ $dokka.location:xyz.mcxross.ksui.util//PACKAGE_ID/#/PointingToDeclaration/-ksui
 $dokka.location:xyz.mcxross.ksui.util//SUI_PRIVATE_KEY_PREFIX/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-s-u-i_-p-r-i-v-a-t-e_-k-e-y_-p-r-e-f-i-x.html
 $dokka.location:xyz.mcxross.ksui.util//bcsDecode/#kotlin.ByteArray/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/bcs-decode.html
 $dokka.location:xyz.mcxross.ksui.util//bcsEncode/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/bcs-encode.html
-$dokka.location:xyz.mcxross.ksui.util//compose/xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.Pair[xyz.mcxross.ksui.account.Account,kotlin.ULong]#xyz.mcxross.ksui.Sui/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/compose.html
-$dokka.location:xyz.mcxross.ksui.util//compose/xyz.mcxross.ksui.ptb.ProgrammableTransaction#kotlin.Pair[xyz.mcxross.ksui.account.Account,kotlin.ULong]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/compose.html
+$dokka.location:xyz.mcxross.ksui.util//compose/xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for Pair<Account, ULong>][xyz.mcxross.ksui.account.Account,[Error type: Unresolved type for ULong]]#xyz.mcxross.ksui.Sui/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/compose.html
+$dokka.location:xyz.mcxross.ksui.util//compose/xyz.mcxross.ksui.ptb.ProgrammableTransaction#[Error type: Unresolved type for Pair<Account, ULong>][xyz.mcxross.ksui.account.Account,[Error type: Unresolved type for ULong]]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/compose.html
 $dokka.location:xyz.mcxross.ksui.util//convertBits/#kotlin.ByteArray#kotlin.Int#kotlin.Int#kotlin.Boolean/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/convert-bits.html
 $dokka.location:xyz.mcxross.ksui.util//decodeBase58/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/decode-base58.html
 $dokka.location:xyz.mcxross.ksui.util//encodeToBase58String/kotlin.ByteArray#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/encode-to-base58-string.html
@@ -5968,6 +5973,7 @@ $dokka.location:xyz.mcxross.ksui.util//getKtorLogger/xyz.mcxross.ksui.util.Logge
 $dokka.location:xyz.mcxross.ksui.util//idToMapped/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/id-to-mapped.html
 $dokka.location:xyz.mcxross.ksui.util//idToParts/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/id-to-parts.html
 $dokka.location:xyz.mcxross.ksui.util//inputs/xyz.mcxross.ksui.ptb.ProgrammableTransactionBuilder#kotlin.Array[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/inputs.html
+$dokka.location:xyz.mcxross.ksui.util//runBlocking/#[Error type: Unresolved type for CoroutineContext]#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/run-blocking.html
 $dokka.location:xyz.mcxross.ksui.util//runBlocking/#kotlin.coroutines.CoroutineContext#kotlin.coroutines.SuspendFunction1[kotlinx.coroutines.CoroutineScope,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/run-blocking.html
 $dokka.location:xyz.mcxross.ksui.util//toTxnDigest/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-txn-digest.html
 $dokka.location:xyz.mcxross.ksui.util//toTypeTag/kotlin.String#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/to-type-tag.html
@@ -5978,14 +5984,12 @@ $dokka.location:xyz.mcxross.ksui.util/LogLevel.HEADERS///PointingToDeclaration/{
 $dokka.location:xyz.mcxross.ksui.util/LogLevel.INFO///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.util/-log-level/-i-n-f-o/index.html
 $dokka.location:xyz.mcxross.ksui.util/LogLevel.NONE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.util/-log-level/-n-o-n-e/index.html
 $dokka.location:xyz.mcxross.ksui.util/LogLevel///PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-log-level/index.html
-$dokka.location:xyz.mcxross.ksui.util/LogLevel/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-log-level/entries.html
 $dokka.location:xyz.mcxross.ksui.util/LogLevel/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-log-level/value-of.html
 $dokka.location:xyz.mcxross.ksui.util/LogLevel/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-log-level/values.html
 $dokka.location:xyz.mcxross.ksui.util/Logger.DEFAULT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.util/-logger/-d-e-f-a-u-l-t/index.html
 $dokka.location:xyz.mcxross.ksui.util/Logger.EMPTY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.util/-logger/-e-m-p-t-y/index.html
 $dokka.location:xyz.mcxross.ksui.util/Logger.SIMPLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-ksui/xyz.mcxross.ksui.util/-logger/-s-i-m-p-l-e/index.html
 $dokka.location:xyz.mcxross.ksui.util/Logger///PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-logger/index.html
-$dokka.location:xyz.mcxross.ksui.util/Logger/entries/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-logger/entries.html
 $dokka.location:xyz.mcxross.ksui.util/Logger/valueOf/#kotlin.String/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-logger/value-of.html
 $dokka.location:xyz.mcxross.ksui.util/Logger/values/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.util/-logger/values.html
 $dokka.location:xyz.mcxross.ksui////PointingToDeclaration/-ksui/xyz.mcxross.ksui/index.html
@@ -6001,6 +6005,7 @@ xyz.mcxross.ksui.client
 xyz.mcxross.ksui.core
 xyz.mcxross.ksui.core.crypto
 xyz.mcxross.ksui.core.utils
+xyz.mcxross.ksui.dsl
 xyz.mcxross.ksui.exception
 xyz.mcxross.ksui.extension
 xyz.mcxross.ksui.generated
