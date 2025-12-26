@@ -16,7 +16,7 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "2.3.7-SNAPSHOT"
+version = "2.2.5-SNAPSHOT"
 
 repositories {
   maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
@@ -80,7 +80,7 @@ kotlin {
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
         implementation(libs.play.services.identity.credentials)
-        implementation(libs.fastcrypto.android)
+        implementation(libs.fastkrypto.android)
       }
     }
     commonMain.dependencies {
@@ -106,15 +106,15 @@ kotlin {
       dependencies {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
-        implementation(libs.fastcrypto.jvm)
+        implementation(libs.fastkrypto.jvm)
       }
     }
-    jvmTest.dependencies { implementation("io.kotest:kotest-runner-junit5:6.0.7") }
-    iosArm64Main.dependencies { implementation(libs.fastcrypto.iosarm64) }
-    iosX64Main.dependencies { implementation(libs.fastcrypto.iosx64) }
-    iosSimulatorArm64Main.dependencies { implementation(libs.fastcrypto.iossimulatorarm64) }
-    macosArm64Main.dependencies { implementation(libs.fastcrypto.macosarm64) }
-    macosX64Main.dependencies { implementation(libs.fastcrypto.macosx64) }
+    jvmTest.dependencies { implementation(libs.kotest.runner.junit5) }
+    iosArm64Main.dependencies { implementation(libs.fastkrypto.iosarm64) }
+    iosX64Main.dependencies { implementation(libs.fastkrypto.iosx64) }
+    iosSimulatorArm64Main.dependencies { implementation(libs.fastkrypto.iossimulatorarm64) }
+    macosArm64Main.dependencies { implementation(libs.fastkrypto.macosarm64) }
+    macosX64Main.dependencies { implementation(libs.fastkrypto.macosx64) }
   }
 }
 
