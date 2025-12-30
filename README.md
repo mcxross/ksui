@@ -8,7 +8,7 @@ different platforms such as Android, iOS, JS, and JVM. It is built on top of the
 extensible and easy to use.
 
 
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.1.21-B125EA?logo=kotlin)](https://kotlinlang.org)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.3.0-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 ![Snapshot](https://img.shields.io/nexus/s/xyz.mcxross.ksui/ksui?server=https%3A%2F%2Fs01.oss.sonatype.org&label=Snapshot)
@@ -48,7 +48,7 @@ extensible and easy to use.
 Add the `Ksui` dependency to the common sourceSet
 
 ```kotlin
-implementation("xyz.mcxross.ksui:ksui:<$ksui_version>")
+implementation("xyz.mcxross.ksui:ksui:2.2.6-SNAPSHOT")
 ```
 
 #### Platform specific (Android, JS, Native, JVM)
@@ -58,7 +58,7 @@ Add the `Ksui` dependency to the Project's dependency block
 Generic:
 
 ```kotlin
-implementation("xyz.mcxross.ksui:<ksui-[platform]>:<$ksui_version>")
+implementation("xyz.mcxross.ksui:<ksui-[platform]>:2.2.6-SNAPSHOT")
 ```
 
 For example for Android and JS
@@ -66,7 +66,13 @@ For example for Android and JS
 Android:
 
 ```kotlin
-implementation("xyz.mcxross.ksui:ksui-android:<$ksui_version>")
+implementation("xyz.mcxross.ksui:ksui-android:2.2.6-SNAPSHOT")
+```
+
+Snapshot repository:
+
+```kotlin
+maven("https://central.sonatype.com/repository/maven-snapshots")
 ```
 
 ### Account Management
@@ -199,4 +205,3 @@ the [contribution guidelines](CONTRIBUTING.md).
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
