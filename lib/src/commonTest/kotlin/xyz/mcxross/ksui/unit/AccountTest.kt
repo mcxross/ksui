@@ -15,8 +15,9 @@
  */
 package xyz.mcxross.ksui.unit
 
-import kotlin.test.Test
-import kotlin.test.assertTrue
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import xyz.mcxross.ksui.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.account.Ed25519Account
@@ -24,75 +25,46 @@ import xyz.mcxross.ksui.core.crypto.Ed25519PublicKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 
-class AccountTest {
+class AccountTest :
+  StringSpec({
+    "Account generation uses default scheme, keys, and mnemonic" {
+      val account = Account.create()
 
-  // Test account generation
-  @Test
-  fun testAccountGeneration() {
-    val account = Account.create()
-    assertTrue(
-      "Account generation failed. Default Account signature scheme must be SignatureScheme.ED25519"
-    ) {
-      account.scheme == SignatureScheme.ED25519
-    }
-    assertTrue("Account generation failed. Default public key must be of type Ed25519PublicKey") {
-      account.publicKey is Ed25519PublicKey
-    }
-    assertTrue("Account generation failed. Mnemonic can't be empty.") {
-      (account as Ed25519Account).mnemonic.isNotEmpty()
-    }
-    assertTrue("Account generation failed. Default word length expected to be 12 words.") {
-      (account as Ed25519Account).mnemonic.split(" ").size == 12
-    }
-    assertTrue("Account generation failed. Address can't be empty.") {
-      (account as Ed25519Account).address.toString().isNotEmpty()
-    }
-    assertTrue("Account generation failed. Invalid address length.") {
-      account.address.toString().length == 66
-    }
-  }
+      account.scheme shouldBe SignatureScheme.ED25519
+      account.publicKey.shouldBeInstanceOf<Ed25519PublicKey>()
 
-  @Test
-  fun testAccountImportPhrase() {
-    val account =
-      Account.import("dry clock defense build educate lonely cycle hand phrase kitchen enemy seed")
-    assertTrue(
-      "Account import failed. Default Account signature scheme must be SignatureScheme.ED25519"
-    ) {
-      account.scheme == SignatureScheme.ED25519
+      val edAccount = account.shouldBeInstanceOf<Ed25519Account>()
+      edAccount.mnemonic.isNotEmpty() shouldBe true
+      edAccount.mnemonic.split(" ").size shouldBe 12
+      edAccount.address.toString().isNotEmpty() shouldBe true
+      account.address.toString().length shouldBe 66
     }
-    assertTrue("Account import failed. Default public key must be of type Ed25519PublicKey") {
-      account.publicKey is Ed25519PublicKey
-    }
-    assertTrue("Account import failed. Mnemonic can't be empty.") {
-      (account as Ed25519Account).mnemonic.isNotEmpty()
-    }
-    assertTrue("Account import failed. Default word length expected to be 12 words.") {
-      (account as Ed25519Account).mnemonic.split(" ").size == 12
-    }
-    assertTrue("Account import failed. Address can't be empty.") {
-      account.address.toString().isNotEmpty()
-    }
-    assertTrue("Account import failed. Invalid address length.") {
-      account.address.toString().length == 66
-    }
-  }
 
-  @Test
-  fun testAccountImportPrivateKeyString() {
-    val account = Account.import(PRIVATE_KEY_DATA)
-    assertTrue {
-      account.address.toString() ==
+    "Account import from phrase uses default scheme and keys" {
+      val account =
+        Account.import(
+          "dry clock defense build educate lonely cycle hand phrase kitchen enemy seed"
+        )
+
+      account.scheme shouldBe SignatureScheme.ED25519
+      account.publicKey.shouldBeInstanceOf<Ed25519PublicKey>()
+
+      val edAccount = account.shouldBeInstanceOf<Ed25519Account>()
+      edAccount.mnemonic.isNotEmpty() shouldBe true
+      edAccount.mnemonic.split(" ").size shouldBe 12
+      edAccount.address.toString().isNotEmpty() shouldBe true
+      account.address.toString().length shouldBe 66
+    }
+
+    "Account import from private key string resolves correct address" {
+      val account = Account.import(PRIVATE_KEY_DATA)
+      account.address.toString() shouldBe
         "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
     }
-  }
 
-  @Test
-  fun testAccountImportPrivateKeyInstance() {
-    val account = Account.import(PrivateKey.fromEncoded(PRIVATE_KEY_DATA))
-    assertTrue {
-      account.address.toString() ==
+    "Account import from private key instance resolves correct address" {
+      val account = Account.import(PrivateKey.fromEncoded(PRIVATE_KEY_DATA))
+      account.address.toString() shouldBe
         "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
     }
-  }
-}
+  })
