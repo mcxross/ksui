@@ -26,7 +26,11 @@ import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.runBlocking
 
 @Serializable
-data class SponsoredResponseManual(val txBytes: String, val sponsorSignature: String, val status: String)
+data class SponsoredResponseManual(
+  val txBytes: String,
+  val sponsorSignature: String,
+  val status: String,
+)
 
 fun main() = runBlocking {
   val sui = Sui(config = SuiConfig(SuiSettings(Network.TESTNET)))
@@ -50,10 +54,7 @@ fun main() = runBlocking {
   val res =
     httpClient.post("http://0.0.0.0:8080/gas") {
       contentType(ContentType.Application.Json)
-      header(
-        "X-API-Key",
-        "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA",
-      )
+      header("X-API-Key", "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA")
       setBody(GasRequestManual(txBytes = base64, sender = ALICE_ACCOUNT.address.toString()))
     }
 
