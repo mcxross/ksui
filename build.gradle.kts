@@ -14,9 +14,3 @@ plugins {
   alias(libs.plugins.compose.compiler) apply false
   alias(libs.plugins.kotest) apply false
 }
-
-repositories {
-  mavenCentral()
-  mavenLocal()
-  google()
-}

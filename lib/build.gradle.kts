@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -5,7 +6,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
-  alias(libs.plugins.android.library)
+  id("com.android.kotlin.multiplatform.library")
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.dokka)
   alias(libs.plugins.apollo.graphql)
@@ -18,17 +19,14 @@ group = "xyz.mcxross.ksui"
 
 version = "2.2.6-SNAPSHOT"
 
-repositories {
-  maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
-  mavenCentral()
-  mavenLocal()
-  google()
-}
-
 kotlin {
   jvmToolchain(17)
 
-  androidTarget { publishLibraryVariants("release", "debug") }
+  androidLibrary {
+    namespace = "xyz.mcxross.ksui"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    minSdk = libs.versions.android.minSdk.get().toInt()
+  }
 
   iosX64()
   iosArm64()
@@ -66,7 +64,6 @@ kotlin {
       }
     }
   }
-
   sourceSets {
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
@@ -109,7 +106,10 @@ kotlin {
         implementation(libs.fastkrypto.jvm)
       }
     }
-    jvmTest.dependencies { implementation(libs.kotest.runner.junit5) }
+    jvmTest.dependencies {
+      implementation(libs.kotest.runner.junit5)
+      implementation(libs.kotlin.test.junit5)
+    }
     iosArm64Main.dependencies { implementation(libs.fastkrypto.iosarm64) }
     iosX64Main.dependencies { implementation(libs.fastkrypto.iosx64) }
     iosSimulatorArm64Main.dependencies { implementation(libs.fastkrypto.iossimulatorarm64) }
@@ -121,21 +121,6 @@ kotlin {
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
-
-android {
-  namespace = "xyz.mcxross.ksui"
-  defaultConfig {
-    minSdk = 24
-    compileSdk = 33
-  }
-
-  sourceSets {
-    named("main") {
-      manifest.srcFile("src/androidMain/AndroidManifest.xml")
-      res.srcDirs("src/androidMain/res", "src/commonMain/resources")
-    }
-  }
-}
 
 tasks.withType<DokkaTask>().configureEach {
   notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
