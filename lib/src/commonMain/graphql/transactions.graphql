@@ -149,6 +149,10 @@ fragment RPC_TRANSACTION_FIELDS on Transaction {
     }
 
     effects {
+        status
+        executionError {
+            message
+        }
         bcs: effectsBcs @include(if: $showEffects)
         bcs: effectsBcs @include(if: $showObjectChanges)
         bcs: effectsBcs @include(if: $showRawEffects)
