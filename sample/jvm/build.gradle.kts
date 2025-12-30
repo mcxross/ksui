@@ -10,11 +10,6 @@ group = "xyz.mcxross.ksui.sample"
 
 version = "1.3.1"
 
-repositories {
-  mavenLocal()
-  mavenCentral()
-}
-
 kotlin { jvmToolchain(20) }
 
 dependencies {

@@ -4,12 +4,6 @@ plugins {
   alias(libs.plugins.compose.compiler)
 }
 
-repositories {
-  mavenCentral()
-  mavenLocal()
-  google()
-}
-
 android {
   namespace = "xyz.mcxross.ksui.android"
   compileSdk = 36
