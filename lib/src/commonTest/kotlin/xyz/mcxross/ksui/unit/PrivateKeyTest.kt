@@ -15,31 +15,28 @@
  */
 package xyz.mcxross.ksui.unit
 
-import kotlin.test.Test
-import kotlin.test.assertTrue
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
 
-class PrivateKeyTest {
+class PrivateKeyTest :
+  StringSpec({
+    "Private key generation uses 32-byte seed" {
+      val privateKey = Ed25519PrivateKey()
+      privateKey.data.size shouldBe 32
+    }
 
-  @Test
-  fun testPrivateKeyGeneration() {
-    val privateKey = Ed25519PrivateKey()
-    assertTrue { privateKey.data.size == 32 }
-  }
+    "Private key import via constructor preserves bytes" {
+      val privateKey = Ed25519PrivateKey(PRIVATE_KEY_DATA)
+      privateKey.data.size shouldBe 32
+      privateKey.export() shouldBe PRIVATE_KEY_DATA
+    }
 
-  @Test
-  fun testPrivateKeyImportConstructor() {
-    val privateKey = Ed25519PrivateKey(PRIVATE_KEY_DATA)
-    assertTrue { privateKey.data.size == 32 }
-    assertTrue { privateKey.export() == PRIVATE_KEY_DATA }
-  }
-
-  @Test
-  fun testPrivateKeyImportFromEncoded() {
-    val privateKey = PrivateKey.fromEncoded(PRIVATE_KEY_DATA)
-    assertTrue { privateKey.data.size == 32 }
-    assertTrue { privateKey.export() == PRIVATE_KEY_DATA }
-  }
-}
+    "Private key import via encoded bytes preserves bytes" {
+      val privateKey = PrivateKey.fromEncoded(PRIVATE_KEY_DATA)
+      privateKey.data.size shouldBe 32
+      privateKey.export() shouldBe PRIVATE_KEY_DATA
+    }
+  })

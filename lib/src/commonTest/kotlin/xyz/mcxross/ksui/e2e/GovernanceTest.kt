@@ -1,28 +1,30 @@
 package xyz.mcxross.ksui.e2e
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.TestResources.sui
 import xyz.mcxross.ksui.util.runBlocking
 
-class GovernanceTest {
+class GovernanceTest :
+  StringSpec({
+    "Get committee info" {
+      runBlocking {
+        val resp = sui.getCommitteeInfo().expect { "Failed to get committee info" }
+        val data = requireNotNull(resp)
+        val epoch = requireNotNull(data.epoch)
+        (epoch.epochId.toString().toLong() > 0) shouldBe true
+        val validatorSet = requireNotNull(epoch.validatorSet)
+        val activeValidators = requireNotNull(validatorSet.activeValidators)
+        activeValidators.nodes.isNotEmpty() shouldBe true
+      }
+    }
 
-  @Test
-  fun getCommitteeInfoTest() = runBlocking {
-    val resp = sui.getCommitteeInfo().expect { "Failed to get committee info" }
-    assertNotNull(resp, "Failed to get committee info")
-    assertNotNull(resp.epoch, "Current epoch is null")
-
-    assertTrue { resp.epoch.epochId.toString().toInt() > 0 }
-    assertTrue { resp.epoch.validatorSet?.activeValidators?.nodes?.isNotEmpty() ?: false }
-  }
-
-  @Test
-  fun getValidatorApyTest() = runBlocking {
-    val resp = sui.getValidatorApy().expect { "Failed to get validator APY" }
-    assertNotNull(resp, "Failed to get validator APY")
-    assertNotNull(resp.epoch, "Epoch is null")
-    assertTrue { resp.epoch.epochId.toString().toInt() > 0 }
-  }
-}
+    "Get validator APY" {
+      runBlocking {
+        val resp = sui.getValidatorApy().expect { "Failed to get validator APY" }
+        val data = requireNotNull(resp)
+        val epoch = requireNotNull(data.epoch)
+        (epoch.epochId.toString().toLong() > 0) shouldBe true
+      }
+    }
+  })
