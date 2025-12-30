@@ -32,11 +32,9 @@ import xyz.mcxross.ksui.dsl.sponsoredTransaction
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.SuiConfig
 
-@Serializable
-data class MockGasRequest(val txBytes: String, val sender: String)
+@Serializable data class MockGasRequest(val txBytes: String, val sender: String)
 
-@Serializable
-data class MockSponsoredResponse(val txBytes: String, val sponsorSignature: String)
+@Serializable data class MockSponsoredResponse(val txBytes: String, val sponsorSignature: String)
 
 class SponsoredPtbTest :
   StringSpec({
@@ -52,8 +50,7 @@ class SponsoredPtbTest :
         )
       }
 
-      val mockClient =
-        HttpClient(mockEngine) { install(ContentNegotiation) { json() } }
+      val mockClient = HttpClient(mockEngine) { install(ContentNegotiation) { json() } }
 
       val sui = Sui(SuiConfig())
       val senderAddress = AccountAddress.fromString("0x123")

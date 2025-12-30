@@ -17,8 +17,6 @@ package xyz.mcxross.ksui.sample
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class GasRequest(val txBytes: String, val sender: String)
+@Serializable data class GasRequest(val txBytes: String, val sender: String)
 
-@Serializable
-data class SponsoredResponse(val txBytes: String, val sponsorSignature: String)
+@Serializable data class SponsoredResponse(val txBytes: String, val sponsorSignature: String)

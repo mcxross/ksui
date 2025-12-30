@@ -92,10 +92,8 @@ actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): Pub
     SignatureScheme.ED25519 -> {
       Ed25519PublicKey(ed25519PublicKeyFromPrivate(privateKey.data))
     }
-    SignatureScheme.Secp256k1 ->
-      Secp256k1PublicKey(secp256k1PublicKeyFromPrivate(privateKey.data))
-    SignatureScheme.Secp256r1 ->
-      Secp256r1PublicKey(secp256r1PublicKeyFromPrivate(privateKey.data))
+    SignatureScheme.Secp256k1 -> Secp256k1PublicKey(secp256k1PublicKeyFromPrivate(privateKey.data))
+    SignatureScheme.Secp256r1 -> Secp256r1PublicKey(secp256r1PublicKeyFromPrivate(privateKey.data))
     else -> throw SignatureSchemeNotSupportedException()
   }
 }

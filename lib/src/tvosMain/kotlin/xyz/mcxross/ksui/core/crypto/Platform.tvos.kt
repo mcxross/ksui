@@ -27,7 +27,8 @@ actual fun generateMnemonic(): String = unsupported()
 
 actual fun generateSeed(mnemonic: List<String>): ByteArray = unsupported()
 
-actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey = unsupported()
+actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey =
+  unsupported()
 
 actual fun importFromMnemonic(mnemonic: String): KeyPair = unsupported()
 
