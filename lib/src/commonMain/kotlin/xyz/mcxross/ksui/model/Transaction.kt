@@ -242,7 +242,9 @@ fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
 
 @OptIn(ExperimentalEncodingApi::class)
-suspend fun TransactionData.sign(signer: xyz.mcxross.ksui.account.Account): Result<String, Exception> {
+suspend fun TransactionData.sign(
+  signer: xyz.mcxross.ksui.account.Account
+): Result<String, Exception> {
   val intentMessage = IntentMessage(Intent.suiTransaction(), this)
   val messageHash =
     xyz.mcxross.ksui.core.crypto.hash(
@@ -255,8 +257,7 @@ suspend fun TransactionData.sign(signer: xyz.mcxross.ksui.account.Account): Resu
       val serializedSignature =
         when (signer.scheme) {
           xyz.mcxross.ksui.core.crypto.SignatureScheme.PASSKEY -> sig.value
-          else ->
-            byteArrayOf(signer.scheme.scheme) + sig.value + signer.publicKey.data
+          else -> byteArrayOf(signer.scheme.scheme) + sig.value + signer.publicKey.data
         }
       Result.Ok(Base64.encode(serializedSignature))
     }
