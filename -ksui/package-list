@@ -5423,6 +5423,7 @@ $dokka.location:xyz.mcxross.ksui.model/SuiConfig/faucet/#/PointingToDeclaration/
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/faucetConfig/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/faucet-config.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/fullNode/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/full-node.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/fullNodeConfig/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/full-node-config.html
+$dokka.location:xyz.mcxross.ksui.model/SuiConfig/getHeaders/#xyz.mcxross.ksui.model.SuiApiType/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/get-headers.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/getRequestUrl/#xyz.mcxross.ksui.model.SuiApiType/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/get-request-url.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/indexer/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/indexer.html
 $dokka.location:xyz.mcxross.ksui.model/SuiConfig/indexerConfig/#/PointingToDeclaration/-ksui/xyz.mcxross.ksui.model/-sui-config/indexer-config.html
