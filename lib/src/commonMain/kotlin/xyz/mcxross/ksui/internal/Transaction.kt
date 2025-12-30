@@ -252,8 +252,7 @@ internal suspend fun signAndSubmitTransaction(
       gasPayment = coins,
       pt = ptb,
       gasBudget = gasBudget,
-      gasPrice =
-        gasPrice?.epoch?.referenceGasPrice.toString().toULong(),
+      gasPrice = gasPrice?.epoch?.referenceGasPrice.toString().toULong(),
     )
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)

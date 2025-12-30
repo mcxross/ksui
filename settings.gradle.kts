@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.org.junit.Ignore
-
 pluginManagement {
   repositories {
     google()
