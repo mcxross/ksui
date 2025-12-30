@@ -1,92 +1,92 @@
 package xyz.mcxross.ksui.e2e
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
-import kotlin.test.fail
+import io.kotest.assertions.fail
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.util.runBlocking
 
-class CoinTest {
+class CoinTest :
+  StringSpec({
+    val sui = TestResources.sui
+    val alice = TestResources.alice
 
-  private val sui = TestResources.sui
-  private val alice = TestResources.alice
+    "Get all balances" {
+      runBlocking {
+        val resp = sui.getAllBalances(alice.address).expect { "Failed to get all balances" }
 
-  @Test
-  fun getAllBalancesTest() = runBlocking {
-    val resp = sui.getAllBalances(alice.address).expect { "Failed to get all balances" }
-
-    assertNotNull(resp, "Failed to get all balances")
-    assertNotNull(resp.address, "Balances are null")
-
-    assertTrue { resp.address.balances?.nodes?.isNotEmpty() ?: false }
-    assertTrue { resp.address.balances?.nodes?.first()?.totalBalance != null }
-    assertTrue { resp.address.balances?.nodes?.first()?.coinType?.repr == SUI_TYPE }
-  }
-
-  @Test
-  fun getCoinsTest() = runBlocking {
-    val resp = sui.getCoins(alice.address).expect { "Failed to get coins" }
-
-    assertNotNull(resp, "Failed to get coins")
-    assertNotNull(resp.address, "Coins are null")
-
-    assertTrue { resp.address.objects?.nodes?.isNotEmpty() ?: false }
-  }
-
-  @Test
-  fun getTotalSupplyTest() = runBlocking {
-    val resp = sui.getTotalSupply("0x2::sui::SUI").expect { "Failed to get total supply" }
-    assertEquals("10000000000000000000", resp?.coinMetadata?.supply.toString())
-  }
-
-  @Test
-  fun getBalanceTest() = runBlocking {
-    val resp = sui.getBalance(alice.address).expect { "Failed to get balance" }
-
-    assertNotNull(resp, "Failed to get balance")
-    assertNotNull(resp.address, "Balance is null")
-
-    assertTrue { resp.address.balance != null }
-    assertTrue { resp.address.balance!!.coinType?.repr == SUI_TYPE }
-  }
-
-  @Test
-  fun getBalanceTypeSpecifiedTest() = runBlocking {
-    val resp = sui.getBalance(alice.address, SUI_TYPE).expect { "Failed to get balance" }
-
-    assertNotNull(resp, "Failed to get balance")
-    assertNotNull(resp.address, "Balance is null")
-
-    assertTrue { resp.address.balance != null }
-    assertTrue { resp.address.balance!!.coinType?.repr == SUI_TYPE }
-  }
-
-  @Test
-  fun getBalanceNonExistentTest() = runBlocking {
-    when (val result = sui.getBalance(alice.address, "0x2::usdt::USDT")) {
-      is Result.Ok -> {
-        assertEquals("0", result.value?.address?.balance?.totalBalance)
-      }
-      is Result.Err -> {
-        fail("Failed to get balance")
+        val data = requireNotNull(resp)
+        val balances = requireNotNull(data.address.balances)
+        balances.nodes.isNotEmpty() shouldBe true
+        requireNotNull(balances.nodes.first().totalBalance)
+        balances.nodes.first().coinType?.repr shouldBe SUI_TYPE
       }
     }
-  }
 
-  @Test
-  fun getCoinMetadataTest() = runBlocking {
-    val resp = sui.getCoinMetadata("0x2::sui::SUI").expect { "Failed to get coin metadata" }
+    "Get coins" {
+      runBlocking {
+        val resp = sui.getCoins(alice.address).expect { "Failed to get coins" }
 
-    assertNotNull(resp, "Failed to get coin metadata")
-    assertNotNull(resp.coinMetadata, "Coin metadata is null")
-    assertNotNull(resp.coinMetadata.name, "Coin name is null")
-    assertNotNull(resp.coinMetadata.symbol, "Coin symbol is null")
-    assertNotNull(resp.coinMetadata.address, "Coin type is null")
+        val data = requireNotNull(resp)
+        val objects = requireNotNull(data.address.objects)
+        objects.nodes.isNotEmpty() shouldBe true
+      }
+    }
 
-    assertEquals(resp.coinMetadata.decimals, 9, "Coin decimals are not 9")
-  }
-}
+    "Get total supply" {
+      runBlocking {
+        val resp = sui.getTotalSupply("0x2::sui::SUI").expect { "Failed to get total supply" }
+        resp?.coinMetadata?.supply.toString() shouldBe "10000000000000000000"
+      }
+    }
+
+    "Get balance" {
+      runBlocking {
+        val resp = sui.getBalance(alice.address).expect { "Failed to get balance" }
+
+        val data = requireNotNull(resp)
+        val balance = requireNotNull(data.address.balance)
+        balance.coinType?.repr shouldBe SUI_TYPE
+      }
+    }
+
+    "Get balance for a specific coin type" {
+      runBlocking {
+        val resp = sui.getBalance(alice.address, SUI_TYPE).expect { "Failed to get balance" }
+
+        val data = requireNotNull(resp)
+        val balance = requireNotNull(data.address.balance)
+        balance.coinType?.repr shouldBe SUI_TYPE
+      }
+    }
+
+    "Get balance for a non-existent coin type" {
+      runBlocking {
+        when (val result = sui.getBalance(alice.address, "0x2::usdt::USDT")) {
+          is Result.Ok -> {
+            result.value?.address?.balance?.totalBalance shouldBe "0"
+          }
+          is Result.Err -> {
+            fail("Failed to get balance")
+          }
+        }
+      }
+    }
+
+    "Get coin metadata" {
+      runBlocking {
+        val resp = sui.getCoinMetadata("0x2::sui::SUI").expect { "Failed to get coin metadata" }
+
+        val data = requireNotNull(resp)
+        val coinMetadata = requireNotNull(data.coinMetadata)
+        coinMetadata.name shouldNotBe null
+        coinMetadata.symbol shouldNotBe null
+        requireNotNull(coinMetadata.address)
+
+        coinMetadata.decimals shouldBe 9
+      }
+    }
+  })

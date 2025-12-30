@@ -24,6 +24,7 @@ import xyz.mcxross.ksui.model.SuiApiType
 suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>) {
   getClient(options.suiConfig.clientConfig).post(options.suiConfig.getRequestUrl(options.type)) {
     contentType(ContentType.Application.Json)
+    options.suiConfig.getHeaders(options.type)?.forEach { (key, value) -> header(key, value) }
     setBody(options.body)
   }
 }
