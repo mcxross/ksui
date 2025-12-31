@@ -1,0 +1,20 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package sui.rpc.v2;
+
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "SignatureSchemeProto";
+
+// Flag use to disambiguate the signature schemes supported by Sui.
+enum SignatureScheme {
+  ED25519 = 0;
+  SECP256K1 = 1;
+  SECP256R1 = 2;
+  MULTISIG = 3;
+  BLS12381 = 4;
+  ZKLOGIN = 5;
+  PASSKEY = 6;
+}

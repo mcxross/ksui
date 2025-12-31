@@ -1,0 +1,23 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package sui.rpc.v2;
+
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "TransactionProto";
+
+import "jwk_proto.proto";
+
+// A new JWK.
+message ActiveJwk {
+  // Identifier used to uniquely identify a JWK.
+  optional JwkId id = 1;
+
+  // The JWK.
+  optional Jwk jwk = 2;
+
+  // Most recent epoch in which the JWK was validated.
+  optional uint64 epoch = 3;
+}

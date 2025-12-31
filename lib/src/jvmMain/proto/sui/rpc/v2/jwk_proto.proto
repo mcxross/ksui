@@ -1,0 +1,33 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package sui.rpc.v2;
+
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "JwkProto";
+
+// Key to uniquely identify a JWK.
+message JwkId {
+  // The issuer or identity of the OIDC provider.
+  optional string iss = 1;
+
+  // A key ID used to uniquely identify a key from an OIDC provider.
+  optional string kid = 2;
+}
+
+// A JSON web key.
+message Jwk {
+  // Key type parameter.
+  optional string kty = 1;
+
+  // RSA public exponent.
+  optional string e = 2;
+
+  // RSA modulus.
+  optional string n = 3;
+
+  // Algorithm parameter.
+  optional string alg = 4;
+}
