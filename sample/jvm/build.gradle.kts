@@ -8,15 +8,12 @@ plugins {
 
 group = "xyz.mcxross.ksui.sample"
 
-version = "1.3.1"
-
 kotlin { jvmToolchain(20) }
 
 dependencies {
   implementation(project(":ksui"))
   implementation(libs.ktor.client.content.negotiation)
   implementation(libs.ktor.serialization.kotlinx.json)
-  implementation(libs.apollo.runtime)
   implementation(libs.bcs)
   implementation(libs.ktor.client.cio)
   testImplementation(libs.junit.jupiter.api)
