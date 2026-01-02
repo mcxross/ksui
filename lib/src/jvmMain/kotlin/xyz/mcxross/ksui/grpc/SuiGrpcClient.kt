@@ -25,12 +25,14 @@ import kotlinx.rpc.grpc.GrpcClient
 import kotlinx.rpc.withService
 import kotlin.time.Duration
 import sui.rpc.v2.SignatureVerificationService
+import sui.rpc.v2.TransactionExecutionService
 import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiConfig
 
 /** JVM-only gRPC client for the Sui full node APIs. */
 class SuiGrpcClient private constructor(private val grpcClient: GrpcClient) : Closeable {
   val signatureVerificationService: SignatureVerificationService by lazy { grpcClient.withService() }
+  val transactionExecutionService: TransactionExecutionService by lazy { grpcClient.withService() }
 
   override fun close() {
     grpcClient.shutdown()

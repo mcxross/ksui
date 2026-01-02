@@ -1,0 +1,38 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package sui.rpc.v2;
+
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "TransactionExecutionServiceProto";
+
+import "executed_transaction_proto.proto";
+import "signature_proto.proto";
+import "transaction_proto.proto";
+
+service TransactionExecutionService {
+  rpc ExecuteTransaction(ExecuteTransactionRequest) returns (ExecuteTransactionResponse);
+  rpc SimulateTransaction(SimulateTransactionRequest) returns (SimulateTransactionResponse);
+}
+
+message ExecuteTransactionRequest {
+  // The transaction to execute.
+  optional Transaction transaction = 1;
+
+  // Set of `UserSignature`s authorizing the execution of the provided transaction.
+  repeated UserSignature signatures = 2;
+}
+
+message ExecuteTransactionResponse {
+  optional ExecutedTransaction transaction = 1;
+}
+
+message SimulateTransactionRequest {
+  optional Transaction transaction = 1;
+}
+
+message SimulateTransactionResponse {
+  optional ExecutedTransaction transaction = 1;
+}

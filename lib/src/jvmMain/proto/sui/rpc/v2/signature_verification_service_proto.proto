@@ -10,7 +10,6 @@ option java_outer_classname = "SignatureVerificationServiceProto";
 
 import "bcs_proto.proto";
 import "signature_proto.proto";
-import "transaction_proto.proto";
 
 service SignatureVerificationService {
   // Perform signature verification of a UserSignature against the provided message.
@@ -26,9 +25,6 @@ message VerifySignatureRequest {
 
   // Optional. Address to validate against the provided signature.
   optional string address = 3;
-
-  // The set of JWKs to use when verifying Zklogin signatures.
-  repeated ActiveJwk jwks = 4;
 }
 
 message VerifySignatureResponse {
