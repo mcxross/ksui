@@ -17,8 +17,6 @@ plugins {
 
 group = "xyz.mcxross.ksui"
 
-version = "2.2.6-SNAPSHOT"
-
 kotlin {
   jvmToolchain(17)
 
@@ -88,7 +86,7 @@ kotlin {
       implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.bcs)
-      implementation(libs.apollo.runtime)
+      api(libs.apollo.runtime)
       implementation(libs.kotlin.result)
     }
     commonTest.dependencies {

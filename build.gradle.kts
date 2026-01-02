@@ -1,7 +1,5 @@
 group = "xyz.mcxross.ksui"
 
-version = "2.2.6-SNAPSHOT"
-
 plugins {
   alias(libs.plugins.jvm) apply false
   alias(libs.plugins.android.library) apply false
