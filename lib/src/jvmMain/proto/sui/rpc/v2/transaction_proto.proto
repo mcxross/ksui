@@ -8,16 +8,13 @@ package sui.rpc.v2;
 option java_package = "sui.rpc.v2";
 option java_outer_classname = "TransactionProto";
 
-import "jwk_proto.proto";
+import "bcs_proto.proto";
 
-// A new JWK.
-message ActiveJwk {
-  // Identifier used to uniquely identify a JWK.
-  optional JwkId id = 1;
+// A transaction (minimal v2 shape for gRPC submission).
+message Transaction {
+  // This Transaction serialized as BCS.
+  optional Bcs bcs = 1;
 
-  // The JWK.
-  optional Jwk jwk = 2;
-
-  // Most recent epoch in which the JWK was validated.
-  optional uint64 epoch = 3;
+  // The digest of this Transaction.
+  optional string digest = 2;
 }

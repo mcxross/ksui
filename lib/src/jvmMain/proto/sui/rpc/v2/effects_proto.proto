@@ -3,12 +3,65 @@
 
 syntax = "proto3";
 
-package sui.rpc.v2beta2;
+package sui.rpc.v2;
 
-import "sui/rpc/v2beta2/bcs.proto";
-import "sui/rpc/v2beta2/execution_status.proto";
-import "sui/rpc/v2beta2/gas_cost_summary.proto";
-import "sui/rpc/v2beta2/owner.proto";
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "EffectsProto";
+
+import "bcs_proto.proto";
+import "execution_status_proto.proto";
+import "gas_cost_summary_proto.proto";
+import "object_reference_proto.proto";
+import "owner_proto.proto";
+
+enum ChangedObjectInputObjectState {
+  CHANGED_OBJECT_INPUT_STATE_UNKNOWN = 0;
+  CHANGED_OBJECT_INPUT_STATE_DOES_NOT_EXIST = 1;
+  CHANGED_OBJECT_INPUT_STATE_EXISTS = 2;
+}
+
+enum ChangedObjectOutputObjectState {
+  CHANGED_OBJECT_OUTPUT_STATE_UNKNOWN = 0;
+  CHANGED_OBJECT_OUTPUT_STATE_DOES_NOT_EXIST = 1;
+  CHANGED_OBJECT_OUTPUT_STATE_OBJECT_WRITE = 2;
+  CHANGED_OBJECT_OUTPUT_STATE_PACKAGE_WRITE = 3;
+  CHANGED_OBJECT_OUTPUT_STATE_ACCUMULATOR_WRITE = 4;
+}
+
+enum ChangedObjectIdOperationKind {
+  CHANGED_OBJECT_ID_OPERATION_UNKNOWN = 0;
+  CHANGED_OBJECT_ID_OPERATION_NONE = 1;
+  CHANGED_OBJECT_ID_OPERATION_CREATED = 2;
+  CHANGED_OBJECT_ID_OPERATION_DELETED = 3;
+}
+
+enum AccumulatorWriteOperation {
+  ACCUMULATOR_OPERATION_UNKNOWN = 0;
+  ACCUMULATOR_OPERATION_MERGE = 1;
+  ACCUMULATOR_OPERATION_SPLIT = 2;
+}
+
+enum UnchangedConsensusObjectKind {
+  UNCHANGED_CONSENSUS_OBJECT_KIND_UNKNOWN = 0;
+
+  // Read-only consensus object from the input.
+  UNCHANGED_CONSENSUS_OBJECT_READ_ONLY_ROOT = 1;
+
+  // Objects with ended consensus streams that appear mutably/owned in the input.
+  UNCHANGED_CONSENSUS_OBJECT_MUTATE_CONSENSUS_STREAM_ENDED = 2;
+
+  // Objects with ended consensus streams objects that appear as read-only in the input.
+  UNCHANGED_CONSENSUS_OBJECT_READ_CONSENSUS_STREAM_ENDED = 3;
+
+  // Consensus objects that were congested and resulted in this transaction being
+  // canceled.
+  UNCHANGED_CONSENSUS_OBJECT_CANCELED = 4;
+
+  // Read of a per-epoch config object that should remain the same during an
+  // epoch. This optionally will indicate the sequence number of the config
+  // object at the start of the epoch.
+  UNCHANGED_CONSENSUS_OBJECT_PER_EPOCH_CONFIG = 5;
+}
 
 // The effects of executing a transaction.
 message TransactionEffects {
@@ -35,7 +88,7 @@ message TransactionEffects {
 
   // Information about the gas object. Also present in the `changed_objects` vector.
   //
-  // System transaction that don't require gas will leave this as `None`.
+  // System transactions that don't require gas will leave this as `None`.
   optional ChangedObject gas_object = 8;
 
   // The digest of the events emitted during execution,
@@ -61,6 +114,8 @@ message TransactionEffects {
   // Storing it separately allows us to avoid bloating the effects with data that are not critical.
   // It also provides more flexibility on the format and type of the data.
   optional string auxiliary_data_digest = 14;
+
+  repeated ObjectReference unchanged_loaded_runtime_objects = 15;
 }
 
 // Input/output state of an object that was changed during execution.
@@ -68,13 +123,7 @@ message ChangedObject {
   // ID of the object.
   optional string object_id = 1;
 
-  enum InputObjectState {
-    INPUT_OBJECT_STATE_UNKNOWN = 0;
-    INPUT_OBJECT_STATE_DOES_NOT_EXIST = 1;
-    INPUT_OBJECT_STATE_EXISTS = 2;
-  }
-
-  optional InputObjectState input_state = 2;
+  optional ChangedObjectInputObjectState input_state = 2;
 
   // Version of the object before this transaction executed.
   optional uint64 input_version = 3;
@@ -83,60 +132,42 @@ message ChangedObject {
   // Owner of the object before this transaction executed.
   optional Owner input_owner = 5;
 
-  enum OutputObjectState {
-    OUTPUT_OBJECT_STATE_UNKNOWN = 0;
-    OUTPUT_OBJECT_STATE_DOES_NOT_EXIST = 1;
-    OUTPUT_OBJECT_STATE_OBJECT_WRITE = 2;
-    OUTPUT_OBJECT_STATE_PACKAGE_WRITE = 3;
-  }
-
-  optional OutputObjectState output_state = 6;
+  optional ChangedObjectOutputObjectState output_state = 6;
   // Version of the object after this transaction executed.
   optional uint64 output_version = 7;
   // Digest of the object after this transaction executed.
   optional string output_digest = 8;
   // Owner of the object after this transaction executed.
   optional Owner output_owner = 9;
-
-  enum IdOperation {
-    ID_OPERATION_UNKNOWN = 0;
-    NONE = 1;
-    CREATED = 2;
-    DELETED = 3;
-  }
+  // The contents of the accumulator write when `output_state` is `OUTPUT_OBJECT_STATE_ACCUMULATOR_WRITE`
+  optional AccumulatorWrite accumulator_write = 12;
 
   // What happened to an `ObjectId` during execution.
-  optional IdOperation id_operation = 10;
+  optional ChangedObjectIdOperationKind id_operation = 10;
 
   // Type information is not provided by the effects structure but is instead
   // provided by an indexing layer
   optional string object_type = 11;
 }
 
+message AccumulatorWrite {
+  optional string address = 1;
+  optional string accumulator_type = 2;
+
+  optional AccumulatorWriteOperation operation = 3;
+
+  // enum AccumulatorValue {
+  //   ACCUMULATOR_VALUE_UNKNOWN = 0;
+  //   INTEGER = 1;
+  // }
+  // optional AccumulatorValue value_kind = 4;
+  reserved 4; // AccumulatorValueKind
+
+  optional uint64 value = 5;
+}
+
 // A consensus object that wasn't changed during execution.
 message UnchangedConsensusObject {
-  enum UnchangedConsensusObjectKind {
-    UNCHANGED_CONSENSUS_OBJECT_KIND_UNKNOWN = 0;
-
-    // Read-only consensus object from the input.
-    READ_ONLY_ROOT = 1;
-
-    // Objects with ended consensus streams that appear mutably/owned in the input.
-    MUTATE_CONSENSUS_STREAM_ENDED = 2;
-
-    // Objects with ended consensus streams objects that appear as read-only in the input.
-    READ_CONSENSUS_STREAM_ENDED = 3;
-
-    // Consensus objects that were congested and resulted in this transaction being
-    // canceled.
-    CANCELED = 4;
-
-    // Read of a per-epoch config object that should remain the same during an
-    // epoch. This optionally will indicate the sequence number of the config
-    // object at the start of the epoch.
-    PER_EPOCH_CONFIG = 5;
-  }
-
   optional UnchangedConsensusObjectKind kind = 1;
 
   // ObjectId of the consensus object.

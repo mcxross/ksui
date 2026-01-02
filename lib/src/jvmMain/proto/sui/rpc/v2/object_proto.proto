@@ -3,12 +3,15 @@
 
 syntax = "proto3";
 
-package sui.rpc.v2beta2;
+package sui.rpc.v2;
 
-import "google/protobuf/struct.proto";
-import "sui/rpc/v2beta2/bcs.proto";
-import "sui/rpc/v2beta2/move_package.proto";
-import "sui/rpc/v2beta2/owner.proto";
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "ObjectProto";
+
+import "struct_proto.proto";
+import "bcs_proto.proto";
+import "move_package_proto.proto";
+import "owner_proto.proto";
 
 // An object on the Sui blockchain.
 message Object {
@@ -55,8 +58,14 @@ message Object {
   optional uint64 storage_rebate = 11;
 
   // JSON rendering of the object.
-  optional google.protobuf.Value json = 100;
+  optional Value json = 100;
 
   // Current balance if this object is a `0x2::coin::Coin<T>`
   optional uint64 balance = 101;
+}
+
+// Set of Objects
+message ObjectSet {
+  // Objects are sorted by the key `(object_id, version)`.
+  repeated Object objects = 1;
 }

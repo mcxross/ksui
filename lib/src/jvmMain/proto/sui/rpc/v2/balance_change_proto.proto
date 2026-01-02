@@ -3,7 +3,10 @@
 
 syntax = "proto3";
 
-package sui.rpc.v2beta2;
+package sui.rpc.v2;
+
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "BalanceChangeProto";
 
 // The delta, or change, in balance for an address for a particular `Coin` type.
 message BalanceChange {

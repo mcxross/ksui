@@ -150,10 +150,17 @@ protoSourceSets {
   jvmMain {
     proto {
       setSrcDirs(listOf("src/jvmMain/proto/sui/rpc/v2"))
-      include("*.proto")
+      include("bcs_proto.proto")
+      include("signature_proto.proto")
+      include("signature_verification_service_proto.proto")
+      include("transaction_proto.proto")
+      include("executed_transaction_proto.proto")
+      include("transaction_execution_service_proto.proto")
     }
   }
 }
+
+tasks.matching { it.name == "bufGenerateJvmTest" }.configureEach { enabled = false }
 
 apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
 

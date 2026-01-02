@@ -59,7 +59,9 @@ class SuiGrpcClientTest {
   private class TestSignatureVerificationService : SignatureVerificationService {
     override suspend fun VerifySignature(
       request: VerifySignatureRequest
-    ): VerifySignatureResponse = VerifySignatureResponseBuilder().apply { isValid = true }
+    ): VerifySignatureResponse {
+      return VerifySignatureResponseBuilder().apply { isValid = true }
+    }
   }
 
   private fun findFreePort(): Int =

@@ -3,10 +3,13 @@
 
 syntax = "proto3";
 
-package sui.rpc.v2beta2;
+package sui.rpc.v2;
 
-import "google/protobuf/struct.proto";
-import "sui/rpc/v2beta2/bcs.proto";
+option java_package = "sui.rpc.v2";
+option java_outer_classname = "EventProto";
+
+import "struct_proto.proto";
+import "bcs_proto.proto";
 
 // Events emitted during the successful execution of a transaction.
 message TransactionEvents {
@@ -40,5 +43,5 @@ message Event {
   optional Bcs contents = 5;
 
   // JSON rendering of the event.
-  optional google.protobuf.Value json = 6;
+  optional Value json = 6;
 }
