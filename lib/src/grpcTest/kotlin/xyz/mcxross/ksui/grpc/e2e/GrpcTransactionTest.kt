@@ -6,20 +6,14 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
-import kotlinx.io.bytestring.ByteString
 import kotlinx.rpc.grpc.GrpcStatusException
-import sui.rpc.v2.BcsInternal
-import sui.rpc.v2.ExecuteTransactionRequestInternal
-import sui.rpc.v2.SimulateTransactionRequestInternal
-import sui.rpc.v2.TransactionInternal
-import sui.rpc.v2.UserSignatureInternal
 import xyz.mcxross.ksui.TestResources
-import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
-import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
+import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
+import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.Intent
@@ -54,15 +48,7 @@ class GrpcTransactionTest :
           val txData = buildHelloWorldTransactionData(sui, alice)
           val txBytes = bcsEncode(txData)
 
-          val response =
-            client.transactionExecutionService.SimulateTransaction(
-              SimulateTransactionRequestInternal().apply {
-                transaction =
-                  TransactionInternal().apply {
-                    bcs = BcsInternal().apply { value = ByteString(txBytes) }
-                  }
-              }
-            )
+          val response = client.simulateTransaction(txBytes)
 
           response.shouldNotBeNull()
           response.transaction.shouldNotBeNull()
@@ -77,16 +63,7 @@ class GrpcTransactionTest :
       try {
         runBlocking {
           val failure =
-            runCatching {
-              client.transactionExecutionService.SimulateTransaction(
-                SimulateTransactionRequestInternal().apply {
-                  transaction =
-                    TransactionInternal().apply {
-                      bcs = BcsInternal().apply { value = ByteString(byteArrayOf(0x00)) }
-                    }
-                }
-              )
-            }.exceptionOrNull()
+            runCatching { client.simulateTransaction(byteArrayOf(0x00)) }.exceptionOrNull()
 
           val grpcFailure = failure.shouldBeInstanceOf<GrpcStatusException>()
           val statusText = grpcFailure.message.orEmpty()
@@ -106,21 +83,7 @@ class GrpcTransactionTest :
           val txBytes = bcsEncode(txData)
           val txDigest = hash(Hash.BLAKE2B256, txBytes).encodeToBase58String()
 
-          val request =
-            ExecuteTransactionRequestInternal().apply {
-              transaction =
-                TransactionInternal().apply {
-                  bcs = BcsInternal().apply { value = ByteString(txBytes) }
-                }
-              signatures =
-                listOf(
-                  UserSignatureInternal().apply {
-                    bcs = BcsInternal().apply { value = ByteString(signatureBytes) }
-                  }
-                )
-            }
-
-          client.transactionExecutionService.ExecuteTransaction(request).shouldNotBeNull()
+          client.executeTransaction(txBytes, listOf(signatureBytes)).shouldNotBeNull()
           waitForTransactionByDigest(sui, txDigest).shouldNotBeNull()
         }
       } finally {

@@ -3,9 +3,6 @@ package xyz.mcxross.ksui.grpc.e2e
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import sui.rpc.v2.GetBalanceRequestInternal
-import sui.rpc.v2.GetCoinInfoRequestInternal
-import sui.rpc.v2.ListBalancesRequestInternal
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
@@ -22,13 +19,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response =
-            client.stateService.GetBalance(
-              GetBalanceRequestInternal().apply {
-                owner = alice.address.toString()
-                coinType = SUI_TYPE
-              }
-            )
+          val response = client.getBalance(alice.address, SUI_TYPE)
 
           val balance = response.balance.shouldNotBeNull()
           balance.coinType shouldBe SUI_TYPE
@@ -43,10 +34,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response =
-            client.stateService.ListBalances(
-              ListBalancesRequestInternal().apply { owner = alice.address.toString() }
-            )
+          val response = client.listBalances(alice.address)
 
           response.balances.isNotEmpty() shouldBe true
           response.balances.first().coinType.shouldNotBeNull().isNotBlank() shouldBe true
@@ -60,10 +48,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response =
-            client.stateService.GetCoinInfo(
-              GetCoinInfoRequestInternal().apply { coinType = SUI_TYPE }
-            )
+          val response = client.getCoinInfo(SUI_TYPE)
 
           response.coinType shouldBe SUI_TYPE
           val metadata = response.metadata.shouldNotBeNull()
