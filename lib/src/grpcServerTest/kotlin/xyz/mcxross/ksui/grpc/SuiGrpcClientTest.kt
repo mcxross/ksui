@@ -16,31 +16,31 @@
 
 package xyz.mcxross.ksui.grpc
 
-import java.net.ServerSocket
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
-import kotlinx.rpc.grpc.GrpcServer
+import kotlinx.rpc.grpc.server.GrpcServer
 import kotlinx.rpc.registerService
 import sui.rpc.v2.SignatureVerificationService
-import sui.rpc.v2.VerifySignatureRequestBuilder
 import sui.rpc.v2.VerifySignatureRequest
-import sui.rpc.v2.VerifySignatureResponseBuilder
+import sui.rpc.v2.VerifySignatureRequestInternal
 import sui.rpc.v2.VerifySignatureResponse
+import sui.rpc.v2.VerifySignatureResponseInternal
 
 class SuiGrpcClientTest {
-  private lateinit var server: kotlinx.rpc.grpc.GrpcServer
+  private lateinit var server: GrpcServer
   private lateinit var client: SuiGrpcClient
-  private var port: Int = 0
 
   @BeforeTest
   fun setUp() {
-    port = findFreePort()
-    server = GrpcServer(port) { registerService<SignatureVerificationService> { TestSignatureVerificationService() } }
-    server.start()
-    client = SuiGrpcClient.connect("localhost", port, usePlaintext = true)
+    server =
+      GrpcServer(0) {
+          services { registerService<SignatureVerificationService> { TestSignatureVerificationService() } }
+        }
+        .start()
+    client = SuiGrpcClient.connect("localhost", server.port, usePlaintext = true)
   }
 
   @AfterTest
@@ -51,19 +51,15 @@ class SuiGrpcClientTest {
 
   @Test
   fun usesSignatureVerificationService() = runBlocking {
-    val response =
-      client.signatureVerificationService.VerifySignature(VerifySignatureRequestBuilder())
+    val response = client.signatureVerificationService.VerifySignature(VerifySignatureRequestInternal())
     assertEquals(true, response.isValid)
   }
 
   private class TestSignatureVerificationService : SignatureVerificationService {
     override suspend fun VerifySignature(
-      request: VerifySignatureRequest
+      message: VerifySignatureRequest
     ): VerifySignatureResponse {
-      return VerifySignatureResponseBuilder().apply { isValid = true }
+      return VerifySignatureResponseInternal().apply { isValid = true }
     }
   }
-
-  private fun findFreePort(): Int =
-    ServerSocket(0).use { socket -> socket.localPort }
 }
