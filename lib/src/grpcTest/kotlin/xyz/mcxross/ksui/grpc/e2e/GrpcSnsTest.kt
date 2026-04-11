@@ -2,7 +2,6 @@ package xyz.mcxross.ksui.grpc.e2e
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import sui.rpc.v2.ReverseLookupNameRequestInternal
 import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.model.Network
@@ -18,10 +17,7 @@ class GrpcSnsTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response =
-            client.nameService.ReverseLookupName(
-              ReverseLookupNameRequestInternal().apply { address = alice.address.toString() }
-            )
+          val response = client.reverseLookupName(alice.address)
 
           response.record.targetAddress?.let { it shouldBe alice.address.toString() }
         }

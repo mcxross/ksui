@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 McXross
+ * Copyright 2025 McXross
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,44 +16,45 @@
 
 package xyz.mcxross.ksui.grpc
 
+import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.rpc.grpc.append
 import kotlinx.rpc.grpc.client.GrpcClient
 import kotlinx.rpc.grpc.client.GrpcClientCallScope
 import kotlinx.rpc.grpc.client.GrpcClientConfiguration
 import kotlinx.rpc.grpc.client.GrpcClientInterceptor
-import kotlinx.rpc.withService
-import kotlin.time.Duration
-import sui.rpc.v2.LedgerService
-import sui.rpc.v2.MovePackageService
-import sui.rpc.v2.NameService
-import sui.rpc.v2.SignatureVerificationService
-import sui.rpc.v2.StateService
-import sui.rpc.v2.SubscriptionService
-import sui.rpc.v2.TransactionExecutionService
+import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
+import xyz.mcxross.ksui.grpc.protocol.Coin
+import xyz.mcxross.ksui.grpc.protocol.General
+import xyz.mcxross.ksui.grpc.protocol.Move
+import xyz.mcxross.ksui.grpc.protocol.Object
+import xyz.mcxross.ksui.grpc.protocol.Signature
+import xyz.mcxross.ksui.grpc.protocol.Sns
+import xyz.mcxross.ksui.grpc.protocol.Subscription
+import xyz.mcxross.ksui.grpc.protocol.Transaction
 import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiConfig
 
 /** gRPC client for the ksui targets supported by kotlinx-rpc gRPC. */
-class SuiGrpcClient private constructor(private val grpcClient: GrpcClient) {
-  val ledgerService: LedgerService by lazy { grpcClient.withService() }
-  val movePackageService: MovePackageService by lazy { grpcClient.withService() }
-  val nameService: NameService by lazy { grpcClient.withService() }
-  val signatureVerificationService: SignatureVerificationService by lazy { grpcClient.withService() }
-  val stateService: StateService by lazy { grpcClient.withService() }
-  val subscriptionService: SubscriptionService by lazy { grpcClient.withService() }
-  val transactionExecutionService: TransactionExecutionService by lazy { grpcClient.withService() }
-
+class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
+  Coin by xyz.mcxross.ksui.grpc.api.Coin(runtime),
+  General by xyz.mcxross.ksui.grpc.api.General(runtime),
+  Move by xyz.mcxross.ksui.grpc.api.Move(runtime),
+  Object by xyz.mcxross.ksui.grpc.api.Object(runtime),
+  Signature by xyz.mcxross.ksui.grpc.api.Signature(runtime),
+  Sns by xyz.mcxross.ksui.grpc.api.Sns(runtime),
+  Subscription by xyz.mcxross.ksui.grpc.api.Subscription(runtime),
+  Transaction by xyz.mcxross.ksui.grpc.api.Transaction(runtime) {
   fun close() {
-    grpcClient.shutdown()
+    runtime.close()
   }
 
   fun shutdownNow() {
-    grpcClient.shutdownNow()
+    runtime.shutdownNow()
   }
 
   suspend fun awaitTermination(timeout: Duration) {
-    grpcClient.awaitTermination(timeout)
+    runtime.awaitTermination(timeout)
   }
 
   companion object {
@@ -86,7 +87,7 @@ class SuiGrpcClient private constructor(private val grpcClient: GrpcClient) {
           applyHeaders(headers)
           configure()
         }
-      return SuiGrpcClient(client)
+      return SuiGrpcClient(GrpcRuntime(client))
     }
 
     fun connectTarget(
@@ -103,16 +104,12 @@ class SuiGrpcClient private constructor(private val grpcClient: GrpcClient) {
           applyHeaders(headers)
           configure()
         }
-      return SuiGrpcClient(client)
+      return SuiGrpcClient(GrpcRuntime(client))
     }
   }
 }
 
-data class GrpcEndpoint(
-  val host: String,
-  val port: Int,
-  val usePlaintext: Boolean,
-) {
+data class GrpcEndpoint(val host: String, val port: Int, val usePlaintext: Boolean) {
   companion object {
     fun fromUrl(endpoint: String): GrpcEndpoint {
       val normalized = endpoint.trim()
@@ -125,7 +122,11 @@ data class GrpcEndpoint(
 
       val scheme = withScheme.substringBefore("://", "https").lowercase()
       val authority =
-        withScheme.substringAfter("://", normalized).substringBefore('/').substringBefore('?').substringBefore('#')
+        withScheme
+          .substringAfter("://", normalized)
+          .substringBefore('/')
+          .substringBefore('?')
+          .substringBefore('#')
 
       if (authority.isNotBlank()) {
         val hostAndPort = parseHostAndPort(authority.removePrefix("//"))
@@ -180,9 +181,7 @@ private fun GrpcClientConfiguration.applyHeaders(headers: Map<String, Any>?) {
       override fun <Request, Response> GrpcClientCallScope<Request, Response>.intercept(
         request: Flow<Request>
       ): Flow<Response> {
-        headers.forEach { (key, value) ->
-          requestHeaders.append(key.lowercase(), value.toString())
-        }
+        headers.forEach { (key, value) -> requestHeaders.append(key.lowercase(), value.toString()) }
         return proceed(request)
       }
     }

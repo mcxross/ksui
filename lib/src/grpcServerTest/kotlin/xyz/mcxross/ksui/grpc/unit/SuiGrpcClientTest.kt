@@ -6,7 +6,6 @@ import kotlinx.rpc.grpc.server.GrpcServer
 import kotlinx.rpc.registerService
 import sui.rpc.v2.SignatureVerificationService
 import sui.rpc.v2.VerifySignatureRequest
-import sui.rpc.v2.VerifySignatureRequestInternal
 import sui.rpc.v2.VerifySignatureResponse
 import sui.rpc.v2.VerifySignatureResponseInternal
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
@@ -25,7 +24,7 @@ class SuiGrpcClientTest :
 
       try {
         runBlocking {
-          val response = client.signatureVerificationService.VerifySignature(VerifySignatureRequestInternal())
+          val response = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00))
           response.isValid shouldBe true
         }
       } finally {

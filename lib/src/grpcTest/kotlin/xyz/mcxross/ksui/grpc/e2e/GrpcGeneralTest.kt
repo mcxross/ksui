@@ -4,14 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import kotlinx.io.bytestring.ByteString
 import kotlinx.rpc.grpc.GrpcStatusException
-import sui.rpc.v2.BcsInternal
-import sui.rpc.v2.GetCheckpointRequestInternal
-import sui.rpc.v2.GetEpochRequestInternal
-import sui.rpc.v2.GetServiceInfoRequestInternal
-import sui.rpc.v2.UserSignatureInternal
-import sui.rpc.v2.VerifySignatureRequestInternal
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.SuiConfig
@@ -24,7 +17,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.ledgerService.GetServiceInfo(GetServiceInfoRequestInternal())
+          val response = client.getServiceInfo()
 
           response.chain.shouldNotBeNull().isNotBlank() shouldBe true
           response.chainId.shouldNotBeNull().isNotBlank() shouldBe true
@@ -40,7 +33,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.ledgerService.GetCheckpoint(GetCheckpointRequestInternal())
+          val response = client.getCheckpoint()
           val checkpoint = response.checkpoint.shouldNotBeNull()
 
           checkpoint.sequenceNumber.shouldNotBeNull()
@@ -55,7 +48,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.ledgerService.GetEpoch(GetEpochRequestInternal())
+          val response = client.getEpoch()
           val epoch = response.epoch.shouldNotBeNull()
 
           epoch.epoch.shouldNotBeNull()
@@ -71,9 +64,8 @@ class GrpcGeneralTest :
       try {
         runBlocking {
           val failure =
-            runCatching {
-              client.signatureVerificationService.VerifySignature(invalidVerifySignatureRequest())
-            }.exceptionOrNull()
+            runCatching { client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00)) }
+              .exceptionOrNull()
 
           val grpcFailure = failure.shouldBeInstanceOf<GrpcStatusException>()
           val statusText = grpcFailure.message.orEmpty()
@@ -84,25 +76,3 @@ class GrpcGeneralTest :
       }
     }
   })
-
-
-private fun invalidVerifySignatureRequest(): VerifySignatureRequestInternal {
-  val message =
-    BcsInternal().apply {
-      name = "TransactionData"
-      value = ByteString(byteArrayOf(0x00))
-    }
-  val signature =
-    UserSignatureInternal().apply {
-      bcs =
-        BcsInternal().apply {
-          name = "UserSignature"
-          value = ByteString(byteArrayOf(0x00))
-        }
-    }
-
-  return VerifySignatureRequestInternal().apply {
-    this.message = message
-    this.signature = signature
-  }
-}
