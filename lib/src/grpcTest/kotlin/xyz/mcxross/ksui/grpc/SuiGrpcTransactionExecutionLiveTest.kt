@@ -16,23 +16,27 @@
 
 package xyz.mcxross.ksui.grpc
 
+import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import org.junit.jupiter.api.Test
-import sui.rpc.v2.BcsBuilder
-import sui.rpc.v2.ExecuteTransactionRequestBuilder
-import sui.rpc.v2.TransactionBuilder
-import sui.rpc.v2.UserSignatureBuilder
+import kotlinx.io.bytestring.ByteString
+import sui.rpc.v2.BcsInternal
+import sui.rpc.v2.ExecuteTransactionRequestInternal
+import sui.rpc.v2.TransactionInternal
+import sui.rpc.v2.UserSignatureInternal
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
+import xyz.mcxross.ksui.model.Intent
+import xyz.mcxross.ksui.model.IntentMessage
 import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.ObjectDigest
 import xyz.mcxross.ksui.model.ObjectReference
@@ -40,15 +44,13 @@ import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.Intent
-import xyz.mcxross.ksui.model.IntentMessage
-import xyz.mcxross.ksui.model.TransactionDataComposer
-import xyz.mcxross.ksui.model.TransactionData
 import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.model.TransactionData
+import xyz.mcxross.ksui.model.TransactionDataComposer
 import xyz.mcxross.ksui.ptb.ptb
 import xyz.mcxross.ksui.util.bcsEncode
 import xyz.mcxross.ksui.util.encodeToBase58String
-import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val ALICE_PRIVATE_KEY =
   "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
@@ -59,8 +61,7 @@ private const val HELLO_WORLD =
 
 class SuiGrpcTransactionExecutionLiveTest {
   @Test
-  fun submitsMoveCallViaGrpc() {
-    runBlocking {
+  fun submitsMoveCallViaGrpc() = runBlocking {
     val client = SuiGrpcClient.connect("fullnode.testnet.sui.io", 443)
     val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))
     try {
@@ -88,35 +89,25 @@ class SuiGrpcTransactionExecutionLiveTest {
       val txDigest = hash(Hash.BLAKE2B256, txBytes).encodeToBase58String()
 
       val request =
-        ExecuteTransactionRequestBuilder().apply {
+        ExecuteTransactionRequestInternal().apply {
           transaction =
-            TransactionBuilder().apply {
-              bcs =
-                BcsBuilder().apply {
-                  value = txBytes
-                }
+            TransactionInternal().apply {
+              bcs = BcsInternal().apply { value = ByteString(txBytes) }
             }
           signatures =
             listOf(
-              UserSignatureBuilder().apply {
-                bcs =
-                  BcsBuilder().apply {
-                    value = signatureBytes
-                  }
+              UserSignatureInternal().apply {
+                bcs = BcsInternal().apply { value = ByteString(signatureBytes) }
               }
             )
         }
 
-      println(ALICE_ACCOUNT.address.toString())
-
       val response = client.transactionExecutionService.ExecuteTransaction(request)
-      println(response.transaction?.transaction?.bcs)
       assertNotNull(response)
       val waited = waitForTransactionByDigest(sui, txDigest)
       assertNotNull(waited)
     } finally {
       client.close()
-    }
     }
   }
 }
@@ -132,12 +123,16 @@ private suspend fun fetchReferenceGasPrice(sui: Sui, attempts: Int = 3): ULong {
       }
       is Result.Err -> lastError = price.error.toString()
     }
-    if (attempt < attempts - 1) delay(1_000)
+    if (attempt < attempts - 1) delay(1_000.milliseconds)
   }
   throw SuiException("Failed to get gas price: ${lastError ?: "unknown error"}")
 }
 
-private suspend fun fetchGasCoins(sui: Sui, account: Account, attempts: Int = 5): List<ObjectReference> {
+private suspend fun fetchGasCoins(
+  sui: Sui,
+  account: Account,
+  attempts: Int = 5,
+): List<ObjectReference> {
   var lastError: String? = null
   repeat(attempts) { attempt ->
     when (val po = sui.getCoins(account.address)) {

@@ -1,8 +1,7 @@
 import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import java.net.URL
-import kotlinx.rpc.proto.kotlinMultiplatform
+import kotlinx.rpc.protoc.proto
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -68,19 +67,47 @@ kotlin {
     }
   }
   sourceSets {
+    val grpcMain by creating {
+      dependsOn(commonMain.get())
+      proto {
+        include("bcs_proto.proto")
+        include("signature_proto.proto")
+        include("signature_verification_service_proto.proto")
+        include("transaction_proto.proto")
+        include("executed_transaction_proto.proto")
+        include("transaction_execution_service_proto.proto")
+      }
+      dependencies {
+        api(libs.kotlinx.rpc.grpc.core)
+        api(libs.kotlinx.rpc.protobuf.core)
+        api(libs.kotlinx.rpc.grpc.client)
+      }
+    }
+    val grpcTest by creating { dependsOn(commonTest.get()) }
+    val grpcServerTest by creating {
+      dependsOn(grpcTest)
+      dependencies { implementation(libs.kotlinx.rpc.grpc.server) }
+    }
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
       dependencies { implementation(libs.bitcoinj.core) }
     }
-    appleMain.dependencies { implementation(libs.ktor.client.darwin) }
+    val appleMain by getting {
+      dependsOn(grpcMain)
+      dependencies { implementation(libs.ktor.client.darwin) }
+    }
+    val appleTest by getting { dependsOn(grpcTest) }
+    val macosTest by getting { dependsOn(grpcServerTest) }
     val androidMain by getting {
       dependsOn(androidJvmMain)
+      dependsOn(grpcMain)
       dependencies {
         implementation(libs.ktor.client.okhttp)
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
         implementation(libs.play.services.identity.credentials)
         implementation(libs.fastkrypto.android)
+        implementation(libs.grpc.okhttp)
       }
     }
     commonMain.dependencies {
@@ -103,21 +130,20 @@ kotlin {
     jsMain.dependencies { implementation(libs.ktor.client.js) }
     val jvmMain by getting {
       dependsOn(androidJvmMain)
+      dependsOn(grpcMain)
       dependencies {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
-        implementation(libs.kotlinx.rpc.grpc.core)
         implementation(libs.grpc.netty)
-        implementation(libs.grpc.protobuf)
-        implementation(libs.grpc.stub)
-        implementation(libs.grpc.kotlin.stub)
-        implementation(libs.protobuf.java)
       }
     }
-    jvmTest.dependencies {
-      implementation(libs.kotest.runner.junit5)
-      implementation(libs.kotlin.test.junit5)
+    val jvmTest by getting {
+      dependsOn(grpcServerTest)
+      dependencies {
+        implementation(libs.kotest.runner.junit5)
+        implementation(libs.kotlin.test.junit5)
+      }
     }
     iosArm64Main.dependencies { implementation(libs.fastkrypto.iosarm64) }
     iosX64Main.dependencies { implementation(libs.fastkrypto.iosx64) }
@@ -130,32 +156,12 @@ kotlin {
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 rpc {
-  grpc {
-    protocPlugins {
-      kotlinMultiplatform {
-        includeImports.set(false)
-        includeWkt.set(false)
-      }
-    }
+  protoc {
     buf {
       generate {
         includeImports = false
         includeWkt = false
       }
-    }
-  }
-}
-
-protoSourceSets {
-  jvmMain {
-    proto {
-      setSrcDirs(listOf("src/jvmMain/proto/sui/rpc/v2"))
-      include("bcs_proto.proto")
-      include("signature_proto.proto")
-      include("signature_verification_service_proto.proto")
-      include("transaction_proto.proto")
-      include("executed_transaction_proto.proto")
-      include("transaction_execution_service_proto.proto")
     }
   }
 }

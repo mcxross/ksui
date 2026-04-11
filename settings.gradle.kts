@@ -4,7 +4,7 @@ pluginManagement {
     gradlePluginPortal()
     mavenCentral()
     maven(url = "../repo")
-    maven("https://maven.pkg.jetbrains.space/public/p/krpc/grpc")
+    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc")
   }
 }
 
@@ -23,6 +23,6 @@ dependencyResolutionManagement {
     mavenCentral()
     google()
     maven(url = "https://central.sonatype.com/repository/maven-snapshots")
-    maven("https://maven.pkg.jetbrains.space/public/p/krpc/grpc")
+    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc")
   }
 }
