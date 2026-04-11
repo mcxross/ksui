@@ -24,14 +24,24 @@ import kotlinx.rpc.grpc.client.GrpcClientConfiguration
 import kotlinx.rpc.grpc.client.GrpcClientInterceptor
 import kotlinx.rpc.withService
 import kotlin.time.Duration
+import sui.rpc.v2.LedgerService
+import sui.rpc.v2.MovePackageService
+import sui.rpc.v2.NameService
 import sui.rpc.v2.SignatureVerificationService
+import sui.rpc.v2.StateService
+import sui.rpc.v2.SubscriptionService
 import sui.rpc.v2.TransactionExecutionService
 import xyz.mcxross.ksui.model.SuiApiType
 import xyz.mcxross.ksui.model.SuiConfig
 
 /** gRPC client for the ksui targets supported by kotlinx-rpc gRPC. */
 class SuiGrpcClient private constructor(private val grpcClient: GrpcClient) {
+  val ledgerService: LedgerService by lazy { grpcClient.withService() }
+  val movePackageService: MovePackageService by lazy { grpcClient.withService() }
+  val nameService: NameService by lazy { grpcClient.withService() }
   val signatureVerificationService: SignatureVerificationService by lazy { grpcClient.withService() }
+  val stateService: StateService by lazy { grpcClient.withService() }
+  val subscriptionService: SubscriptionService by lazy { grpcClient.withService() }
   val transactionExecutionService: TransactionExecutionService by lazy { grpcClient.withService() }
 
   fun close() {
