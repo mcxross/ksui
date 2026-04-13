@@ -6,17 +6,22 @@ mutation executeTransactionBlock(
     $signatures: [Base64!]!
     $showBalanceChanges: Boolean = false
     $showEffects: Boolean = false
-    $showRawEffects: Boolean = false
     $showEvents: Boolean = false
     $showInput: Boolean = false
     $showObjectChanges: Boolean = false
-    $showRawInput: Boolean = false
 ) {
-    executeTransaction(transactionDataBcs: $transactionDataBcs, signatures: $signatures) {
-        errors
+    executeTransaction(
+        transactionDataBcs: $transactionDataBcs
+        signatures: $signatures
+    ) {
         effects {
+            status
+
+            executionError {
+                message
+            }
+
             effectsBcs @include(if: $showEffects)
-            effectsBcs @include(if: $showRawEffects)
 
             events @include(if: $showEvents) {
                 pageInfo {
@@ -57,13 +62,6 @@ mutation executeTransactionBlock(
                 digest
                 sender { address }
                 transactionBcs @include(if: $showInput)
-                transactionBcs @include(if: $showRawInput)
-            }
-
-            status
-
-            executionError {
-                message
             }
         }
     }

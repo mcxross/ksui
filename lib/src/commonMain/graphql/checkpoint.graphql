@@ -36,12 +36,10 @@ query paginateCheckpointTransactionBlocks($sequenceNumber: UInt53, $after: Strin
 }
 
 fragment RPC_Checkpoint_Fields on Checkpoint {
-    # checkpointCommitments
     digest
     epoch {
         epochId
     }
-
     rollingGasSummary {
         computationCost
         storageCost
@@ -75,6 +73,10 @@ fragment RPC_Checkpoint_Fields on Checkpoint {
                             __typename
                             ... on ChangeEpochTransaction {
                                 epoch {
+                                    protocolConfigs {
+                                        protocolVersion
+                                    }
+                                    epochId
                                     validatorSet {
                                         activeValidators {
                                             pageInfo {
@@ -82,17 +84,17 @@ fragment RPC_Checkpoint_Fields on Checkpoint {
                                                 endCursor
                                             }
                                             nodes {
-                                                credentials {
-                                                    protocolPubKey
+                                                atRisk
+                                                contents {
+                                                    type {
+                                                        repr
+                                                    }
+                                                    json
+                                                    bcs
                                                 }
-                                                votingPower
                                             }
                                         }
                                     }
-                                    protocolConfigs {
-                                        protocolVersion
-                                    }
-                                    epochId
                                 }
                             }
                         }

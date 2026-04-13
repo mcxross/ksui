@@ -4,6 +4,17 @@
 query getCurrentEpoch {
     epoch {
         epochId
+        totalTransactions
+        startTimestamp
+        endTimestamp
+        referenceGasPrice
+
+        firstCheckpoint: checkpoints(first: 1) {
+            nodes {
+                sequenceNumber
+            }
+        }
+
         validatorSet {
             activeValidators {
                 pageInfo {
@@ -14,16 +25,14 @@ query getCurrentEpoch {
                     ...RPC_VALIDATOR_FIELDS
                 }
             }
-        }
-        totalTransactions
-        firstCheckpoint: checkpoints(first: 1) {
-            nodes {
-                sequenceNumber
+            contents {
+                type {
+                    repr
+                }
+                json
+                bcs
             }
         }
-        startTimestamp
-        endTimestamp
-        referenceGasPrice
     }
 }
 
@@ -45,48 +54,11 @@ query paginateEpochValidators($id: UInt53!, $after: String) {
 
 fragment RPC_VALIDATOR_FIELDS on Validator {
     atRisk
-    commissionRate
-    exchangeRatesSize
-    exchangeRatesTable {
-        address
+    contents {
+        type {
+            repr
+        }
+        json
+        bcs
     }
-    description
-    gasPrice
-    imageUrl
-    name
-    credentials {
-        ...RPC_CREDENTIAL_FIELDS
-    }
-    nextEpochCommissionRate
-    nextEpochGasPrice
-    nextEpochCredentials {
-        ...RPC_CREDENTIAL_FIELDS
-    }
-    nextEpochStake
-    nextEpochCommissionRate
-    operationCap {
-        address
-    }
-    pendingPoolTokenWithdraw
-    pendingStake
-    pendingTotalSuiWithdraw
-    poolTokenBalance
-    projectUrl
-    rewardsPool
-    stakingPoolId
-    stakingPoolActivationEpoch
-    stakingPoolSuiBalance
-    address
-    votingPower
-}
-
-fragment RPC_CREDENTIAL_FIELDS on ValidatorCredentials {
-    netAddress
-    networkPubKey
-    p2PAddress
-    primaryAddress
-    workerPubKey
-    workerAddress
-    proofOfPossession
-    protocolPubKey
 }

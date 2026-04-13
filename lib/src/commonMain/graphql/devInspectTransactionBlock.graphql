@@ -5,12 +5,10 @@ query devInspectTransactionBlock(
     $transaction: JSON!
     $showBalanceChanges: Boolean = false
     $showEffects: Boolean = false
-    $showRawEffects: Boolean = false
     $showEvents: Boolean = false
     $showObjectChanges: Boolean = false
 ) {
     simulateTransaction(transaction: $transaction) {
-        error
         outputs {
             mutatedReferences {
                 argument {
@@ -39,9 +37,14 @@ query devInspectTransactionBlock(
                 }
             }
         }
+
         effects {
+            status
+            executionError {
+                message
+            }
+
             effectsBcs @include(if: $showEffects)
-            effectsBcs @include(if: $showRawEffects)
 
             balanceChanges @include(if: $showBalanceChanges) {
                 pageInfo {
