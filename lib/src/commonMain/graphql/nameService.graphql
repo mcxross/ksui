@@ -2,13 +2,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 query resolveNameServiceAddress($domain: String!) {
-    suinsName(address: $domain) {
+    address(name: $domain) {
         address
     }
 }
 
 query resolveNameServiceNames($address: SuiAddress!) {
     address(address: $address) {
-        defaultSuinsName
+        defaultNameRecord {
+            __typename
+        }
     }
 }

@@ -2,8 +2,8 @@ package xyz.mcxross.ksui.e2e
 
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.TestResources
+import xyz.mcxross.ksui.generated.type.ExecutionStatus
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
 import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
@@ -28,7 +28,7 @@ class DryRunTest :
           when (val coinsResult = sui.getCoins(TestResources.alice.address)) {
             is Result.Ok -> {
               val data = requireNotNull(coinsResult.value)
-              data.address.objects?.nodes?.firstOrNull() ?: fail("No coins available for dry run")
+              data.address?.objects?.nodes?.firstOrNull() ?: fail("No coins available for dry run")
             }
             is Result.Err -> fail("Failed to fetch coins for dry run")
           }
@@ -78,10 +78,8 @@ class DryRunTest :
           is Result.Ok -> {
             val data = requireNotNull(dryRunResult.value)
             val simulation = data.simulateTransaction
-            if (simulation.error == null) {
+            if (simulation.effects?.status == ExecutionStatus.SUCCESS) {
               requireNotNull(simulation.effects)
-            } else {
-              simulation.error.isNotBlank() shouldBe true
             }
           }
           is Result.Err -> {

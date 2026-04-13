@@ -19,7 +19,7 @@ class CoinTest :
         val resp = sui.getAllBalances(alice.address).expect { "Failed to get all balances" }
 
         val data = requireNotNull(resp)
-        val balances = requireNotNull(data.address.balances)
+        val balances = requireNotNull(data.address?.balances)
         balances.nodes.isNotEmpty() shouldBe true
         requireNotNull(balances.nodes.first().totalBalance)
         balances.nodes.first().coinType?.repr shouldBe SUI_TYPE
@@ -31,7 +31,7 @@ class CoinTest :
         val resp = sui.getCoins(alice.address).expect { "Failed to get coins" }
 
         val data = requireNotNull(resp)
-        val objects = requireNotNull(data.address.objects)
+        val objects = requireNotNull(data.address?.objects)
         objects.nodes.isNotEmpty() shouldBe true
       }
     }
@@ -48,7 +48,7 @@ class CoinTest :
         val resp = sui.getBalance(alice.address).expect { "Failed to get balance" }
 
         val data = requireNotNull(resp)
-        val balance = requireNotNull(data.address.balance)
+        val balance = requireNotNull(data.address?.balance)
         balance.coinType?.repr shouldBe SUI_TYPE
       }
     }
@@ -58,7 +58,7 @@ class CoinTest :
         val resp = sui.getBalance(alice.address, SUI_TYPE).expect { "Failed to get balance" }
 
         val data = requireNotNull(resp)
-        val balance = requireNotNull(data.address.balance)
+        val balance = requireNotNull(data.address?.balance)
         balance.coinType?.repr shouldBe SUI_TYPE
       }
     }

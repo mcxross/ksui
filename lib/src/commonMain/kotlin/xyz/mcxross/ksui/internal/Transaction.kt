@@ -71,7 +71,6 @@ internal suspend fun devInspectTransactionBlock(
             transactionInput,
             showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
             showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
           )
@@ -95,7 +94,6 @@ internal suspend fun dryRunTransactionBlock(
             transaction = transactionInput,
             showObjectChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
             showBalanceChanges = Optional.presentIfNotNull(options.showObjectChanges),
           )
@@ -118,11 +116,9 @@ internal suspend fun executeTransactionBlock(
             signatures,
             showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
             showInput = Optional.presentIfNotNull(options.showInput),
             showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options.showRawInput),
           )
         )
     }
@@ -282,11 +278,9 @@ internal suspend fun signAndSubmitTransaction(
           signatures = content.second,
           showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
           showEffects = Optional.presentIfNotNull(options.showEffects),
-          showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
           showEvents = Optional.presentIfNotNull(options.showEvents),
           showInput = Optional.presentIfNotNull(options.showInput),
           showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-          showRawInput = Optional.presentIfNotNull(options.showRawInput),
         )
       )
       .execute()

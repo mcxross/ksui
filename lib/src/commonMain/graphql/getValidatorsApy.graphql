@@ -11,7 +11,14 @@ query getValidatorsApy {
                     endCursor
                 }
                 nodes {
-                    address
+                    atRisk
+                    contents {
+                        type {
+                            repr
+                        }
+                        json
+                        bcs
+                    }
                 }
             }
         }
