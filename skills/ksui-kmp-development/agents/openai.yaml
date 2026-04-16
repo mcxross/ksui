@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ksui KMP Development"
+  short_description: "Build, test, and change the Ksui KMP repo"
+  default_prompt: "Use $ksui-kmp-development to make a focused change in the Ksui Kotlin Multiplatform repository."

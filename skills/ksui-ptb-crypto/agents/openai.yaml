@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ksui PTB and Crypto"
+  short_description: "Work on Ksui PTBs, accounts, and signing"
+  default_prompt: "Use $ksui-ptb-crypto to change Ksui programmable transactions, accounts, or signing code."

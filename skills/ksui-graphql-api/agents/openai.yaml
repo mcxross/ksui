@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ksui GraphQL API"
+  short_description: "Add and maintain Ksui GraphQL API methods"
+  default_prompt: "Use $ksui-graphql-api to add or update a Sui GraphQL-backed Ksui API method."
