@@ -2,16 +2,16 @@ name: Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "snapshot" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "snapshot" ]
 
 permissions:
   contents: read
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin'
 
       - name: Cache Konan
         uses: ./.github/actions/cache-konan

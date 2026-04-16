@@ -3,68 +3,89 @@
 # Script to publish a library in case a release commit is discovered
 #
 
+set -euo pipefail
+
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions.sh"
 
-# Functions
+function current_branch() {
+  git rev-parse --abbrev-ref HEAD
+}
+
 function is_release_commit() {
-  commit_message=$(git log --oneline --format=%B -n 1 ${1} | head -n 1)
-  if [[ "${commit_message}" == "release v"* ]]; then
-    return 0
-  else
-    return 1
-  fi
+  local commit_message
+  commit_message=$(git log --format=%B -n 1 "$1" | head -n 1)
+  [[ "${commit_message}" == "release v"* ]]
 }
 
 function contains_snapshot() {
-  commit_message=$(git log --oneline --format=%B -n 1 ${1} | head -n 1)
-  if [[ "${commit_message}" == *"SNAPSHOT"* ]]; then
-    return 0
+  local commit_message
+  commit_message=$(git log --format=%B -n 1 "$1" | head -n 1)
+  [[ "${commit_message}" == *"SNAPSHOT"* ]]
+}
+
+function validate_release_for_branch() {
+  local branch="$1"
+  local commit="$2"
+
+  if [[ "${branch}" == "snapshot" ]]; then
+    if ! contains_snapshot "${commit}"; then
+      die "Stable releases are not allowed on snapshot branch."
+    fi
+  elif [[ "${branch}" == "main" ]]; then
+    if contains_snapshot "${commit}"; then
+      die "Snapshot releases are not allowed on main."
+    fi
   else
-    return 1
+    die "Unsupported release branch: ${branch}"
   fi
 }
 
-# Let's roll
+function publish_commit() {
+  local branch="$1"
+  local commit="$2"
+
+  validate_release_for_branch "${branch}" "${commit}"
+
+  approve "Release commit found at ${commit} on branch ${branch}, publishing..."
+
+  safe git checkout "${commit}"
+  safe chmod +x ./gradlew
+  safe ./gradlew generateApolloSources
+
+  if contains_snapshot "${commit}"; then
+    approve "Snapshot release, publishing snapshot artifact..."
+    safe ./gradlew publishToMavenCentral
+  else
+    approve "Stable release, publishing to Maven Central..."
+    safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+  fi
+}
+
 git_head_commit=$(git rev-parse HEAD)
-git_last_merge_commit=$(git log -1 --format=%H --merges)
+git_branch=$(current_branch)
+git_last_merge_commit=$(git log -1 --format=%H --merges || true)
 
-if [[ ${git_head_commit} == "${git_last_merge_commit}" ]]; then
-  # HEAD is a merge commit, check commits on merged branch for a release commit by
-  # finding common ancestor and by iterating all commits from that branch
+if [[ "${git_branch}" != "main" && "${git_branch}" != "snapshot" ]]; then
+  warn "Current branch (${git_branch}) is not releasable, skipping..."
+  exit 0
+fi
+
+if [[ -n "${git_last_merge_commit}" && "${git_head_commit}" == "${git_last_merge_commit}" ]]; then
+  approve "HEAD is a merge commit, scanning merged branch for release commits..."
+
   git_branch_parent_commits=($(git log -1 --merges --pretty=format:%P))
-  git_branch_merge_base_commit=$(git merge-base --all ${git_branch_parent_commits[0]} ${git_branch_parent_commits[1]})
+  git_branch_merge_base_commit=$(git merge-base --all "${git_branch_parent_commits[0]}" "${git_branch_parent_commits[1]}")
 
-  for commit in $(git log --pretty=%H ${git_branch_merge_base_commit}..${git_branch_parent_commits[1]}); do
+  for commit in $(git log --pretty=%H "${git_branch_merge_base_commit}..${git_branch_parent_commits[1]}"); do
     if is_release_commit "${commit}"; then
-      approve "Release commit found in branch at ${commit}, publishing..."
-      # Checkout release commit and build exactly that...
-      safe git checkout "${commit}"
-      # Ensure we have perms
-      safe chmod +x ./gradlew
-      safe ./gradlew generateApolloSources
-      if contains_snapshot "${commit}"; then
-        approve "Snapshot release, publishing to snapshot repo..."
-        safe ./gradlew publishToMavenCentral
-      else
-        approve "Release release, publishing to central repo..."
-        safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
-      fi
+      publish_commit "${git_branch}" "${commit}"
       safe git checkout "${git_head_commit}"
       exit 0
     fi
   done
 elif is_release_commit "${git_head_commit}"; then
-  approve "Release commit found at HEAD (${git_head_commit}), publishing..."
-  safe chmod +x ./gradlew
-  safe ./gradlew generateApolloSources
-  if contains_snapshot "${git_head_commit}"; then
-    approve "Snapshot release, publishing to snapshot repo..."
-    safe ./gradlew publishToMavenCentral
-  else
-    approve "Release release, publishing to central repo..."
-    safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
-  fi
+  publish_commit "${git_branch}" "${git_head_commit}"
   exit 0
 fi
 

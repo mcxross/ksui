@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 17
-          distribution: zulu
+          distribution: temurin
       - name: Cache Konan
         uses: ./.github/actions/cache-konan
       - name: Cache Gradle
