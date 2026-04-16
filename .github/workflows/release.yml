@@ -1,14 +1,13 @@
 name: Release
+
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ main, snapshot ]
 
 jobs:
   release:
     runs-on: macos-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/snapshot'
     environment: Sonatype
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
@@ -17,13 +16,18 @@ jobs:
       ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SONATYPE_SIGNING_KEY_PASSWORD }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
+
       - name: Grant execute permissions to publish script
         run: chmod +x ./scripts/release
-      - name: Publish to Sonatype (Maven Central)
+
+      - name: Publish
         shell: bash
         run: ./scripts/release
