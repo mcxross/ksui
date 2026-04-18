@@ -1,10 +1,14 @@
 package xyz.mcxross.ksui.serializer
 
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.descriptors.PolymorphicKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
@@ -72,7 +76,7 @@ object CommandSerializer : KSerializer<Command> {
       is Command.MakeMoveVec -> {
         encoder.encodeEnum(descriptor, 5)
         encoder.encodeStructure(descriptor) {
-          encodeSerializableElement(descriptor, 0, Command.MakeMoveVec.serializer(), value)
+          encodeSerializableElement(descriptor, 0, MakeMoveVecSerializer, value)
         }
       }
       is Command.Upgrade -> {
@@ -112,7 +116,7 @@ object CommandSerializer : KSerializer<Command> {
           Command.Publish(publish.bytes, publish.dependencies)
         }
         5 -> {
-          val vec = decodeSerializableElement(descriptor, 0, Command.MakeMoveVec.serializer())
+          val vec = decodeSerializableElement(descriptor, 0, MakeMoveVecSerializer)
           Command.MakeMoveVec(vec.typeTag, vec.values)
         }
         6 -> {
@@ -126,6 +130,55 @@ object CommandSerializer : KSerializer<Command> {
         }
         else -> throw SerializationException("Unknown Command index: $index")
       }
+    }
+  }
+}
+
+object MakeMoveVecSerializer : KSerializer<Command.MakeMoveVec> {
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("MakeMoveVec") {
+      element("type", TypeTagOptionSerializer.descriptor)
+      element("elements", ListSerializer(ArgumentSerializer).descriptor)
+    }
+
+  override fun serialize(encoder: Encoder, value: Command.MakeMoveVec) {
+    encoder.encodeStructure(descriptor) {
+      encodeSerializableElement(descriptor, 0, TypeTagOptionSerializer, value.typeTag)
+      encodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer), value.values)
+    }
+  }
+
+  override fun deserialize(decoder: Decoder): Command.MakeMoveVec {
+    return decoder.decodeStructure(descriptor) {
+      val typeTag = decodeSerializableElement(descriptor, 0, TypeTagOptionSerializer)
+      val values = decodeSerializableElement(descriptor, 1, ListSerializer(ArgumentSerializer))
+      Command.MakeMoveVec(typeTag, values)
+    }
+  }
+}
+
+private object TypeTagOptionSerializer : KSerializer<xyz.mcxross.ksui.model.TypeTag?> {
+  @OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
+  override val descriptor: SerialDescriptor =
+    buildSerialDescriptor("Option<TypeTag>", PolymorphicKind.SEALED) {
+      element("None", buildClassSerialDescriptor("None"))
+      element("Some", TypeTagSerializer.descriptor)
+    }
+
+  override fun serialize(encoder: Encoder, value: xyz.mcxross.ksui.model.TypeTag?) {
+    if (value == null) {
+      encoder.encodeEnum(descriptor, 0)
+    } else {
+      encoder.encodeEnum(descriptor, 1)
+      encoder.encodeSerializableValue(TypeTagSerializer, value)
+    }
+  }
+
+  override fun deserialize(decoder: Decoder): xyz.mcxross.ksui.model.TypeTag? {
+    return when (val index = decoder.decodeEnum(descriptor)) {
+      0 -> null
+      1 -> decoder.decodeSerializableValue(TypeTagSerializer)
+      else -> throw SerializationException("Unknown Option<TypeTag> index: $index")
     }
   }
 }

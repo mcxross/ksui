@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.TestResources.sui
+import xyz.mcxross.ksui.core.Hex
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.CallArg
 import xyz.mcxross.ksui.model.Digest
@@ -178,6 +179,18 @@ class SerializationTest :
 
       deserialized.shouldBeInstanceOf<Command.MakeMoveVec>()
       deserialized.typeTag shouldBe TypeTag.U8
+    }
+
+    "Command.MakeMoveVec encodes type as BCS Option<TypeTag>" {
+      val original: Command =
+        Command.MakeMoveVec(
+          typeTag = TypeTag.U8,
+          values = listOf(Argument.Input(0u), Argument.Input(1u)),
+        )
+
+      val bytes = bcs.encodeToByteArray<Command>(original)
+
+      Hex(bytes).toStringWithoutPrefix() shouldBe "05010102010000010100"
     }
 
     // ========================================================================================
