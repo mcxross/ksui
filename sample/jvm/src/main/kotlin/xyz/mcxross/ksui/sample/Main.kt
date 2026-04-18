@@ -25,6 +25,8 @@ suspend fun main() {
   // Create a new instance of Sui with the testnet network. Defaults to DEVNET if not specified.
   val sui = Sui(config = SuiConfig(settings = SuiSettings(Network.TESTNET)))
 
+  println(ALICE_ACCOUNT.address.toString())
+
   val committeeInfo = sui.getCommitteeInfo()
 
   println("Committee Info for current epoch: $committeeInfo")

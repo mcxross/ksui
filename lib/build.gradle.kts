@@ -1,12 +1,14 @@
 import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
+import kotlinx.rpc.protoc.proto
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   id("com.android.kotlin.multiplatform.library")
+  alias(libs.plugins.kotlinx.rpc)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.dokka)
   alias(libs.plugins.apollo.graphql)
@@ -63,19 +65,80 @@ kotlin {
     }
   }
   sourceSets {
+    val grpcMain by creating {
+      dependsOn(commonMain.get())
+      proto {
+        include("google/protobuf/any.proto")
+        include("google/protobuf/duration.proto")
+        include("google/protobuf/empty.proto")
+        include("google/protobuf/field_mask.proto")
+        include("google/protobuf/struct.proto")
+        include("google/protobuf/timestamp.proto")
+        include("google/rpc/error_details.proto")
+        include("google/rpc/status.proto")
+        include("sui/rpc/v2/argument.proto")
+        include("sui/rpc/v2/balance_change.proto")
+        include("sui/rpc/v2/bcs.proto")
+        include("sui/rpc/v2/checkpoint.proto")
+        include("sui/rpc/v2/checkpoint_contents.proto")
+        include("sui/rpc/v2/checkpoint_summary.proto")
+        include("sui/rpc/v2/effects.proto")
+        include("sui/rpc/v2/epoch.proto")
+        include("sui/rpc/v2/error_reason.proto")
+        include("sui/rpc/v2/event.proto")
+        include("sui/rpc/v2/executed_transaction.proto")
+        include("sui/rpc/v2/execution_status.proto")
+        include("sui/rpc/v2/gas_cost_summary.proto")
+        include("sui/rpc/v2/input.proto")
+        include("sui/rpc/v2/jwk.proto")
+        include("sui/rpc/v2/ledger_service.proto")
+        include("sui/rpc/v2/move_package.proto")
+        include("sui/rpc/v2/move_package_service.proto")
+        include("sui/rpc/v2/name_service.proto")
+        include("sui/rpc/v2/object.proto")
+        include("sui/rpc/v2/object_reference.proto")
+        include("sui/rpc/v2/owner.proto")
+        include("sui/rpc/v2/protocol_config.proto")
+        include("sui/rpc/v2/signature.proto")
+        include("sui/rpc/v2/signature_scheme.proto")
+        include("sui/rpc/v2/signature_verification_service.proto")
+        include("sui/rpc/v2/state_service.proto")
+        include("sui/rpc/v2/subscription_service.proto")
+        include("sui/rpc/v2/system_state.proto")
+        include("sui/rpc/v2/transaction.proto")
+        include("sui/rpc/v2/transaction_execution_service.proto")
+      }
+      dependencies {
+        api(libs.kotlinx.rpc.grpc.core)
+        api(libs.kotlinx.rpc.protobuf.core)
+        api(libs.kotlinx.rpc.grpc.client)
+      }
+    }
+    val grpcTest by creating { dependsOn(commonTest.get()) }
+    val grpcServerTest by creating {
+      dependsOn(grpcTest)
+      dependencies { implementation(libs.kotlinx.rpc.grpc.server) }
+    }
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
       dependencies { implementation(libs.bitcoinj.core) }
     }
-    appleMain.dependencies { implementation(libs.ktor.client.darwin) }
+    val appleMain by getting {
+      dependsOn(grpcMain)
+      dependencies { implementation(libs.ktor.client.darwin) }
+    }
+    val appleTest by getting { dependsOn(grpcTest) }
+    val macosTest by getting { dependsOn(grpcServerTest) }
     val androidMain by getting {
       dependsOn(androidJvmMain)
+      dependsOn(grpcMain)
       dependencies {
         implementation(libs.ktor.client.okhttp)
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
         implementation(libs.play.services.identity.credentials)
         implementation(libs.fastkrypto.android)
+        implementation(libs.grpc.okhttp)
       }
     }
     commonMain.dependencies {
@@ -98,15 +161,20 @@ kotlin {
     jsMain.dependencies { implementation(libs.ktor.client.js) }
     val jvmMain by getting {
       dependsOn(androidJvmMain)
+      dependsOn(grpcMain)
       dependencies {
         implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
+        implementation(libs.grpc.netty)
       }
     }
-    jvmTest.dependencies {
-      implementation(libs.kotest.runner.junit5)
-      implementation(libs.kotlin.test.junit5)
+    val jvmTest by getting {
+      dependsOn(grpcServerTest)
+      dependencies {
+        implementation(libs.kotest.runner.junit5)
+        implementation(libs.kotlin.test.junit5)
+      }
     }
     iosArm64Main.dependencies { implementation(libs.fastkrypto.iosarm64) }
     iosX64Main.dependencies { implementation(libs.fastkrypto.iosx64) }
@@ -117,6 +185,19 @@ kotlin {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+rpc {
+  protoc {
+    buf {
+      generate {
+        includeImports = false
+        includeWkt = false
+      }
+    }
+  }
+}
+
+tasks.matching { it.name == "bufGenerateJvmTest" }.configureEach { enabled = false }
 
 apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
 
