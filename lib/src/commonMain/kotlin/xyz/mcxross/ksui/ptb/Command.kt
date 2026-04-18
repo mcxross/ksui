@@ -20,6 +20,7 @@ import xyz.mcxross.ksui.model.ObjectId
 import xyz.mcxross.ksui.model.TypeTag
 import xyz.mcxross.ksui.serializer.ArgumentSerializer
 import xyz.mcxross.ksui.serializer.CommandSerializer
+import xyz.mcxross.ksui.serializer.MakeMoveVecSerializer
 
 @Serializable(with = CommandSerializer::class)
 open class Command {
@@ -39,7 +40,7 @@ open class Command {
   @Serializable
   data class Publish(val bytes: List<List<Byte>>, val dependencies: List<ObjectId>) : Command()
 
-  @Serializable
+  @Serializable(with = MakeMoveVecSerializer::class)
   data class MakeMoveVec(val typeTag: TypeTag?, val values: List<Argument>) : Command()
 
   @Serializable
