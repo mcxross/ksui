@@ -1,6 +1,6 @@
 ---
 name: ksui-graphql-api
-description: "Workflow for adding or updating Sui GraphQL-backed APIs in Ksui. Use when editing lib/src/commonMain/graphql, generated Apollo query usage, protocol/api/internal API layers, SuiError result handling, SuiConfig endpoints or headers, or read/query methods for coin, object, events, move, governance, general, transaction, sns, or faucet."
+description: "Workflow for adding or updating Sui GraphQL-backed APIs in Ksui. Use when editing lib/src/commonMain/graphql, generated Apollo query usage, protocol/api/internal API layers, SuiError result handling, SuiConfig endpoints or headers, gRPC-shaped transaction JSON, or read/query methods for coin, object, events, move, governance, general, transaction, sns, or faucet."
 ---
 
 # Ksui GraphQL API
@@ -9,7 +9,7 @@ description: "Workflow for adding or updating Sui GraphQL-backed APIs in Ksui. U
 
 Use this skill when work touches Ksui's Sui API surface backed by Apollo GraphQL files and the `protocol` -> `api` -> `internal` layering.
 
-Read [references/api-layering.md](references/api-layering.md) for the domain file map, common implementation pattern, and validation commands.
+Read [references/api-layering.md](references/api-layering.md) for the domain file map, common implementation pattern, GraphQL/gRPC schema relationship, and validation commands.
 
 ## Layering
 
@@ -30,6 +30,7 @@ For a public API change, update each layer deliberately:
 - Keep public parameters typed with Ksui model types such as `AccountAddress`, `TransactionBlockFilter`, and response option classes.
 - Keep generated response types from `xyz.mcxross.ksui.generated` in return values unless introducing an explicit SDK model is already part of the surrounding domain.
 - Preserve defaults in the protocol interface, not only in the implementation.
+- For transaction JSON inputs or outputs, check the Sui RPC v2 beta proto files because the GraphQL schema says these JSON blobs match the gRPC proto format, excluding BCS wrapper fields where documented.
 
 ## Validation
 
