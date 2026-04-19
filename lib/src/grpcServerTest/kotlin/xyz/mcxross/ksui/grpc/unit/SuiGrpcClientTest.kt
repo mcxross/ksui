@@ -15,16 +15,19 @@ import kotlin.time.Duration.Companion.seconds
 class SuiGrpcClientTest :
   StringSpec({
     "Client uses signature verification service" {
+      val port = unusedTcpPort()
       val server =
-        GrpcServer(0) {
-            services { registerService<SignatureVerificationService> { TestSignatureVerificationService() } }
+        GrpcServer(port) {
+            services {
+              registerService<SignatureVerificationService> { TestSignatureVerificationService() }
+            }
           }
           .start()
-      val client = SuiGrpcClient.connect("localhost", server.port, usePlaintext = true)
+      val client = SuiGrpcClient.connect("localhost", port, usePlaintext = true)
 
       try {
         runBlocking {
-          val response = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00))
+          val response = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00)).unwrap()
           response.isValid shouldBe true
         }
       } finally {

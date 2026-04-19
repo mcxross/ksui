@@ -19,7 +19,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.getBalance(alice.address, SUI_TYPE)
+          val response = client.getBalance(alice.address, SUI_TYPE).unwrap()
 
           val balance = response.balance.shouldNotBeNull()
           balance.coinType shouldBe SUI_TYPE
@@ -34,7 +34,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.listBalances(alice.address)
+          val response = client.listBalances(alice.address).unwrap()
 
           response.balances.isNotEmpty() shouldBe true
           response.balances.first().coinType.shouldNotBeNull().isNotBlank() shouldBe true
@@ -48,7 +48,7 @@ class GrpcCoinTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.getCoinInfo(SUI_TYPE)
+          val response = client.getCoinInfo(SUI_TYPE).unwrap()
 
           response.coinType shouldBe SUI_TYPE
           val metadata = response.metadata.shouldNotBeNull()

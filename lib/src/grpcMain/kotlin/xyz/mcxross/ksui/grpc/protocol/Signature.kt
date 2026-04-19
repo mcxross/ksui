@@ -5,16 +5,20 @@ import sui.rpc.v2.Bcs
 import sui.rpc.v2.UserSignature
 import sui.rpc.v2.VerifySignatureRequest
 import sui.rpc.v2.VerifySignatureResponse
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.model.Result
 
 interface Signature {
-  suspend fun verifySignature(request: VerifySignatureRequest): VerifySignatureResponse
+  suspend fun verifySignature(
+    request: VerifySignatureRequest
+  ): Result<VerifySignatureResponse, SuiError>
 
   suspend fun verifySignature(
     message: Bcs,
     signature: UserSignature,
     address: String? = null,
     jwks: List<ActiveJwk> = emptyList(),
-  ): VerifySignatureResponse
+  ): Result<VerifySignatureResponse, SuiError>
 
   suspend fun verifySignature(
     messageBytes: ByteArray,
@@ -23,5 +27,5 @@ interface Signature {
     signatureName: String = "UserSignature",
     address: String? = null,
     jwks: List<ActiveJwk> = emptyList(),
-  ): VerifySignatureResponse
+  ): Result<VerifySignatureResponse, SuiError>
 }
