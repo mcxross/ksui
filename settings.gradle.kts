@@ -12,9 +12,11 @@ plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 
 rootProject.name = "ksui"
 
-include(":lib", ":sample:jvm", ":sample:android")
+include(":lib", ":grpc", ":sample:jvm", ":sample:android")
 
 project(":lib").name = "ksui"
+
+project(":grpc").name = "ksui-grpc"
 
 dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

@@ -2,6 +2,7 @@ package xyz.mcxross.ksui.grpc.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.rpc.grpc.get
@@ -19,7 +20,6 @@ import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.SuiSettings
 import xyz.mcxross.ksui.util.runBlocking
-import kotlin.time.Duration.Companion.seconds
 
 class GrpcNetworkHeaderTest :
   StringSpec({
@@ -32,11 +32,10 @@ class GrpcNetworkHeaderTest :
               object : GrpcServerInterceptor {
                 override fun <Request, Response> GrpcServerCallScope<Request, Response>.intercept(
                   request: Flow<Request>
-                ): Flow<Response> =
-                  flow {
-                    headerValue = requestHeaders["x-custom-header"]
-                    proceedUnmodified(request)
-                  }
+                ): Flow<Response> = flow {
+                  headerValue = requestHeaders["x-custom-header"]
+                  proceedUnmodified(request)
+                }
               }
             )
             services {
