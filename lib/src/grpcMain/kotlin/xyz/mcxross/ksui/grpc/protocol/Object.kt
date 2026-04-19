@@ -9,32 +9,38 @@ import sui.rpc.v2.ListDynamicFieldsRequest
 import sui.rpc.v2.ListDynamicFieldsResponse
 import sui.rpc.v2.ListOwnedObjectsRequest
 import sui.rpc.v2.ListOwnedObjectsResponse
+import xyz.mcxross.ksui.exception.SuiError
 import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.model.Result
 
 interface Object {
-  suspend fun getObject(request: GetObjectRequest): GetObjectResponse
+  suspend fun getObject(request: GetObjectRequest): Result<GetObjectResponse, SuiError>
 
   suspend fun getObject(
     objectId: String,
     version: ULong? = null,
     readMask: FieldMask? = null,
-  ): GetObjectResponse
+  ): Result<GetObjectResponse, SuiError>
 
   suspend fun batchGetObjects(
     requests: List<GetObjectRequest>,
     readMask: FieldMask? = null,
-  ): BatchGetObjectsResponse
+  ): Result<BatchGetObjectsResponse, SuiError>
 
-  suspend fun listDynamicFields(request: ListDynamicFieldsRequest): ListDynamicFieldsResponse
+  suspend fun listDynamicFields(
+    request: ListDynamicFieldsRequest
+  ): Result<ListDynamicFieldsResponse, SuiError>
 
   suspend fun listDynamicFields(
     parent: String,
     pageSize: UInt? = null,
     pageToken: ByteString? = null,
     readMask: FieldMask? = null,
-  ): ListDynamicFieldsResponse
+  ): Result<ListDynamicFieldsResponse, SuiError>
 
-  suspend fun listOwnedObjects(request: ListOwnedObjectsRequest): ListOwnedObjectsResponse
+  suspend fun listOwnedObjects(
+    request: ListOwnedObjectsRequest
+  ): Result<ListOwnedObjectsResponse, SuiError>
 
   suspend fun listOwnedObjects(
     owner: String,
@@ -42,7 +48,7 @@ interface Object {
     pageToken: ByteString? = null,
     readMask: FieldMask? = null,
     objectType: String? = null,
-  ): ListOwnedObjectsResponse
+  ): Result<ListOwnedObjectsResponse, SuiError>
 
   suspend fun listOwnedObjects(
     owner: AccountAddress,
@@ -50,5 +56,5 @@ interface Object {
     pageToken: ByteString? = null,
     readMask: FieldMask? = null,
     objectType: String? = null,
-  ): ListOwnedObjectsResponse
+  ): Result<ListOwnedObjectsResponse, SuiError>
 }

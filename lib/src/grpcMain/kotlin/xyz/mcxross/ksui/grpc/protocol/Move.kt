@@ -9,25 +9,37 @@ import sui.rpc.v2.GetPackageRequest
 import sui.rpc.v2.GetPackageResponse
 import sui.rpc.v2.ListPackageVersionsRequest
 import sui.rpc.v2.ListPackageVersionsResponse
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.model.Result
 
 interface Move {
-  suspend fun getPackage(request: GetPackageRequest): GetPackageResponse
+  suspend fun getPackage(request: GetPackageRequest): Result<GetPackageResponse, SuiError>
 
-  suspend fun getPackage(packageId: String): GetPackageResponse
+  suspend fun getPackage(packageId: String): Result<GetPackageResponse, SuiError>
 
-  suspend fun getDatatype(request: GetDatatypeRequest): GetDatatypeResponse
+  suspend fun getDatatype(request: GetDatatypeRequest): Result<GetDatatypeResponse, SuiError>
 
-  suspend fun getDatatype(packageId: String, moduleName: String, name: String): GetDatatypeResponse
+  suspend fun getDatatype(
+    packageId: String,
+    moduleName: String,
+    name: String,
+  ): Result<GetDatatypeResponse, SuiError>
 
-  suspend fun getFunction(request: GetFunctionRequest): GetFunctionResponse
+  suspend fun getFunction(request: GetFunctionRequest): Result<GetFunctionResponse, SuiError>
 
-  suspend fun getFunction(packageId: String, moduleName: String, name: String): GetFunctionResponse
+  suspend fun getFunction(
+    packageId: String,
+    moduleName: String,
+    name: String,
+  ): Result<GetFunctionResponse, SuiError>
 
-  suspend fun listPackageVersions(request: ListPackageVersionsRequest): ListPackageVersionsResponse
+  suspend fun listPackageVersions(
+    request: ListPackageVersionsRequest
+  ): Result<ListPackageVersionsResponse, SuiError>
 
   suspend fun listPackageVersions(
     packageId: String,
     pageSize: UInt? = null,
     pageToken: ByteString? = null,
-  ): ListPackageVersionsResponse
+  ): Result<ListPackageVersionsResponse, SuiError>
 }

@@ -25,8 +25,9 @@ class GrpcNetworkHeaderTest :
   StringSpec({
     "gRPC request should include custom headers from SuiConfig" {
       var headerValue: String? = null
+      val port = unusedTcpPort()
       val server =
-        GrpcServer(0) {
+        GrpcServer(port) {
             intercept(
               object : GrpcServerInterceptor {
                 override fun <Request, Response> GrpcServerCallScope<Request, Response>.intercept(
@@ -39,7 +40,9 @@ class GrpcNetworkHeaderTest :
               }
             )
             services {
-              registerService<SignatureVerificationService> { HeaderAwareSignatureVerificationService() }
+              registerService<SignatureVerificationService> {
+                HeaderAwareSignatureVerificationService()
+              }
             }
           }
           .start()
@@ -48,7 +51,7 @@ class GrpcNetworkHeaderTest :
         SuiConfig(
           SuiSettings(
             network = Network.CUSTOM,
-            fullNode = "http://localhost:${server.port}",
+            fullNode = "http://localhost:$port",
             fullNodeConfig = FullNodeConfig(headers = mapOf("X-Custom-Header" to "CustomValue")),
           )
         )
@@ -56,7 +59,7 @@ class GrpcNetworkHeaderTest :
 
       try {
         runBlocking {
-          val response = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00))
+          val response = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00)).unwrap()
           response.isValid shouldBe true
         }
         headerValue shouldBe "CustomValue"

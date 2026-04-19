@@ -10,44 +10,55 @@ import sui.rpc.v2.SimulateTransactionRequest
 import sui.rpc.v2.SimulateTransactionResponse
 import sui.rpc.v2.Transaction as GrpcTransaction
 import sui.rpc.v2.UserSignature
+import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.model.Result
 
 interface Transaction {
-  suspend fun getTransaction(request: GetTransactionRequest): GetTransactionResponse
+  suspend fun getTransaction(
+    request: GetTransactionRequest
+  ): Result<GetTransactionResponse, SuiError>
 
-  suspend fun getTransaction(digest: String, readMask: FieldMask? = null): GetTransactionResponse
+  suspend fun getTransaction(
+    digest: String,
+    readMask: FieldMask? = null,
+  ): Result<GetTransactionResponse, SuiError>
 
   suspend fun batchGetTransactions(
     digests: List<String>,
     readMask: FieldMask? = null,
-  ): BatchGetTransactionsResponse
+  ): Result<BatchGetTransactionsResponse, SuiError>
 
-  suspend fun executeTransaction(request: ExecuteTransactionRequest): ExecuteTransactionResponse
+  suspend fun executeTransaction(
+    request: ExecuteTransactionRequest
+  ): Result<ExecuteTransactionResponse, SuiError>
 
   suspend fun executeTransaction(
     transaction: GrpcTransaction,
     signatures: List<UserSignature>,
     readMask: FieldMask? = null,
-  ): ExecuteTransactionResponse
+  ): Result<ExecuteTransactionResponse, SuiError>
 
   suspend fun executeTransaction(
     transactionBytes: ByteArray,
     signatures: List<ByteArray>,
     readMask: FieldMask? = null,
-  ): ExecuteTransactionResponse
+  ): Result<ExecuteTransactionResponse, SuiError>
 
-  suspend fun simulateTransaction(request: SimulateTransactionRequest): SimulateTransactionResponse
+  suspend fun simulateTransaction(
+    request: SimulateTransactionRequest
+  ): Result<SimulateTransactionResponse, SuiError>
 
   suspend fun simulateTransaction(
     transaction: GrpcTransaction,
     readMask: FieldMask? = null,
     checks: SimulateTransactionRequest.TransactionChecks? = null,
     doGasSelection: Boolean? = null,
-  ): SimulateTransactionResponse
+  ): Result<SimulateTransactionResponse, SuiError>
 
   suspend fun simulateTransaction(
     transactionBytes: ByteArray,
     readMask: FieldMask? = null,
     checks: SimulateTransactionRequest.TransactionChecks? = null,
     doGasSelection: Boolean? = null,
-  ): SimulateTransactionResponse
+  ): Result<SimulateTransactionResponse, SuiError>
 }

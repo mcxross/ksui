@@ -3,8 +3,6 @@ package xyz.mcxross.ksui.grpc.e2e
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
-import kotlinx.rpc.grpc.GrpcStatusException
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.model.Network
 import xyz.mcxross.ksui.model.SuiConfig
@@ -17,7 +15,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.getServiceInfo()
+          val response = client.getServiceInfo().unwrap()
 
           response.chain.shouldNotBeNull().isNotBlank() shouldBe true
           response.chainId.shouldNotBeNull().isNotBlank() shouldBe true
@@ -33,7 +31,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.getCheckpoint()
+          val response = client.getCheckpoint().unwrap()
           val checkpoint = response.checkpoint.shouldNotBeNull()
 
           checkpoint.sequenceNumber.shouldNotBeNull()
@@ -48,7 +46,7 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val response = client.getEpoch()
+          val response = client.getEpoch().unwrap()
           val epoch = response.epoch.shouldNotBeNull()
 
           epoch.epoch.shouldNotBeNull()
@@ -63,12 +61,8 @@ class GrpcGeneralTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val failure =
-            runCatching { client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00)) }
-              .exceptionOrNull()
-
-          val grpcFailure = failure.shouldBeInstanceOf<GrpcStatusException>()
-          val statusText = grpcFailure.message.orEmpty()
+          val error = client.verifySignature(byteArrayOf(0x00), byteArrayOf(0x00)).unwrapErr()
+          val statusText = error.toString()
           (statusText.contains("INVALID_ARGUMENT") || statusText.contains("INTERNAL")) shouldBe true
         }
       } finally {

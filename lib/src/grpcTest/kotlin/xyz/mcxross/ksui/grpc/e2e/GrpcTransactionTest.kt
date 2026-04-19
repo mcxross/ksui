@@ -3,10 +3,8 @@ package xyz.mcxross.ksui.grpc.e2e
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
-import kotlinx.rpc.grpc.GrpcStatusException
 import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
@@ -48,7 +46,7 @@ class GrpcTransactionTest :
           val txData = buildHelloWorldTransactionData(sui, alice)
           val txBytes = bcsEncode(txData)
 
-          val response = client.simulateTransaction(txBytes)
+          val response = client.simulateTransaction(txBytes).unwrap()
 
           response.shouldNotBeNull()
           response.transaction.shouldNotBeNull()
@@ -62,11 +60,8 @@ class GrpcTransactionTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val failure =
-            runCatching { client.simulateTransaction(byteArrayOf(0x00)) }.exceptionOrNull()
-
-          val grpcFailure = failure.shouldBeInstanceOf<GrpcStatusException>()
-          val statusText = grpcFailure.message.orEmpty()
+          val error = client.simulateTransaction(byteArrayOf(0x00)).unwrapErr()
+          val statusText = error.toString()
           (statusText.contains("INVALID_ARGUMENT") || statusText.contains("INTERNAL")) shouldBe true
         }
       } finally {
@@ -83,7 +78,7 @@ class GrpcTransactionTest :
           val txBytes = bcsEncode(txData)
           val txDigest = hash(Hash.BLAKE2B256, txBytes).encodeToBase58String()
 
-          client.executeTransaction(txBytes, listOf(signatureBytes)).shouldNotBeNull()
+          client.executeTransaction(txBytes, listOf(signatureBytes)).unwrap().shouldNotBeNull()
           waitForTransactionByDigest(sui, txDigest).shouldNotBeNull()
         }
       } finally {
