@@ -18,7 +18,11 @@ package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.CheckpointId
+import xyz.mcxross.ksui.core.model.GraphqlQuery
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetChainIdentifierQuery
 import xyz.mcxross.ksui.generated.GetCheckpointQuery
 import xyz.mcxross.ksui.generated.GetCheckpointsQuery
@@ -29,10 +33,6 @@ import xyz.mcxross.ksui.generated.GetProtocolConfigQuery
 import xyz.mcxross.ksui.generated.GetReferenceGasPriceQuery
 import xyz.mcxross.ksui.generated.PaginateCheckpointTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.PaginateEpochValidatorsQuery
-import xyz.mcxross.ksui.model.CheckpointId
-import xyz.mcxross.ksui.model.GraphqlQuery
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 
 suspend inline fun <reified T> query(config: SuiConfig, query: GraphqlQuery) {}
 

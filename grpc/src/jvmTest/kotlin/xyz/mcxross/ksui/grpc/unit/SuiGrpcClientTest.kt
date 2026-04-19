@@ -9,8 +9,8 @@ import sui.rpc.v2.SignatureVerificationService
 import sui.rpc.v2.VerifySignatureRequest
 import sui.rpc.v2.VerifySignatureResponse
 import sui.rpc.v2.VerifySignatureResponseInternal
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
-import xyz.mcxross.ksui.util.runBlocking
 
 class SuiGrpcClientTest :
   StringSpec({

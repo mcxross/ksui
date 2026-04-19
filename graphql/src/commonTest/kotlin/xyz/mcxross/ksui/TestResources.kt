@@ -1,9 +1,9 @@
 package xyz.mcxross.ksui
 
-import xyz.mcxross.ksui.account.Account
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
+import xyz.mcxross.ksui.core.account.Account
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
 
 object TestResources {
   val sui: Sui by lazy { Sui(SuiConfig(SuiSettings(network = Network.TESTNET))) }

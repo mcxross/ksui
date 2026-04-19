@@ -16,12 +16,12 @@
 package xyz.mcxross.ksui.internal
 
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
 import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun resolveNameServiceAddress(
   config: SuiConfig,

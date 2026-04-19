@@ -18,14 +18,15 @@ package xyz.mcxross.ksui.sample
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.ksui.Sui
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.sign
+import xyz.mcxross.ksui.core.util.bcsDecode
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.dsl.sponsoredTransaction
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.TransactionData
-import xyz.mcxross.ksui.model.sign
-import xyz.mcxross.ksui.util.bcsDecode
-import xyz.mcxross.ksui.util.runBlocking
 
 @OptIn(ExperimentalEncodingApi::class)
 fun main() = runBlocking {
@@ -55,8 +56,8 @@ fun main() = runBlocking {
 
   val userSignature =
     when (val sig = txData.sign(ALICE_ACCOUNT)) {
-      is xyz.mcxross.ksui.model.Result.Ok -> sig.value
-      is xyz.mcxross.ksui.model.Result.Err -> throw sig.error
+      is Result.Ok -> sig.value
+      is Result.Err -> throw sig.error
     }
 
   // Finally, execute the transaction block with both signatures

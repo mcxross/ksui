@@ -32,9 +32,9 @@ import xyz.mcxross.fastkrypto.secp256k1Verify
 import xyz.mcxross.fastkrypto.secp256r1PublicKeyFromPrivate
 import xyz.mcxross.fastkrypto.secp256r1Sign
 import xyz.mcxross.fastkrypto.secp256r1Verify
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.exception.SignatureSchemeNotSupportedException
+import xyz.mcxross.ksui.core.model.Result
 
 private const val DEFAULT_ED25519_DERIVATION_PATH = "m/44H/784H/0H/0H/0H"
 private const val DEFAULT_MNEMONIC_WORDS: UInt = 12u

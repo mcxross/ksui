@@ -18,15 +18,15 @@ package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
 import xyz.mcxross.ksui.generated.GetBalanceQuery
 import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
 import xyz.mcxross.ksui.generated.GetCoinsQuery
 import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun getAllBalances(
   config: SuiConfig,

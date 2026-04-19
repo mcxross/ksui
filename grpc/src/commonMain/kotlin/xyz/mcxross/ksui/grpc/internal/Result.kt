@@ -8,9 +8,9 @@ import kotlinx.rpc.grpc.GrpcStatusException
 import kotlinx.rpc.grpc.description
 import kotlinx.rpc.grpc.status
 import kotlinx.rpc.grpc.statusCode
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 
 internal suspend fun <T> handleGrpc(call: suspend () -> T): Result<T, SuiError> =
   try {

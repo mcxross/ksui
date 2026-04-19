@@ -16,7 +16,7 @@
 package xyz.mcxross.ksui.core
 
 import kotlinx.serialization.Serializable
-import xyz.mcxross.ksui.exception.ParsingException
+import xyz.mcxross.ksui.core.exception.ParsingException
 
 /** This enum is used to explain why parsing might have failed. */
 enum class HexInvalidReason(val reason: String) {

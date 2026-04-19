@@ -13,7 +13,7 @@ import sui.rpc.v2.ListDynamicFieldsResponse
 import sui.rpc.v2.ListOwnedObjectsRequest
 import sui.rpc.v2.ListOwnedObjectsRequestInternal
 import sui.rpc.v2.ListOwnedObjectsResponse
-import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.core.model.AccountAddress
 
 internal suspend fun getObject(runtime: GrpcRuntime, request: GetObjectRequest): GetObjectResponse =
   runtime.ledgerService.GetObject(request)

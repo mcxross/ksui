@@ -15,8 +15,8 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 data class PasskeyPublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme = SignatureScheme.PASSKEY

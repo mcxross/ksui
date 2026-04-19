@@ -16,12 +16,12 @@
 package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.runBlocking
 
 const val TARGET =
   "0x9c09daf59b0630762a712a9dd043eb35cec87d5ddbb77452497bdd87392b9b50::p2p_ramp::new_account"

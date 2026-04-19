@@ -17,12 +17,12 @@ package xyz.mcxross.ksui.sample
 
 import kotlinx.coroutines.delay
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.ptb.Argument
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.ptb.Argument
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.runBlocking
 
 data class TransferInfo(val recipient: String, val amount: ULong)
 

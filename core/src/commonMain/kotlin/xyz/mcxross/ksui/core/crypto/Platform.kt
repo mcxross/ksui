@@ -15,8 +15,8 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 expect fun hash(hash: Hash, data: ByteArray): ByteArray
 

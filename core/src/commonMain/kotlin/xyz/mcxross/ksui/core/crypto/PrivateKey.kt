@@ -16,11 +16,11 @@
 package xyz.mcxross.ksui.core.crypto
 
 import org.komputing.kbech32.Bech32
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.util.SUI_PRIVATE_KEY_PREFIX
-import xyz.mcxross.ksui.util.convertBits
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.exception.SignatureSchemeNotSupportedException
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.util.SUI_PRIVATE_KEY_PREFIX
+import xyz.mcxross.ksui.core.util.convertBits
 
 /**
  * This interface defines the `PrivateKey` interface, which represents a private key in the SUI

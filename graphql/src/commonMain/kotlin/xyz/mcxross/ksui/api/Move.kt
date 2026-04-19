@@ -15,9 +15,11 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.extension.asIdParts
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.extension.asIdParts
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypesQuery
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.GetNormalizedMoveModuleQuery
@@ -32,8 +34,6 @@ import xyz.mcxross.ksui.internal.getNormalizedMoveModulesByPackage
 import xyz.mcxross.ksui.internal.getNormalizedMoveStruct
 import xyz.mcxross.ksui.internal.getTypeLayout
 import xyz.mcxross.ksui.internal.paginateMoveModuleLists
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Move
 
 /**

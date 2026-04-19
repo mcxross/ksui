@@ -16,8 +16,11 @@
 
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.CheckpointId
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetChainIdentifierQuery
 import xyz.mcxross.ksui.generated.GetCheckpointQuery
 import xyz.mcxross.ksui.generated.GetCheckpointsQuery
@@ -37,9 +40,6 @@ import xyz.mcxross.ksui.internal.getProtocolConfig
 import xyz.mcxross.ksui.internal.getReferenceGasPrice
 import xyz.mcxross.ksui.internal.paginateCheckpointTransactionBlocks
 import xyz.mcxross.ksui.internal.paginateEpochValidators
-import xyz.mcxross.ksui.model.CheckpointId
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.General
 
 /**

@@ -27,10 +27,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import xyz.mcxross.ksui.account.PasskeyAccount
+import xyz.mcxross.ksui.core.account.PasskeyAccount
 import xyz.mcxross.ksui.core.crypto.PasskeyProvider
 import xyz.mcxross.ksui.core.crypto.PasskeyPublicKey
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.model.Result
 
 private val Context.dataStore: DataStore<Preferences> by
   preferencesDataStore(name = "sui_passkey_datastore")

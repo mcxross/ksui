@@ -10,7 +10,7 @@ import sui.rpc.v2.GetCoinInfoResponse
 import sui.rpc.v2.ListBalancesRequest
 import sui.rpc.v2.ListBalancesRequestInternal
 import sui.rpc.v2.ListBalancesResponse
-import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.core.model.AccountAddress
 
 internal suspend fun getCoinInfo(
   runtime: GrpcRuntime,

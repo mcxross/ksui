@@ -3,7 +3,7 @@ package xyz.mcxross.ksui.e2e
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.TestResources.sui
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.util.runBlocking
 
 class GeneralTest :
   StringSpec({

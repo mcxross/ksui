@@ -25,6 +25,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import java.util.concurrent.TimeUnit
 import kotlinx.serialization.json.Json
+import xyz.mcxross.ksui.core.client.ClientConfig
 
 actual fun httpClient(clientConfig: ClientConfig) =
   HttpClient(OkHttp) {
@@ -38,8 +39,8 @@ actual fun httpClient(clientConfig: ClientConfig) =
       install(UserAgent) { agent = clientConfig.agent }
     } else {
       when (clientConfig.likeAgent) {
-        xyz.mcxross.ksui.model.UserAgent.BROWSER -> BrowserUserAgent()
-        xyz.mcxross.ksui.model.UserAgent.CURL -> CurlUserAgent()
+        UserAgent.BROWSER -> BrowserUserAgent()
+        UserAgent.CURL -> CurlUserAgent()
         else -> {
           install(UserAgent) { agent = clientConfig.agent }
         }

@@ -4,8 +4,8 @@ import com.google.protobuf.kotlin.FieldMask
 import kotlinx.coroutines.flow.Flow
 import sui.rpc.v2.SubscribeCheckpointsRequest
 import sui.rpc.v2.SubscribeCheckpointsResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 
 interface Subscription {
   fun subscribeCheckpoints(

@@ -9,8 +9,8 @@ import sui.rpc.v2.GetPackageRequest
 import sui.rpc.v2.GetPackageResponse
 import sui.rpc.v2.ListPackageVersionsRequest
 import sui.rpc.v2.ListPackageVersionsResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 
 interface Move {
   suspend fun getPackage(request: GetPackageRequest): Result<GetPackageResponse, SuiError>

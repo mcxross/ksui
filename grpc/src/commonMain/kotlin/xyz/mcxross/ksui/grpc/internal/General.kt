@@ -9,7 +9,7 @@ import sui.rpc.v2.GetEpochRequestInternal
 import sui.rpc.v2.GetEpochResponse
 import sui.rpc.v2.GetServiceInfoRequestInternal
 import sui.rpc.v2.GetServiceInfoResponse
-import xyz.mcxross.ksui.model.CheckpointId as SuiCheckpointId
+import xyz.mcxross.ksui.core.model.CheckpointId as SuiCheckpointId
 
 internal suspend fun getServiceInfo(runtime: GrpcRuntime): GetServiceInfoResponse =
   runtime.ledgerService.GetServiceInfo(GetServiceInfoRequestInternal())

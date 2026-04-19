@@ -16,14 +16,16 @@ import kotlin.io.encoding.Base64
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.model.GasLessTransactionData
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.TransactionData
-import xyz.mcxross.ksui.model.sign
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.GasLessTransactionData
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.sign
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.bcsDecode
+import xyz.mcxross.ksui.core.util.runBlocking
 
 @Serializable
 data class SponsoredResponseManual(
@@ -65,12 +67,12 @@ fun main() = runBlocking {
   val sponsoredResponse = res.body<SponsoredResponseManual>()
 
   val txDataBytes = Base64.decode(sponsoredResponse.txBytes)
-  val txData = xyz.mcxross.ksui.util.bcsDecode<TransactionData>(txDataBytes)
+  val txData = bcsDecode<TransactionData>(txDataBytes)
 
   val userSignature =
     when (val sig = txData.sign(ALICE_ACCOUNT)) {
-      is xyz.mcxross.ksui.model.Result.Ok -> sig.value
-      is xyz.mcxross.ksui.model.Result.Err -> throw sig.error
+      is Result.Ok -> sig.value
+      is Result.Err -> throw sig.error
     }
 
   val response =

@@ -7,9 +7,9 @@ import sui.rpc.v2.GetCoinInfoRequest
 import sui.rpc.v2.GetCoinInfoResponse
 import sui.rpc.v2.ListBalancesRequest
 import sui.rpc.v2.ListBalancesResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 
 interface Coin {
   suspend fun getCoinInfo(request: GetCoinInfoRequest): Result<GetCoinInfoResponse, SuiError>

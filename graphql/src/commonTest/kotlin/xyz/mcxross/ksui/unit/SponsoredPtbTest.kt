@@ -28,9 +28,9 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import xyz.mcxross.ksui.Sui
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.dsl.sponsoredTransaction
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.SuiConfig
 
 @Serializable data class MockGasRequest(val txBytes: String, val sender: String)
 

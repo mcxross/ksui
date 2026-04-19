@@ -25,7 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import xyz.mcxross.ksui.account.PasskeyAccount
+import xyz.mcxross.ksui.core.account.PasskeyAccount
 
 class SignUpViewModel(application: Application) : AndroidViewModel(application) {
 

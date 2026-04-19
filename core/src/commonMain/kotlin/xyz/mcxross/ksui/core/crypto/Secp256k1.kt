@@ -15,10 +15,10 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.account.Secp256k1Account
 import xyz.mcxross.ksui.core.Hex
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.account.Secp256k1Account
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 /**
  * This class represents an Secp256k1 private key.

@@ -16,9 +16,9 @@
 package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
 
 suspend fun main() {
 

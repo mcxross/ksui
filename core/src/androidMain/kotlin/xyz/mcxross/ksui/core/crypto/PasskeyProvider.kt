@@ -31,13 +31,13 @@ import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.ec.CustomNamedCurves
 import org.bouncycastle.crypto.params.ECDomainParameters
 import xyz.mcxross.bcs.Bcs
-import xyz.mcxross.ksui.account.PasskeyAccount
+import xyz.mcxross.ksui.core.account.PasskeyAccount
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.AuthenticationResponse
+import xyz.mcxross.ksui.core.model.PasskeyAuthenticator
+import xyz.mcxross.ksui.core.model.RegistrationResponses
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.utils.PasskeyUtils.recoverPublicKeyPoint
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.AuthenticationResponse
-import xyz.mcxross.ksui.model.PasskeyAuthenticator
-import xyz.mcxross.ksui.model.RegistrationResponses
-import xyz.mcxross.ksui.model.Result
 
 actual class PasskeyProvider(private val context: Context, private val rpId: String) {
 

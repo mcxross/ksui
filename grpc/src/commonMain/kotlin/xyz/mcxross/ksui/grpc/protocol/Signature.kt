@@ -5,8 +5,8 @@ import sui.rpc.v2.Bcs
 import sui.rpc.v2.UserSignature
 import sui.rpc.v2.VerifySignatureRequest
 import sui.rpc.v2.VerifySignatureResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 
 interface Signature {
   suspend fun verifySignature(

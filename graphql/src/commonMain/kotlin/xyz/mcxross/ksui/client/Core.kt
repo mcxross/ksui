@@ -18,8 +18,9 @@ package xyz.mcxross.ksui.client
 
 import com.apollographql.apollo.ApolloClient
 import io.ktor.client.*
-import xyz.mcxross.ksui.model.SuiApiType
-import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.core.client.ClientConfig
+import xyz.mcxross.ksui.core.model.SuiApiType
+import xyz.mcxross.ksui.core.model.SuiConfig
 
 /**
  * Create a new Ktor client with the given configuration.

@@ -6,8 +6,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.util.runBlocking
 
 class CoinTest :
   StringSpec({

@@ -9,7 +9,9 @@ import sui.rpc.v2.ListDynamicFieldsRequest
 import sui.rpc.v2.ListDynamicFieldsResponse
 import sui.rpc.v2.ListOwnedObjectsRequest
 import sui.rpc.v2.ListOwnedObjectsResponse
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.batchGetObjects as internalBatchGetObjects
 import xyz.mcxross.ksui.grpc.internal.getObject as internalGetObject
@@ -17,8 +19,6 @@ import xyz.mcxross.ksui.grpc.internal.handleGrpc
 import xyz.mcxross.ksui.grpc.internal.listDynamicFields as internalListDynamicFields
 import xyz.mcxross.ksui.grpc.internal.listOwnedObjects as internalListOwnedObjects
 import xyz.mcxross.ksui.grpc.protocol.Object as ObjectProtocol
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
 
 internal class Object(private val runtime: GrpcRuntime) : ObjectProtocol {
   override suspend fun getObject(request: GetObjectRequest): Result<GetObjectResponse, SuiError> =

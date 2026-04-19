@@ -16,13 +16,13 @@
 package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.TypeTag
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.model.TypeTag
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.runBlocking
 
 fun main() = runBlocking {
   val sui = Sui(SuiConfig(SuiSettings(network = Network.TESTNET)))

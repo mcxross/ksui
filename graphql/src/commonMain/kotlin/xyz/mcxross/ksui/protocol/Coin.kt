@@ -15,15 +15,15 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
 import xyz.mcxross.ksui.generated.GetBalanceQuery
 import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
 import xyz.mcxross.ksui.generated.GetCoinsQuery
 import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
 
 /** Defines the API for interacting with coin-related data on the Sui network. */
 interface Coin {

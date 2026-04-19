@@ -6,7 +6,7 @@ import sui.rpc.v2.LookupNameResponse
 import sui.rpc.v2.ReverseLookupNameRequest
 import sui.rpc.v2.ReverseLookupNameRequestInternal
 import sui.rpc.v2.ReverseLookupNameResponse
-import xyz.mcxross.ksui.model.AccountAddress
+import xyz.mcxross.ksui.core.model.AccountAddress
 
 internal suspend fun lookupName(
   runtime: GrpcRuntime,

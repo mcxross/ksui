@@ -16,8 +16,11 @@
 
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
 import xyz.mcxross.ksui.generated.GetBalanceQuery
 import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
@@ -28,9 +31,6 @@ import xyz.mcxross.ksui.internal.getBalance
 import xyz.mcxross.ksui.internal.getCoinMetadata
 import xyz.mcxross.ksui.internal.getCoins
 import xyz.mcxross.ksui.internal.getTotalSupply
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 
 /**

@@ -7,15 +7,15 @@ import sui.rpc.v2.GetCoinInfoRequest
 import sui.rpc.v2.GetCoinInfoResponse
 import sui.rpc.v2.ListBalancesRequest
 import sui.rpc.v2.ListBalancesResponse
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.getBalance as internalGetBalance
 import xyz.mcxross.ksui.grpc.internal.getCoinInfo as internalGetCoinInfo
 import xyz.mcxross.ksui.grpc.internal.handleGrpc
 import xyz.mcxross.ksui.grpc.internal.listBalances as internalListBalances
 import xyz.mcxross.ksui.grpc.protocol.Coin as CoinProtocol
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
 
 internal class Coin(private val runtime: GrpcRuntime) : CoinProtocol {
   override suspend fun getCoinInfo(

@@ -16,13 +16,13 @@
 
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.QueryEventsQuery
 import xyz.mcxross.ksui.internal.queryEvents
 import xyz.mcxross.ksui.model.EventFilter
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Events
 
 /**

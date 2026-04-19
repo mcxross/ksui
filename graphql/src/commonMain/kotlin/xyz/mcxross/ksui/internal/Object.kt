@@ -17,7 +17,11 @@ package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.ObjectDataOptions
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
 import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
 import xyz.mcxross.ksui.generated.GetObjectQuery
@@ -26,10 +30,6 @@ import xyz.mcxross.ksui.generated.MultiGetObjectsQuery
 import xyz.mcxross.ksui.generated.TryGetPastObjectQuery
 import xyz.mcxross.ksui.generated.type.DynamicFieldName
 import xyz.mcxross.ksui.generated.type.ObjectKey
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 
 internal suspend fun getObject(
   config: SuiConfig,

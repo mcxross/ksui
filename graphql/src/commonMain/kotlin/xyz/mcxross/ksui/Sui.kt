@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui
 
-import xyz.mcxross.ksui.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 import xyz.mcxross.ksui.protocol.Events
 import xyz.mcxross.ksui.protocol.Faucet
