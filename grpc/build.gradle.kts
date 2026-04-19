@@ -97,7 +97,7 @@ kotlin {
         include("sui/rpc/v2/transaction_execution_service.proto")
       }
       dependencies {
-        api(project(":ksui"))
+        api(project(":ksui-core"))
         api(libs.kotlinx.rpc.grpc.core)
         api(libs.kotlinx.rpc.protobuf.core)
         api(libs.kotlinx.rpc.grpc.client)

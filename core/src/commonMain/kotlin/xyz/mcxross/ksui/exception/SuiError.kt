@@ -16,22 +16,4 @@
 
 package xyz.mcxross.ksui.exception
 
-import com.apollographql.apollo.api.Error
-
-data class SuiError(val errors: List<GraphQLError>? = null) {
-  companion object {
-    fun from(errors: List<Error>): SuiError {
-      return SuiError(
-        errors =
-          errors.map {
-            GraphQLError(
-              message = it.message,
-              locations = it.locations?.map { loc -> ErrorLocation(loc.line, loc.column) },
-              path = it.path,
-              extensions = it.extensions,
-            )
-          }
-      )
-    }
-  }
-}
+data class SuiError(val errors: List<GraphQLError>? = null)

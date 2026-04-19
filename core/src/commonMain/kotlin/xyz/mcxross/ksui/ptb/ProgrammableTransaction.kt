@@ -17,12 +17,8 @@ package xyz.mcxross.ksui.ptb
 
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
-import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.extension.asIdParts
-import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
-import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 import xyz.mcxross.ksui.model.*
 import xyz.mcxross.ksui.serializer.ProgrammableTransactionSerializer
 import xyz.mcxross.ksui.util.MAX_COMMANDS_IN_PTB
@@ -191,137 +187,9 @@ class ProgrammableTransactionBuilder : Command() {
     return Argument.Result((commands.size - 1).toUShort())
   }
 
-  private suspend fun gatherCommandMetadata(sui: Sui): Map<Int, Boolean> {
-    val mutabilityMap = mutableMapOf<Int, Boolean>()
-    val functionSignatureCache = mutableMapOf<String, GetNormalizedMoveFunctionQuery.Data?>()
-    for (command in list) {
-      if (command is Command.MoveCall) {
-        val callDetails = command.moveCall
-        val target = "${callDetails.pakage.hash}::${callDetails.module}::${callDetails.function}"
-        val signatureResponse =
-          functionSignatureCache.getOrPut(target) {
-            when (val result = sui.getNormalizedMoveFunction(target)) {
-              is Result.Ok -> result.value
-              is Result.Err ->
-                throw IllegalStateException("Failed to get function signature for $target")
-            }
-          }
-        val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter>? =
-          signatureResponse
-            ?.`object`
-            ?.asMovePackage
-            ?.module
-            ?.function
-            ?.rPC_MOVE_FUNCTION_FIELDS
-            ?.parameters
-        if (params == null) {
-          continue
-        }
-        command.moveCall.arguments.zip(params).forEach { (argument, parameter) ->
-          if (argument is Argument.Input) {
-            val signatureMap = parameter.signature as? Map<*, *>
-            val ref = signatureMap?.get("ref") as? String
-            if (ref == "&mut") {
-              mutabilityMap[argument.index.toInt()] = true
-            }
-          }
-        }
-      }
-    }
-    return mutabilityMap
-  }
+  fun build(): ProgrammableTransaction = ProgrammableTransaction(inputs.values.toList(), list)
 
-  private suspend fun resolveAllInputs(sui: Sui, mutabilityMap: Map<Int, Boolean>): List<CallArg> {
-    val inputList = inputs.values.toList()
-
-    val idsToResolve =
-      inputList
-        .filterIsInstance<CallArg.ObjectStr>()
-        .map { normalize(it.id) }
-        .filter { !SYSTEM_ADDRESSES.contains(it) }
-        .distinct()
-
-    val objectsMap =
-      if (idsToResolve.isNotEmpty()) {
-        when (
-          val result =
-            sui.multiGetObjects(idsToResolve, options = ObjectDataOptions(showOwner = true))
-        ) {
-          is Result.Ok -> {
-            result.value?.multiGetObjects?.filterNotNull()?.associateBy {
-              normalize(it.rPC_OBJECT_FIELDS.objectId.toString())
-            } ?: emptyMap()
-          }
-          is Result.Err -> throw IllegalStateException("Failed to resolve objects: ${result.error}")
-        }
-      } else {
-        emptyMap()
-      }
-
-    return inputList.withIndex().map { (index, callArg) ->
-      if (callArg is CallArg.ObjectStr) {
-        val normalizedId = normalize(callArg.id)
-
-        if (SYSTEM_ADDRESSES.contains(normalizedId)) {
-          val isMutable = mutabilityMap[index] ?: false
-          CallArg.Object(
-            ObjectArg.SharedObject(
-              id = ObjectId(AccountAddress.fromString(normalizedId)),
-              initialSharedVersion = 1L,
-              mutable = isMutable,
-            )
-          )
-        } else {
-          val suiObject =
-            objectsMap[normalizedId]
-              ?: throw IllegalStateException(
-                "Object ${callArg.id} not found on chain. (Normalized lookup: $normalizedId)"
-              )
-
-          val owner = suiObject.rPC_OBJECT_FIELDS.owner?.rPC_OBJECT_OWNER_FIELDS
-          val objectId = suiObject.rPC_OBJECT_FIELDS.objectId
-
-          val resolvedObjectArg =
-            when (owner?.__typename) {
-              "Shared" -> {
-                val isMutable = mutabilityMap[index] ?: false
-                ObjectArg.SharedObject(
-                  id = ObjectId(AccountAddress.fromString(objectId.toString())),
-                  initialSharedVersion =
-                    owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L,
-                  mutable = isMutable,
-                )
-              }
-              "AddressOwner" -> {
-                if (suiObject.rPC_OBJECT_FIELDS.digest.isNullOrEmpty()) {
-                  throw IllegalStateException("Couldn't Resolve digest for ${callArg.id}")
-                }
-                ObjectArg.ImmOrOwnedObject(
-                  ObjectReference(
-                    Reference(
-                      AccountAddress.fromString(suiObject.rPC_OBJECT_FIELDS.objectId.toString())
-                    ),
-                    suiObject.rPC_OBJECT_FIELDS.version.toString().toLong(),
-                    ObjectDigest(Digest.fromString(suiObject.rPC_OBJECT_FIELDS.digest)),
-                  )
-                )
-              }
-              else ->
-                throw IllegalStateException("Unsupported object owner type: ${owner?.__typename}")
-            }
-          CallArg.Object(resolvedObjectArg)
-        }
-      } else {
-        callArg
-      }
-    }
-  }
-
-  suspend fun build(sui: Sui): ProgrammableTransaction {
-    val mutabilityMap = gatherCommandMetadata(sui)
-    val resolvedInputs = resolveAllInputs(sui, mutabilityMap)
-    return ProgrammableTransaction(resolvedInputs, list)
-  }
+  fun build(@Suppress("UNUSED_PARAMETER") resolver: Any): ProgrammableTransaction = build()
 }
 
 @Serializable
@@ -345,11 +213,11 @@ sealed class BuilderArg {
   @Serializable data class ForcedNonUniqueObject(val index: Int) : BuilderArg()
 }
 
-suspend fun ptb(client: Sui = SuiKit.client, block: PtbDsl.() -> Unit): ProgrammableTransaction {
+fun ptb(block: PtbDsl.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   val dsl = PtbDsl(builder)
   dsl.block()
-  return builder.build(client)
+  return builder.build()
 }
 
 fun hexStringToByteArray(hexString: String): ByteArray {

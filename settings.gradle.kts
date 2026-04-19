@@ -12,7 +12,9 @@ plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 
 rootProject.name = "ksui"
 
-include(":lib", ":grpc", ":sample:jvm", ":sample:android")
+include(":core", ":lib", ":grpc", ":sample:jvm", ":sample:android")
+
+project(":core").name = "ksui-core"
 
 project(":lib").name = "ksui"
 
