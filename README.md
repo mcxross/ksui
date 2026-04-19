@@ -1,12 +1,10 @@
 <h1 align="center">Ksui - Multiplatform SDK for Sui</h1>
 
-Ksui, /keɪˈsuːiː/ (pronounced as "kay-soo-ee"), is a Kotlin Multiplatform (KMP) SDK for integrating with the Sui
-blockchain.
+Ksui, /keɪˈsuːiː/ (pronounced "kay-soo-ee"), is a Kotlin Multiplatform SDK for
+integrating with the Sui blockchain.
 
-It is designed to be a type-safe, client-configurable, and multiplatform SDK that can be used across
-different platforms such as Android, iOS, JS, and JVM. It is built on top of the KMM toolchain and is designed to be
-extensible and easy to use.
-
+It is designed to be type-safe, client-configurable, coroutine based, and usable
+across Android, iOS, JS, JVM, and native Kotlin targets.
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.3.0-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
@@ -24,6 +22,8 @@ extensible and easy to use.
 # Table of contents
 
 - [Features](#features)
+- [Modules](#modules)
+- [Installation](#installation)
 - [Quick start](#quick-start)
 - [What's included](#whats-included)
 - [Contribution](#contribution)
@@ -31,132 +31,207 @@ extensible and easy to use.
 
 ## Features
 
-- Multiplatform (Android, iOS, JS, JVM)
-- Type-safe intuitive API
-- Client Configurable (Retries, Timeout, etc)
-- Asynchronous client
-- Coroutine based
-- Expressive DSL for PTB construction
-- Plus everything else you would expect from a Sui SDK
+- Multiplatform Kotlin API
+- gRPC and GraphQL clients
+- Type-safe Sui models
+- Account and key management
+- BCS serialization helpers
+- Programmable Transaction Block (PTB) builder
+- Coroutine based async APIs
 
-## Quick Start
+## Modules
 
-### Installation
+Ksui is split into transport-independent core code and transport-specific client
+modules.
 
-#### Multiplatform
+| Module | Artifact | What it contains                                                                                                                  | Use it when                                                                                        |
+|---|---|-----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Core | `xyz.mcxross.ksui:ksui-core` | Models, errors, config, accounts, cryptography, BCS helpers, PTB construction, transaction data building, and signing primitives. | You need to build/sign transactions or share Sui types without taking a network client dependency. |
+| GraphQL SDK | `xyz.mcxross.ksui:ksui` | GraphQL Client                                                                                                                    | You want to use the Sui GraphQL client.                                                            |
+| gRPC SDK | `xyz.mcxross.ksui:ksui-grpc` | gRPC Client                                                                                                                       | You want to use the Sui gRPC client.                                                               |
 
-Add the `Ksui` dependency to the common sourceSet
+This split keeps the dependency graph explicit so you can add only what you need:
 
-```kotlin
-implementation("xyz.mcxross.ksui:ksui:2.2.6-SNAPSHOT")
-```
+- `ksui-core` is the stable foundation. It has no GraphQL or gRPC transport
+  dependency, so it can be used from tests, shared libraries, Android apps, and
+  other SDK layers without dragging in client stacks.
+- `ksui` is the GraphQL distribution. It keeps `Sui` as the main entry point and
+  wires core transaction building to GraphQL object resolution.
+- `ksui-grpc` is the gRPC client module.
 
-#### Platform specific (Android, JS, Native, JVM)
+## Installation
 
-Add the `Ksui` dependency to the Project's dependency block
-
-Generic:
-
-```kotlin
-implementation("xyz.mcxross.ksui:<ksui-[platform]>:2.2.6-SNAPSHOT")
-```
-
-For example for Android and JS
-
-Android:
+The current snapshot version is:
 
 ```kotlin
-implementation("xyz.mcxross.ksui:ksui-android:2.2.6-SNAPSHOT")
+val ksuiVersion = "2.2.8-SNAPSHOT"
 ```
 
-Snapshot repository:
+For snapshots, add Sonatype's snapshot repository:
 
 ```kotlin
-maven("https://central.sonatype.com/repository/maven-snapshots")
+repositories {
+    mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots")
+}
 ```
 
-### Account Management
+For released versions, `mavenCentral()` is enough.
 
-#### Generating a new account
+### Kotlin Multiplatform
 
-To generate a new Sui account, simply call the static `create` method on the `Account` class as shown below:
+Add the module you need to the appropriate source set. In most applications,
+`ksui` is the right starting point.
 
 ```kotlin
-val yourAccount = Account.create()
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("xyz.mcxross.ksui:ksui:2.2.8-SNAPSHOT")
+        }
+    }
+}
 ```
 
-This generates a new account with a random mnemonic, public key, and address.
+Use `ksui-core` when you only need models, accounts, crypto, serialization, PTB
+building, and transaction signing primitives:
 
-#### Importing an existing account
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("xyz.mcxross.ksui:ksui-core:2.2.8-SNAPSHOT")
+        }
+    }
+}
+```
 
-##### From a private key
+Use `ksui-grpc` when you want the gRPC client:
 
-There are a couple of ways to import an existing account. One way is to import an account from a private key as a
-private key object:
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("xyz.mcxross.ksui:ksui-grpc:2.2.8-SNAPSHOT")
+        }
+    }
+}
+```
+
+You can depend on more than one module when needed:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("xyz.mcxross.ksui:ksui:2.2.8-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-grpc:2.2.8-SNAPSHOT")
+        }
+    }
+}
+```
+
+### Platform-specific Gradle projects
+
+For a non-KMP Android app:
+
+```kotlin
+dependencies {
+    implementation("xyz.mcxross.ksui:ksui-android:2.2.8-SNAPSHOT")
+}
+```
+
+For a JVM-only project:
+
+```kotlin
+dependencies {
+    implementation("xyz.mcxross.ksui:ksui-jvm:2.2.8-SNAPSHOT")
+}
+```
+
+Platform artifacts are also published for the split modules. For example:
+
+```kotlin
+dependencies {
+    implementation("xyz.mcxross.ksui:ksui-core-android:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-android:2.2.8-SNAPSHOT")
+}
+```
+
+```kotlin
+dependencies {
+    implementation("xyz.mcxross.ksui:ksui-core-jvm:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-jvm:2.2.8-SNAPSHOT")
+}
+```
+
+The GraphQL module supports Android, iOS, JS, JVM, macOS, tvOS, and watchOS
+targets. The gRPC module is available on the targets supported by kotlinx-rpc
+gRPC in this repo: Android, JVM, iOS, macOS, tvOS, and watchOS. JS is not
+currently a gRPC target.
+
+## Quick start
+
+### Account management
+
+Generate a new Sui account:
+
+```kotlin
+val account = Account.create()
+```
+
+Import an account from a private key:
 
 ```kotlin
 val privateKey = PrivateKey.fromEncoded("suipri...8cpv0g")
-
-val yourAccount = Account.import(privateKey)
+val account = Account.import(privateKey)
 ```
 
-or as a string:
+Or import directly from an encoded private key:
 
 ```kotlin
-val yourAccount = Account.import("suipri...8cpv0g")
+val account = Account.import("suipri...8cpv0g")
 ```
 
-> [!NOTE]
-> **Ksui** adheres to the standard Sui private key format of encoding the private key in Bech32 format as
-> proposed in [SIP-15](https://github.com/sui-foundation/sips/blob/main/sips/sip-15.md).
+Ksui follows the standard Sui private key Bech32 format proposed in
+[SIP-15](https://github.com/sui-foundation/sips/blob/main/sips/sip-15.md).
 
 You can also import an account from a mnemonic:
 
 ```kotlin
 val mnemonic = "abandon salad ..."
-val yourAccount = Account.import(mnemonic)
+val account = Account.import(mnemonic)
 ```
 
-### Initialization
+### GraphQL client
 
-To get started, create an instance of the Sui client. This single step also automatically configures a default, 
-globally-accessible client that can be used by top-level functions like `ptb`.
+The GraphQL SDK keeps `Sui` as the high-level entry point.
 
 ```kotlin
 val sui = Sui()
 ```
 
-In case you want to configure the client, you can do so as shown below:
+Configure the network:
 
 ```kotlin
 val config = SuiConfig(settings = SuiSettings(network = Network.MAINNET))
 val sui = Sui(config)
 ```
 
-Now you can use the `sui` instance to interact with the Sui chain for reading and writing.
-
-### Reading from the chain
-
-Once you have initialized the client, you can use it to read from the chain. For example, to get the balance of an
-address:
+Read from the chain:
 
 ```kotlin
-val balance = sui.getBalance(AccountAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b"))
+val balance =
+    sui.getBalance(
+        AccountAddress("0x4afc81d797fd02bd7e923389677352eb592d55a00b65067fa582c05f62b4788b")
+    )
 ```
 
-### Writing to the chain (PTBs)
+Build, sign, and execute a PTB:
 
-To write to the chain, you build a **Programmable Transaction Block (PTB)**. The SDK provides an expressive DSL that makes this 
-process simple and intuitive. The top level `ptb` function automatically uses the default client you initialized to resolve object 
-details, so you don't need to pass it explicitly.
-
-For example, to construct a **PTB** that splits a coin and sends it to another address:
 ```kotlin
-
-// Assuming you have an account object
 val alice = Account.import("suipri...8cpv0g")
 
-// Create a programmable transaction
 val ptb = ptb {
     val coins = splitCoins {
         coin = Argument.GasCoin
@@ -169,26 +244,62 @@ val ptb = ptb {
     }
 }
 
-// Sign and execute txn
-val txn = sui.signAndExecuteTransactionBlock(alice, ptb)
-
+val transaction = sui.signAndExecuteTransactionBlock(alice, ptb)
 ```
 
-For more information, please see the [documentation](https://suicookbook.com).
+When using the GraphQL `ptb` helper, object-string inputs are resolved through
+the configured `Sui` client before the transaction is built.
+
+### Core-only transaction building
+
+`ksui-core` can construct and sign transactions without depending on GraphQL or
+gRPC. If a PTB uses unresolved object IDs, resolve them with a transport-specific
+resolver before calling the strict `build()` path.
+
+```kotlin
+val tx = xyz.mcxross.ksui.core.ptb.ptb {
+    transferObjects {
+        objects = listOf(`object`(objectReference))
+        to = address("0xbf...cde")
+    }
+}
+```
+
+### gRPC client
+
+Use `SuiGrpcClient` from `ksui-grpc` when you want to use Sui's gRPC API while
+sharing the same core models, config, account, crypto, and transaction-building
+types.
+
+```kotlin
+val config =
+    SuiConfig(
+        settings = SuiSettings(network = Network.TESTNET)
+    )
+
+val client = SuiGrpcClient.fromConfig(config)
+val balance = client.getBalance(AccountAddress("0x..."))
+```
 
 ## What's included
 
-| File/Folder      | Description                                                                                             |
-|------------------|---------------------------------------------------------------------------------------------------------|
-| [lib](lib)       | Library implementation folder. It contains the code for Ksui that can be used across multiple platforms |
-| [sample](sample) | Samples on how to use the exported APIs                                                                 |
+| Path | Description |
+|---|---|
+| [core](core) | Transport-independent core module: models, errors, config, accounts, crypto, BCS, helpers, PTB construction, and transaction signing primitives. |
+| [graphql](graphql) | GraphQL SDK module published as `ksui`; contains the `Sui` entry point and GraphQL-backed APIs. |
+| [grpc](grpc) | gRPC SDK module published as `ksui-grpc`; contains `SuiGrpcClient`, protobuf definitions, and gRPC APIs. |
+| [sample](sample) | Sample projects showing SDK usage. |
+| [skills](skills) | Development notes for working on Ksui with agent tooling. |
+
+For more information, see the [documentation](https://suicookbook.com).
 
 ## Contribution
 
-All contributions to Ksui are welcome. Before opening a PR, please submit an issue detailing the bug or feature. When
-opening a PR, please ensure that your contribution builds on the KMM toolchain, has been linted
-with `ktfmt <GOOGLE (INTERNAL)>`, and contains tests when applicable. For more information, please see
-the [contribution guidelines](CONTRIBUTING.md).
+All contributions to Ksui are welcome. Before opening a PR, please submit an
+issue detailing the bug or feature. When opening a PR, ensure that your
+contribution builds on the KMP toolchain, has been formatted with `ktfmt`, and
+contains tests when applicable. For more information, see the
+[contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
