@@ -37,7 +37,21 @@ internal suspend fun <D : Operation.Data> handleQuery(
 
     val errors = response.errors
     if (!errors.isNullOrEmpty()) {
-      return Err(SuiError.from(errors))
+      return Err(
+        SuiError(
+          errors.map {
+            GraphQLError(
+              message = it.message,
+              locations =
+                it.locations?.map { loc ->
+                  xyz.mcxross.ksui.exception.ErrorLocation(loc.line, loc.column)
+                },
+              path = it.path,
+              extensions = it.extensions,
+            )
+          }
+        )
+      )
     } else {
       SuiError(listOf(GraphQLError(message = "GraphQL errors in response")))
     }

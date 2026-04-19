@@ -29,12 +29,6 @@ import xyz.mcxross.ksui.model.SuiConfig
  */
 expect fun httpClient(clientConfig: ClientConfig): HttpClient
 
-expect class ClientConfig {
-  companion object {
-    val default: ClientConfig
-  }
-}
-
 fun getClient(clientConfig: ClientConfig) = httpClient(clientConfig)
 
 fun getGraphqlClient(config: SuiConfig): ApolloClient {

@@ -9,7 +9,6 @@ plugins {
   id("com.android.kotlin.multiplatform.library")
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.dokka)
-  alias(libs.plugins.apollo.graphql)
   alias(libs.plugins.maven.publish)
   alias(libs.plugins.ksp)
   alias(libs.plugins.kotest)
@@ -21,7 +20,7 @@ kotlin {
   jvmToolchain(17)
 
   androidLibrary {
-    namespace = "xyz.mcxross.ksui"
+    namespace = "xyz.mcxross.ksui.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()
   }
@@ -31,16 +30,10 @@ kotlin {
   iosSimulatorArm64()
 
   js {
-    browser {
-      testTask {
-        useKarma {
-          useChromeHeadless()
-          useSafari()
-        }
-      }
-    }
+    browser { testTask { useKarma { useChromeHeadless() } } }
     nodejs()
   }
+
   jvm {
     compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
     testRuns["test"].executionTask.configure { useJUnitPlatform() }
@@ -62,16 +55,15 @@ kotlin {
       }
     }
   }
+
   sourceSets {
     val androidJvmMain by creating {
       dependsOn(commonMain.get())
       dependencies { implementation(libs.bouncycastle.bcprov) }
     }
-    val appleMain by getting { dependencies { implementation(libs.ktor.client.darwin) } }
     val androidMain by getting {
       dependsOn(androidJvmMain)
       dependencies {
-        implementation(libs.ktor.client.okhttp)
         implementation(libs.androidx.credentials)
         implementation(libs.androidx.credentials.play)
         implementation(libs.play.services.identity.credentials)
@@ -79,28 +71,19 @@ kotlin {
       }
     }
     commonMain.dependencies {
-      api(project(":ksui-core"))
-      implementation(libs.ktor.client.core)
-      implementation(libs.ktor.client.content.negotiation)
-      implementation(libs.ktor.client.websockets)
-      implementation(libs.ktor.client.logging)
-      implementation(libs.ktor.serialization.kotlinx.json)
       implementation(libs.kotlinx.coroutines.core)
+      implementation(libs.kotlinx.serialization.json)
       implementation(libs.bcs)
-      api(libs.apollo.runtime)
       implementation(libs.kotlin.result)
     }
     commonTest.dependencies {
-      implementation(libs.ktor.client.mock)
       implementation(libs.kotlin.test)
       implementation(libs.kotest.framework.engine)
       implementation(libs.kotest.assertions.core)
     }
-    jsMain.dependencies { implementation(libs.ktor.client.js) }
     val jvmMain by getting {
       dependsOn(androidJvmMain)
       dependencies {
-        implementation(libs.ktor.client.cio)
         implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
       }
@@ -121,35 +104,22 @@ kotlin {
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
-apollo { service("service") { packageName.set("xyz.mcxross.ksui.generated") } }
-
 tasks.withType<DokkaTask>().configureEach {
   notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
 }
 
 dokka {
-  moduleName.set("Ksui")
+  moduleName.set("Ksui core")
   dokkaPublications.html {
     suppressInheritedMembers.set(true)
     failOnWarning.set(true)
   }
-  dokkaSourceSets {
-    configureEach {
-      includes.from("Module.md")
-      sourceLink {
-        localDirectory.set(file("commonMain/kotlin"))
-        remoteUrl("https://github.com/mcxross/ksui/blob/master/lib/src/commonMain/kotlin")
-        remoteLineSuffix.set("#L")
-      }
-    }
-  }
   dokkaPublications.html { outputDirectory.set(layout.buildDirectory.dir("dokka")) }
-
   pluginsConfiguration.html { footerMessage.set("(c) McXross") }
 }
 
 mavenPublishing {
-  coordinates("xyz.mcxross.ksui", "ksui", version.toString())
+  coordinates("xyz.mcxross.ksui", "ksui-core", version.toString())
 
   configure(
     KotlinMultiplatform(
@@ -160,8 +130,8 @@ mavenPublishing {
   )
 
   pom {
-    name.set("Ksui")
-    description.set("Multiplatform SDK for the SUI blockchain")
+    name.set("Ksui core")
+    description.set("Shared models, accounts, cryptography, and transaction building for Ksui")
     inceptionYear.set("2023")
     url.set("https://github.com/mcxross")
     licenses {

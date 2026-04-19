@@ -5,12 +5,13 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
+import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
+import xyz.mcxross.ksui.account.Account
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.exception.SuiException
-import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.model.AccountAddress
 import xyz.mcxross.ksui.model.Digest
@@ -23,7 +24,6 @@ import xyz.mcxross.ksui.model.Reference
 import xyz.mcxross.ksui.model.Result
 import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.TransactionBlockResponseOptions
 import xyz.mcxross.ksui.model.TransactionData
 import xyz.mcxross.ksui.model.TransactionDataComposer
 import xyz.mcxross.ksui.ptb.ptb
@@ -36,14 +36,13 @@ private const val HELLO_WORLD =
 
 class GrpcTransactionTest :
   StringSpec({
-    val sui = TestResources.sui
     val alice = TestResources.alice
 
     "Simulate transaction block via gRPC" {
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val txData = buildHelloWorldTransactionData(sui, alice)
+          val txData = buildHelloWorldTransactionData(client, alice)
           val txBytes = bcsEncode(txData)
 
           val response = client.simulateTransaction(txBytes).unwrap()
@@ -73,13 +72,13 @@ class GrpcTransactionTest :
       val client = SuiGrpcClient.fromConfig(SuiConfig(SuiSettings(network = Network.TESTNET)))
       try {
         runBlocking {
-          val txData = buildHelloWorldTransactionData(sui, alice)
+          val txData = buildHelloWorldTransactionData(client, alice)
           val signatureBytes = txData.signBytes(TestResources.alice)
           val txBytes = bcsEncode(txData)
           val txDigest = hash(Hash.BLAKE2B256, txBytes).encodeToBase58String()
 
           client.executeTransaction(txBytes, listOf(signatureBytes)).unwrap().shouldNotBeNull()
-          waitForTransactionByDigest(sui, txDigest).shouldNotBeNull()
+          waitForTransactionByDigest(client, txDigest).shouldNotBeNull()
         }
       } finally {
         client.close()
@@ -88,8 +87,8 @@ class GrpcTransactionTest :
   })
 
 private suspend fun buildHelloWorldTransactionData(
-  sui: xyz.mcxross.ksui.Sui,
-  alice: xyz.mcxross.ksui.account.Account,
+  client: SuiGrpcClient,
+  alice: Account,
 ): TransactionData {
   val ptb = ptb {
     moveCall {
@@ -98,8 +97,8 @@ private suspend fun buildHelloWorldTransactionData(
     }
   }
 
-  val gasPrice = fetchReferenceGasPrice(sui)
-  val coins = fetchGasCoins(sui, alice.address)
+  val gasPrice = fetchReferenceGasPrice(client)
+  val coins = fetchGasCoins(client, alice.address)
   return TransactionDataComposer.programmable(
     sender = alice.address,
     gasPayment = coins,
@@ -109,13 +108,13 @@ private suspend fun buildHelloWorldTransactionData(
   )
 }
 
-private suspend fun fetchReferenceGasPrice(sui: xyz.mcxross.ksui.Sui, attempts: Int = 3): ULong {
+private suspend fun fetchReferenceGasPrice(client: SuiGrpcClient, attempts: Int = 3): ULong {
   var lastError: String? = null
   repeat(attempts) { attempt ->
-    when (val price = sui.getReferenceGasPrice()) {
+    when (val price = client.getEpoch()) {
       is Result.Ok -> {
-        val value = price.value?.epoch?.referenceGasPrice
-        if (value != null) return value.toString().toULong()
+        val value = price.value.epoch?.referenceGasPrice
+        if (value != null) return value
         lastError = "missing reference gas price in response"
       }
       is Result.Err -> lastError = price.error.toString()
@@ -126,34 +125,32 @@ private suspend fun fetchReferenceGasPrice(sui: xyz.mcxross.ksui.Sui, attempts: 
 }
 
 private suspend fun fetchGasCoins(
-  sui: xyz.mcxross.ksui.Sui,
-  sender: xyz.mcxross.ksui.model.AccountAddress,
+  client: SuiGrpcClient,
+  sender: AccountAddress,
   attempts: Int = 5,
 ): List<ObjectReference> {
   var lastError: String? = null
   repeat(attempts) { attempt ->
-    when (val po = sui.getCoins(sender)) {
+    when (val po = client.listOwnedObjects(sender, objectType = "0x2::coin::Coin<$SUI_TYPE>")) {
       is Result.Ok -> {
         val coins =
-          po.value
-            ?.address
-            ?.objects
-            ?.nodes
-            ?.map {
-              ObjectReference(
-                Reference(AccountAddress.fromString(it.address.toString())),
-                it.version.toString().toLong(),
-                ObjectDigest(Digest(it.digest.toString())),
-              )
-            }
-            .orEmpty()
+          po.value.objects.mapNotNull { ownedObject ->
+            val objectId = ownedObject.objectId ?: return@mapNotNull null
+            val version = ownedObject.version ?: return@mapNotNull null
+            val digest =
+              ownedObject.digest
+                ?: client.getObject(objectId, version).unwrap().`object`?.digest
+                ?: return@mapNotNull null
+            ObjectReference(
+              Reference(AccountAddress.fromString(objectId)),
+              version.toLong(),
+              ObjectDigest(Digest(digest)),
+            )
+          }
         if (coins.isNotEmpty()) return coins
         lastError = "no gas coins returned"
       }
       is Result.Err -> lastError = po.error.toString()
-    }
-    if (attempt == 0) {
-      sui.requestTestTokens(sender)
     }
     delay(2_000)
   }
@@ -161,27 +158,27 @@ private suspend fun fetchGasCoins(
 }
 
 private suspend fun waitForTransactionByDigest(
-  sui: xyz.mcxross.ksui.Sui,
+  client: SuiGrpcClient,
   digest: String,
   timeout: Long = 60_000,
   pollInterval: Long = 2_000,
-): GetTransactionBlockQuery.Data? {
+): sui.rpc.v2.GetTransactionResponse {
   return try {
     withTimeout(timeout) {
       while (true) {
-        when (val result = sui.getTransactionBlock(digest, TransactionBlockResponseOptions())) {
+        when (val result = client.getTransaction(digest)) {
           is Result.Ok -> return@withTimeout result.value
           is Result.Err -> delay(pollInterval)
         }
       }
-      null
+      error("unreachable")
     }
   } catch (e: Exception) {
     throw SuiException("Transaction not found after gRPC submit: ${e.message}")
   }
 }
 
-private suspend fun TransactionData.signBytes(signer: xyz.mcxross.ksui.account.Account): ByteArray {
+private suspend fun TransactionData.signBytes(signer: Account): ByteArray {
   val intentMessage = IntentMessage(Intent.suiTransaction(), this)
   val messageHash = hash(Hash.BLAKE2B256, bcsEncode(intentMessage))
   return when (val sig = signer.sign(messageHash)) {
