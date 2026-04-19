@@ -17,13 +17,13 @@
 package xyz.mcxross.ksui.internal
 
 import xyz.mcxross.ksui.client.postSuiFaucet
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.FaucetRequest
-import xyz.mcxross.ksui.model.FixedAmountRequest
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.RequestOptions
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.TransferredGasObject
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.FaucetRequest
+import xyz.mcxross.ksui.core.model.FixedAmountRequest
+import xyz.mcxross.ksui.core.model.Option
+import xyz.mcxross.ksui.core.model.RequestOptions
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.TransferredGasObject
 
 internal suspend fun requestTestTokens(
   config: SuiConfig,

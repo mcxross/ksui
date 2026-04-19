@@ -15,8 +15,12 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.ObjectDataOptions
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
 import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
 import xyz.mcxross.ksui.generated.GetObjectQuery
@@ -30,10 +34,6 @@ import xyz.mcxross.ksui.internal.getObject
 import xyz.mcxross.ksui.internal.getOwnedObjects
 import xyz.mcxross.ksui.internal.multiGetObjects
 import xyz.mcxross.ksui.internal.tryGetPastObject
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Object
 
 /**

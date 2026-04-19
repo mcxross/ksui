@@ -15,15 +15,15 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
 import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
 import xyz.mcxross.ksui.internal.resolveNameServiceAddress
 import xyz.mcxross.ksui.internal.resolveNameServiceNames
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Sns
 
 /**

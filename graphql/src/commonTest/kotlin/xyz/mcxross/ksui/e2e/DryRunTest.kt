@@ -3,20 +3,21 @@ package xyz.mcxross.ksui.e2e
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import xyz.mcxross.ksui.TestResources
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Digest
+import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.ObjectDigest
+import xyz.mcxross.ksui.core.model.ObjectReference
+import xyz.mcxross.ksui.core.model.Reference
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.TransactionDataComposer
+import xyz.mcxross.ksui.core.model.TypeTag
+import xyz.mcxross.ksui.core.model.data
+import xyz.mcxross.ksui.core.model.with
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.generated.type.ExecutionStatus
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.ExecuteTransactionBlockResponseOptions
-import xyz.mcxross.ksui.model.ObjectDigest
-import xyz.mcxross.ksui.model.ObjectReference
-import xyz.mcxross.ksui.model.Reference
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.TransactionDataComposer
-import xyz.mcxross.ksui.model.TypeTag
-import xyz.mcxross.ksui.model.data
-import xyz.mcxross.ksui.model.with
 import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.runBlocking
 
 class DryRunTest :
   StringSpec({

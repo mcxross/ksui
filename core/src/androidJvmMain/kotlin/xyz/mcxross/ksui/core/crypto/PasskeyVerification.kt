@@ -23,7 +23,7 @@ import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.params.ECPublicKeyParameters
 import org.bouncycastle.crypto.signers.ECDSASigner
 import xyz.mcxross.bcs.Bcs
-import xyz.mcxross.ksui.model.PasskeyAuthenticator
+import xyz.mcxross.ksui.core.model.PasskeyAuthenticator
 
 @Serializable
 private data class ClientDataJson(val type: String, val challenge: String, val origin: String)

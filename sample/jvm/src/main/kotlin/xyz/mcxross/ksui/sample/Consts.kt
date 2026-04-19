@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.sample
 
-import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.core.account.Account
 
 const val ALICE_PRIVATE_KEY =
   "***REMOVED***"

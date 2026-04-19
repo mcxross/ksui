@@ -9,7 +9,8 @@ import sui.rpc.v2.GetPackageRequest
 import sui.rpc.v2.GetPackageResponse
 import sui.rpc.v2.ListPackageVersionsRequest
 import sui.rpc.v2.ListPackageVersionsResponse
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.getDatatype as internalGetDatatype
 import xyz.mcxross.ksui.grpc.internal.getFunction as internalGetFunction
@@ -17,7 +18,6 @@ import xyz.mcxross.ksui.grpc.internal.getPackage as internalGetPackage
 import xyz.mcxross.ksui.grpc.internal.handleGrpc
 import xyz.mcxross.ksui.grpc.internal.listPackageVersions as internalListPackageVersions
 import xyz.mcxross.ksui.grpc.protocol.Move as MoveProtocol
-import xyz.mcxross.ksui.model.Result
 
 internal class Move(private val runtime: GrpcRuntime) : MoveProtocol {
   override suspend fun getPackage(

@@ -23,6 +23,7 @@ import io.ktor.client.plugins.cache.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import xyz.mcxross.ksui.core.client.ClientConfig
 
 /** Create a new Ktor client with the given configuration. */
 actual fun httpClient(clientConfig: ClientConfig) =
@@ -39,8 +40,8 @@ actual fun httpClient(clientConfig: ClientConfig) =
       install(UserAgent) { agent = clientConfig.agent }
     } else {
       when (clientConfig.likeAgent) {
-        xyz.mcxross.ksui.model.UserAgent.BROWSER -> BrowserUserAgent()
-        xyz.mcxross.ksui.model.UserAgent.CURL -> CurlUserAgent()
+        xyz.mcxross.ksui.core.model.UserAgent.BROWSER -> BrowserUserAgent()
+        xyz.mcxross.ksui.core.model.UserAgent.CURL -> CurlUserAgent()
         else -> {
           install(UserAgent) { agent = clientConfig.agent }
         }

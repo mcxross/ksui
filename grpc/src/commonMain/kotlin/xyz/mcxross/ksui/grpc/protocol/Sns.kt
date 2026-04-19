@@ -4,9 +4,9 @@ import sui.rpc.v2.LookupNameRequest
 import sui.rpc.v2.LookupNameResponse
 import sui.rpc.v2.ReverseLookupNameRequest
 import sui.rpc.v2.ReverseLookupNameResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 
 interface Sns {
   suspend fun lookupName(request: LookupNameRequest): Result<LookupNameResponse, SuiError>

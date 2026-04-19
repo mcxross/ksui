@@ -22,8 +22,9 @@ import com.apollographql.apollo.exception.ApolloException
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.ErrorLocation
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
 
 internal suspend fun <D : Operation.Data> handleQuery(
   queryCall: suspend () -> ApolloCall<D>
@@ -42,10 +43,7 @@ internal suspend fun <D : Operation.Data> handleQuery(
           errors.map {
             GraphQLError(
               message = it.message,
-              locations =
-                it.locations?.map { loc ->
-                  xyz.mcxross.ksui.exception.ErrorLocation(loc.line, loc.column)
-                },
+              locations = it.locations?.map { loc -> ErrorLocation(loc.line, loc.column) },
               path = it.path,
               extensions = it.extensions,
             )

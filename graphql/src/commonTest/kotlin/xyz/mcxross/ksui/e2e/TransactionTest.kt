@@ -4,10 +4,10 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.TestResources.alice
 import xyz.mcxross.ksui.TestResources.sui
-import xyz.mcxross.ksui.account.Account
-import xyz.mcxross.ksui.model.transactionBlockResponseOptions
+import xyz.mcxross.ksui.core.account.Account
+import xyz.mcxross.ksui.core.model.transactionBlockResponseOptions
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.model.transactionFilter
-import xyz.mcxross.ksui.util.runBlocking
 
 class TransactionTest :
   StringSpec({

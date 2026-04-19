@@ -15,12 +15,12 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.ResolveNameServiceAddressQuery
 import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
 
 /**
  * Defines the API for interacting with the Sui Name Service (SNS).

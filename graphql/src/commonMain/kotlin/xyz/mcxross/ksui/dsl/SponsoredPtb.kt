@@ -26,10 +26,10 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.client.httpClient
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.GasLessTransactionData
-import xyz.mcxross.ksui.ptb.ProgrammableTransaction
-import xyz.mcxross.ksui.ptb.PtbDsl
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.GasLessTransactionData
+import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
+import xyz.mcxross.ksui.core.ptb.PtbDsl
 import xyz.mcxross.ksui.ptb.ptb
 
 class GasStationConfig {

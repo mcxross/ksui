@@ -1,0 +1,53 @@
+/*
+ * Copyright 2024 McXross
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package xyz.mcxross.ksui.core.util
+
+import xyz.mcxross.ksui.core.model.Network
+
+val NetworkToIndexerAPI =
+  mapOf(
+    "mainnet" to "https://graphql.mainnet.sui.io/graphql",
+    "testnet" to "https://graphql.testnet.sui.io/graphql",
+    "devnet" to "https://graphql.devnet.sui.io/graphql",
+    "local" to "http://0.0.0.0:9125/graphql",
+  )
+
+val NetworkToNodeAPI =
+  mapOf(
+    "mainnet" to "https://fullnode.mainnet.sui.io:443",
+    "testnet" to "https://fullnode.testnet.sui.io:443",
+    "devnet" to "https://fullnode.devnet.sui.io:443",
+    "local" to "http://0.0.0.0:9124",
+  )
+
+val NetworkToFaucetAPI =
+  mapOf(
+    "mainnet" to "https://faucet.mainnet.sui.io/gas",
+    "testnet" to "https://faucet.testnet.sui.io/gas",
+    "devnet" to "https://faucet.devnet.sui.io/gas",
+    "local" to "http://0.0.0.0:9123/gas",
+  )
+
+val NetworkToChainId = mapOf("mainnet" to 1, "testnet" to 2, "randomnet" to 70)
+
+val NetworkToNetworkName =
+  mapOf(
+    "mainnet" to Network.MAINNET,
+    "testnet" to Network.TESTNET,
+    "devnet" to Network.DEVNET,
+    "custom" to Network.CUSTOM,
+  )

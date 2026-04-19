@@ -8,8 +8,12 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
-import xyz.mcxross.ksui.model.*
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.FullNodeConfig
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiApiType
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.util.runBlocking
 
 class NetworkHeaderTest :
   StringSpec({

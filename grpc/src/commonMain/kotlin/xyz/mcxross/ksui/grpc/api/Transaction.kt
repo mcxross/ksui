@@ -10,7 +10,8 @@ import sui.rpc.v2.SimulateTransactionRequest
 import sui.rpc.v2.SimulateTransactionResponse
 import sui.rpc.v2.Transaction as GrpcTransaction
 import sui.rpc.v2.UserSignature
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.batchGetTransactions as internalBatchGetTransactions
 import xyz.mcxross.ksui.grpc.internal.executeTransaction as internalExecuteTransaction
@@ -18,7 +19,6 @@ import xyz.mcxross.ksui.grpc.internal.getTransaction as internalGetTransaction
 import xyz.mcxross.ksui.grpc.internal.handleGrpc
 import xyz.mcxross.ksui.grpc.internal.simulateTransaction as internalSimulateTransaction
 import xyz.mcxross.ksui.grpc.protocol.Transaction as TransactionProtocol
-import xyz.mcxross.ksui.model.Result
 
 internal class Transaction(private val runtime: GrpcRuntime) : TransactionProtocol {
   override suspend fun getTransaction(

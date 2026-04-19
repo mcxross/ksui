@@ -2,12 +2,12 @@ package xyz.mcxross.ksui.grpc.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import xyz.mcxross.ksui.core.model.FullNodeConfig
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiApiType
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
 import xyz.mcxross.ksui.grpc.GrpcEndpoint
-import xyz.mcxross.ksui.model.FullNodeConfig
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiApiType
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
 
 class GrpcSuiConfigTest :
   StringSpec({

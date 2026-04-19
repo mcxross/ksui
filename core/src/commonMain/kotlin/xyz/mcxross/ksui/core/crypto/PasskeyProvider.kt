@@ -17,9 +17,9 @@ package xyz.mcxross.ksui.core.crypto
 
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-import xyz.mcxross.ksui.account.PasskeyAccount
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.account.PasskeyAccount
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 expect class PasskeyProvider {
   /**

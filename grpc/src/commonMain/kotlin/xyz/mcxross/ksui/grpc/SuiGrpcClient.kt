@@ -23,6 +23,8 @@ import kotlinx.rpc.grpc.client.GrpcClient
 import kotlinx.rpc.grpc.client.GrpcClientCallScope
 import kotlinx.rpc.grpc.client.GrpcClientConfiguration
 import kotlinx.rpc.grpc.client.GrpcClientInterceptor
+import xyz.mcxross.ksui.core.model.SuiApiType
+import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.protocol.Coin
 import xyz.mcxross.ksui.grpc.protocol.General
@@ -32,8 +34,6 @@ import xyz.mcxross.ksui.grpc.protocol.Signature
 import xyz.mcxross.ksui.grpc.protocol.Sns
 import xyz.mcxross.ksui.grpc.protocol.Subscription
 import xyz.mcxross.ksui.grpc.protocol.Transaction
-import xyz.mcxross.ksui.model.SuiApiType
-import xyz.mcxross.ksui.model.SuiConfig
 
 /** gRPC client for the ksui targets supported by kotlinx-rpc gRPC. */
 class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :

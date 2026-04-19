@@ -1,8 +1,8 @@
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.account.PasskeyAccount
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.account.PasskeyAccount
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 actual class PasskeyProvider {
   internal actual suspend fun create(

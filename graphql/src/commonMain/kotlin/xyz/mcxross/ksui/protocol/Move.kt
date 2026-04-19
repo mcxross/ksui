@@ -15,8 +15,9 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypesQuery
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.GetNormalizedMoveModuleQuery
@@ -24,7 +25,6 @@ import xyz.mcxross.ksui.generated.GetNormalizedMoveModulesByPackageQuery
 import xyz.mcxross.ksui.generated.GetNormalizedMoveStructQuery
 import xyz.mcxross.ksui.generated.GetTypeLayoutQuery
 import xyz.mcxross.ksui.generated.PaginateMoveModuleListsQuery
-import xyz.mcxross.ksui.model.Result
 
 /**
  * Defines the API for inspecting Move modules, functions, and types on the Sui network.

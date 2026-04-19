@@ -14,12 +14,12 @@ import sui.rpc.v2.SignatureVerificationService
 import sui.rpc.v2.VerifySignatureRequest
 import sui.rpc.v2.VerifySignatureResponse
 import sui.rpc.v2.VerifySignatureResponseInternal
+import xyz.mcxross.ksui.core.model.FullNodeConfig
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
-import xyz.mcxross.ksui.model.FullNodeConfig
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.util.runBlocking
 
 class GrpcNetworkHeaderTest :
   StringSpec({

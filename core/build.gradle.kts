@@ -1,6 +1,8 @@
 import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -103,6 +105,13 @@ kotlin {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+tasks.withType<Test>().configureEach {
+  testLogging {
+    events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+    exceptionFormat = TestExceptionFormat.FULL
+  }
+}
 
 tasks.withType<DokkaTask>().configureEach {
   notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")

@@ -10,8 +10,8 @@ import sui.rpc.v2.SimulateTransactionRequest
 import sui.rpc.v2.SimulateTransactionResponse
 import sui.rpc.v2.Transaction as GrpcTransaction
 import sui.rpc.v2.UserSignature
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.Result
 
 interface Transaction {
   suspend fun getTransaction(

@@ -4,8 +4,8 @@ import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.TestResources
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.util.runBlocking
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.util.runBlocking
 
 class SnsTest :
   StringSpec({

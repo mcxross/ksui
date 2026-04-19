@@ -9,9 +9,9 @@ import sui.rpc.v2.ListDynamicFieldsRequest
 import sui.rpc.v2.ListDynamicFieldsResponse
 import sui.rpc.v2.ListOwnedObjectsRequest
 import sui.rpc.v2.ListOwnedObjectsResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Result
 
 interface Object {
   suspend fun getObject(request: GetObjectRequest): Result<GetObjectResponse, SuiError>

@@ -6,9 +6,9 @@ import sui.rpc.v2.GetCheckpointResponse
 import sui.rpc.v2.GetEpochRequest
 import sui.rpc.v2.GetEpochResponse
 import sui.rpc.v2.GetServiceInfoResponse
-import xyz.mcxross.ksui.exception.SuiError
-import xyz.mcxross.ksui.model.CheckpointId
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.CheckpointId
+import xyz.mcxross.ksui.core.model.Result
 
 interface General {
   suspend fun getServiceInfo(): Result<GetServiceInfoResponse, SuiError>

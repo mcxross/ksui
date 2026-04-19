@@ -1,5 +1,7 @@
 package xyz.mcxross.ksui.grpc.e2e
 
+import com.google.protobuf.kotlin.FieldMask
+import com.google.protobuf.kotlin.FieldMaskInternal
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -7,29 +9,28 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
-import xyz.mcxross.ksui.account.Account
+import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
-import xyz.mcxross.ksui.exception.SuiException
+import xyz.mcxross.ksui.core.exception.SuiException
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Digest
+import xyz.mcxross.ksui.core.model.Intent
+import xyz.mcxross.ksui.core.model.IntentMessage
+import xyz.mcxross.ksui.core.model.Network
+import xyz.mcxross.ksui.core.model.ObjectDigest
+import xyz.mcxross.ksui.core.model.ObjectReference
+import xyz.mcxross.ksui.core.model.Reference
+import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.SuiConfig
+import xyz.mcxross.ksui.core.model.SuiSettings
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.TransactionDataComposer
+import xyz.mcxross.ksui.core.ptb.ptb
+import xyz.mcxross.ksui.core.util.bcsEncode
+import xyz.mcxross.ksui.core.util.runBlocking
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Digest
-import xyz.mcxross.ksui.model.Intent
-import xyz.mcxross.ksui.model.IntentMessage
-import xyz.mcxross.ksui.model.Network
-import xyz.mcxross.ksui.model.ObjectDigest
-import xyz.mcxross.ksui.model.ObjectReference
-import xyz.mcxross.ksui.model.Reference
-import xyz.mcxross.ksui.model.Result
-import xyz.mcxross.ksui.model.SuiConfig
-import xyz.mcxross.ksui.model.SuiSettings
-import xyz.mcxross.ksui.model.TransactionData
-import xyz.mcxross.ksui.model.TransactionDataComposer
-import xyz.mcxross.ksui.ptb.ptb
-import xyz.mcxross.ksui.util.bcsEncode
-import xyz.mcxross.ksui.util.encodeToBase58String
-import xyz.mcxross.ksui.util.runBlocking
 
 private const val HELLO_WORLD =
   "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
@@ -75,9 +76,20 @@ class GrpcTransactionTest :
           val txData = buildHelloWorldTransactionData(client, alice)
           val signatureBytes = txData.signBytes(TestResources.alice)
           val txBytes = bcsEncode(txData)
-          val txDigest = hash(Hash.BLAKE2B256, txBytes).encodeToBase58String()
 
-          client.executeTransaction(txBytes, listOf(signatureBytes)).unwrap().shouldNotBeNull()
+          val txDigest =
+            client
+              .executeTransaction(
+                txBytes,
+                listOf(signatureBytes),
+                readMask("digest", "effects.status", "checkpoint"),
+              )
+              .unwrap()
+              .transaction
+              .digest
+              ?.takeIf { it.isNotBlank() }
+              ?: throw SuiException("gRPC execute response did not include transaction digest")
+
           waitForTransactionByDigest(client, txDigest).shouldNotBeNull()
         }
       } finally {
@@ -163,20 +175,34 @@ private suspend fun waitForTransactionByDigest(
   timeout: Long = 60_000,
   pollInterval: Long = 2_000,
 ): sui.rpc.v2.GetTransactionResponse {
+  var lastError: String? = null
   return try {
     withTimeout(timeout) {
       while (true) {
-        when (val result = client.getTransaction(digest)) {
-          is Result.Ok -> return@withTimeout result.value
-          is Result.Err -> delay(pollInterval)
+        when (
+          val result =
+            client.getTransaction(digest, readMask("digest", "effects.status", "checkpoint"))
+        ) {
+          is Result.Ok -> {
+            val transaction = result.value.transaction
+            if (transaction.digest == digest) return@withTimeout result.value
+            lastError = "response did not include expected digest"
+          }
+          is Result.Err -> lastError = result.error.toString()
         }
+        delay(pollInterval)
       }
       error("unreachable")
     }
   } catch (e: Exception) {
-    throw SuiException("Transaction not found after gRPC submit: ${e.message}")
+    throw SuiException(
+      "Transaction not found after gRPC submit: ${e.message}; last error: ${lastError ?: "none"}"
+    )
   }
 }
+
+private fun readMask(vararg paths: String): FieldMask =
+  FieldMaskInternal().apply { this.paths = paths.toList() }
 
 private suspend fun TransactionData.signBytes(signer: Account): ByteArray {
   val intentMessage = IntentMessage(Intent.suiTransaction(), this)

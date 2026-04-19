@@ -15,8 +15,11 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.exception.GraphQLError
-import xyz.mcxross.ksui.exception.SuiError
+import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.ObjectDataOptions
+import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.GetDynamicFieldObjectQuery
 import xyz.mcxross.ksui.generated.GetDynamicFieldsQuery
 import xyz.mcxross.ksui.generated.GetObjectQuery
@@ -24,9 +27,6 @@ import xyz.mcxross.ksui.generated.GetOwnedObjectsQuery
 import xyz.mcxross.ksui.generated.MultiGetObjectsQuery
 import xyz.mcxross.ksui.generated.TryGetPastObjectQuery
 import xyz.mcxross.ksui.generated.type.DynamicFieldName
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.ObjectDataOptions
-import xyz.mcxross.ksui.model.Result
 
 /** Defines the API for fetching and interacting with on-chain objects in the Sui network. */
 interface Object {

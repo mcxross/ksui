@@ -16,9 +16,9 @@
 
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.model.AccountAddress
-import xyz.mcxross.ksui.model.Option
-import xyz.mcxross.ksui.model.TransferredGasObject
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Option
+import xyz.mcxross.ksui.core.model.TransferredGasObject
 
 /** Faucet API namespace. This class provides functionality to create and fund accounts. */
 interface Faucet {

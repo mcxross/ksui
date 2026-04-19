@@ -18,8 +18,8 @@ package xyz.mcxross.ksui.client
 
 import io.ktor.client.request.*
 import io.ktor.http.*
-import xyz.mcxross.ksui.model.RequestOptions
-import xyz.mcxross.ksui.model.SuiApiType
+import xyz.mcxross.ksui.core.model.RequestOptions
+import xyz.mcxross.ksui.core.model.SuiApiType
 
 suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>) {
   getClient(options.suiConfig.clientConfig).post(options.suiConfig.getRequestUrl(options.type)) {

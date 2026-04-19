@@ -1,9 +1,9 @@
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.account.Secp256r1Account
 import xyz.mcxross.ksui.core.Hex
-import xyz.mcxross.ksui.exception.E
-import xyz.mcxross.ksui.model.Result
+import xyz.mcxross.ksui.core.account.Secp256r1Account
+import xyz.mcxross.ksui.core.exception.E
+import xyz.mcxross.ksui.core.model.Result
 
 class Secp256r1PrivateKey(private val privateKey: ByteArray) : PrivateKey {
   override val data: ByteArray
