@@ -2,6 +2,7 @@ package xyz.mcxross.ksui.grpc.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.rpc.grpc.server.GrpcServer
 import kotlinx.rpc.registerService
 import sui.rpc.v2.SignatureVerificationService
@@ -10,7 +11,6 @@ import sui.rpc.v2.VerifySignatureResponse
 import sui.rpc.v2.VerifySignatureResponseInternal
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
 import xyz.mcxross.ksui.util.runBlocking
-import kotlin.time.Duration.Companion.seconds
 
 class SuiGrpcClientTest :
   StringSpec({
