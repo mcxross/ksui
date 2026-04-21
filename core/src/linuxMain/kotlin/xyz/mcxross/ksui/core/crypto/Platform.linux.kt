@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
-import xyz.mcxross.ksui.exception.SignatureSchemeNotSupportedException
+import xyz.mcxross.ksui.core.exception.SignatureSchemeNotSupportedException
 
 actual fun hash(hash: Hash, data: ByteArray): ByteArray {
   TODO("Not yet implemented")

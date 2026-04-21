@@ -16,4 +16,4 @@
 
 package xyz.mcxross.ksui.core.exception
 
-data class SuiError(val errors: List<GraphQLError>? = null)
+data class SuiError(val errors: List<SdkErrorDetail>? = null)

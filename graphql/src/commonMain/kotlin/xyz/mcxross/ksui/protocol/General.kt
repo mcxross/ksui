@@ -15,10 +15,10 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.CheckpointId
-import xyz.mcxross.ksui.core.model.GraphqlQuery
+import xyz.mcxross.ksui.core.model.RawQuery
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetChainIdentifierQuery
@@ -49,7 +49,7 @@ interface General {
    *
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetChainIdentifierQuery.Data] object with the chain identifier.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getChainIdentifier(): Result<GetChainIdentifierQuery.Data?, SuiError>
 
@@ -61,7 +61,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetReferenceGasPriceQuery.Data] object with the gas price
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getReferenceGasPrice(): Result<GetReferenceGasPriceQuery.Data?, SuiError>
 
@@ -71,7 +71,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetLatestCheckpointSequenceNumberQuery.Data] object with the
    *   sequence number.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getLatestCheckpointSequenceNumber():
     Result<GetLatestCheckpointSequenceNumberQuery.Data?, SuiError>
@@ -85,7 +85,7 @@ interface General {
    *   digest.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCheckpointQuery.Data] object with the checkpoint details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getCheckpoint(
     checkpointId: CheckpointId? = CheckpointId()
@@ -105,7 +105,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCheckpointsQuery.Data] object with a list of checkpoints and
    *   pagination cursors.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getCheckpoints(
     first: Int?,
@@ -123,7 +123,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetLatestSuiSystemStateQuery.Data] object with the system state
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getLatestSuiSystemState(): Result<GetLatestSuiSystemStateQuery.Data?, SuiError>
 
@@ -136,7 +136,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetProtocolConfigQuery.Data] object with the configuration
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getProtocolConfig(
     protocolVersion: Int? = null
@@ -150,7 +150,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCurrentEpochQuery.Data] object with the current epoch
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getCurrentEpoch(): Result<GetCurrentEpochQuery.Data?, SuiError>
 
@@ -162,7 +162,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [PaginateCheckpointTransactionBlocksQuery.Data] object with a
    *   list of transaction blocks and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun paginateCheckpointTransactionBlocks(
     id: CheckpointId? = null,
@@ -177,7 +177,7 @@ interface General {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [PaginateEpochValidatorsQuery.Data] object with a list of
    *   validators and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun paginateEpochValidators(
     id: Long,
@@ -185,4 +185,4 @@ interface General {
   ): Result<PaginateEpochValidatorsQuery.Data?, SuiError>
 }
 
-suspend inline fun <reified T> General.query(query: GraphqlQuery): Nothing = TODO()
+suspend inline fun <reified T> General.query(query: RawQuery): Nothing = TODO()

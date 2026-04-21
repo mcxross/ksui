@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui
+package xyz.mcxross.ksui.grpc
 
 const val PRIVATE_KEY_DATA =
   "***REMOVED***"

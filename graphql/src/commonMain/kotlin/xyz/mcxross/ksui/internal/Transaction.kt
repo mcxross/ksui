@@ -28,7 +28,7 @@ import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.core.exception.E
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.exception.SuiException
 import xyz.mcxross.ksui.core.model.AccountAddress
@@ -322,7 +322,7 @@ internal fun sponsoredTransaction(
  * @return A [Result.Ok] containing the transaction block response once it's found, or a
  *   [Result.Err] if the operation times out or encounters an unrecoverable error.
  */
-suspend fun waitForTransaction(
+internal suspend fun waitForTransaction(
   config: SuiConfig,
   digest: String,
   options: TransactionBlockResponseOptions,
@@ -340,12 +340,16 @@ suspend fun waitForTransaction(
         }
       }
     }
-    Result.Err(SuiError(errors = listOf(GraphQLError(message = "Unexpected fallthrough"))))
+    Result.Err(SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected fallthrough"))))
   } catch (e: TimeoutCancellationException) {
     Result.Err(
-      SuiError(errors = listOf(GraphQLError(message = "Timed out waiting for transaction $digest")))
+      SuiError(
+        errors = listOf(SdkErrorDetail(message = "Timed out waiting for transaction $digest"))
+      )
     )
   } catch (e: Exception) {
-    Result.Err(SuiError(errors = listOf(GraphQLError(message = "Unexpected error: ${e.message}"))))
+    Result.Err(
+      SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected error: ${e.message}")))
+    )
   }
 }

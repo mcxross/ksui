@@ -8,7 +8,7 @@ import kotlinx.rpc.grpc.GrpcStatusException
 import kotlinx.rpc.grpc.description
 import kotlinx.rpc.grpc.status
 import kotlinx.rpc.grpc.statusCode
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 
@@ -38,7 +38,7 @@ private fun Exception.toSuiError(): SuiError =
       val description = status.description
       SuiError(
         listOf(
-          GraphQLError(
+          SdkErrorDetail(
             message = description ?: code.name,
             extensions =
               mapOf(
@@ -53,7 +53,7 @@ private fun Exception.toSuiError(): SuiError =
     else ->
       SuiError(
         listOf(
-          GraphQLError(
+          SdkErrorDetail(
             message = "gRPC client request failed: ${message ?: "unknown error"}",
             extensions = mapOf("exception" to "Throwable"),
           )

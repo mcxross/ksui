@@ -7,8 +7,6 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
-import xyz.mcxross.ksui.SUI_TYPE
-import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
@@ -30,7 +28,9 @@ import xyz.mcxross.ksui.core.model.TransactionDataComposer
 import xyz.mcxross.ksui.core.ptb.ptb
 import xyz.mcxross.ksui.core.util.bcsEncode
 import xyz.mcxross.ksui.core.util.runBlocking
+import xyz.mcxross.ksui.grpc.SUI_TYPE
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
+import xyz.mcxross.ksui.grpc.TestResources
 
 private const val HELLO_WORLD =
   "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"

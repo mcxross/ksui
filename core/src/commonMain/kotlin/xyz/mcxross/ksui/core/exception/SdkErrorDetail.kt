@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.util
 
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
+package xyz.mcxross.ksui.core.exception
 
-actual fun <T> runBlocking(context: CoroutineContext, block: suspend CoroutineScope.() -> T) {}
+data class SdkErrorDetail(
+  val message: String,
+  val locations: List<ErrorLocation>? = null,
+  val path: List<Any>? = null,
+  val extensions: Map<String, Any?>? = null,
+)
+
+data class ErrorLocation(val line: Int, val column: Int)

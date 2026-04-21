@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.ObjectDataOptions
@@ -38,7 +38,7 @@ interface Object {
    * @param options The options specifying which fields of the object to include in the response.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetObjectQuery.Data] object with the object's details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getObject(
     id: String,
@@ -55,7 +55,7 @@ interface Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetOwnedObjectsQuery.Data] object with a list of objects and a
    *   pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getOwnedObjects(
     owner: AccountAddress,
@@ -73,7 +73,7 @@ interface Object {
    * @param options The options specifying which fields of the objects to include in the response.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [MultiGetObjectsQuery.Data] object with a list of objects.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun multiGetObjects(
     ids: List<String>,
@@ -95,7 +95,7 @@ interface Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [TryGetPastObjectQuery.Data] object with the past object's
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun tryGetPastObject(
     id: String,
@@ -111,7 +111,7 @@ interface Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetDynamicFieldObjectQuery.Data] object with the dynamic field's
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getDynamicFieldObject(
     parentId: String,
@@ -127,7 +127,7 @@ interface Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetDynamicFieldsQuery.Data] object with a list of dynamic fields
    *   and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getDynamicFields(
     parentId: String,

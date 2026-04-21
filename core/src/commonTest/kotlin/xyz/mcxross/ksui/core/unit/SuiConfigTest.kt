@@ -2,6 +2,7 @@ package xyz.mcxross.ksui.core.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import xyz.mcxross.ksui.core.model.FaucetConfig
 import xyz.mcxross.ksui.core.model.FullNodeConfig
 import xyz.mcxross.ksui.core.model.IndexerConfig
 import xyz.mcxross.ksui.core.model.Network
@@ -30,5 +31,23 @@ class SuiConfigTest :
 
       config.fullNodeConfig.headers?.get("Authorization") shouldBe "Bearer custom-node-api-key"
       config.indexerConfig.headers?.get("x-api-key") shouldBe "custom-indexer-api-key"
+      config.getHeaders(SuiApiType.FULLNODE)?.get("Authorization") shouldBe
+        "Bearer custom-node-api-key"
+      config.getHeaders(SuiApiType.INDEXER)?.get("x-api-key") shouldBe "custom-indexer-api-key"
+    }
+
+    "SuiConfig should derive faucet authorization header from auth token" {
+      val config =
+        SuiConfig(
+          SuiSettings(
+            faucetConfig =
+              FaucetConfig(headers = mapOf("x-client" to "ksui-test"), authToken = "faucet-token")
+          )
+        )
+
+      val headers = config.getHeaders(SuiApiType.FAUCET)
+
+      headers?.get("x-client") shouldBe "ksui-test"
+      headers?.get("Authorization") shouldBe "Bearer faucet-token"
     }
   })

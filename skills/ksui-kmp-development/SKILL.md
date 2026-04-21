@@ -15,10 +15,12 @@ Read [references/repo-map.md](references/repo-map.md) when you need the module m
 
 1. Start from the repo root that contains `settings.gradle.kts`.
 2. Identify the smallest affected module and source set before editing.
-3. Prefer `lib/src/commonMain` and `lib/src/commonTest` for portable SDK behavior. Use platform source sets only for engine, crypto, passkey, or platform-specific interop.
-4. Keep public package names under `xyz.mcxross.ksui` and preserve the existing split between `protocol`, `api`, `internal`, `model`, `serializer`, `ptb`, `account`, `core/crypto`, and `client`.
-5. Add or update tests close to the touched behavior. Use existing unit tests for local models/serializers/builders and e2e tests only for network-facing behavior.
-6. Run the narrowest Gradle task that proves the change, then run the main gate when practical.
+3. Prefer `core/src/commonMain` and `core/src/commonTest` for transport-independent models, serialization, crypto, and PTB behavior.
+4. Prefer `graphql/src/commonMain` and `graphql/src/commonTest` for Apollo operations, GraphQL adapters, portable GraphQL unit tests, and the `Sui` entry point.
+5. Prefer `grpc/src/commonMain` and `grpc/src/jvmTest` for proto/gRPC client behavior.
+6. Keep public package names under `xyz.mcxross.ksui` and preserve the existing split between `protocol`, `api`, `internal`, `model`, `serializer`, `ptb`, `account`, `core/crypto`, and `client`.
+7. Add or update tests close to the touched behavior. Use core tests for shared types/builders/config, GraphQL common tests for Apollo/generated mapping, GraphQL JVM tests for network-facing GraphQL behavior, and gRPC JVM tests for gRPC endpoint/header/runtime behavior.
+8. Run the narrowest Gradle task that proves the change, then run the main gate when practical.
 
 ## Editing Rules
 
@@ -26,8 +28,8 @@ Read [references/repo-map.md](references/repo-map.md) when you need the module m
 - Keep Gradle changes in Kotlin DSL and follow the existing two-space indentation style.
 - Do not move generated Apollo or future generated gRPC/protobuf sources into hand-written source sets.
 - Do not introduce JVM-only APIs into `commonMain`.
-- Treat the existing Sui RPC v2 beta proto files under `lib/src/jvmTest/proto` as reference/test fixtures until a production gRPC client generator/runtime is wired into Gradle.
-- Keep documentation updates near the user-facing API surface: README for quick-start behavior, Dokka/KDoc for public SDK functions, and `lib/Module.md` for module docs.
+- Keep generated protobuf/gRPC sources in generated source directories and proto files under `grpc/src/commonMain/proto`.
+- Keep documentation updates near the user-facing API surface: README for quick-start behavior, Dokka/KDoc for public SDK functions, and module docs such as `graphql/Module.md`.
 - Treat `sample/jvm` and `sample/android` as usage examples, not as the source of SDK behavior.
 
 ## Validation
@@ -35,13 +37,15 @@ Read [references/repo-map.md](references/repo-map.md) when you need the module m
 Use these commands from the repo root:
 
 ```bash
+./gradlew :ksui-core:jvmTest
 ./gradlew :ksui:jvmTest
+./gradlew :ksui-grpc:jvmTest
 ./gradlew generateApolloSources
 ./gradlew dokkaGenerate
 ./gradlew :sample:jvm:run
 ./gradlew :sample:android:assembleDebug
 ```
 
-The CI build gate is `./gradlew :ksui:jvmTest` on macOS with JDK 17. Run platform-specific compilation only when the touched source set requires it.
+The CI build gate is `./gradlew :ksui-core:jvmTest :ksui:jvmTest :ksui-grpc:jvmTest` on macOS with JDK 17. Run platform-specific compilation only when the touched source set requires it.
 
 If a command fails because it needs network, Android SDK, Xcode/Konan, or browser tooling, report the exact missing requirement and continue with the strongest local validation available.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 McXross
+ * Copyright 2024 McXross
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package xyz.mcxross.ksui.util
+package xyz.mcxross.ksui.core.util
 
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui
+package xyz.mcxross.ksui.grpc
 
 import xyz.mcxross.ksui.core.account.Account
 

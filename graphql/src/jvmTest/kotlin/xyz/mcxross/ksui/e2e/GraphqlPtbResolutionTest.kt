@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui.unit
+package xyz.mcxross.ksui.e2e
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
