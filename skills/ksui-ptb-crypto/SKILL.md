@@ -14,12 +14,13 @@ Read [references/ptb-crypto-map.md](references/ptb-crypto-map.md) for the transa
 ## Workflow
 
 1. Determine whether the change is in PTB construction, transaction data modeling, signing, key handling, passkeys, or platform crypto.
-2. Keep portable transaction, account, serializer, and model logic in `commonMain` unless a platform API is required.
-3. Use `expect`/`actual` only for platform-dependent crypto/client behavior already modeled by the repo.
-4. Preserve Sui wire formats: BCS encoding, intent hashing, signature flag prefixes, Bech32 private keys, and transaction response option mappings.
-5. Check Sui RPC v2 beta proto shapes before changing transaction JSON, simulate/execute transaction payloads, user signatures, or signature verification behavior.
-6. Add focused unit tests before e2e tests for builder shape, serialization, key import/export, signature verification, and option/filter conversion.
-7. Run `./gradlew :ksui:jvmTest` after local changes; add platform compile tasks when touching non-JVM actual implementations.
+2. Keep portable transaction, account, serializer, crypto, and model logic in `core/src/commonMain` unless a platform API is required.
+3. Keep GraphQL-backed PTB resolution, sponsored gas-station HTTP flow, and execute/query transaction APIs in `graphql/src/commonMain`.
+4. Use `expect`/`actual` only for platform-dependent crypto/client behavior already modeled by the repo.
+5. Preserve Sui wire formats: BCS encoding, intent hashing, signature flag prefixes, Bech32 private keys, and transaction response option mappings.
+6. Check Sui RPC v2 proto shapes before changing transaction JSON, simulate/execute transaction payloads, user signatures, or signature verification behavior.
+7. Add focused unit tests before e2e tests for builder shape, serialization, key import/export, signature verification, and option/filter conversion.
+8. Run the test task for the module that owns the behavior after local changes; add platform compile tasks when touching non-JVM actual implementations.
 
 ## Guardrails
 
@@ -35,11 +36,13 @@ Read [references/ptb-crypto-map.md](references/ptb-crypto-map.md) for the transa
 
 Use existing tests as anchors:
 
-- `unit/CommandTest.kt`, `unit/TransactionDataTest.kt`, `unit/SponsoredPtbTest.kt`, and `unit/SerializationTest.kt` for PTB and transaction models.
-- `unit/AccountTest.kt`, `unit/PrivateKeyTest.kt`, `unit/CryptoModelTest.kt`, `unit/AccountAddressPublicKeyTest.kt`, and `unit/DigestTest.kt` for crypto and accounts.
-- `e2e/TransactionTest.kt` and `e2e/DryRunTest.kt` only when behavior requires live Sui interaction.
+- `core/src/commonTest/.../CommandTest.kt`, `TransactionDataTest.kt`, and `SerializationTest.kt` for core PTB and transaction models.
+- `graphql/src/commonTest/.../SponsoredPtbTest.kt` for GraphQL-backed sponsored transaction flow.
+- `core/src/commonTest/.../AccountTest.kt`, `PrivateKeyTest.kt`, `CryptoModelTest.kt`, `AccountAddressPublicKeyTest.kt`, and `DigestTest.kt` for crypto and accounts.
+- `graphql/src/jvmTest/.../e2e/TransactionTest.kt` and `DryRunTest.kt` only when behavior requires live Sui interaction.
 
 ```bash
+./gradlew :ksui-core:jvmTest
 ./gradlew :ksui:jvmTest
 ```
 

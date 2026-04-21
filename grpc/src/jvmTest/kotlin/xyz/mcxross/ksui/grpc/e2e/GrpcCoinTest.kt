@@ -3,13 +3,13 @@ package xyz.mcxross.ksui.grpc.e2e
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import xyz.mcxross.ksui.SUI_TYPE
-import xyz.mcxross.ksui.TestResources
 import xyz.mcxross.ksui.core.model.Network
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.core.model.SuiSettings
 import xyz.mcxross.ksui.core.util.runBlocking
+import xyz.mcxross.ksui.grpc.SUI_TYPE
 import xyz.mcxross.ksui.grpc.SuiGrpcClient
+import xyz.mcxross.ksui.grpc.TestResources
 
 class GrpcCoinTest :
   StringSpec({

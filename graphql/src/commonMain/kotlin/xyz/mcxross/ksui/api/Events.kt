@@ -16,7 +16,7 @@
 
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
@@ -49,7 +49,7 @@ class Events(val config: SuiConfig) : Events {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [QueryEventsQuery.Data] object. This object includes a list of
    *   events and cursors for pagination.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun queryEvents(
     filter: EventFilter,

@@ -20,8 +20,6 @@ dependencies {
   testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
-sourceSets["main"].kotlin.srcDir("../../lib/build/generated/source/apollo/service")
-
 tasks.getByName<Test>("test") { useJUnitPlatform() }
 
 application { mainClass.set("xyz.mcxross.ksui.sample.MainKt") }

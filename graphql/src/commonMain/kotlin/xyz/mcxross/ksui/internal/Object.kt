@@ -79,7 +79,7 @@ internal suspend fun getOwnedObjects(
     }
     .toResult()
 
-suspend fun multiGetObjects(
+internal suspend fun multiGetObjects(
   config: SuiConfig,
   ids: List<String>,
   limit: Int?,
@@ -103,7 +103,7 @@ suspend fun multiGetObjects(
     }
     .toResult()
 
-suspend fun tryGetPastObject(
+internal suspend fun tryGetPastObject(
   config: SuiConfig,
   id: String,
   version: Int?,
@@ -127,7 +127,7 @@ suspend fun tryGetPastObject(
     }
     .toResult()
 
-suspend fun getDynamicFieldObject(
+internal suspend fun getDynamicFieldObject(
   config: SuiConfig,
   parentId: String,
   name: DynamicFieldName,
@@ -135,7 +135,7 @@ suspend fun getDynamicFieldObject(
   handleQuery { getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name)) }
     .toResult()
 
-suspend fun getDynamicFields(
+internal suspend fun getDynamicFields(
   config: SuiConfig,
   parentId: String,
   first: Int?,

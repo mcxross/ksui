@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
@@ -42,7 +42,7 @@ class Sns(val config: SuiConfig) : Sns {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [ResolveNameServiceAddressQuery.Data] object with the resolved
    *   address.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun resolveNameServiceAddress(
     domain: String
@@ -58,7 +58,7 @@ class Sns(val config: SuiConfig) : Sns {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [ResolveNameServiceNamesQuery.Data] object with a list of names
    *   and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun resolveNameServiceNames(
     address: AccountAddress,

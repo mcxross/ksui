@@ -17,7 +17,7 @@ package xyz.mcxross.ksui.protocol
 
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.exception.E
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
@@ -70,7 +70,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [DevInspectTransactionBlockQuery.Data] object with the detailed
    *   inspection results.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun devInspectTransactionBlock(
     txBytes: String,
@@ -88,7 +88,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [DryRunTransactionBlockQuery.Data] object with the results of the
    *   simulation, such as the gas summary and effects.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun dryRunTransactionBlock(
     txBytes: String,
@@ -105,7 +105,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [ExecuteTransactionBlockMutation.Data] object with the
    *   transaction response.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun executeTransactionBlock(
     txBytes: String,
@@ -148,7 +148,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetTransactionBlockQuery.Data] object with the transaction's
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getTransactionBlock(
     digest: String,
@@ -165,7 +165,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [QueryTransactionBlocksQuery.Data] object with a list of
    *   transaction blocks and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun queryTransactionBlocks(
     filter: TransactionBlockFilter = TransactionBlockFilter(),
@@ -188,7 +188,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [PaginateTransactionBlockListsQuery.Data] object with the
    *   requested component lists.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun paginateTransactionBlockLists(
     digest: String,
@@ -206,7 +206,7 @@ interface Transaction {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetTotalTransactionBlocksQuery.Data] object with the total
    *   count.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getTotalTransactionBlocks(): Result<GetTotalTransactionBlocksQuery.Data?, SuiError>
 

@@ -138,7 +138,7 @@ dokka {
       includes.from("Module.md")
       sourceLink {
         localDirectory.set(file("commonMain/kotlin"))
-        remoteUrl("https://github.com/mcxross/ksui/blob/master/lib/src/commonMain/kotlin")
+        remoteUrl("https://github.com/mcxross/ksui/blob/master/graphql/src/commonMain/kotlin")
         remoteLineSuffix.set("#L")
       }
     }

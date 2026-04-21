@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.GetMoveFunctionArgTypesQuery
@@ -41,7 +41,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetMoveFunctionArgTypesQuery.Data] object with the argument
    *   types.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getMoveFunctionArgTypes(
     id: String
@@ -54,7 +54,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetNormalizedMoveFunctionQuery.Data] object with the normalized
    *   function details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getNormalizedMoveFunction(
     id: String
@@ -68,7 +68,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetNormalizedMoveModuleQuery.Data] object with the normalized
    *   module details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getNormalizedMoveModule(
     packageId: String,
@@ -83,7 +83,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetNormalizedMoveModulesByPackageQuery.Data] object with a list
    *   of modules and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getNormalizedMoveModulesByPackage(
     packageId: String,
@@ -97,7 +97,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetNormalizedMoveStructQuery.Data] object with the normalized
    *   struct details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getNormalizedMoveStruct(
     id: String
@@ -111,7 +111,7 @@ interface Move {
    * @param type The string representation of the Move type to resolve.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetTypeLayoutQuery.Data] object with the type layout details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getTypeLayout(type: String): Result<GetTypeLayoutQuery.Data?, SuiError>
 
@@ -138,7 +138,7 @@ interface Move {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [PaginateMoveModuleListsQuery.Data] object with the requested
    *   paginated lists of the module's components.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun paginateMoveModuleLists(
     packageId: String,

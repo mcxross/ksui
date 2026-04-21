@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.ObjectDataOptions
@@ -53,7 +53,7 @@ class Object(val config: SuiConfig) : Object {
    *   allows you to tailor the response to include data like content, owner, or BCS representation.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetObjectQuery.Data] object with the object's details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getObject(
     id: String,
@@ -71,7 +71,7 @@ class Object(val config: SuiConfig) : Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetOwnedObjectsQuery.Data] object with a list of objects and a
    *   pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getOwnedObjects(
     owner: AccountAddress,
@@ -91,7 +91,7 @@ class Object(val config: SuiConfig) : Object {
    *   response.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [MultiGetObjectsQuery.Data] object with a list of objects.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun multiGetObjects(
     ids: List<String>,
@@ -114,7 +114,7 @@ class Object(val config: SuiConfig) : Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [TryGetPastObjectQuery.Data] object with the past object's
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun tryGetPastObject(
     id: String,
@@ -130,7 +130,7 @@ class Object(val config: SuiConfig) : Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetDynamicFieldObjectQuery.Data] object with the dynamic field's
    *   details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getDynamicFieldObject(
     parentId: String,
@@ -147,7 +147,7 @@ class Object(val config: SuiConfig) : Object {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetDynamicFieldsQuery.Data] object with a list of dynamic fields
    *   and a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getDynamicFields(
     parentId: String,

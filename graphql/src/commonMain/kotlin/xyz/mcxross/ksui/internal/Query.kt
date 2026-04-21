@@ -23,7 +23,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import xyz.mcxross.ksui.core.exception.ErrorLocation
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 
 internal suspend fun <D : Operation.Data> handleQuery(
@@ -41,7 +41,7 @@ internal suspend fun <D : Operation.Data> handleQuery(
       return Err(
         SuiError(
           errors.map {
-            GraphQLError(
+            SdkErrorDetail(
               message = it.message,
               locations = it.locations?.map { loc -> ErrorLocation(loc.line, loc.column) },
               path = it.path,
@@ -51,13 +51,13 @@ internal suspend fun <D : Operation.Data> handleQuery(
         )
       )
     } else {
-      SuiError(listOf(GraphQLError(message = "GraphQL errors in response")))
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL errors in response")))
     }
 
     return Err(
       SuiError(
         listOf(
-          GraphQLError(
+          SdkErrorDetail(
             message = "Unknown error: no data and no errors returned from GraphQL server"
           )
         )
@@ -65,7 +65,7 @@ internal suspend fun <D : Operation.Data> handleQuery(
     )
   } catch (e: ApolloException) {
     return Err(
-      SuiError(listOf(GraphQLError(message = "GraphQL client request failed: ${e.message}")))
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}")))
     )
   }
 }

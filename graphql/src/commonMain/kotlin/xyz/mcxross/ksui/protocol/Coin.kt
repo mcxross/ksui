@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.protocol
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
@@ -39,7 +39,7 @@ interface Coin {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetBalanceQuery.Data] object with the balance details. The data
    *   can be `null` if the address holds no coins of the specified type.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getBalance(
     address: AccountAddress,
@@ -58,7 +58,7 @@ interface Coin {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetAllBalancesQuery.Data] object. This object includes a list of
    *   balances and a `nextCursor` field for pagination.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getAllBalances(
     address: AccountAddress,
@@ -80,7 +80,7 @@ interface Coin {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCoinsQuery.Data] object. This object includes a list of coin
    *   objects and a `nextCursor` field for pagination.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getCoins(
     address: AccountAddress,
@@ -95,7 +95,7 @@ interface Coin {
    * @param type The string representing the coin type (e.g., "0x2::sui::SUI").
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetTotalSupplyQuery.Data] object with the total supply details.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getTotalSupply(type: String): Result<GetTotalSupplyQuery.Data?, SuiError>
 
@@ -107,7 +107,7 @@ interface Coin {
    * @param type The string representing the coin type for which to fetch metadata.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCoinMetadataQuery.Data] object with the coin's metadata.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   suspend fun getCoinMetadata(type: String): Result<GetCoinMetadataQuery.Data?, SuiError>
 }

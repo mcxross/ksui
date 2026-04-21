@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui.model.serializer
+package xyz.mcxross.ksui.core.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor

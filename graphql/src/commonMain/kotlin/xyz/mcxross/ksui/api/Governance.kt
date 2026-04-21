@@ -15,7 +15,7 @@
  */
 package xyz.mcxross.ksui.api
 
-import xyz.mcxross.ksui.core.exception.GraphQLError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
@@ -42,7 +42,7 @@ class Governance(val config: SuiConfig) : Governance {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetCommitteeInfoQuery.Data] object with a list of validators and
    *   a pagination cursor.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getCommitteeInfo(
     epochId: Long?,
@@ -55,7 +55,7 @@ class Governance(val config: SuiConfig) : Governance {
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [GetValidatorsApyQuery.Data] object with a list of validators and
    *   their calculated APYs.
-   * - `Err`: Containing a [SuiError] object with a list of [GraphQLError]s.
+   * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getValidatorApy(): Result<GetValidatorsApyQuery.Data?, SuiError> =
     getValidatorsApy(config)

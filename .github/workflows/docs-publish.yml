@@ -29,11 +29,11 @@ jobs:
       - name: Generate GraphQL Client
         run: ./gradlew generateApolloSources
         shell: bash
-      - name: Generate HTML docs
-        run: ./gradlew dokkaGenerate
+      - name: Generate API docs site
+        run: ./gradlew assembleDokkaSite
         shell: bash
       - name: Deploy docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           branch: gh-pages
-          folder: lib/build/dokka
+          folder: build/dokka-site

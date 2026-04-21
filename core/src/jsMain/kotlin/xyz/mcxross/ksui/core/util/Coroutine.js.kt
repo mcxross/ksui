@@ -1,4 +1,4 @@
-package xyz.mcxross.ksui.util
+package xyz.mcxross.ksui.core.util
 
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
