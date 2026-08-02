@@ -1,3 +1,8 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
+
 group = "xyz.mcxross.ksui"
 
 plugins {
@@ -12,6 +17,15 @@ plugins {
   alias(libs.plugins.maven.publish) apply false
   alias(libs.plugins.compose.compiler) apply false
   alias(libs.plugins.kotest) apply false
+}
+
+allprojects {
+  plugins.withType<NodeJsPlugin> {
+    extensions.configure<NodeJsEnvSpec> { download.set(false) }
+  }
+  plugins.withType<YarnPlugin> {
+    extensions.configure<YarnRootEnvSpec> { download.set(false) }
+  }
 }
 
 val dokkaSiteDir = layout.buildDirectory.dir("dokka-site")
