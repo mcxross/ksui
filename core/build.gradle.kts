@@ -80,6 +80,11 @@ kotlin {
       implementation(libs.kotest.framework.engine)
       implementation(libs.kotest.assertions.core)
     }
+    jsMain.dependencies {
+      implementation(npm("@noble/curves", "2.2.0"))
+      implementation(npm("@noble/hashes", "2.2.0"))
+      implementation(npm("@scure/bip39", "2.2.0"))
+    }
     val jvmMain by getting {
       dependsOn(androidJvmMain)
       dependencies {

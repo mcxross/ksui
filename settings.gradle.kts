@@ -21,7 +21,7 @@ project(":graphql").name = "ksui"
 project(":grpc").name = "ksui-grpc"
 
 dependencyResolutionManagement {
-  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
   repositories {
     mavenLocal()
     mavenCentral()
