@@ -26,7 +26,7 @@ import xyz.mcxross.ksui.core.util.MAX_COMMANDS_IN_PTB
 
 @Serializable(
   with =
-    _root_ide_package_.xyz.mcxross.ksui.core.serializer.ProgrammableTransactionSerializer::class
+    xyz.mcxross.ksui.core.serializer.ProgrammableTransactionSerializer::class
 )
 data class ProgrammableTransaction(
   val inputs: List<xyz.mcxross.ksui.core.model.CallArg>,
@@ -77,7 +77,7 @@ class ProgrammableTransactionBuilder : Command() {
       } else {
         BuilderArg.Pure(bytes)
       }
-    return addInput(arg, _root_ide_package_.xyz.mcxross.ksui.core.model.CallArg.Pure(data = bytes))
+    return addInput(arg, xyz.mcxross.ksui.core.model.CallArg.Pure(data = bytes))
   }
 
   fun address(str: String): Argument {
@@ -130,14 +130,14 @@ class ProgrammableTransactionBuilder : Command() {
 
     return addInput(
       BuilderArg.ForcedNonUniqueObject(inputs.size),
-      _root_ide_package_.xyz.mcxross.ksui.core.model.CallArg.ObjectStr(id),
+      xyz.mcxross.ksui.core.model.CallArg.ObjectStr(id),
     )
   }
 
   fun `object`(objectArg: xyz.mcxross.ksui.core.model.ObjectArg): Argument {
     return addInput(
       BuilderArg.ForcedNonUniqueObject(inputs.size),
-      _root_ide_package_.xyz.mcxross.ksui.core.model.CallArg.Object(objectArg),
+      xyz.mcxross.ksui.core.model.CallArg.Object(objectArg),
     )
   }
 
