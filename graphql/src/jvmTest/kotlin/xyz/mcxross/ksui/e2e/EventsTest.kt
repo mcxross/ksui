@@ -11,16 +11,28 @@ import xyz.mcxross.ksui.model.EventFilter
 class EventsTest :
   StringSpec({
     val sui = TestResources.sui
-    val alice = TestResources.alice
-
     "Query events by sender returns a response on testnet" {
       runBlocking {
-        val filter = EventFilter(sender = alice.address.toString())
+        val activeSender =
+          when (val result = sui.queryEvents(filter = EventFilter(), first = 1)) {
+            is Result.Ok -> {
+              val data = requireNotNull(result.value)
+              val events = requireNotNull(data.events)
+              events.nodes.firstOrNull()?.rPC_EVENTS_FIELDS?.sender?.address?.toString()
+                ?: fail("No active event sender found on testnet")
+            }
+            is Result.Err -> fail("Failed to obtain an active event sender")
+          }
+
+        val filter = EventFilter(sender = activeSender)
         when (val result = sui.queryEvents(filter = filter, first = 1)) {
           is Result.Ok -> {
             val data = requireNotNull(result.value)
             val events = requireNotNull(data.events)
             events.nodes.isNotEmpty() shouldBe true
+            events.nodes.all {
+              it.rPC_EVENTS_FIELDS.sender?.address?.toString() == activeSender
+            } shouldBe true
           }
           is Result.Err -> {
             fail("Failed to query events")
