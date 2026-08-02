@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import kotlinx.rpc.protoc.proto
@@ -21,12 +20,22 @@ group = "xyz.mcxross.ksui"
 configurations.configureEach {
   exclude(group = "com.google.api.grpc", module = "proto-google-common-protos")
   exclude(group = "com.google.protobuf", module = "protobuf-javalite")
+  resolutionStrategy.eachDependency {
+    if (
+      requested.group == "org.jetbrains.kotlinx" &&
+        requested.name.startsWith("kotlinx-rpc-compiler-plugin") &&
+        requested.version == "2.4.10-0.11.0-grpc-188"
+    ) {
+      useVersion("2.4.0-0.11.0-grpc-188")
+      because("kotlinx-rpc grpc-188 compiler artifacts are published against Kotlin 2.4.0")
+    }
+  }
 }
 
 kotlin {
   jvmToolchain(17)
 
-  androidLibrary {
+  android {
     namespace = "xyz.mcxross.ksui.grpc"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()
@@ -42,8 +51,6 @@ kotlin {
   }
 
   macosArm64()
-  macosX64()
-  tvosX64()
   tvosArm64()
   watchosArm32()
   watchosArm64()

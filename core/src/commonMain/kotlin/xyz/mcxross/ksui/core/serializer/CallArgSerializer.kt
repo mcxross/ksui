@@ -32,7 +32,7 @@ object CallArgSerializer : KSerializer<CallArg> {
       element("Pure", ByteArraySerializer().descriptor)
       element(
         "Object",
-        _root_ide_package_.xyz.mcxross.ksui.core.serializer.ObjectArgSerializer.descriptor,
+        xyz.mcxross.ksui.core.serializer.ObjectArgSerializer.descriptor,
       )
     }
 

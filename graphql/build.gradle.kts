@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.androidLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -20,7 +19,7 @@ group = "xyz.mcxross.ksui"
 kotlin {
   jvmToolchain(17)
 
-  androidLibrary {
+  android {
     namespace = "xyz.mcxross.ksui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     minSdk = libs.versions.android.minSdk.get().toInt()
@@ -47,8 +46,6 @@ kotlin {
   }
 
   macosArm64()
-  macosX64()
-  tvosX64()
   tvosArm64()
   watchosArm32()
   watchosArm64()
@@ -115,7 +112,6 @@ kotlin {
     iosX64Main.dependencies { implementation(libs.fastkrypto.iosx64) }
     iosSimulatorArm64Main.dependencies { implementation(libs.fastkrypto.iossimulatorarm64) }
     macosArm64Main.dependencies { implementation(libs.fastkrypto.macosarm64) }
-    macosX64Main.dependencies { implementation(libs.fastkrypto.macosx64) }
   }
 }
 

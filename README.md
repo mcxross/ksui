@@ -6,7 +6,7 @@ integrating with the Sui blockchain.
 It is designed to be type-safe, client-configurable, coroutine based, and usable
 across Android, iOS, JS, JVM, and native Kotlin targets.
 
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.3.0-B125EA?logo=kotlin)](https://kotlinlang.org)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-v2.4.10-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Docs Publish](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml/badge.svg)](https://github.com/mcxross/ksui/actions/workflows/docs-publish.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/xyz.mcxross.ksui/ksui)](https://search.maven.org/artifact/xyz.mcxross.ksui/ksui)
 ![Snapshot](https://img.shields.io/nexus/s/xyz.mcxross.ksui/ksui?server=https%3A%2F%2Fs01.oss.sonatype.org&label=Snapshot)

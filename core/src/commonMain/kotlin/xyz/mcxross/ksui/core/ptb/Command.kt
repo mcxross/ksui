@@ -19,7 +19,7 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.model.ObjectId
 import xyz.mcxross.ksui.core.model.TypeTag
 
-@Serializable(with = _root_ide_package_.xyz.mcxross.ksui.core.serializer.CommandSerializer::class)
+@Serializable(with = xyz.mcxross.ksui.core.serializer.CommandSerializer::class)
 open class Command {
   protected val commands: MutableList<Command> = mutableListOf()
   val list: List<Command>
@@ -38,7 +38,7 @@ open class Command {
   data class Publish(val bytes: List<List<Byte>>, val dependencies: List<ObjectId>) : Command()
 
   @Serializable(
-    with = _root_ide_package_.xyz.mcxross.ksui.core.serializer.MakeMoveVecSerializer::class
+    with = xyz.mcxross.ksui.core.serializer.MakeMoveVecSerializer::class
   )
   data class MakeMoveVec(val typeTag: TypeTag?, val values: List<Argument>) : Command()
 
@@ -158,7 +158,7 @@ data class ProgrammableMoveCall(
   val arguments: List<Argument>,
 )
 
-@Serializable(with = _root_ide_package_.xyz.mcxross.ksui.core.serializer.ArgumentSerializer::class)
+@Serializable(with = xyz.mcxross.ksui.core.serializer.ArgumentSerializer::class)
 sealed class Argument {
   @Serializable data object GasCoin : Argument()
 
