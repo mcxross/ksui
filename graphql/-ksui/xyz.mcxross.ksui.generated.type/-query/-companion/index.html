@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Companion</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../../index.html">
+                    Ksui
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui/commonMain"
+                                       data-filter=":ksui/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui::xyz.mcxross.ksui.generated.type/Query.Companion///PointingToDeclaration//-2062613305">
+  <div class="breadcrumbs"><a href="../../../../index.html">Ksui</a><span class="delimiter">/</span><a href="../../index.html">xyz.mcxross.ksui.generated.type</a><span class="delimiter">/</span><a href="../index.html">Query</a><span class="delimiter">/</span><span class="current">Companion</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Companion</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">Companion</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="205433733%2FProperties%2F-2062613305" anchor-label="__address_address" id="205433733%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__address_address.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>address_</span><wbr></wbr><span>address</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="205433733%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__address_address.html">__address_address</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1745710038%2FProperties%2F-2062613305" anchor-label="__address_name" id="1745710038%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__address_name.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>address_</span><wbr></wbr><span>name</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1745710038%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__address_name.html">__address_name</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-671754771%2FProperties%2F-2062613305" anchor-label="__checkpoint_sequenceNumber" id="-671754771%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__checkpoint_sequence-number.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>checkpoint_</span><wbr></wbr><span>sequence</span><wbr></wbr><span><span>Number</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-671754771%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__checkpoint_sequence-number.html">__checkpoint_sequenceNumber</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-891214266%2FProperties%2F-2062613305" anchor-label="__checkpoints_after" id="-891214266%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__checkpoints_after.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>checkpoints_</span><wbr></wbr><span>after</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-891214266%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__checkpoints_after.html">__checkpoints_after</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="247735513%2FProperties%2F-2062613305" anchor-label="__checkpoints_before" id="247735513%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__checkpoints_before.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>checkpoints_</span><wbr></wbr><span>before</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="247735513%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__checkpoints_before.html">__checkpoints_before</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1901088782%2FProperties%2F-2062613305" anchor-label="__checkpoints_first" id="-1901088782%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__checkpoints_first.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>checkpoints_</span><wbr></wbr><span>first</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1901088782%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__checkpoints_first.html">__checkpoints_first</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1929290654%2FProperties%2F-2062613305" anchor-label="__checkpoints_last" id="-1929290654%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__checkpoints_last.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>checkpoints_</span><wbr></wbr><span>last</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1929290654%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__checkpoints_last.html">__checkpoints_last</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-750498140%2FProperties%2F-2062613305" anchor-label="__coinMetadata_coinType" id="-750498140%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__coin-metadata_coin-type.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>coin</span><wbr></wbr><span>Metadata_</span><wbr></wbr><span>coinType</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-750498140%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__coin-metadata_coin-type.html">__coinMetadata_coinType</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1914423360%2FProperties%2F-2062613305" anchor-label="__epoch_epochId" id="1914423360%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__epoch_epoch-id.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>epoch_</span><wbr></wbr><span>epochId</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1914423360%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__epoch_epoch-id.html">__epoch_epochId</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-154455914%2FProperties%2F-2062613305" anchor-label="__events_after" id="-154455914%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__events_after.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>events_</span><wbr></wbr><span>after</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-154455914%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__events_after.html">__events_after</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1612407945%2FProperties%2F-2062613305" anchor-label="__events_before" id="1612407945%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__events_before.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>events_</span><wbr></wbr><span>before</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1612407945%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__events_before.html">__events_before</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1856957776%2FProperties%2F-2062613305" anchor-label="__events_filter" id="-1856957776%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__events_filter.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>events_</span><wbr></wbr><span>filter</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1856957776%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__events_filter.html">__events_filter</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1164330430%2FProperties%2F-2062613305" anchor-label="__events_first" id="-1164330430%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__events_first.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>events_</span><wbr></wbr><span>first</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1164330430%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__events_first.html">__events_first</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-242956270%2FProperties%2F-2062613305" anchor-label="__events_last" id="-242956270%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__events_last.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>events_</span><wbr></wbr><span>last</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-242956270%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__events_last.html">__events_last</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="196816208%2FProperties%2F-2062613305" anchor-label="__multiGetObjects_keys" id="196816208%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__multi-get-objects_keys.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>multi</span><wbr></wbr><span>Get</span><wbr></wbr><span>Objects_</span><wbr></wbr><span>keys</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="196816208%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__multi-get-objects_keys.html">__multiGetObjects_keys</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-182990035%2FProperties%2F-2062613305" anchor-label="__multiGetTransactions_keys" id="-182990035%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__multi-get-transactions_keys.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>multi</span><wbr></wbr><span>Get</span><wbr></wbr><span>Transactions_</span><wbr></wbr><span>keys</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-182990035%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__multi-get-transactions_keys.html">__multiGetTransactions_keys</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1168521512%2FProperties%2F-2062613305" anchor-label="__object_address" id="-1168521512%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__object_address.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>object_</span><wbr></wbr><span>address</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1168521512%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__object_address.html">__object_address</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="45764212%2FProperties%2F-2062613305" anchor-label="__object_version" id="45764212%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__object_version.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>object_</span><wbr></wbr><span>version</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="45764212%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__object_version.html">__object_version</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="72017660%2FProperties%2F-2062613305" anchor-label="__protocolConfigs_version" id="72017660%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__protocol-configs_version.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>protocol</span><wbr></wbr><span>Configs_</span><wbr></wbr><span>version</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="72017660%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__protocol-configs_version.html">__protocolConfigs_version</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-692444683%2FProperties%2F-2062613305" anchor-label="__simulateTransaction_transaction" id="-692444683%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__simulate-transaction_transaction.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>simulate</span><wbr></wbr><span>Transaction_</span><wbr></wbr><span><span>transaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-692444683%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__simulate-transaction_transaction.html">__simulateTransaction_transaction</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1586026791%2FProperties%2F-2062613305" anchor-label="__transaction_digest" id="1586026791%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transaction_digest.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transaction_</span><wbr></wbr><span>digest</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1586026791%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transaction_digest.html">__transaction_digest</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1630177690%2FProperties%2F-2062613305" anchor-label="__transactions_after" id="1630177690%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transactions_after.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transactions_</span><wbr></wbr><span>after</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1630177690%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transactions_after.html">__transactions_after</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1101474821%2FProperties%2F-2062613305" anchor-label="__transactions_before" id="1101474821%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transactions_before.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transactions_</span><wbr></wbr><span>before</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1101474821%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transactions_before.html">__transactions_before</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1927076396%2FProperties%2F-2062613305" anchor-label="__transactions_filter" id="1927076396%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transactions_filter.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transactions_</span><wbr></wbr><span>filter</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1927076396%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transactions_filter.html">__transactions_filter</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="620303174%2FProperties%2F-2062613305" anchor-label="__transactions_first" id="620303174%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transactions_first.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transactions_</span><wbr></wbr><span>first</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="620303174%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transactions_first.html">__transactions_first</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2031369870%2FProperties%2F-2062613305" anchor-label="__transactions_last" id="2031369870%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__transactions_last.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>transactions_</span><wbr></wbr><span>last</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2031369870%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__transactions_last.html">__transactions_last</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1889929871%2FProperties%2F-2062613305" anchor-label="__type_type" id="1889929871%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="__type_type.html"><span>_</span><wbr></wbr><span>_</span><wbr></wbr><span>type_</span><wbr></wbr><span>type</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1889929871%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="__type_type.html">__type_type</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/CompiledArgumentDefinition///PointingToDeclaration/">CompiledArgumentDefinition</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1463238578%2FProperties%2F-2062613305" anchor-label="type" id="1463238578%2FProperties%2F-2062613305" data-filterable-set=":ksui/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui/commonMain" data-filterable-set=":ksui/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="type.html"><span><span>type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1463238578%2FProperties%2F-2062613305"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="type.html">type</a><span class="token operator">: </span><span data-unresolved-link="com.apollographql.apollo.api/ObjectType///PointingToDeclaration/">ObjectType</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

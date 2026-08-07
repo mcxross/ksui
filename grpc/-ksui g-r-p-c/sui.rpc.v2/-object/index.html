@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Object</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui gRPC
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-grpc/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-grpc/commonMain"
+                                       data-filter=":ksui-grpc/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui gRPC
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui gRPC::sui.rpc.v2/Object///PointingToDeclaration//1820378888">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui gRPC</a><span class="delimiter">/</span><a href="../index.html">sui.rpc.v2</a><span class="delimiter">/</span><span class="current">Object</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Object</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">Object</a></div><p class="paragraph">An object on the Sui blockchain.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1947153070%2FProperties%2F1820378888" anchor-label="balance" id="1947153070%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="balance.html"><span><span>balance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1947153070%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="balance.html">balance</a><span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Current balance if this object is a <code class="lang-kotlin">0x2::coin::Coin&lt;T&gt;</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1332757624%2FProperties%2F1820378888" anchor-label="bcs" id="1332757624%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bcs.html"><span><span>bcs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1332757624%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="bcs.html">bcs</a><span class="token operator">: </span><a href="../-bcs/index.html">Bcs</a></div><div class="brief "><p class="paragraph">This Object serialized as BCS.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-751037130%2FProperties%2F1820378888" anchor-label="contents" id="-751037130%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="contents.html"><span><span>contents</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-751037130%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="contents.html">contents</a><span class="token operator">: </span><a href="../-bcs/index.html">Bcs</a></div><div class="brief "><p class="paragraph">BCS bytes of a Move struct value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1932853620%2FProperties%2F1820378888" anchor-label="digest" id="-1932853620%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="digest.html"><span><span>digest</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1932853620%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="digest.html">digest</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The digest of this Object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1825789832%2FProperties%2F1820378888" anchor-label="display" id="1825789832%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="display.html"><span><span>display</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1825789832%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="display.html">display</a><span class="token operator">: </span><a href="../-display/index.html">Display</a></div><div class="brief "><p class="paragraph">JSON rendering of the object based on an on-chain template. This will not be set if the value's type does not have an associated <code class="lang-kotlin">Display</code> template.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1157748444%2FProperties%2F1820378888" anchor-label="hasPublicTransfer" id="1157748444%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-public-transfer.html"><span>has</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Transfer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1157748444%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-public-transfer.html">hasPublicTransfer</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">DEPRECATED this field is no longer used to determine whether a tx can transfer this object. Instead, it is always calculated from the objects type when loaded in execution.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1694509224%2FProperties%2F1820378888" anchor-label="json" id="1694509224%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="json.html"><span><span>json</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1694509224%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="json.html">json</a><span class="token operator">: </span><span data-unresolved-link="com.google.protobuf.kotlin/Value///PointingToDeclaration/">Value</span></div><div class="brief "><p class="paragraph">JSON rendering of the object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="118565782%2FProperties%2F1820378888" anchor-label="objectId" id="118565782%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="object-id.html"><span>object</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="118565782%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="object-id.html">objectId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">ObjectId</code> for this object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-191355561%2FProperties%2F1820378888" anchor-label="objectType" id="-191355561%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="object-type.html"><span>object</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-191355561%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="object-type.html">objectType</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The type of this object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1249578487%2FProperties%2F1820378888" anchor-label="owner" id="1249578487%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="owner.html"><span><span>owner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1249578487%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="owner.html">owner</a><span class="token operator">: </span><a href="../-owner/index.html">Owner</a></div><div class="brief "><p class="paragraph">Owner of the object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="677804164%2FProperties%2F1820378888" anchor-label="package" id="677804164%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="package.html"><span><span>package</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="677804164%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="package.html">package</a><span class="token operator">: </span><a href="../-package/index.html">Package</a></div><div class="brief "><p class="paragraph">Package information for Move Packages</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1831341287%2FProperties%2F1820378888" anchor-label="presence" id="1831341287%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../presence.html"><span><span>presence</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1831341287%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="index.html">Object</a><span class="token punctuation">.</span><a href="../presence.html">presence</a><span class="token operator">: </span><a href="../-object-presence/index.html">ObjectPresence</a></div><div class="brief "><p class="paragraph">Returns the field-presence view for this <a href="index.html">Object</a> instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1756714749%2FProperties%2F1820378888" anchor-label="previousTransaction" id="-1756714749%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="previous-transaction.html"><span>previous</span><wbr></wbr><span><span>Transaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1756714749%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="previous-transaction.html">previousTransaction</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The digest of the transaction that created or last mutated this object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-466455540%2FProperties%2F1820378888" anchor-label="storageRebate" id="-466455540%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="storage-rebate.html"><span>storage</span><wbr></wbr><span><span>Rebate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-466455540%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="storage-rebate.html">storageRebate</a><span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The amount of SUI to rebate if this object gets deleted. This number is re-calculated each time the object is mutated based on the present storage gas price.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1669134386%2FProperties%2F1820378888" anchor-label="version" id="1669134386%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="version.html"><span><span>version</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1669134386%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="version.html">version</a><span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Version of the object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1564997381%2FFunctions%2F1820378888" anchor-label="asInternal" id="-1564997381%2FFunctions%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../as-internal.html"><span>as</span><wbr></wbr><span><span>Internal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1564997381%2FFunctions%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">Object</a><span class="token punctuation">.</span><a href="../as-internal.html"><span class="token function">asInternal</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-object-internal/index.html">ObjectInternal</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2098879976%2FFunctions%2F1820378888" anchor-label="copy" id="2098879976%2FFunctions%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2098879976%2FFunctions%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">Object</a><span class="token punctuation">.</span><a href="../copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">body<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Object</a></div><div class="brief "><p class="paragraph">Copies the original message, including unknown fields.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

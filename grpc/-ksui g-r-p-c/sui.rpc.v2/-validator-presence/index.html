@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ValidatorPresence</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui gRPC
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-grpc/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-grpc/commonMain"
+                                       data-filter=":ksui-grpc/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui gRPC
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui gRPC::sui.rpc.v2/ValidatorPresence///PointingToDeclaration//1820378888">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui gRPC</a><span class="delimiter">/</span><a href="../index.html">sui.rpc.v2</a><span class="delimiter">/</span><span class="current">ValidatorPresence</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Validator</span><wbr></wbr><span><span>Presence</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">ValidatorPresence</a></div><p class="paragraph">Interface providing field-presence information for <a href="../-validator/index.html">Validator</a> messages. Retrieve it via the <a href="../presence.html">Validator.presence</a> extension property.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="550485278%2FProperties%2F1820378888" anchor-label="hasAddress" id="550485278%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-address.html"><span>has</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="550485278%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-address.html">hasAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-497119939%2FProperties%2F1820378888" anchor-label="hasCommissionRate" id="-497119939%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-commission-rate.html"><span>has</span><wbr></wbr><span>Commission</span><wbr></wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-497119939%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-commission-rate.html">hasCommissionRate</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2114845590%2FProperties%2F1820378888" anchor-label="hasDescription" id="2114845590%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-description.html"><span>has</span><wbr></wbr><span><span>Description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2114845590%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-description.html">hasDescription</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1055818057%2FProperties%2F1820378888" anchor-label="hasExtraFields" id="1055818057%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-extra-fields.html"><span>has</span><wbr></wbr><span>Extra</span><wbr></wbr><span><span>Fields</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1055818057%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-extra-fields.html">hasExtraFields</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-710516840%2FProperties%2F1820378888" anchor-label="hasGasPrice" id="-710516840%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-gas-price.html"><span>has</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Price</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-710516840%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-gas-price.html">hasGasPrice</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1242316788%2FProperties%2F1820378888" anchor-label="hasImageUrl" id="1242316788%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-image-url.html"><span>has</span><wbr></wbr><span>Image</span><wbr></wbr><span><span>Url</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1242316788%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-image-url.html">hasImageUrl</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="397680664%2FProperties%2F1820378888" anchor-label="hasMetadataExtraFields" id="397680664%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-metadata-extra-fields.html"><span>has</span><wbr></wbr><span>Metadata</span><wbr></wbr><span>Extra</span><wbr></wbr><span><span>Fields</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="397680664%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-metadata-extra-fields.html">hasMetadataExtraFields</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="302147805%2FProperties%2F1820378888" anchor-label="hasName" id="302147805%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-name.html"><span>has</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="302147805%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-name.html">hasName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1560427486%2FProperties%2F1820378888" anchor-label="hasNetworkAddress" id="-1560427486%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-network-address.html"><span>has</span><wbr></wbr><span>Network</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1560427486%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-network-address.html">hasNetworkAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1643041568%2FProperties%2F1820378888" anchor-label="hasNetworkPublicKey" id="-1643041568%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-network-public-key.html"><span>has</span><wbr></wbr><span>Network</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1643041568%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-network-public-key.html">hasNetworkPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1193477201%2FProperties%2F1820378888" anchor-label="hasNextEpochCommissionRate" id="1193477201%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-commission-rate.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Commission</span><wbr></wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1193477201%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-commission-rate.html">hasNextEpochCommissionRate</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1753658796%2FProperties%2F1820378888" anchor-label="hasNextEpochGasPrice" id="1753658796%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-gas-price.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Gas</span><wbr></wbr><span><span>Price</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1753658796%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-gas-price.html">hasNextEpochGasPrice</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="130169654%2FProperties%2F1820378888" anchor-label="hasNextEpochNetworkAddress" id="130169654%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-network-address.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Network</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="130169654%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-network-address.html">hasNextEpochNetworkAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-476827916%2FProperties%2F1820378888" anchor-label="hasNextEpochNetworkPublicKey" id="-476827916%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-network-public-key.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Network</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-476827916%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-network-public-key.html">hasNextEpochNetworkPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1092072310%2FProperties%2F1820378888" anchor-label="hasNextEpochP2pAddress" id="1092072310%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-p2p-address.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>P2p</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1092072310%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-p2p-address.html">hasNextEpochP2pAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1782161162%2FProperties%2F1820378888" anchor-label="hasNextEpochPrimaryAddress" id="1782161162%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-primary-address.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Primary</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1782161162%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-primary-address.html">hasNextEpochPrimaryAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="283853057%2FProperties%2F1820378888" anchor-label="hasNextEpochProofOfPossession" id="283853057%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-proof-of-possession.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Proof</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Possession</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="283853057%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-proof-of-possession.html">hasNextEpochProofOfPossession</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1741821696%2FProperties%2F1820378888" anchor-label="hasNextEpochProtocolPublicKey" id="1741821696%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-protocol-public-key.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Protocol</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1741821696%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-protocol-public-key.html">hasNextEpochProtocolPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1005857796%2FProperties%2F1820378888" anchor-label="hasNextEpochStake" id="1005857796%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-stake.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span><span>Stake</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1005857796%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-stake.html">hasNextEpochStake</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1108951192%2FProperties%2F1820378888" anchor-label="hasNextEpochWorkerAddress" id="-1108951192%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-worker-address.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Worker</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1108951192%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-worker-address.html">hasNextEpochWorkerAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1566019930%2FProperties%2F1820378888" anchor-label="hasNextEpochWorkerPublicKey" id="-1566019930%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-next-epoch-worker-public-key.html"><span>has</span><wbr></wbr><span>Next</span><wbr></wbr><span>Epoch</span><wbr></wbr><span>Worker</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1566019930%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-next-epoch-worker-public-key.html">hasNextEpochWorkerPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1481981602%2FProperties%2F1820378888" anchor-label="hasOperationCapId" id="1481981602%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-operation-cap-id.html"><span>has</span><wbr></wbr><span>Operation</span><wbr></wbr><span>Cap</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1481981602%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-operation-cap-id.html">hasOperationCapId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-453733790%2FProperties%2F1820378888" anchor-label="hasP2pAddress" id="-453733790%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-p2p-address.html"><span>has</span><wbr></wbr><span>P2p</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-453733790%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-p2p-address.html">hasP2pAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="91564022%2FProperties%2F1820378888" anchor-label="hasPrimaryAddress" id="91564022%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-primary-address.html"><span>has</span><wbr></wbr><span>Primary</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="91564022%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-primary-address.html">hasPrimaryAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1840172558%2FProperties%2F1820378888" anchor-label="hasProjectUrl" id="-1840172558%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-project-url.html"><span>has</span><wbr></wbr><span>Project</span><wbr></wbr><span><span>Url</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1840172558%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-project-url.html">hasProjectUrl</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1509031787%2FProperties%2F1820378888" anchor-label="hasProofOfPossession" id="-1509031787%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-proof-of-possession.html"><span>has</span><wbr></wbr><span>Proof</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Possession</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1509031787%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-proof-of-possession.html">hasProofOfPossession</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-51063148%2FProperties%2F1820378888" anchor-label="hasProtocolPublicKey" id="-51063148%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-protocol-public-key.html"><span>has</span><wbr></wbr><span>Protocol</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-51063148%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-protocol-public-key.html">hasProtocolPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1639358719%2FProperties%2F1820378888" anchor-label="hasStakingPool" id="1639358719%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-staking-pool.html"><span>has</span><wbr></wbr><span>Staking</span><wbr></wbr><span><span>Pool</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1639358719%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-staking-pool.html">hasStakingPool</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1508430412%2FProperties%2F1820378888" anchor-label="hasVotingPower" id="-1508430412%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-voting-power.html"><span>has</span><wbr></wbr><span>Voting</span><wbr></wbr><span><span>Power</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1508430412%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-voting-power.html">hasVotingPower</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1579128580%2FProperties%2F1820378888" anchor-label="hasWorkerAddress" id="-1579128580%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-worker-address.html"><span>has</span><wbr></wbr><span>Worker</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1579128580%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-worker-address.html">hasWorkerAddress</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1860043578%2FProperties%2F1820378888" anchor-label="hasWorkerPublicKey" id="1860043578%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="has-worker-public-key.html"><span>has</span><wbr></wbr><span>Worker</span><wbr></wbr><span>Public</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1860043578%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="has-worker-public-key.html">hasWorkerPublicKey</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

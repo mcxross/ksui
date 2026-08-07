@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Ksui core</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="index.html">
+                    Ksui core
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-core/androidJvmMain">androidJvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":ksui-core/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-core/commonMain">common</button>
+                <button class="platform-tag platform-selector native-like" data-active=""
+                        data-filter=":ksui-core/iosArm64Main">iosArm64</button>
+                <button class="platform-tag platform-selector native-like" data-active=""
+                        data-filter=":ksui-core/iosSimulatorArm64Main">iosSimulatorArm64</button>
+                <button class="platform-tag platform-selector native-like" data-active=""
+                        data-filter=":ksui-core/iosX64Main">iosX64</button>
+                <button class="platform-tag platform-selector js-like" data-active=""
+                        data-filter=":ksui-core/jsMain">js</button>
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":ksui-core/jvmMain">jvm</button>
+                <button class="platform-tag platform-selector native-like" data-active=""
+                        data-filter=":ksui-core/macosArm64Main">macosArm64</button>
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-core/nativeMain">native</button>
+                <button class="platform-tag platform-selector native-like" data-active=""
+                        data-filter=":ksui-core/tvosMain">tvos</button>
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-core/watchosMain">watchos</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/androidJvmMain"
+                                       data-filter=":ksui-core/androidJvmMain"/>
+                                <span class="checkbox--icon"></span>
+                                androidJvm
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/androidMain"
+                                       data-filter=":ksui-core/androidMain"/>
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/commonMain"
+                                       data-filter=":ksui-core/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/iosArm64Main"
+                                       data-filter=":ksui-core/iosArm64Main"/>
+                                <span class="checkbox--icon"></span>
+                                iosArm64
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/iosSimulatorArm64Main"
+                                       data-filter=":ksui-core/iosSimulatorArm64Main"/>
+                                <span class="checkbox--icon"></span>
+                                iosSimulatorArm64
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/iosX64Main"
+                                       data-filter=":ksui-core/iosX64Main"/>
+                                <span class="checkbox--icon"></span>
+                                iosX64
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option js-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/jsMain"
+                                       data-filter=":ksui-core/jsMain"/>
+                                <span class="checkbox--icon"></span>
+                                js
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/jvmMain"
+                                       data-filter=":ksui-core/jvmMain"/>
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/macosArm64Main"
+                                       data-filter=":ksui-core/macosArm64Main"/>
+                                <span class="checkbox--icon"></span>
+                                macosArm64
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/nativeMain"
+                                       data-filter=":ksui-core/nativeMain"/>
+                                <span class="checkbox--icon"></span>
+                                native
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/tvosMain"
+                                       data-filter=":ksui-core/tvosMain"/>
+                                <span class="checkbox--icon"></span>
+                                tvos
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-core/watchosMain"
+                                       data-filter=":ksui-core/watchosMain"/>
+                                <span class="checkbox--icon"></span>
+                                watchos
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui core
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" id="content" pageIds="Ksui core::////PointingToDeclaration//-1267682538">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Ksui</span></span> <span><span>core</span></span></h1>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="-626080616%2FPackages%2F-854037239" anchor-label="org.komputing.kbech32" id="-626080616%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/org.komputing.kbech32/index.html">org.komputing.kbech32</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-626080616%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1525456047%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core" id="1525456047%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core/index.html">xyz.mcxross.ksui.core</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1525456047%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="286701870%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.account" id="286701870%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.account/index.html">xyz.mcxross.ksui.core.account</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="286701870%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1368484014%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.client" id="1368484014%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.client/index.html">xyz.mcxross.ksui.core.client</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1368484014%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="647003684%2FPackages%2F-1267682538" anchor-label="xyz.mcxross.ksui.core.crypto" id="647003684%2FPackages%2F-1267682538" data-filterable-set=":ksui-core/androidJvmMain,:ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/iosArm64Main,:ksui-core/iosSimulatorArm64Main,:ksui-core/iosX64Main,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/macosArm64Main,:ksui-core/nativeMain,:ksui-core/tvosMain,:ksui-core/watchosMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/androidJvmMain,:ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/iosArm64Main,:ksui-core/iosSimulatorArm64Main,:ksui-core/iosX64Main,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/macosArm64Main,:ksui-core/nativeMain,:ksui-core/tvosMain,:ksui-core/watchosMain" data-filterable-set=":ksui-core/androidJvmMain,:ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/iosArm64Main,:ksui-core/iosSimulatorArm64Main,:ksui-core/iosX64Main,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/macosArm64Main,:ksui-core/nativeMain,:ksui-core/tvosMain,:ksui-core/watchosMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.crypto/index.html">xyz.mcxross.ksui.core.crypto</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="647003684%2FPackages%2F-1267682538"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">android</div>
+              <div class="platform-tag common-like">androidJvm</div>
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag native-like">iosArm64</div>
+              <div class="platform-tag native-like">iosSimulatorArm64</div>
+              <div class="platform-tag native-like">iosX64</div>
+              <div class="platform-tag js-like">js</div>
+              <div class="platform-tag jvm-like">jvm</div>
+              <div class="platform-tag native-like">macosArm64</div>
+              <div class="platform-tag common-like">native</div>
+              <div class="platform-tag native-like">tvos</div>
+              <div class="platform-tag common-like">watchos</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1169431824%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.exception" id="1169431824%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.exception/index.html">xyz.mcxross.ksui.core.exception</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1169431824%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1988713728%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.extension" id="1988713728%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.extension/index.html">xyz.mcxross.ksui.core.extension</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1988713728%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1669542634%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.model" id="1669542634%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.model/index.html">xyz.mcxross.ksui.core.model</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1669542634%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1681292831%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.ptb" id="1681292831%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.ptb/index.html">xyz.mcxross.ksui.core.ptb</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1681292831%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-519248075%2FPackages%2F-854037239" anchor-label="xyz.mcxross.ksui.core.serializer" id="-519248075%2FPackages%2F-854037239" data-filterable-set=":ksui-core/commonMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/commonMain" data-filterable-set=":ksui-core/commonMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.serializer/index.html">xyz.mcxross.ksui.core.serializer</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-519248075%2FPackages%2F-854037239"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">common</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-512689563%2FPackages%2F1426569633" anchor-label="xyz.mcxross.ksui.core.util" id="-512689563%2FPackages%2F1426569633" data-filterable-set=":ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/nativeMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/nativeMain" data-filterable-set=":ksui-core/androidMain,:ksui-core/commonMain,:ksui-core/jsMain,:ksui-core/jvmMain,:ksui-core/nativeMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.util/index.html">xyz.mcxross.ksui.core.util</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-512689563%2FPackages%2F1426569633"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">android</div>
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag js-like">js</div>
+              <div class="platform-tag jvm-like">jvm</div>
+              <div class="platform-tag common-like">native</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="61271666%2FPackages%2F-2109151703" anchor-label="xyz.mcxross.ksui.core.utils" id="61271666%2FPackages%2F-2109151703" data-filterable-set=":ksui-core/androidJvmMain"></a>
+    <div class="table-row" data-filterable-current=":ksui-core/androidJvmMain" data-filterable-set=":ksui-core/androidJvmMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-ksui core/xyz.mcxross.ksui.core.utils/index.html">xyz.mcxross.ksui.core.utils</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="61271666%2FPackages%2F-2109151703"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag common-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

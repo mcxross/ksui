@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ValidatorSet</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    Ksui gRPC
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-grpc/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-grpc/commonMain"
+                                       data-filter=":ksui-grpc/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui gRPC
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui gRPC::sui.rpc.v2/ValidatorSet///PointingToDeclaration//1820378888">
+  <div class="breadcrumbs"><a href="../../../index.html">Ksui gRPC</a><span class="delimiter">/</span><a href="../index.html">sui.rpc.v2</a><span class="delimiter">/</span><span class="current">ValidatorSet</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Validator</span><wbr></wbr><span><span>Set</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">ValidatorSet</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="888786906%2FProperties%2F1820378888" anchor-label="activeValidators" id="888786906%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="active-validators.html"><span>active</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="888786906%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="active-validators.html">activeValidators</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-validator/index.html">Validator</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The current list of active validators.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-900083778%2FProperties%2F1820378888" anchor-label="atRiskValidators" id="-900083778%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="at-risk-validators.html"><span>at</span><wbr></wbr><span>Risk</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-900083778%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="at-risk-validators.html">atRiskValidators</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Table storing the number of epochs during which a validator's stake has been below the low stake threshold.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="768372016%2FProperties%2F1820378888" anchor-label="extraFields" id="768372016%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="extra-fields.html"><span>extra</span><wbr></wbr><span><span>Fields</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="768372016%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="extra-fields.html">extraFields</a><span class="token operator">: </span><a href="../-move-table/index.html">MoveTable</a></div><div class="brief "><p class="paragraph">Any extra fields that's not defined statically.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="837144405%2FProperties%2F1820378888" anchor-label="inactiveValidators" id="837144405%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inactive-validators.html"><span>inactive</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="837144405%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="inactive-validators.html">inactiveValidators</a><span class="token operator">: </span><a href="../-move-table/index.html">MoveTable</a></div><div class="brief "><p class="paragraph">Mapping from a staking pool ID to the inactive validator that has that pool as its staking pool. When a validator is deactivated the validator is removed from <code class="lang-kotlin">active_validators</code> it is added to this table so that stakers can continue to withdraw their stake from it.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="549569787%2FProperties%2F1820378888" anchor-label="pendingActiveValidators" id="549569787%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pending-active-validators.html"><span>pending</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Validators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="549569787%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="pending-active-validators.html">pendingActiveValidators</a><span class="token operator">: </span><a href="../-move-table/index.html">MoveTable</a></div><div class="brief "><p class="paragraph">List of new validator candidates added during the current epoch. They will be processed at the end of the epoch.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-766992645%2FProperties%2F1820378888" anchor-label="pendingRemovals" id="-766992645%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pending-removals.html"><span>pending</span><wbr></wbr><span><span>Removals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-766992645%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="pending-removals.html">pendingRemovals</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Removal requests from the validators. Each element is an index pointing to <code class="lang-kotlin">active_validators</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1029933784%2FProperties%2F1820378888" anchor-label="presence" id="1029933784%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../presence.html"><span><span>presence</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1029933784%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="index.html">ValidatorSet</a><span class="token punctuation">.</span><a href="../presence.html">presence</a><span class="token operator">: </span><a href="../-validator-set-presence/index.html">ValidatorSetPresence</a></div><div class="brief "><p class="paragraph">Returns the field-presence view for this <a href="index.html">ValidatorSet</a> instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="301186561%2FProperties%2F1820378888" anchor-label="stakingPoolMappings" id="301186561%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="staking-pool-mappings.html"><span>staking</span><wbr></wbr><span>Pool</span><wbr></wbr><span><span>Mappings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="301186561%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="staking-pool-mappings.html">stakingPoolMappings</a><span class="token operator">: </span><a href="../-move-table/index.html">MoveTable</a></div><div class="brief "><p class="paragraph">Mappings from staking pool's ID to the sui address of a validator.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-798938581%2FProperties%2F1820378888" anchor-label="totalStake" id="-798938581%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="total-stake.html"><span>total</span><wbr></wbr><span><span>Stake</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-798938581%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="total-stake.html">totalStake</a><span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Total amount of stake from all active validators at the beginning of the epoch. Written only once per epoch, in <code class="lang-kotlin">advance_epoch</code> function.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="648521207%2FProperties%2F1820378888" anchor-label="validatorCandidates" id="648521207%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="validator-candidates.html"><span>validator</span><wbr></wbr><span><span>Candidates</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="648521207%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="validator-candidates.html">validatorCandidates</a><span class="token operator">: </span><a href="../-move-table/index.html">MoveTable</a></div><div class="brief "><p class="paragraph">Table storing preactive/candidate validators, mapping their addresses to their <code class="lang-kotlin">Validator </code> structs. When an address calls <code class="lang-kotlin">request_add_validator_candidate</code>, they get added to this table and become a preactive validator. When the candidate has met the min stake requirement, they can call <code class="lang-kotlin">request_add_validator</code> to officially add them to the active validator set <code class="lang-kotlin">active_validators</code> next epoch.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1878841364%2FFunctions%2F1820378888" anchor-label="asInternal" id="-1878841364%2FFunctions%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../as-internal.html"><span>as</span><wbr></wbr><span><span>Internal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1878841364%2FFunctions%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">ValidatorSet</a><span class="token punctuation">.</span><a href="../as-internal.html"><span class="token function">asInternal</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-validator-set-internal/index.html">ValidatorSetInternal</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-823705976%2FFunctions%2F1820378888" anchor-label="copy" id="-823705976%2FFunctions%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-823705976%2FFunctions%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">ValidatorSet</a><span class="token punctuation">.</span><a href="../copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">body<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ValidatorSet</a></div><div class="brief "><p class="paragraph">Copies the original message, including unknown fields.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

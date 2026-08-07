@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ExecutionErrorKind</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../../index.html">
+                    Ksui gRPC
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.2.9-SNAPSHOT        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":ksui-grpc/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":ksui-grpc/commonMain"
+                                       data-filter=":ksui-grpc/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Ksui gRPC
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Ksui gRPC::sui.rpc.v2/ExecutionError.ExecutionErrorKind///PointingToDeclaration//1820378888">
+  <div class="breadcrumbs"><a href="../../../../index.html">Ksui gRPC</a><span class="delimiter">/</span><a href="../../index.html">sui.rpc.v2</a><span class="delimiter">/</span><a href="../index.html">ExecutionError</a><span class="delimiter">/</span><span class="current">ExecutionErrorKind</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Execution</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Kind</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">ExecutionErrorKind</a></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-e-x-e-c-u-t-i-o-n_-e-r-r-o-r_-k-i-n-d_-u-n-k-n-o-w-n/index.html">EXECUTION_ERROR_KIND_UNKNOWN</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-g-a-s/index.html">INSUFFICIENT_GAS</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-v-a-l-i-d_-g-a-s_-o-b-j-e-c-t/index.html">INVALID_GAS_OBJECT</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html">INVARIANT_VIOLATION</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-f-e-a-t-u-r-e_-n-o-t_-y-e-t_-s-u-p-p-o-r-t-e-d/index.html">FEATURE_NOT_YET_SUPPORTED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-o-b-j-e-c-t_-t-o-o_-b-i-g/index.html">OBJECT_TOO_BIG</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-p-a-c-k-a-g-e_-t-o-o_-b-i-g/index.html">PACKAGE_TOO_BIG</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-i-r-c-u-l-a-r_-o-b-j-e-c-t_-o-w-n-e-r-s-h-i-p/index.html">CIRCULAR_OBJECT_OWNERSHIP</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-c-o-i-n_-b-a-l-a-n-c-e/index.html">INSUFFICIENT_COIN_BALANCE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-o-i-n_-b-a-l-a-n-c-e_-o-v-e-r-f-l-o-w/index.html">COIN_BALANCE_OVERFLOW</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-p-u-b-l-i-s-h_-e-r-r-o-r_-n-o-n_-z-e-r-o_-a-d-d-r-e-s-s/index.html">PUBLISH_ERROR_NON_ZERO_ADDRESS</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-e-r-r-o-r/index.html">SUI_MOVE_VERIFICATION_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-m-o-v-e_-p-r-i-m-i-t-i-v-e_-r-u-n-t-i-m-e_-e-r-r-o-r/index.html">MOVE_PRIMITIVE_RUNTIME_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-m-o-v-e_-a-b-o-r-t/index.html">MOVE_ABORT</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-v-m_-v-e-r-i-f-i-c-a-t-i-o-n_-o-r_-d-e-s-e-r-i-a-l-i-z-a-t-i-o-n_-e-r-r-o-r/index.html">VM_VERIFICATION_OR_DESERIALIZATION_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-v-m_-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html">VM_INVARIANT_VIOLATION</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-f-u-n-c-t-i-o-n_-n-o-t_-f-o-u-n-d/index.html">FUNCTION_NOT_FOUND</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html">ARITY_MISMATCH</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-t-y-p-e_-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html">TYPE_ARITY_MISMATCH</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-n-o-n_-e-n-t-r-y_-f-u-n-c-t-i-o-n_-i-n-v-o-k-e-d/index.html">NON_ENTRY_FUNCTION_INVOKED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-o-m-m-a-n-d_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html">COMMAND_ARGUMENT_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-t-y-p-e_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html">TYPE_ARGUMENT_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-u-n-u-s-e-d_-v-a-l-u-e_-w-i-t-h-o-u-t_-d-r-o-p/index.html">UNUSED_VALUE_WITHOUT_DROP</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-v-a-l-i-d_-p-u-b-l-i-c_-f-u-n-c-t-i-o-n_-r-e-t-u-r-n_-t-y-p-e/index.html">INVALID_PUBLIC_FUNCTION_RETURN_TYPE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-v-a-l-i-d_-t-r-a-n-s-f-e-r_-o-b-j-e-c-t/index.html">INVALID_TRANSFER_OBJECT</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-e-f-f-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html">EFFECTS_TOO_LARGE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-m-i-s-s-i-n-g_-d-e-p-e-n-d-e-n-c-y/index.html">PUBLISH_UPGRADE_MISSING_DEPENDENCY</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-d-e-p-e-n-d-e-n-c-y_-d-o-w-n-g-r-a-d-e/index.html">PUBLISH_UPGRADE_DEPENDENCY_DOWNGRADE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-p-a-c-k-a-g-e_-u-p-g-r-a-d-e_-e-r-r-o-r/index.html">PACKAGE_UPGRADE_ERROR</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-w-r-i-t-t-e-n_-o-b-j-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html">WRITTEN_OBJECTS_TOO_LARGE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-e-r-t-i-f-i-c-a-t-e_-d-e-n-i-e-d/index.html">CERTIFICATE_DENIED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-t-i-m-e-d-o-u-t/index.html">SUI_MOVE_VERIFICATION_TIMEDOUT</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-o-p-e-r-a-t-i-o-n_-n-o-t_-a-l-l-o-w-e-d/index.html">CONSENSUS_OBJECT_OPERATION_NOT_ALLOWED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-p-u-t_-o-b-j-e-c-t_-d-e-l-e-t-e-d/index.html">INPUT_OBJECT_DELETED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-c-o-n-g-e-s-t-i-o-n/index.html">EXECUTION_CANCELED_DUE_TO_CONSENSUS_OBJECT_CONGESTION</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-a-d-d-r-e-s-s_-d-e-n-i-e-d_-f-o-r_-c-o-i-n/index.html">ADDRESS_DENIED_FOR_COIN</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-c-o-i-n_-t-y-p-e_-g-l-o-b-a-l_-p-a-u-s-e/index.html">COIN_TYPE_GLOBAL_PAUSE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-r-a-n-d-o-m-n-e-s-s_-u-n-a-v-a-i-l-a-b-l-e/index.html">EXECUTION_CANCELED_DUE_TO_RANDOMNESS_UNAVAILABLE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-m-o-v-e_-v-e-c-t-o-r_-e-l-e-m_-t-o-o_-b-i-g/index.html">MOVE_VECTOR_ELEM_TOO_BIG</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-m-o-v-e_-r-a-w_-v-a-l-u-e_-t-o-o_-b-i-g/index.html">MOVE_RAW_VALUE_TOO_BIG</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-v-a-l-i-d_-l-i-n-k-a-g-e/index.html">INVALID_LINKAGE</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-f-u-n-d-s_-f-o-r_-w-i-t-h-d-r-a-w/index.html">INSUFFICIENT_FUNDS_FOR_WITHDRAW</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-n-o-n_-e-x-c-l-u-s-i-v-e_-w-r-i-t-e_-i-n-p-u-t_-o-b-j-e-c-t_-m-o-d-i-f-i-e-d/index.html">NON_EXCLUSIVE_WRITE_INPUT_OBJECT_MODIFIED</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-u-n-r-e-c-o-g-n-i-z-e-d/index.html">UNRECOGNIZED</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-382737312%2FClasslikes%2F1820378888" anchor-label="ADDRESS_DENIED_FOR_COIN" id="-382737312%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-a-d-d-r-e-s-s_-d-e-n-i-e-d_-f-o-r_-c-o-i-n/index.html"><span>ADDRESS_</span><wbr></wbr><span>DENIED_</span><wbr></wbr><span>FOR_</span><wbr></wbr><span>COIN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-382737312%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-a-d-d-r-e-s-s_-d-e-n-i-e-d_-f-o-r_-c-o-i-n/index.html">ADDRESS_DENIED_FOR_COIN</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Address is denied for this coin type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="182875634%2FClasslikes%2F1820378888" anchor-label="ARITY_MISMATCH" id="182875634%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html"><span>ARITY_</span><wbr></wbr><span>MISMATCH</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="182875634%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html">ARITY_MISMATCH</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Parity mismatch for Move function. The number of arguments does not match the number of parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1231052161%2FClasslikes%2F1820378888" anchor-label="CERTIFICATE_DENIED" id="-1231052161%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-e-r-t-i-f-i-c-a-t-e_-d-e-n-i-e-d/index.html"><span>CERTIFICATE_</span><wbr></wbr><span>DENIED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1231052161%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-e-r-t-i-f-i-c-a-t-e_-d-e-n-i-e-d/index.html">CERTIFICATE_DENIED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Certificate is on the deny list.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-964398671%2FClasslikes%2F1820378888" anchor-label="CIRCULAR_OBJECT_OWNERSHIP" id="-964398671%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-i-r-c-u-l-a-r_-o-b-j-e-c-t_-o-w-n-e-r-s-h-i-p/index.html"><span>CIRCULAR_</span><wbr></wbr><span>OBJECT_</span><wbr></wbr><span>OWNERSHIP</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-964398671%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-i-r-c-u-l-a-r_-o-b-j-e-c-t_-o-w-n-e-r-s-h-i-p/index.html">CIRCULAR_OBJECT_OWNERSHIP</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Circular object ownership.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-720995443%2FClasslikes%2F1820378888" anchor-label="COIN_BALANCE_OVERFLOW" id="-720995443%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-i-n_-b-a-l-a-n-c-e_-o-v-e-r-f-l-o-w/index.html"><span>COIN_</span><wbr></wbr><span>BALANCE_</span><wbr></wbr><span>OVERFLOW</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-720995443%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-o-i-n_-b-a-l-a-n-c-e_-o-v-e-r-f-l-o-w/index.html">COIN_BALANCE_OVERFLOW</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Coin balance overflowed an u64.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2020327375%2FClasslikes%2F1820378888" anchor-label="COIN_TYPE_GLOBAL_PAUSE" id="-2020327375%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-i-n_-t-y-p-e_-g-l-o-b-a-l_-p-a-u-s-e/index.html"><span>COIN_</span><wbr></wbr><span>TYPE_</span><wbr></wbr><span>GLOBAL_</span><wbr></wbr><span>PAUSE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2020327375%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-o-i-n_-t-y-p-e_-g-l-o-b-a-l_-p-a-u-s-e/index.html">COIN_TYPE_GLOBAL_PAUSE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Coin type is globally paused for use.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1578789832%2FClasslikes%2F1820378888" anchor-label="COMMAND_ARGUMENT_ERROR" id="1578789832%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-m-m-a-n-d_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html"><span>COMMAND_</span><wbr></wbr><span>ARGUMENT_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1578789832%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-o-m-m-a-n-d_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html">COMMAND_ARGUMENT_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invalid command argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-529298604%2FClasslikes%2F1820378888" anchor-label="Companion" id="-529298604%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-529298604%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-70370154%2FClasslikes%2F1820378888" anchor-label="CONSENSUS_OBJECT_OPERATION_NOT_ALLOWED" id="-70370154%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-o-p-e-r-a-t-i-o-n_-n-o-t_-a-l-l-o-w-e-d/index.html"><span>CONSENSUS_</span><wbr></wbr><span>OBJECT_</span><wbr></wbr><span>OPERATION_</span><wbr></wbr><span>NOT_</span><wbr></wbr><span>ALLOWED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-70370154%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-o-p-e-r-a-t-i-o-n_-n-o-t_-a-l-l-o-w-e-d/index.html">CONSENSUS_OBJECT_OPERATION_NOT_ALLOWED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">The requested consensus object operation is not allowed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="145611757%2FClasslikes%2F1820378888" anchor-label="EFFECTS_TOO_LARGE" id="145611757%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-f-f-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html"><span>EFFECTS_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>LARGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="145611757%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-e-f-f-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html">EFFECTS_TOO_LARGE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Post-execution errors.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1659598843%2FClasslikes%2F1820378888" anchor-label="EXECUTION_CANCELED_DUE_TO_CONSENSUS_OBJECT_CONGESTION" id="1659598843%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-c-o-n-g-e-s-t-i-o-n/index.html"><span>EXECUTION_</span><wbr></wbr><span>CANCELED_</span><wbr></wbr><span>DUE_</span><wbr></wbr><span>TO_</span><wbr></wbr><span>CONSENSUS_</span><wbr></wbr><span>OBJECT_</span><wbr></wbr><span>CONGESTION</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1659598843%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-c-o-n-s-e-n-s-u-s_-o-b-j-e-c-t_-c-o-n-g-e-s-t-i-o-n/index.html">EXECUTION_CANCELED_DUE_TO_CONSENSUS_OBJECT_CONGESTION</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Certificate is canceled due to congestion on consensus objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1693196867%2FClasslikes%2F1820378888" anchor-label="EXECUTION_CANCELED_DUE_TO_RANDOMNESS_UNAVAILABLE" id="-1693196867%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-r-a-n-d-o-m-n-e-s-s_-u-n-a-v-a-i-l-a-b-l-e/index.html"><span>EXECUTION_</span><wbr></wbr><span>CANCELED_</span><wbr></wbr><span>DUE_</span><wbr></wbr><span>TO_</span><wbr></wbr><span>RANDOMNESS_</span><wbr></wbr><span><span>UNAVAILABLE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1693196867%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-e-x-e-c-u-t-i-o-n_-c-a-n-c-e-l-e-d_-d-u-e_-t-o_-r-a-n-d-o-m-n-e-s-s_-u-n-a-v-a-i-l-a-b-l-e/index.html">EXECUTION_CANCELED_DUE_TO_RANDOMNESS_UNAVAILABLE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Certificate is canceled because randomness could not be generated this epoch.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1720297925%2FClasslikes%2F1820378888" anchor-label="EXECUTION_ERROR_KIND_UNKNOWN" id="1720297925%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-x-e-c-u-t-i-o-n_-e-r-r-o-r_-k-i-n-d_-u-n-k-n-o-w-n/index.html"><span>EXECUTION_</span><wbr></wbr><span>ERROR_</span><wbr></wbr><span>KIND_</span><wbr></wbr><span>UNKNOWN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1720297925%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-e-x-e-c-u-t-i-o-n_-e-r-r-o-r_-k-i-n-d_-u-n-k-n-o-w-n/index.html">EXECUTION_ERROR_KIND_UNKNOWN</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-684119330%2FClasslikes%2F1820378888" anchor-label="FEATURE_NOT_YET_SUPPORTED" id="-684119330%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-e-a-t-u-r-e_-n-o-t_-y-e-t_-s-u-p-p-o-r-t-e-d/index.html"><span>FEATURE_</span><wbr></wbr><span>NOT_</span><wbr></wbr><span>YET_</span><wbr></wbr><span>SUPPORTED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-684119330%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-f-e-a-t-u-r-e_-n-o-t_-y-e-t_-s-u-p-p-o-r-t-e-d/index.html">FEATURE_NOT_YET_SUPPORTED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Attempted to use feature that is not supported yet.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2014610483%2FClasslikes%2F1820378888" anchor-label="FUNCTION_NOT_FOUND" id="2014610483%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-u-n-c-t-i-o-n_-n-o-t_-f-o-u-n-d/index.html"><span>FUNCTION_</span><wbr></wbr><span>NOT_</span><wbr></wbr><span>FOUND</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2014610483%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-f-u-n-c-t-i-o-n_-n-o-t_-f-o-u-n-d/index.html">FUNCTION_NOT_FOUND</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Programmable transaction errors.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1797570516%2FClasslikes%2F1820378888" anchor-label="INPUT_OBJECT_DELETED" id="1797570516%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-p-u-t_-o-b-j-e-c-t_-d-e-l-e-t-e-d/index.html"><span>INPUT_</span><wbr></wbr><span>OBJECT_</span><wbr></wbr><span>DELETED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1797570516%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-p-u-t_-o-b-j-e-c-t_-d-e-l-e-t-e-d/index.html">INPUT_OBJECT_DELETED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Requested consensus object has been deleted.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-216874954%2FClasslikes%2F1820378888" anchor-label="INSUFFICIENT_COIN_BALANCE" id="-216874954%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-c-o-i-n_-b-a-l-a-n-c-e/index.html"><span>INSUFFICIENT_</span><wbr></wbr><span>COIN_</span><wbr></wbr><span>BALANCE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-216874954%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-c-o-i-n_-b-a-l-a-n-c-e/index.html">INSUFFICIENT_COIN_BALANCE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Coin errors.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1875620333%2FClasslikes%2F1820378888" anchor-label="INSUFFICIENT_FUNDS_FOR_WITHDRAW" id="-1875620333%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-f-u-n-d-s_-f-o-r_-w-i-t-h-d-r-a-w/index.html"><span>INSUFFICIENT_</span><wbr></wbr><span>FUNDS_</span><wbr></wbr><span>FOR_</span><wbr></wbr><span>WITHDRAW</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1875620333%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-f-u-n-d-s_-f-o-r_-w-i-t-h-d-r-a-w/index.html">INSUFFICIENT_FUNDS_FOR_WITHDRAW</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Insufficient funds for transaction withdrawal</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-983918875%2FClasslikes%2F1820378888" anchor-label="INSUFFICIENT_GAS" id="-983918875%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-g-a-s/index.html"><span>INSUFFICIENT_</span><wbr></wbr><span>GAS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-983918875%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-s-u-f-f-i-c-i-e-n-t_-g-a-s/index.html">INSUFFICIENT_GAS</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Insufficient gas.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-812918219%2FClasslikes%2F1820378888" anchor-label="INVALID_GAS_OBJECT" id="-812918219%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-a-l-i-d_-g-a-s_-o-b-j-e-c-t/index.html"><span>INVALID_</span><wbr></wbr><span>GAS_</span><wbr></wbr><span>OBJECT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-812918219%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-v-a-l-i-d_-g-a-s_-o-b-j-e-c-t/index.html">INVALID_GAS_OBJECT</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invalid <code class="lang-kotlin">Gas</code> object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1649548259%2FClasslikes%2F1820378888" anchor-label="INVALID_LINKAGE" id="1649548259%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-a-l-i-d_-l-i-n-k-a-g-e/index.html"><span>INVALID_</span><wbr></wbr><span>LINKAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1649548259%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-v-a-l-i-d_-l-i-n-k-a-g-e/index.html">INVALID_LINKAGE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">A valid linkage was unable to be determined for the transaction or one of its commands.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1977139536%2FClasslikes%2F1820378888" anchor-label="INVALID_PUBLIC_FUNCTION_RETURN_TYPE" id="1977139536%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-a-l-i-d_-p-u-b-l-i-c_-f-u-n-c-t-i-o-n_-r-e-t-u-r-n_-t-y-p-e/index.html"><span>INVALID_</span><wbr></wbr><span>PUBLIC_</span><wbr></wbr><span>FUNCTION_</span><wbr></wbr><span>RETURN_</span><wbr></wbr><span>TYPE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1977139536%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-v-a-l-i-d_-p-u-b-l-i-c_-f-u-n-c-t-i-o-n_-r-e-t-u-r-n_-t-y-p-e/index.html">INVALID_PUBLIC_FUNCTION_RETURN_TYPE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invalid public Move function signature. Unsupported return type for return value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1812272843%2FClasslikes%2F1820378888" anchor-label="INVALID_TRANSFER_OBJECT" id="-1812272843%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-a-l-i-d_-t-r-a-n-s-f-e-r_-o-b-j-e-c-t/index.html"><span>INVALID_</span><wbr></wbr><span>TRANSFER_</span><wbr></wbr><span>OBJECT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1812272843%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-v-a-l-i-d_-t-r-a-n-s-f-e-r_-o-b-j-e-c-t/index.html">INVALID_TRANSFER_OBJECT</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invalid transfer object, object does not have public transfer.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="163441050%2FClasslikes%2F1820378888" anchor-label="INVARIANT_VIOLATION" id="163441050%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html"><span>INVARIANT_</span><wbr></wbr><span>VIOLATION</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="163441050%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html">INVARIANT_VIOLATION</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invariant violation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="797121184%2FClasslikes%2F1820378888" anchor-label="MOVE_ABORT" id="797121184%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-v-e_-a-b-o-r-t/index.html"><span>MOVE_</span><wbr></wbr><span>ABORT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="797121184%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-m-o-v-e_-a-b-o-r-t/index.html">MOVE_ABORT</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Move runtime abort.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1395561241%2FClasslikes%2F1820378888" anchor-label="MOVE_PRIMITIVE_RUNTIME_ERROR" id="-1395561241%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-v-e_-p-r-i-m-i-t-i-v-e_-r-u-n-t-i-m-e_-e-r-r-o-r/index.html"><span>MOVE_</span><wbr></wbr><span>PRIMITIVE_</span><wbr></wbr><span>RUNTIME_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1395561241%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-m-o-v-e_-p-r-i-m-i-t-i-v-e_-r-u-n-t-i-m-e_-e-r-r-o-r/index.html">MOVE_PRIMITIVE_RUNTIME_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">MoveVm errors.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1524601024%2FClasslikes%2F1820378888" anchor-label="MOVE_RAW_VALUE_TOO_BIG" id="1524601024%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-v-e_-r-a-w_-v-a-l-u-e_-t-o-o_-b-i-g/index.html"><span>MOVE_</span><wbr></wbr><span>RAW_</span><wbr></wbr><span>VALUE_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>BIG</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1524601024%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-m-o-v-e_-r-a-w_-v-a-l-u-e_-t-o-o_-b-i-g/index.html">MOVE_RAW_VALUE_TOO_BIG</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Move value (possibly an upgrade ticket or a dev-inspect value) with size {value_size} <br>is larger than the maximum size  {max_scaled_size}. Note that this maximum is scaled based <br>on the type of the value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-285867921%2FClasslikes%2F1820378888" anchor-label="MOVE_VECTOR_ELEM_TOO_BIG" id="-285867921%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-v-e_-v-e-c-t-o-r_-e-l-e-m_-t-o-o_-b-i-g/index.html"><span>MOVE_</span><wbr></wbr><span>VECTOR_</span><wbr></wbr><span>ELEM_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>BIG</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-285867921%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-m-o-v-e_-v-e-c-t-o-r_-e-l-e-m_-t-o-o_-b-i-g/index.html">MOVE_VECTOR_ELEM_TOO_BIG</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Move vector element (passed to MakeMoveVec) with size {value_size} is larger <br>than the maximum size {max_scaled_size}. Note that this maximum is scaled based on the <br>type of the vector element.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-732035970%2FClasslikes%2F1820378888" anchor-label="NON_ENTRY_FUNCTION_INVOKED" id="-732035970%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-o-n_-e-n-t-r-y_-f-u-n-c-t-i-o-n_-i-n-v-o-k-e-d/index.html"><span>NON_</span><wbr></wbr><span>ENTRY_</span><wbr></wbr><span>FUNCTION_</span><wbr></wbr><span>INVOKED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-732035970%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-n-o-n_-e-n-t-r-y_-f-u-n-c-t-i-o-n_-i-n-v-o-k-e-d/index.html">NON_ENTRY_FUNCTION_INVOKED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Non-entry function invoked. Move Call must start with an entry function.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1223070337%2FClasslikes%2F1820378888" anchor-label="NON_EXCLUSIVE_WRITE_INPUT_OBJECT_MODIFIED" id="-1223070337%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-o-n_-e-x-c-l-u-s-i-v-e_-w-r-i-t-e_-i-n-p-u-t_-o-b-j-e-c-t_-m-o-d-i-f-i-e-d/index.html"><span>NON_</span><wbr></wbr><span>EXCLUSIVE_</span><wbr></wbr><span>WRITE_</span><wbr></wbr><span>INPUT_</span><wbr></wbr><span>OBJECT_</span><wbr></wbr><span>MODIFIED</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1223070337%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-n-o-n_-e-x-c-l-u-s-i-v-e_-w-r-i-t-e_-i-n-p-u-t_-o-b-j-e-c-t_-m-o-d-i-f-i-e-d/index.html">NON_EXCLUSIVE_WRITE_INPUT_OBJECT_MODIFIED</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">An input object with non-exclusive write mutability was modified</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1617645645%2FClasslikes%2F1820378888" anchor-label="OBJECT_TOO_BIG" id="1617645645%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-o-b-j-e-c-t_-t-o-o_-b-i-g/index.html"><span>OBJECT_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>BIG</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1617645645%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-o-b-j-e-c-t_-t-o-o_-b-i-g/index.html">OBJECT_TOO_BIG</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Move object is larger than the maximum allowed size.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-331242300%2FClasslikes%2F1820378888" anchor-label="PACKAGE_TOO_BIG" id="-331242300%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-a-c-k-a-g-e_-t-o-o_-b-i-g/index.html"><span>PACKAGE_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>BIG</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-331242300%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-p-a-c-k-a-g-e_-t-o-o_-b-i-g/index.html">PACKAGE_TOO_BIG</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Package is larger than the maximum allowed size.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2086398412%2FClasslikes%2F1820378888" anchor-label="PACKAGE_UPGRADE_ERROR" id="-2086398412%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-a-c-k-a-g-e_-u-p-g-r-a-d-e_-e-r-r-o-r/index.html"><span>PACKAGE_</span><wbr></wbr><span>UPGRADE_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2086398412%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-p-a-c-k-a-g-e_-u-p-g-r-a-d-e_-e-r-r-o-r/index.html">PACKAGE_UPGRADE_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Invalid package upgrade.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="191259500%2FClasslikes%2F1820378888" anchor-label="PUBLISH_ERROR_NON_ZERO_ADDRESS" id="191259500%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-u-b-l-i-s-h_-e-r-r-o-r_-n-o-n_-z-e-r-o_-a-d-d-r-e-s-s/index.html"><span>PUBLISH_</span><wbr></wbr><span>ERROR_</span><wbr></wbr><span>NON_</span><wbr></wbr><span>ZERO_</span><wbr></wbr><span>ADDRESS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="191259500%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-p-u-b-l-i-s-h_-e-r-r-o-r_-n-o-n_-z-e-r-o_-a-d-d-r-e-s-s/index.html">PUBLISH_ERROR_NON_ZERO_ADDRESS</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Publish/Upgrade errors.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1158112082%2FClasslikes%2F1820378888" anchor-label="PUBLISH_UPGRADE_DEPENDENCY_DOWNGRADE" id="-1158112082%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-d-e-p-e-n-d-e-n-c-y_-d-o-w-n-g-r-a-d-e/index.html"><span>PUBLISH_</span><wbr></wbr><span>UPGRADE_</span><wbr></wbr><span>DEPENDENCY_</span><wbr></wbr><span>DOWNGRADE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1158112082%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-d-e-p-e-n-d-e-n-c-y_-d-o-w-n-g-r-a-d-e/index.html">PUBLISH_UPGRADE_DEPENDENCY_DOWNGRADE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Publish or upgrade dependency downgrade.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1065921013%2FClasslikes%2F1820378888" anchor-label="PUBLISH_UPGRADE_MISSING_DEPENDENCY" id="-1065921013%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-m-i-s-s-i-n-g_-d-e-p-e-n-d-e-n-c-y/index.html"><span>PUBLISH_</span><wbr></wbr><span>UPGRADE_</span><wbr></wbr><span>MISSING_</span><wbr></wbr><span>DEPENDENCY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065921013%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-p-u-b-l-i-s-h_-u-p-g-r-a-d-e_-m-i-s-s-i-n-g_-d-e-p-e-n-d-e-n-c-y/index.html">PUBLISH_UPGRADE_MISSING_DEPENDENCY</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Publish or Upgrade is missing dependency.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="870317158%2FClasslikes%2F1820378888" anchor-label="SUI_MOVE_VERIFICATION_ERROR" id="870317158%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-e-r-r-o-r/index.html"><span>SUI_</span><wbr></wbr><span>MOVE_</span><wbr></wbr><span>VERIFICATION_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="870317158%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-e-r-r-o-r/index.html">SUI_MOVE_VERIFICATION_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Sui Move bytecode verification error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="325504285%2FClasslikes%2F1820378888" anchor-label="SUI_MOVE_VERIFICATION_TIMEDOUT" id="325504285%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-t-i-m-e-d-o-u-t/index.html"><span>SUI_</span><wbr></wbr><span>MOVE_</span><wbr></wbr><span>VERIFICATION_</span><wbr></wbr><span>TIMEDOUT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="325504285%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-s-u-i_-m-o-v-e_-v-e-r-i-f-i-c-a-t-i-o-n_-t-i-m-e-d-o-u-t/index.html">SUI_MOVE_VERIFICATION_TIMEDOUT</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Sui Move bytecode verification timed out.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1600172757%2FClasslikes%2F1820378888" anchor-label="TYPE_ARGUMENT_ERROR" id="1600172757%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-t-y-p-e_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html"><span>TYPE_</span><wbr></wbr><span>ARGUMENT_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1600172757%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-t-y-p-e_-a-r-g-u-m-e-n-t_-e-r-r-o-r/index.html">TYPE_ARGUMENT_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Type argument error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="762274539%2FClasslikes%2F1820378888" anchor-label="TYPE_ARITY_MISMATCH" id="762274539%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-t-y-p-e_-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html"><span>TYPE_</span><wbr></wbr><span>ARITY_</span><wbr></wbr><span>MISMATCH</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="762274539%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-t-y-p-e_-a-r-i-t-y_-m-i-s-m-a-t-c-h/index.html">TYPE_ARITY_MISMATCH</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Type parity mismatch for Move function. Mismatch between the number of actual versus expected type arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-225114317%2FClasslikes%2F1820378888" anchor-label="UNRECOGNIZED" id="-225114317%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-n-r-e-c-o-g-n-i-z-e-d/index.html"><span><span>UNRECOGNIZED</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-225114317%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-u-n-r-e-c-o-g-n-i-z-e-d/index.html">UNRECOGNIZED</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>number<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2066749437%2FClasslikes%2F1820378888" anchor-label="UNUSED_VALUE_WITHOUT_DROP" id="-2066749437%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-n-u-s-e-d_-v-a-l-u-e_-w-i-t-h-o-u-t_-d-r-o-p/index.html"><span>UNUSED_</span><wbr></wbr><span>VALUE_</span><wbr></wbr><span>WITHOUT_</span><wbr></wbr><span>DROP</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2066749437%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-u-n-u-s-e-d_-v-a-l-u-e_-w-i-t-h-o-u-t_-d-r-o-p/index.html">UNUSED_VALUE_WITHOUT_DROP</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Unused result without the drop ability.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1695882204%2FClasslikes%2F1820378888" anchor-label="VM_INVARIANT_VIOLATION" id="-1695882204%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-v-m_-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html"><span>VM_</span><wbr></wbr><span>INVARIANT_</span><wbr></wbr><span>VIOLATION</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1695882204%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-v-m_-i-n-v-a-r-i-a-n-t_-v-i-o-l-a-t-i-o-n/index.html">VM_INVARIANT_VIOLATION</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">MoveVm invariant violation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2103472790%2FClasslikes%2F1820378888" anchor-label="VM_VERIFICATION_OR_DESERIALIZATION_ERROR" id="-2103472790%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-v-m_-v-e-r-i-f-i-c-a-t-i-o-n_-o-r_-d-e-s-e-r-i-a-l-i-z-a-t-i-o-n_-e-r-r-o-r/index.html"><span>VM_</span><wbr></wbr><span>VERIFICATION_</span><wbr></wbr><span>OR_</span><wbr></wbr><span>DESERIALIZATION_</span><wbr></wbr><span>ERROR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2103472790%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-v-m_-v-e-r-i-f-i-c-a-t-i-o-n_-o-r_-d-e-s-e-r-i-a-l-i-z-a-t-i-o-n_-e-r-r-o-r/index.html">VM_VERIFICATION_OR_DESERIALIZATION_ERROR</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Bytecode verification error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="671260643%2FClasslikes%2F1820378888" anchor-label="WRITTEN_OBJECTS_TOO_LARGE" id="671260643%2FClasslikes%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-w-r-i-t-t-e-n_-o-b-j-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html"><span>WRITTEN_</span><wbr></wbr><span>OBJECTS_</span><wbr></wbr><span>TOO_</span><wbr></wbr><span>LARGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="671260643%2FClasslikes%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-w-r-i-t-t-e-n_-o-b-j-e-c-t-s_-t-o-o_-l-a-r-g-e/index.html">WRITTEN_OBJECTS_TOO_LARGE</a> : <a href="index.html">ExecutionError.ExecutionErrorKind</a></div><div class="brief "><p class="paragraph">Indicates the transaction tried to write objects too large to storage.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1025828932%2FProperties%2F1820378888" anchor-label="number" id="1025828932%2FProperties%2F1820378888" data-filterable-set=":ksui-grpc/commonMain"></a>
+          <div class="table-row" data-filterable-current=":ksui-grpc/commonMain" data-filterable-set=":ksui-grpc/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="number.html"><span><span>number</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1025828932%2FProperties%2F1820378888"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ksui-grpc/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="number.html">number</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>(c) McXross</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
