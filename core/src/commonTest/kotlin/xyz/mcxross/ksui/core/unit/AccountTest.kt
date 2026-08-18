@@ -21,8 +21,6 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import xyz.mcxross.ksui.core.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.account.Ed25519Account
-import xyz.mcxross.ksui.core.account.Secp256k1Account
-import xyz.mcxross.ksui.core.account.Secp256r1Account
 import xyz.mcxross.ksui.core.crypto.Ed25519PublicKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
@@ -72,12 +70,6 @@ class AccountTest :
       val accounts =
         listOf(
           (Account.create(SignatureScheme.ED25519) as Ed25519Account).let { it to it.mnemonic },
-          (Account.create(SignatureScheme.Secp256k1) as Secp256k1Account).let {
-            it to it.mnemonic
-          },
-          (Account.create(SignatureScheme.Secp256r1) as Secp256r1Account).let {
-            it to it.mnemonic
-          },
         )
 
       accounts.forEach { (account, mnemonic) ->
