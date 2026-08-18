@@ -24,6 +24,23 @@ function contains_snapshot() {
   [[ "${commit_message}" == *"SNAPSHOT"* ]]
 }
 
+function is_release_commit_for_branch() {
+  local branch="$1"
+  local commit="$2"
+
+  if ! is_release_commit "${commit}"; then
+    return 1
+  fi
+
+  if [[ "${branch}" == "snapshot" ]]; then
+    contains_snapshot "${commit}"
+  elif [[ "${branch}" == "main" ]]; then
+    ! contains_snapshot "${commit}"
+  else
+    return 1
+  fi
+}
+
 function validate_release_for_branch() {
   local branch="$1"
   local commit="$2"
@@ -84,7 +101,7 @@ if [[ -n "${git_last_merge_commit}" && "${git_head_commit}" == "${git_last_merge
   git_branch_merge_base_commit=$(git merge-base --all "${git_branch_parent_commits[0]}" "${git_branch_parent_commits[1]}")
 
   for commit in $(git log --pretty=%H "${git_branch_merge_base_commit}..${git_branch_parent_commits[1]}"); do
-    if is_release_commit "${commit}"; then
+    if is_release_commit_for_branch "${git_branch}" "${commit}"; then
       publish_commit "${git_branch}" "${commit}" "${git_head_commit}"
       exit 0
     fi
