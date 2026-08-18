@@ -156,9 +156,10 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/equals/#kotlin.Any?/Pointin
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/hashCode/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-key-pair/hash-code.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/privateKey/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-key-pair/private-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/KeyPair/publicKey/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-key-pair/public-key.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider.Companion///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/-companion/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider/PasskeyProvider/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/-passkey-provider.html
-$dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider/PasskeyProvider/#[Error type: Unresolved type for Context]#kotlin.String/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/-passkey-provider.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider/PasskeyProvider/#[Error type: Unresolved type for Context]#kotlin.String#kotlin.String/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/-passkey-provider.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyProvider/signAndRecover/#kotlin.ByteArray/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-provider/sign-and-recover.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/PasskeyPublicKey/#kotlin.ByteArray/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/-passkey-public-key.html
@@ -167,6 +168,7 @@ $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/equals/#kotlin.Any
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/hashCode/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/hash-code.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/scheme/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/scheme.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/verify/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/verify.html
+$dokka.location:xyz.mcxross.ksui.core.crypto/PasskeyPublicKey/verifySuiProofOfKey/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-passkey-public-key/verify-sui-proof-of-key.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey.Companion///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-private-key/-companion/index.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey.Companion/fromEncoded/#kotlin.String/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-private-key/-companion/from-encoded.html
 $dokka.location:xyz.mcxross.ksui.core.crypto/PrivateKey///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.crypto/-private-key/index.html
@@ -261,6 +263,7 @@ $dokka.location:xyz.mcxross.ksui.core.model//sign/xyz.mcxross.ksui.core.model.Tr
 $dokka.location:xyz.mcxross.ksui.core.model//signatures/xyz.mcxross.ksui.core.model.Envelope[xyz.mcxross.ksui.core.model.SenderSignedData]#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/signatures.html
 $dokka.location:xyz.mcxross.ksui.core.model//toTransaction/xyz.mcxross.ksui.core.model.TransactionData#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/to-transaction.html
 $dokka.location:xyz.mcxross.ksui.core.model//transactionBlockResponseOptions/#kotlin.Function1[xyz.mcxross.ksui.core.model.TransactionBlockResponseOptionsBuilder,kotlin.Unit]/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/transaction-block-response-options.html
+$dokka.location:xyz.mcxross.ksui.core.model//validateSponsoredTransaction/xyz.mcxross.ksui.core.model.GasLessTransactionData#xyz.mcxross.ksui.core.model.TransactionData#xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/validate-sponsored-transaction.html
 $dokka.location:xyz.mcxross.ksui.core.model//with/xyz.mcxross.ksui.core.model.TransactionData#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/with.html
 $dokka.location:xyz.mcxross.ksui.core.model/AccountAddress.Companion///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-account-address/-companion/index.html
 $dokka.location:xyz.mcxross.ksui.core.model/AccountAddress.Companion/EMPTY/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-account-address/-companion/-e-m-p-t-y.html
@@ -630,6 +633,11 @@ $dokka.location:xyz.mcxross.ksui.core.model/SenderSignedTransaction///PointingTo
 $dokka.location:xyz.mcxross.ksui.core.model/SenderSignedTransaction/SenderSignedTransaction/#xyz.mcxross.ksui.core.model.IntentMessage[xyz.mcxross.ksui.core.model.TransactionData]#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sender-signed-transaction/-sender-signed-transaction.html
 $dokka.location:xyz.mcxross.ksui.core.model/SenderSignedTransaction/intentMessage/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sender-signed-transaction/intent-message.html
 $dokka.location:xyz.mcxross.ksui.core.model/SenderSignedTransaction/txSignatures/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sender-signed-transaction/tx-signatures.html
+$dokka.location:xyz.mcxross.ksui.core.model/SponsoredTransactionPolicy///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sponsored-transaction-policy/index.html
+$dokka.location:xyz.mcxross.ksui.core.model/SponsoredTransactionPolicy/SponsoredTransactionPolicy/#[Error type: Unresolved type for ULong]#[Error type: Unresolved type for ULong]#xyz.mcxross.ksui.core.model.AccountAddress?/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sponsored-transaction-policy/-sponsored-transaction-policy.html
+$dokka.location:xyz.mcxross.ksui.core.model/SponsoredTransactionPolicy/expectedSponsor/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sponsored-transaction-policy/expected-sponsor.html
+$dokka.location:xyz.mcxross.ksui.core.model/SponsoredTransactionPolicy/maxGasBudget/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sponsored-transaction-policy/max-gas-budget.html
+$dokka.location:xyz.mcxross.ksui.core.model/SponsoredTransactionPolicy/maxGasPrice/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-sponsored-transaction-policy/max-gas-price.html
 $dokka.location:xyz.mcxross.ksui.core.model/StructTag.Companion///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-struct-tag/-companion/index.html
 $dokka.location:xyz.mcxross.ksui.core.model/StructTag.Companion/STRING/#/PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-struct-tag/-companion/-s-t-r-i-n-g.html
 $dokka.location:xyz.mcxross.ksui.core.model/StructTag///PointingToDeclaration/-ksui core/xyz.mcxross.ksui.core.model/-struct-tag/index.html
