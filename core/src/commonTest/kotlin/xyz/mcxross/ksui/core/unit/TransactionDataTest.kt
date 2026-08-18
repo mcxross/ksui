@@ -1,9 +1,20 @@
 package xyz.mcxross.ksui.core.unit
 
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Digest
+import xyz.mcxross.ksui.core.model.GasData
+import xyz.mcxross.ksui.core.model.GasLessTransactionData
+import xyz.mcxross.ksui.core.model.ObjectDigest
+import xyz.mcxross.ksui.core.model.ObjectReference
+import xyz.mcxross.ksui.core.model.Reference
+import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
 import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.TransactionKind
+import xyz.mcxross.ksui.core.ptb.ptb
 import xyz.mcxross.ksui.core.util.fromBase64
 
 class TransactionDataTest :
@@ -17,5 +28,49 @@ class TransactionDataTest :
       txData.shouldBeInstanceOf<TransactionData.V1>()
 
       txData.kind.shouldBeInstanceOf<TransactionKind.ProgrammableTransaction>()
+    }
+
+    "Sponsored transaction validation accepts only the requested intent and bounded sponsor gas" {
+      val sender = AccountAddress.fromString("0x123")
+      val sponsor = AccountAddress.fromString("0x456")
+      val requested = GasLessTransactionData.new(ptb { pure(100UL) }, sender)
+      val payment =
+        ObjectReference(
+          reference = Reference(sponsor),
+          version = 1,
+          digest = ObjectDigest(Digest(ByteArray(32) { 1 })),
+        )
+      val policy =
+        SponsoredTransactionPolicy(
+          maxGasBudget = 2_000_000UL,
+          maxGasPrice = 2_000UL,
+          expectedSponsor = sponsor,
+        )
+      val valid =
+        TransactionData.V1(
+          kind = requested.kind,
+          sender = requested.sender,
+          gasData =
+            GasData(
+              payment = listOf(payment),
+              owner = sponsor,
+              price = 1_000UL,
+              budget = 1_000_000UL,
+            ),
+          expiration = requested.expiration,
+        )
+
+      requested.validateSponsoredTransaction(valid, policy) shouldBe valid
+
+      val substituted =
+        valid.copy(kind = GasLessTransactionData.new(ptb { pure(200UL) }, sender).kind)
+      runCatching { requested.validateSponsoredTransaction(substituted, policy) }
+        .exceptionOrNull()
+        .shouldBeInstanceOf<IllegalArgumentException>()
+
+      val excessiveGas = valid.copy(gasData = valid.gasData.copy(budget = 2_000_001UL))
+      runCatching { requested.validateSponsoredTransaction(excessiveGas, policy) }
+        .exceptionOrNull()
+        .shouldBeInstanceOf<IllegalArgumentException>()
     }
   })

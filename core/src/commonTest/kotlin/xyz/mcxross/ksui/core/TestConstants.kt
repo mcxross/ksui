@@ -1,4 +1,6 @@
 package xyz.mcxross.ksui.core
 
-const val PRIVATE_KEY_DATA =
-  "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
+import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
+
+/** Deterministic local-only unit-test key. It is never used by network-connected tests. */
+val PRIVATE_KEY_DATA = Ed25519PrivateKey(ByteArray(32) { (it + 1).toByte() }).export()

@@ -28,8 +28,12 @@ import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.client.httpClient
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.GasLessTransactionData
+import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.core.ptb.PtbDsl
+import xyz.mcxross.ksui.core.util.bcsDecode
 import xyz.mcxross.ksui.ptb.ptb
 
 class GasStationConfig {
@@ -62,6 +66,8 @@ class SponsoredPtbScope(private val sui: Sui) {
 suspend inline fun <reified T, reified R> sponsoredTransaction(
   sui: Sui = xyz.mcxross.ksui.SuiKit.client,
   crossinline requestFactory: (String, String) -> T,
+  policy: SponsoredTransactionPolicy,
+  crossinline responseTransactionBytes: (R) -> String,
   httpClient: io.ktor.client.HttpClient? = null,
   noinline block: suspend SponsoredPtbScope.() -> Unit,
 ): R {
@@ -81,5 +87,9 @@ suspend inline fun <reified T, reified R> sponsoredTransaction(
       setBody(requestFactory(txBytes, sender.toString()))
     }
 
-  return response.body<R>()
+  val body = response.body<R>()
+  val sponsoredBytes = Base64.decode(responseTransactionBytes(body))
+  val sponsored = bcsDecode<TransactionData>(sponsoredBytes)
+  gasLess.validateSponsoredTransaction(sponsored, policy)
+  return body
 }

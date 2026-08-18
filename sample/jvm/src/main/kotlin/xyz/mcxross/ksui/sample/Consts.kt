@@ -17,20 +17,21 @@ package xyz.mcxross.ksui.sample
 
 import xyz.mcxross.ksui.core.account.Account
 
-const val ALICE_PRIVATE_KEY =
-  "suiprivkey1qqtp4ugtv40c6tj4a7r4vd8ft4nykpxsrh07yqssklraxy243us5qyczx9z"
-val ALICE_ACCOUNT = Account.import(ALICE_PRIVATE_KEY)
+private fun requiredEnvironment(name: String): String =
+  requireNotNull(System.getenv(name)?.takeIf { it.isNotBlank() }) {
+    "$name must contain an explicitly disposable testnet credential"
+  }
 
-const val BOB_PASS_PHRASE =
-  "oyster recycle orange priority diesel flash turn merit nation wood benefit fall"
-val BOB_ACCOUNT = Account.import(BOB_PASS_PHRASE.split(" "))
+private fun sampleAccount(name: String): Account = Account.import(requiredEnvironment(name))
 
-const val CAROL_PRIVATE_KEY =
-  "suiprivkey1qpx4h5re3myaz9chqtp89szeqf3c865h8ma80vkudn0g6kkj0qpgvw69u8y"
-val CAROL_ACCOUNT = Account.import(CAROL_PRIVATE_KEY)
+val ALICE_ACCOUNT: Account by lazy { sampleAccount("KSUI_SAMPLE_ALICE_KEY") }
+
+val BOB_ACCOUNT: Account by lazy { sampleAccount("KSUI_SAMPLE_BOB_KEY") }
+
+val CAROL_ACCOUNT: Account by lazy { sampleAccount("KSUI_SAMPLE_CAROL_KEY") }
 
 const val HELLO_WORLD =
   "0x883393ee444fb828aa0e977670cf233b0078b41d144e6208719557cb3888244d::hello_wolrd::hello_world"
 
-val GAS_STATION_URL = System.getenv("GAS_STATION_URL")
-val GAS_STATION_API_KEY = System.getenv("GAS_STATION_API_KEY")
+val GAS_STATION_URL: String by lazy { requiredEnvironment("GAS_STATION_URL") }
+val GAS_STATION_API_KEY: String by lazy { requiredEnvironment("GAS_STATION_API_KEY") }

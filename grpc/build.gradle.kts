@@ -145,6 +145,14 @@ rpc {
 
 tasks.matching { it.name == "bufGenerateJvmTest" }.configureEach { enabled = false }
 
+tasks.withType<Test>().configureEach {
+  val hasTestKey =
+    providers.environmentVariable("KSUI_TEST_PRIVATE_KEY").map { it.isNotBlank() }.getOrElse(false)
+  if (!hasTestKey) {
+    exclude("**/e2e/**")
+  }
+}
+
 tasks.withType<DokkaTask>().configureEach {
   notCompatibleWithConfigurationCache("https://github.com/Kotlin/dokka/issues/2231")
 }

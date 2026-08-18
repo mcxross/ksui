@@ -17,10 +17,13 @@ package xyz.mcxross.ksui.core.crypto
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.credentials.*
 import androidx.credentials.exceptions.*
 import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCredentialDomException
 import java.math.BigInteger
+import java.security.MessageDigest
 import kotlin.io.encoding.Base64
 import kotlinx.serialization.json.Json
 import org.bouncycastle.asn1.ASN1InputStream
@@ -39,7 +42,11 @@ import xyz.mcxross.ksui.core.model.RegistrationResponses
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.utils.PasskeyUtils.recoverPublicKeyPoint
 
-actual class PasskeyProvider(private val context: Context, private val rpId: String) {
+actual class PasskeyProvider(
+  private val context: Context,
+  private val rpId: String,
+  private val expectedOrigin: String = applicationOrigin(context),
+) {
 
   private val credentialManager = CredentialManager.create(context)
 
@@ -145,7 +152,8 @@ actual class PasskeyProvider(private val context: Context, private val rpId: Str
   internal actual suspend fun sign(pk: ByteArray, challenge: ByteArray): Result<ByteArray, E> {
     val challengeBase64Url = base64UrlEncoder.encode(challenge)
 
-    val requestJson = """{"rpId":"$rpId","challenge":"$challengeBase64Url"}"""
+    val requestJson =
+      """{"rpId":"$rpId","challenge":"$challengeBase64Url","userVerification":"required"}"""
     val request =
       GetCredentialRequest(credentialOptions = listOf(GetPublicKeyCredentialOption(requestJson)))
 
@@ -188,6 +196,22 @@ actual class PasskeyProvider(private val context: Context, private val rpId: Str
     }
   }
 
+  internal actual fun verify(
+    pk: ByteArray,
+    challenge: ByteArray,
+    signature: ByteArray,
+  ): Result<Boolean, E> =
+    Result.Ok(
+      verifyPasskeyAssertion(
+        publicKey = PasskeyPublicKey(pk),
+        message = challenge,
+        signature = signature,
+        expectedRpId = rpId,
+        expectedOrigin = expectedOrigin,
+        requireUserVerification = true,
+      )
+    )
+
   /**
    * Signs a message and recovers the possible public keys from the signature.
    *
@@ -195,7 +219,8 @@ actual class PasskeyProvider(private val context: Context, private val rpId: Str
    * @return A list of possible PasskeyPublicKey objects.
    */
   suspend fun signAndRecover(message: ByteArray): List<PasskeyPublicKey> {
-    val requestJson = """{"rpId": "$rpId", "challenge": "${base64UrlEncoder.encode(message)}"}"""
+    val requestJson =
+      """{"rpId":"$rpId","challenge":"${base64UrlEncoder.encode(message)}","userVerification":"required"}"""
     val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(requestJson = requestJson)
     val request = GetCredentialRequest(credentialOptions = listOf(getPublicKeyCredentialOption))
 
@@ -246,6 +271,40 @@ actual class PasskeyProvider(private val context: Context, private val rpId: Str
       return possibleKeys
     } catch (e: GetCredentialException) {
       throw IllegalStateException("Signing and recovery failed: ${e.message}", e)
+    }
+  }
+
+  companion object {
+    @Suppress("DEPRECATION")
+    private fun applicationOrigin(context: Context): String {
+      val packageInfo =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+          context.packageManager.getPackageInfo(
+            context.packageName,
+            PackageManager.GET_SIGNING_CERTIFICATES,
+          )
+        } else {
+          context.packageManager.getPackageInfo(
+            context.packageName,
+            PackageManager.GET_SIGNATURES,
+          )
+        }
+      val certificate =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+          packageInfo.signingInfo?.apkContentsSigners?.firstOrNull()
+        } else {
+          packageInfo.signatures?.firstOrNull()
+        }
+          ?: throw IllegalStateException("Unable to determine the Android application origin")
+      val certificateHash = MessageDigest.getInstance("SHA-256").digest(certificate.toByteArray())
+      val encoded =
+        android.util.Base64.encodeToString(
+          certificateHash,
+          android.util.Base64.URL_SAFE or
+            android.util.Base64.NO_PADDING or
+            android.util.Base64.NO_WRAP,
+        )
+      return "android:apk-key-hash:$encoded"
     }
   }
 }

@@ -36,8 +36,7 @@ import xyz.mcxross.ksui.core.model.Result
  * - `scheme`: The signature scheme used by the account, which is Ed25519.
  *
  * The class provides the following methods:
- * - `toString()`: Returns a string representation of the account, including the mnemonic and
- *   address.
+ * - `toString()`: Returns a non-sensitive string representation of the account.
  *
  * The companion object provides the following methods:
  * - `generate()`: Generates a new `Ed25519Account` using a randomly generated mnemonic phrase and
@@ -68,7 +67,7 @@ class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
   }
 
   override fun toString(): String {
-    return "Ed25519Account{mnemonic=$mnemonic, address=$address}"
+    return "Ed25519Account{address=$address}"
   }
 
   companion object {

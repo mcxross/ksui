@@ -34,6 +34,11 @@ actual fun httpClient(clientConfig: ClientConfig) =
 
     install(DefaultRequest) {}
 
+    install(HttpTimeout) {
+      requestTimeoutMillis = clientConfig.requestTimeout
+      connectTimeoutMillis = clientConfig.connectTimeout
+    }
+
     // Set the user agent. If the user wants to use a like agent, use that instead, otherwise use
     // the user's agent.
     if (clientConfig.likeAgent == null) {
@@ -70,10 +75,10 @@ actual fun httpClient(clientConfig: ClientConfig) =
 
       config {
         retryOnConnectionFailure(clientConfig.followRedirects)
-        connectTimeout(clientConfig.connectTimeoutMillis, TimeUnit.SECONDS)
+        connectTimeout(clientConfig.connectTimeoutMillis, TimeUnit.MILLISECONDS)
         followRedirects(clientConfig.followSslRedirects)
-        readTimeout(clientConfig.readTimeoutMillis, TimeUnit.SECONDS)
-        writeTimeout(clientConfig.writeTimeoutMillis, TimeUnit.SECONDS)
+        readTimeout(clientConfig.readTimeoutMillis, TimeUnit.MILLISECONDS)
+        writeTimeout(clientConfig.writeTimeoutMillis, TimeUnit.MILLISECONDS)
       }
     }
   }
