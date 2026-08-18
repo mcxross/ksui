@@ -17,4 +17,11 @@ actual class PasskeyProvider {
   internal actual suspend fun sign(pk: ByteArray, challenge: ByteArray): Result<ByteArray, E> {
     TODO("Not yet implemented")
   }
+
+  internal actual fun verify(
+    pk: ByteArray,
+    challenge: ByteArray,
+    signature: ByteArray,
+  ): Result<Boolean, E> =
+    Result.Err(UnsupportedOperationException("Passkey provider is not available on Native"))
 }

@@ -43,17 +43,23 @@ function validate_release_for_branch() {
 
 function publish_commit() {
   local branch="$1"
-  local commit="$2"
+  local release_commit="$2"
+  local trusted_commit="$3"
 
-  validate_release_for_branch "${branch}" "${commit}"
+  validate_release_for_branch "${branch}" "${release_commit}"
 
-  approve "Release commit found at ${commit} on branch ${branch}, publishing..."
+  if [[ "$(git rev-parse HEAD)" != "${trusted_commit}" ]]; then
+    die "Trusted release commit is not currently checked out."
+  fi
+  if [[ -n "${EXPECTED_RELEASE_SHA:-}" && "${trusted_commit}" != "${EXPECTED_RELEASE_SHA}" ]]; then
+    die "Checked out commit does not match the CI release SHA."
+  fi
 
-  safe git checkout "${commit}"
+  approve "Release marker found at ${release_commit} on branch ${branch}; publishing trusted HEAD ${trusted_commit}..."
   safe chmod +x ./gradlew
   safe ./gradlew generateApolloSources
 
-  if contains_snapshot "${commit}"; then
+  if contains_snapshot "${release_commit}"; then
     approve "Snapshot release, publishing snapshot artifact..."
     safe ./gradlew publishToMavenCentral
   else
@@ -79,13 +85,12 @@ if [[ -n "${git_last_merge_commit}" && "${git_head_commit}" == "${git_last_merge
 
   for commit in $(git log --pretty=%H "${git_branch_merge_base_commit}..${git_branch_parent_commits[1]}"); do
     if is_release_commit "${commit}"; then
-      publish_commit "${git_branch}" "${commit}"
-      safe git checkout "${git_head_commit}"
+      publish_commit "${git_branch}" "${commit}" "${git_head_commit}"
       exit 0
     fi
   done
 elif is_release_commit "${git_head_commit}"; then
-  publish_commit "${git_branch}" "${git_head_commit}"
+  publish_commit "${git_branch}" "${git_head_commit}" "${git_head_commit}"
   exit 0
 fi
 

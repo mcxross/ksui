@@ -1,0 +1,118 @@
+#!/bin/bash
+
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+TEST_ROOT=$(mktemp -d)
+trap 'rm -rf "${TEST_ROOT}"' EXIT
+
+function fail() {
+  echo "release_test: $1" >&2
+  exit 1
+}
+
+function initialize_repository() {
+  local repository="$1"
+  local branch="$2"
+
+  git init -q -b "${branch}" "${repository}"
+  git -C "${repository}" config user.name "Release Test"
+  git -C "${repository}" config user.email "release-test@example.invalid"
+  mkdir -p "${repository}/scripts"
+  cp "${SCRIPT_DIR}/release" "${repository}/scripts/release"
+  cp "${SCRIPT_DIR}/inc.functions.sh" "${repository}/scripts/inc.functions.sh"
+  chmod +x "${repository}/scripts/release"
+}
+
+function write_safe_gradle_wrapper() {
+  local repository="$1"
+  cat >"${repository}/gradlew" <<'EOF'
+#!/bin/bash
+echo "$*" >>"${RELEASE_TEST_LOG}"
+EOF
+  chmod +x "${repository}/gradlew"
+}
+
+function test_merged_release_publishes_trusted_head() {
+  local repository="${TEST_ROOT}/merged"
+  local log="${TEST_ROOT}/merged.log"
+  local malicious_marker="${TEST_ROOT}/historical-code-ran"
+
+  initialize_repository "${repository}" snapshot
+  write_safe_gradle_wrapper "${repository}"
+  git -C "${repository}" add .
+  git -C "${repository}" commit -q -m "initial"
+
+  git -C "${repository}" checkout -q -b feature
+  cat >"${repository}/gradlew" <<'EOF'
+#!/bin/bash
+touch "${RELEASE_TEST_MALICIOUS_MARKER}"
+EOF
+  chmod +x "${repository}/gradlew"
+  git -C "${repository}" add gradlew
+  git -C "${repository}" commit -q -m "release v9.9.9-SNAPSHOT"
+
+  write_safe_gradle_wrapper "${repository}"
+  git -C "${repository}" add gradlew
+  git -C "${repository}" commit -q -m "restore trusted build"
+  git -C "${repository}" checkout -q snapshot
+  git -C "${repository}" merge -q --no-ff feature -m "merge release branch"
+
+  local trusted_sha
+  trusted_sha=$(git -C "${repository}" rev-parse HEAD)
+  (
+    cd "${repository}"
+    EXPECTED_RELEASE_SHA="${trusted_sha}" \
+      RELEASE_TEST_LOG="${log}" \
+      RELEASE_TEST_MALICIOUS_MARKER="${malicious_marker}" \
+      ./scripts/release
+  )
+
+  [[ ! -e "${malicious_marker}" ]] || fail "historical Gradle code was executed"
+  grep -Fxq "generateApolloSources" "${log}" || fail "source generation was not preserved"
+  grep -Fxq "publishToMavenCentral" "${log}" || fail "snapshot publication was not preserved"
+}
+
+function test_direct_stable_release_is_preserved() {
+  local repository="${TEST_ROOT}/stable"
+  local log="${TEST_ROOT}/stable.log"
+
+  initialize_repository "${repository}" main
+  write_safe_gradle_wrapper "${repository}"
+  git -C "${repository}" add .
+  git -C "${repository}" commit -q -m "release v9.9.9"
+
+  local trusted_sha
+  trusted_sha=$(git -C "${repository}" rev-parse HEAD)
+  (
+    cd "${repository}"
+    EXPECTED_RELEASE_SHA="${trusted_sha}" RELEASE_TEST_LOG="${log}" ./scripts/release
+  )
+
+  grep -Fxq "generateApolloSources" "${log}" || fail "source generation was not preserved"
+  grep -Fxq "publishAndReleaseToMavenCentral --no-configuration-cache" "${log}" ||
+    fail "stable publication was not preserved"
+}
+
+function test_ci_sha_mismatch_fails_closed() {
+  local repository="${TEST_ROOT}/mismatch"
+
+  initialize_repository "${repository}" main
+  write_safe_gradle_wrapper "${repository}"
+  git -C "${repository}" add .
+  git -C "${repository}" commit -q -m "release v9.9.9"
+
+  if (
+    cd "${repository}"
+    EXPECTED_RELEASE_SHA="0000000000000000000000000000000000000000" \
+      RELEASE_TEST_LOG="${TEST_ROOT}/mismatch.log" \
+      ./scripts/release
+  ); then
+    fail "release continued after a CI SHA mismatch"
+  fi
+}
+
+test_merged_release_publishes_trusted_head
+test_direct_stable_release_is_preserved
+test_ci_sha_mismatch_fails_closed
+echo "release_test: all checks passed"

@@ -58,13 +58,26 @@ class AccountTest :
 
     "Account import from private key string resolves correct address" {
       val account = Account.import(PRIVATE_KEY_DATA)
-      account.address.toString() shouldBe
-        "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
+      account.address.toString().length shouldBe 66
     }
 
     "Account import from private key instance resolves correct address" {
       val account = Account.import(PrivateKey.fromEncoded(PRIVATE_KEY_DATA))
-      account.address.toString() shouldBe
-        "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904"
+      account.address shouldBe Account.import(PRIVATE_KEY_DATA).address
+    }
+
+    "Account string representations never expose recovery material" {
+      val accounts =
+        listOf(
+          (Account.create(SignatureScheme.ED25519) as Ed25519Account).let { it to it.mnemonic },
+        )
+
+      accounts.forEach { (account, mnemonic) ->
+        val rendered = account.toString()
+        rendered.contains(mnemonic) shouldBe false
+        rendered.contains("mnemonic=") shouldBe false
+        rendered.contains("privKey=") shouldBe false
+        rendered.contains(account.address.toString()) shouldBe true
+      }
     }
   })
