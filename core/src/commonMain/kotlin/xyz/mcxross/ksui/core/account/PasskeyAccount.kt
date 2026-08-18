@@ -20,7 +20,6 @@ import kotlin.uuid.Uuid
 import xyz.mcxross.ksui.core.crypto.PasskeyProvider
 import xyz.mcxross.ksui.core.crypto.PasskeyPublicKey
 import xyz.mcxross.ksui.core.crypto.SignatureScheme
-import xyz.mcxross.ksui.core.crypto.verifySignature
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
@@ -40,7 +39,7 @@ class PasskeyAccount(
   }
 
   override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> {
-    return verifySignature(publicKey, message, signature)
+    return provider.verify(publicKey.data, message, signature)
   }
 
   companion object {

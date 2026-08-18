@@ -52,4 +52,11 @@ expect class PasskeyProvider {
    * @return The full serialized Passkey signature payload.
    */
   internal suspend fun sign(pk: ByteArray, challenge: ByteArray): Result<ByteArray, E>
+
+  /** Verifies an assertion using this provider's relying-party and application-origin policy. */
+  internal fun verify(
+    pk: ByteArray,
+    challenge: ByteArray,
+    signature: ByteArray,
+  ): Result<Boolean, E>
 }

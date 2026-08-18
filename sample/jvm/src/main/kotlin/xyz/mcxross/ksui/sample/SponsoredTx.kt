@@ -23,6 +23,7 @@ import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.core.model.SuiSettings
 import xyz.mcxross.ksui.core.model.TransactionData
 import xyz.mcxross.ksui.core.model.sign
+import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.ptb
 import xyz.mcxross.ksui.core.util.bcsDecode
 import xyz.mcxross.ksui.core.util.runBlocking
@@ -56,7 +57,7 @@ fun main() = runBlocking {
   val res =
     httpClient.post("http://0.0.0.0:8080/gas") {
       contentType(ContentType.Application.Json)
-      header("X-API-Key", "zk_xPFGtrE1ZclSKQN1TRYBfqQ9-B5QJKVrpUu5K_0IhMA")
+      header("X-API-Key", GAS_STATION_API_KEY)
       setBody(GasRequestManual(txBytes = base64, sender = ALICE_ACCOUNT.address.toString()))
     }
 
@@ -68,6 +69,7 @@ fun main() = runBlocking {
 
   val txDataBytes = Base64.decode(sponsoredResponse.txBytes)
   val txData = bcsDecode<TransactionData>(txDataBytes)
+  gasLess.validateSponsoredTransaction(txData, SAMPLE_SPONSOR_POLICY)
 
   val userSignature =
     when (val sig = txData.sign(ALICE_ACCOUNT)) {

@@ -37,6 +37,8 @@ fun main() = runBlocking {
     sponsoredTransaction(
       sui = sui,
       requestFactory = { txBytes, sender -> GasRequest(txBytes, sender) },
+      policy = SAMPLE_SPONSOR_POLICY,
+      responseTransactionBytes = { it.txBytes },
     ) {
       sender = ALICE_ACCOUNT.address
       gasStation {
