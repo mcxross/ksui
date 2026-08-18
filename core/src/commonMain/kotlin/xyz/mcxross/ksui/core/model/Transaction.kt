@@ -292,3 +292,54 @@ data class GasLessTransactionData(
       )
   }
 }
+
+/** Limits the gas fields a sponsor may add without changing the user's transaction intent. */
+data class SponsoredTransactionPolicy(
+  val maxGasBudget: ULong,
+  val maxGasPrice: ULong,
+  val expectedSponsor: AccountAddress? = null,
+) {
+  init {
+    require(maxGasBudget > 0UL) { "Maximum gas budget must be positive" }
+    require(maxGasPrice > 0UL) { "Maximum gas price must be positive" }
+  }
+}
+
+/**
+ * Validates an untrusted gas-station response before the sender signs it.
+ *
+ * The sponsor may add only bounded gas data. The sender, transaction kind (including every PTB
+ * input and command), and expiration must remain byte-for-byte identical to the original request.
+ */
+fun GasLessTransactionData.validateSponsoredTransaction(
+  transaction: TransactionData,
+  policy: SponsoredTransactionPolicy,
+): TransactionData.V1 {
+  val sponsored = transaction as? TransactionData.V1
+    ?: throw IllegalArgumentException("Gas station returned an unsupported transaction version")
+
+  val returnedIntent =
+    GasLessTransactionData(
+      kind = sponsored.kind,
+      sender = sponsored.sender,
+      expiration = sponsored.expiration,
+    )
+  require(bcsEncode(this).contentEquals(bcsEncode(returnedIntent))) {
+    "Gas station changed the requested transaction intent"
+  }
+
+  val gas = sponsored.gasData
+  require(gas.payment.isNotEmpty()) { "Gas station returned no sponsor payment objects" }
+  require(gas.owner != sender) { "Sponsored transaction gas must not be owned by the sender" }
+  policy.expectedSponsor?.let { expected ->
+    require(gas.owner == expected) { "Gas station returned an unexpected sponsor" }
+  }
+  require(gas.budget in 1UL..policy.maxGasBudget) {
+    "Sponsored transaction gas budget exceeds policy"
+  }
+  require(gas.price in 1UL..policy.maxGasPrice) {
+    "Sponsored transaction gas price exceeds policy"
+  }
+
+  return sponsored
+}

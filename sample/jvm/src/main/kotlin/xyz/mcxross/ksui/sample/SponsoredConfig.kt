@@ -16,7 +16,11 @@
 package xyz.mcxross.ksui.sample
 
 import kotlinx.serialization.Serializable
+import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
 
 @Serializable data class GasRequest(val txBytes: String, val sender: String)
 
 @Serializable data class SponsoredResponse(val txBytes: String, val sponsorSignature: String)
+
+val SAMPLE_SPONSOR_POLICY =
+  SponsoredTransactionPolicy(maxGasBudget = 50_000_000UL, maxGasPrice = 100_000UL)

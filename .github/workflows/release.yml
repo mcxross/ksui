@@ -10,10 +10,7 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/snapshot'
     environment: Sonatype
     env:
-      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
-      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
-      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SONATYPE_SIGNING_KEY }}
-      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SONATYPE_SIGNING_KEY_PASSWORD }}
+      EXPECTED_RELEASE_SHA: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -28,6 +25,15 @@ jobs:
       - name: Grant execute permissions to publish script
         run: chmod +x ./scripts/release
 
+      - name: Verify release routing
+        shell: bash
+        run: bash ./scripts/release_test
+
       - name: Publish
         shell: bash
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SONATYPE_SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SONATYPE_SIGNING_KEY_PASSWORD }}
         run: ./scripts/release

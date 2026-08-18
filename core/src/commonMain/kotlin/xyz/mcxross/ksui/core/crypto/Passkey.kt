@@ -15,13 +15,26 @@
  */
 package xyz.mcxross.ksui.core.crypto
 
+import xyz.mcxross.ksui.core.account.PasskeyAccount
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.Result
 
 data class PasskeyPublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme = SignatureScheme.PASSKEY
 
+  /**
+   * Passkey verification requires relying-party context, which a bare public key does not have.
+   * Use [PasskeyAccount.verify] for WebAuthn authentication or [verifySuiProofOfKey] only when
+   * intentionally matching Sui's context-free proof-of-key semantics.
+   */
   override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> {
+    return Result.Err(
+      IllegalStateException("Passkey verification requires a PasskeyAccount and provider policy")
+    )
+  }
+
+  /** Verifies only the context-free proof-of-key used by Sui transaction signatures. */
+  fun verifySuiProofOfKey(message: ByteArray, signature: ByteArray): Result<Boolean, E> {
     return verifySignature(this, message, signature)
   }
 

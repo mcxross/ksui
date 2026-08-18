@@ -30,7 +30,7 @@ class Secp256r1Account(private val privateKey: Secp256r1PrivateKey) : Account() 
   }
 
   override fun toString(): String {
-    return "Secp256r1Account{mnemonic=$mnemonic, privKey=${privateKey.export()}, address=$address}"
+    return "Secp256r1Account{address=$address}"
   }
 
   companion object {
