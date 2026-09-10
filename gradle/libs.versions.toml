@@ -29,7 +29,7 @@ protobuf = "3.25.5"
 security-crypto = "1.1.0"
 ksp = "2.3.9"
 kotest = "6.0.7"
-fastkrypto = "0.1.2"
+fastkrypto = "0.2.0"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
