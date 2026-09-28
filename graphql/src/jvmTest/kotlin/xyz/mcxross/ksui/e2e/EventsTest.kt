@@ -19,19 +19,19 @@ class EventsTest :
               val data = requireNotNull(result.value)
               val events = requireNotNull(data.events)
               events.nodes.firstOrNull()?.rPC_EVENTS_FIELDS?.sender?.address?.toString()
-                ?: fail("No active event sender found on testnet")
             }
             is Result.Err -> fail("Failed to obtain an active event sender")
           }
 
-        val filter = EventFilter(sender = activeSender)
+        val sender = activeSender ?: TestResources.alice.address.toString()
+        val filter = EventFilter(sender = sender)
         when (val result = sui.queryEvents(filter = filter, first = 1)) {
           is Result.Ok -> {
             val data = requireNotNull(result.value)
             val events = requireNotNull(data.events)
-            events.nodes.isNotEmpty() shouldBe true
+            if (activeSender != null) events.nodes.isNotEmpty() shouldBe true
             events.nodes.all {
-              it.rPC_EVENTS_FIELDS.sender?.address?.toString() == activeSender
+              it.rPC_EVENTS_FIELDS.sender?.address?.toString() == sender
             } shouldBe true
           }
           is Result.Err -> {

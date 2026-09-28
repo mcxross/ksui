@@ -32,9 +32,8 @@ import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
 import xyz.mcxross.ksui.core.model.TransactionData
 import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
-import xyz.mcxross.ksui.core.ptb.PtbDsl
+import xyz.mcxross.ksui.ptb.NetworkPtbDsl
 import xyz.mcxross.ksui.core.util.bcsDecode
-import xyz.mcxross.ksui.ptb.ptb
 
 class GasStationConfig {
   var url: String = ""
@@ -50,8 +49,8 @@ class SponsoredPtbScope(private val sui: Sui) {
     _gasStationConfig.block()
   }
 
-  suspend fun ptb(block: PtbDsl.() -> Unit) {
-    _ptb = ptb(sui, block)
+  suspend fun ptb(block: suspend NetworkPtbDsl.() -> Unit) {
+    _ptb = xyz.mcxross.ksui.ptb.ptb(sui, sender, block)
   }
 
   fun build(): Triple<AccountAddress, ProgrammableTransaction, GasStationConfig> {

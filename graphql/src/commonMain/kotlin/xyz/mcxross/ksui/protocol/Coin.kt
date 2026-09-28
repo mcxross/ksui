@@ -18,6 +18,7 @@ package xyz.mcxross.ksui.protocol
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Holdings
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
 import xyz.mcxross.ksui.generated.GetBalanceQuery
@@ -27,6 +28,12 @@ import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 
 /** Defines the API for interacting with coin-related data on the Sui network. */
 interface Coin {
+  /** Returns typed totals for coin objects and the address balance of one coin type. */
+  suspend fun getHoldings(
+    address: AccountAddress,
+    coinType: String = "0x2::sui::SUI",
+  ): Result<Holdings, SuiError>
+
   /**
    * Fetches the balance of a specific coin type for a given address.
    *

@@ -13,6 +13,8 @@ query getAllBalances($owner: SuiAddress!, $limit: Int, $cursor: String) {
 					repr
 				}
 				totalBalance
+				addressBalance
+				coinBalance
 			}
 		}
 	}

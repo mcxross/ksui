@@ -8,6 +8,8 @@ query getBalance($owner: SuiAddress!, $type: String = "0x2::sui::SUI") {
                 repr
             }
             totalBalance
+            addressBalance
+            coinBalance
         }
     }
 }

@@ -17,6 +17,7 @@ package xyz.mcxross.ksui.core.ptb
 
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.FundsWithdrawalSource
 import xyz.mcxross.ksui.core.model.ObjectArg
 import xyz.mcxross.ksui.core.model.TypeTag
 import xyz.mcxross.ksui.core.util.toTypeTag
@@ -25,7 +26,7 @@ import xyz.mcxross.ksui.core.util.toTypeTag
  * A dedicated DSL receiver for the `ptb { ... }` block, providing a context-specific API. This
  * class contains only the lambda-style command functions.
  */
-class PtbDsl(val builder: ProgrammableTransactionBuilder) {
+open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
 
   fun pure(bytes: ByteArray): Argument = builder.pure(bytes)
 
@@ -48,6 +49,54 @@ class PtbDsl(val builder: ProgrammableTransactionBuilder) {
   fun random(): Argument = builder.random()
 
   fun denyList(): Argument = builder.denyList()
+
+  fun withdrawal(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument = builder.withdrawal(amount, coinType, source)
+
+  fun withdrawCoin(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument.Result = builder.withdrawCoin(amount, coinType, source)
+
+  fun withdrawBalance(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument.Result = builder.withdrawBalance(amount, coinType, source)
+
+  fun sendCoinToBalance(
+    coin: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = builder.sendCoinToBalance(coin, recipient, coinType)
+
+  fun sendBalance(
+    balance: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = builder.sendBalance(balance, recipient, coinType)
+
+  fun sendCoinToAddressBalance(
+    coin: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = builder.sendCoinToBalance(coin, recipient, coinType)
+
+  fun sendBalanceToAddressBalance(
+    balance: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = builder.sendBalance(balance, recipient, coinType)
+
+  fun transferBalance(
+    amount: ULong,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = builder.transferBalance(amount, recipient, coinType)
 
   fun arg(value: Boolean): Argument = builder.arg(value)
 

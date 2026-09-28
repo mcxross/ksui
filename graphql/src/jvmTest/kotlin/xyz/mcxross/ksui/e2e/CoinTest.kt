@@ -4,10 +4,14 @@ import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import xyz.mcxross.ksui.SUI_TYPE
 import xyz.mcxross.ksui.TestResources
+import xyz.mcxross.ksui.core.model.CallArg
 import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.ptb.Command
 import xyz.mcxross.ksui.core.util.runBlocking
+import xyz.mcxross.ksui.ptb.ptb
 
 class CoinTest :
   StringSpec({
@@ -22,6 +26,8 @@ class CoinTest :
         val balances = requireNotNull(data.address?.balances)
         balances.nodes.isNotEmpty() shouldBe true
         requireNotNull(balances.nodes.first().totalBalance)
+        requireNotNull(balances.nodes.first().addressBalance)
+        requireNotNull(balances.nodes.first().coinBalance)
         balances.nodes.first().coinType?.repr shouldBe SUI_TYPE
       }
     }
@@ -33,6 +39,25 @@ class CoinTest :
         val data = requireNotNull(resp)
         val objects = requireNotNull(data.address?.objects)
         objects.nodes.isNotEmpty() shouldBe true
+      }
+    }
+
+    "Get typed holdings and build an automatic funding transaction" {
+      runBlocking {
+        val holdings = sui.getHoldings(alice.address).expect { "Failed to get holdings" }
+        holdings.coinType shouldBe SUI_TYPE
+        holdings.total shouldBe holdings.coinObjects + holdings.addressBalance
+
+        val transaction = ptb(sui, alice.address) {
+          val funded = coin(1_000uL)
+          sendCoinToAddressBalance(funded, alice.address)
+        }
+        transaction.commands.last().shouldBeInstanceOf<Command.MoveCall>()
+        if (holdings.addressBalance > 0uL) {
+          transaction.inputs.any { it is CallArg.FundsWithdrawal } shouldBe true
+        } else {
+          transaction.commands.first().shouldBeInstanceOf<Command.SplitCoins>()
+        }
       }
     }
 
@@ -50,6 +75,9 @@ class CoinTest :
         val data = requireNotNull(resp)
         val balance = requireNotNull(data.address?.balance)
         balance.coinType?.repr shouldBe SUI_TYPE
+        requireNotNull(balance.totalBalance).toString().toULong() shouldBe
+          (requireNotNull(balance.addressBalance).toString().toULong() +
+            requireNotNull(balance.coinBalance).toString().toULong())
       }
     }
 
