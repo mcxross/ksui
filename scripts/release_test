@@ -94,6 +94,28 @@ function test_direct_stable_release_is_preserved() {
     fail "stable publication was not preserved"
 }
 
+function test_main_merge_skips_snapshot_release_marker() {
+  local repository="${TEST_ROOT}/main-snapshot-merge"
+  local log="${TEST_ROOT}/main-snapshot-merge.log"
+
+  initialize_repository "${repository}" main
+  write_safe_gradle_wrapper "${repository}"
+  git -C "${repository}" add .
+  git -C "${repository}" commit -q -m "initial"
+
+  git -C "${repository}" checkout -q -b snapshot
+  git -C "${repository}" commit -q --allow-empty -m "release v9.9.9-SNAPSHOT"
+  git -C "${repository}" checkout -q main
+  git -C "${repository}" merge -q --no-ff snapshot -m "merge snapshot"
+
+  (
+    cd "${repository}"
+    RELEASE_TEST_LOG="${log}" ./scripts/release
+  )
+
+  [[ ! -e "${log}" ]] || fail "snapshot release marker was published from main"
+}
+
 function test_ci_sha_mismatch_fails_closed() {
   local repository="${TEST_ROOT}/mismatch"
 
@@ -114,5 +136,6 @@ function test_ci_sha_mismatch_fails_closed() {
 
 test_merged_release_publishes_trusted_head
 test_direct_stable_release_is_preserved
+test_main_merge_skips_snapshot_release_marker
 test_ci_sha_mismatch_fails_closed
 echo "release_test: all checks passed"
