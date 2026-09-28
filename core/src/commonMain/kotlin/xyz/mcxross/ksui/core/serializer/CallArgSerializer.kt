@@ -34,6 +34,7 @@ object CallArgSerializer : KSerializer<CallArg> {
         "Object",
         xyz.mcxross.ksui.core.serializer.ObjectArgSerializer.descriptor,
       )
+      element("FundsWithdrawal", FundsWithdrawalArgSerializer.descriptor)
     }
 
   override fun serialize(encoder: Encoder, value: CallArg) {
@@ -48,6 +49,12 @@ object CallArgSerializer : KSerializer<CallArg> {
         encoder.encodeEnum(descriptor, 1)
         encoder.encodeStructure(descriptor) {
           encodeSerializableElement(descriptor, 1, ObjectArgSerializer, value.arg)
+        }
+      }
+      is CallArg.FundsWithdrawal -> {
+        encoder.encodeEnum(descriptor, 2)
+        encoder.encodeStructure(descriptor) {
+          encodeSerializableElement(descriptor, 2, FundsWithdrawalArgSerializer, value.arg)
         }
       }
 
@@ -66,6 +73,10 @@ object CallArgSerializer : KSerializer<CallArg> {
         1 -> {
           val arg = decodeSerializableElement(descriptor, 1, ObjectArgSerializer)
           CallArg.Object(arg)
+        }
+        2 -> {
+          val arg = decodeSerializableElement(descriptor, 2, FundsWithdrawalArgSerializer)
+          CallArg.FundsWithdrawal(arg)
         }
         else -> throw SerializationException("Unknown CallArg index: $index")
       }

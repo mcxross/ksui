@@ -75,9 +75,22 @@ sealed class CallArg {
 
   @Serializable data class Object(val arg: ObjectArg) : CallArg()
 
+  @Serializable data class FundsWithdrawal(val arg: FundsWithdrawalArg) : CallArg()
+
   // need to fetch before serializing
   data class ObjectStr(val id: String) : CallArg()
 }
+
+/** A reservation against an address balance. Each reservation is a distinct PTB input. */
+@Serializable(with = xyz.mcxross.ksui.core.serializer.FundsWithdrawalArgSerializer::class)
+data class FundsWithdrawalArg(
+  val amount: ULong,
+  val coinType: TypeTag,
+  val source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+)
+
+/** Account that supplies the reserved funds. Sponsor refers to the gas owner. */
+enum class FundsWithdrawalSource { Sender, Sponsor }
 
 @Serializable(with = ObjectArgSerializer::class)
 sealed class ObjectArg {

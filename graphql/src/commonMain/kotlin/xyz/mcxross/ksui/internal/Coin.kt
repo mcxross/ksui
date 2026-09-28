@@ -19,7 +19,9 @@ package xyz.mcxross.ksui.internal
 import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Holdings
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
@@ -27,6 +29,28 @@ import xyz.mcxross.ksui.generated.GetBalanceQuery
 import xyz.mcxross.ksui.generated.GetCoinMetadataQuery
 import xyz.mcxross.ksui.generated.GetCoinsQuery
 import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
+
+internal suspend fun getHoldings(
+  config: SuiConfig,
+  address: AccountAddress,
+  coinType: String,
+): Result<Holdings, SuiError> = when (val result = getBalance(config, address, coinType)) {
+  is Result.Err -> result
+  is Result.Ok -> {
+    val balance = result.value?.address?.balance
+    if (balance == null) {
+      Result.Err(SuiError(listOf(SdkErrorDetail("Balance unavailable for $address"))))
+    } else {
+      Result.Ok(
+        Holdings(
+          coinType = balance.coinType?.repr ?: coinType,
+          coinObjects = requireNotNull(balance.coinBalance).toString().toULong(),
+          addressBalance = requireNotNull(balance.addressBalance).toString().toULong(),
+        )
+      )
+    }
+  }
+}
 
 internal suspend fun getAllBalances(
   config: SuiConfig,

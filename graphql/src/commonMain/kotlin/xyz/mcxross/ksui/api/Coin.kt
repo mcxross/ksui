@@ -19,6 +19,7 @@ package xyz.mcxross.ksui.api
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.Holdings
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.GetAllBalancesQuery
@@ -28,6 +29,7 @@ import xyz.mcxross.ksui.generated.GetCoinsQuery
 import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 import xyz.mcxross.ksui.internal.getAllBalances
 import xyz.mcxross.ksui.internal.getBalance
+import xyz.mcxross.ksui.internal.getHoldings
 import xyz.mcxross.ksui.internal.getCoinMetadata
 import xyz.mcxross.ksui.internal.getCoins
 import xyz.mcxross.ksui.internal.getTotalSupply
@@ -39,6 +41,11 @@ import xyz.mcxross.ksui.protocol.Coin
  * This class represents the coin API
  */
 class Coin(val config: SuiConfig) : Coin {
+  override suspend fun getHoldings(
+    address: AccountAddress,
+    coinType: String,
+  ): Result<Holdings, SuiError> = getHoldings(config, address, coinType)
+
   /**
    * Fetches the balance of a specific coin type for a given address.
    *

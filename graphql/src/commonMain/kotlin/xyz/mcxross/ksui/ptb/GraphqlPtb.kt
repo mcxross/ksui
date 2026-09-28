@@ -3,21 +3,30 @@ package xyz.mcxross.ksui.ptb
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
 import xyz.mcxross.ksui.core.model.ObjectDataOptions
+import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.ptb.Argument
 import xyz.mcxross.ksui.core.ptb.Command
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransactionBuilder
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransactionResolver
-import xyz.mcxross.ksui.core.ptb.PtbDsl
 import xyz.mcxross.ksui.core.ptb.ResolvedObject
 import xyz.mcxross.ksui.core.ptb.ResolvedObjectOwner
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 
-suspend fun ptb(client: Sui = SuiKit.client, block: PtbDsl.() -> Unit): ProgrammableTransaction {
+suspend fun ptb(
+  client: Sui,
+  block: suspend NetworkPtbDsl.() -> Unit,
+): ProgrammableTransaction = ptb(client, null, block)
+
+suspend fun ptb(
+  client: Sui = SuiKit.client,
+  sender: AccountAddress? = null,
+  block: suspend NetworkPtbDsl.() -> Unit,
+): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
-  val dsl = PtbDsl(builder)
+  val dsl = NetworkPtbDsl(builder, client, sender)
   dsl.block()
   return builder.build(GraphqlProgrammableTransactionResolver(client))
 }

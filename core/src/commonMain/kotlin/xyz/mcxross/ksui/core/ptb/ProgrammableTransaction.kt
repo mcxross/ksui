@@ -20,7 +20,10 @@ import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.extension.asIdParts
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.FundsWithdrawalArg
+import xyz.mcxross.ksui.core.model.FundsWithdrawalSource
 import xyz.mcxross.ksui.core.model.ObjectId
+import xyz.mcxross.ksui.core.model.StructTag
 import xyz.mcxross.ksui.core.model.TypeTag
 import xyz.mcxross.ksui.core.util.MAX_COMMANDS_IN_PTB
 
@@ -140,6 +143,80 @@ class ProgrammableTransactionBuilder : Command() {
       xyz.mcxross.ksui.core.model.CallArg.Object(objectArg),
     )
   }
+
+  /** Reserve [amount] from an address balance for a Move call in this transaction. */
+  fun withdrawal(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument {
+    require(amount > 0uL) { "Withdrawal amount must be positive" }
+    return addInput(
+      BuilderArg.ForcedNonUniqueWithdrawal(inputs.size),
+      xyz.mcxross.ksui.core.model.CallArg.FundsWithdrawal(
+        FundsWithdrawalArg(amount, coinType, source)
+      ),
+    )
+  }
+
+  /** Redeem an address balance reservation as a Coin<T>. */
+  fun withdrawCoin(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument.Result =
+    moveCall(
+      "0x2::coin::redeem_funds",
+      listOf(coinType),
+      listOf(withdrawal(amount, coinType, source)),
+    )
+
+  /** Redeem an address balance reservation as a Balance<T>. */
+  fun withdrawBalance(
+    amount: ULong,
+    coinType: TypeTag = SUI_COIN_TYPE,
+    source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
+  ): Argument.Result =
+    moveCall(
+      "0x2::balance::redeem_funds",
+      listOf(coinType),
+      listOf(withdrawal(amount, coinType, source)),
+    )
+
+  /** Deposit a Coin<T> into the recipient's address balance. */
+  fun sendCoinToBalance(
+    coin: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result =
+    moveCall("0x2::coin::send_funds", listOf(coinType), listOf(coin, address(recipient)))
+
+  /** Deposit a Balance<T> into the recipient's address balance. */
+  fun sendBalance(
+    balance: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result =
+    moveCall("0x2::balance::send_funds", listOf(coinType), listOf(balance, address(recipient)))
+
+  fun sendCoinToAddressBalance(
+    coin: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = sendCoinToBalance(coin, recipient, coinType)
+
+  fun sendBalanceToAddressBalance(
+    balance: Argument,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = sendBalance(balance, recipient, coinType)
+
+  /** Transfer directly between address balances without creating a coin object. */
+  fun transferBalance(
+    amount: ULong,
+    recipient: AccountAddress,
+    coinType: TypeTag = SUI_COIN_TYPE,
+  ): Argument.Result = sendBalance(withdrawBalance(amount, coinType), recipient, coinType)
 
   fun moveCall(
     target: String,
@@ -316,7 +393,12 @@ sealed class BuilderArg {
   @Serializable data class ForcedNonUniquePure(val index: Int) : BuilderArg()
 
   @Serializable data class ForcedNonUniqueObject(val index: Int) : BuilderArg()
+
+  @Serializable data class ForcedNonUniqueWithdrawal(val index: Int) : BuilderArg()
 }
+
+internal val SUI_COIN_TYPE =
+  TypeTag.Struct(StructTag(AccountAddress.fromString("0x2"), "sui", "SUI"))
 
 fun ptb(block: PtbDsl.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()

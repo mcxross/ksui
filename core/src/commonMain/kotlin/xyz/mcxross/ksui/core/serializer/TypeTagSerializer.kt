@@ -21,7 +21,6 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.encoding.decodeStructure
 import xyz.mcxross.ksui.core.model.StructTag
 import xyz.mcxross.ksui.core.model.TypeTag
 
@@ -81,28 +80,8 @@ object TypeTagSerializer : KSerializer<TypeTag> {
       3 -> TypeTag.U128
       4 -> TypeTag.Address
       5 -> TypeTag.Signer
-      6 -> {
-        decoder
-          .decodeStructure(descriptor) {
-            var typeTag: TypeTag? = null
-            if (decodeElementIndex(descriptor) == 6) {
-              typeTag = decodeSerializableElement(descriptor, 6, TypeTagSerializer)
-            }
-            typeTag ?: throw SerializationException("Failed to decode vector TypeTag")
-          }
-          .let { TypeTag.Vector(it) }
-      }
-      7 -> {
-        decoder
-          .decodeStructure(descriptor) {
-            var structTag: StructTag? = null
-            if (decodeElementIndex(descriptor) == 7) {
-              structTag = decodeSerializableElement(descriptor, 7, StructTag.serializer())
-            }
-            structTag ?: throw SerializationException("Failed to decode StructTag")
-          }
-          .let { TypeTag.Struct(it) }
-      }
+      6 -> TypeTag.Vector(decoder.decodeSerializableValue(TypeTagSerializer))
+      7 -> TypeTag.Struct(decoder.decodeSerializableValue(StructTag.serializer()))
       8 -> TypeTag.U16
       9 -> TypeTag.U32
       10 -> TypeTag.U256
