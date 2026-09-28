@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
@@ -34,6 +35,7 @@ import xyz.mcxross.ksui.generated.GetTotalTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
 import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
+import xyz.mcxross.ksui.generated.SubscribeTransactionsSubscription
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 
 /**
@@ -41,6 +43,15 @@ import xyz.mcxross.ksui.model.TransactionBlockFilter
  * network.
  */
 interface Transaction {
+  /**
+   * Streams matching finalized transactions. Save each processed edge cursor and pass it as
+   * [after] to resume. Collection opens a WebSocket connection; cancelling collection closes it.
+   */
+  fun subscribeTransactionBlocks(
+    filter: TransactionBlockFilter? = null,
+    after: String? = null,
+  ): Flow<Result<SubscribeTransactionsSubscription.Data?, SuiError>>
+
 
   /**
    * Creates a cryptographic signature for a given message using a signer's private key.

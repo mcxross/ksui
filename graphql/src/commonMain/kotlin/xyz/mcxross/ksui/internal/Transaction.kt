@@ -20,6 +20,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withTimeout
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.client.getGraphqlClient
@@ -55,6 +56,7 @@ import xyz.mcxross.ksui.generated.GetTotalTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
 import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
+import xyz.mcxross.ksui.generated.SubscribeTransactionsSubscription
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 
 internal suspend fun devInspectTransactionBlock(
@@ -353,3 +355,16 @@ internal suspend fun waitForTransaction(
     )
   }
 }
+
+internal fun subscribeTransactions(
+  config: SuiConfig,
+  filter: TransactionBlockFilter?,
+  after: String?,
+): Flow<Result<SubscribeTransactionsSubscription.Data?, SuiError>> =
+  subscriptionResults(
+    config,
+    SubscribeTransactionsSubscription(
+      filter = Optional.presentIfNotNull(filter?.toGenerated()),
+      after = Optional.presentIfNotNull(after),
+    ),
+  )

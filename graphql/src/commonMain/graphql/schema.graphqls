@@ -4136,6 +4136,18 @@ type StoreExecutionTimeObservationsTransaction {
 	_: Boolean
 }
 
+"""Live checkpoint, transaction, and event streams."""
+type Subscription {
+	"""Subscribe to finalized checkpoints. Resume with an edge cursor or sequence number."""
+	checkpoints(after: String, afterCheckpoint: UInt53): CheckpointEdge!
+
+	"""Subscribe to emitted events. The edge cursor can be used to resume."""
+	events(filter: EventFilter, after: String): EventEdge!
+
+	"""Subscribe to finalized transactions. The edge cursor can be used to resume."""
+	transactions(filter: TransactionFilter, after: String): TransactionEdge!
+}
+
 
 """
 String containing 32 byte hex-encoded address, with a leading '0x'. Leading zeroes can be omitted on input but will always appear in outputs (SuiAddress in output is guaranteed to be 66 characters long).
@@ -4793,4 +4805,5 @@ directive @skip(if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
 schema {
 	query: Query
 	mutation: Mutation
+	subscription: Subscription
 }

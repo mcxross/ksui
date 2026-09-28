@@ -16,14 +16,25 @@
 
 package xyz.mcxross.ksui.protocol
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.generated.QueryEventsQuery
+import xyz.mcxross.ksui.generated.SubscribeEventsSubscription
 import xyz.mcxross.ksui.model.EventFilter
 
 /** Defines the API for querying events on the Sui network. */
 interface Events {
+  /**
+   * Streams matching events. Save each processed edge cursor and pass it as [after] to resume.
+   * Collection opens a WebSocket connection; cancelling collection closes it.
+   */
+  fun subscribeEvents(
+    filter: EventFilter? = null,
+    after: String? = null,
+  ): Flow<Result<SubscribeEventsSubscription.Data?, SuiError>>
+
   /**
    * Queries for events on the Sui network based on a specified filter.
    *

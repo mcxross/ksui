@@ -16,12 +16,15 @@
 
 package xyz.mcxross.ksui.api
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.QueryEventsQuery
+import xyz.mcxross.ksui.generated.SubscribeEventsSubscription
 import xyz.mcxross.ksui.internal.queryEvents
+import xyz.mcxross.ksui.internal.subscribeEvents
 import xyz.mcxross.ksui.model.EventFilter
 import xyz.mcxross.ksui.protocol.Events
 
@@ -31,6 +34,12 @@ import xyz.mcxross.ksui.protocol.Events
  * @param config The [SuiConfig] object specifying the RPC endpoint and connection settings.
  */
 class Events(val config: SuiConfig) : Events {
+  override fun subscribeEvents(
+    filter: EventFilter?,
+    after: String?,
+  ): Flow<Result<SubscribeEventsSubscription.Data?, SuiError>> =
+    subscribeEvents(config, filter, after)
+
   /**
    * Queries for events on the Sui network based on a specified filter.
    *

@@ -227,6 +227,32 @@ val balance =
     )
 ```
 
+Subscribe to finalized checkpoints, transactions, or events through the GraphQL
+client. Each stream returns an edge with a cursor. Store the cursor after
+processing an edge, then pass it back when starting a new stream after a
+disconnect:
+
+```kotlin
+var after: String? = loadLastProcessedCursor()
+
+sui.subscribeCheckpoints(after = after).collect { result ->
+    when (result) {
+        is Result.Ok -> {
+            val edge = result.value?.checkpoints ?: return@collect
+            processCheckpoint(edge.node)
+            after = edge.cursor
+            saveLastProcessedCursor(edge.cursor)
+        }
+        is Result.Err -> handleSubscriptionError(result.error)
+    }
+}
+```
+
+`subscribeEvents(filter, after)` and `subscribeTransactionBlocks(filter, after)`
+follow the same pattern. The flows open a WebSocket when collected and close it
+when collection is cancelled. Sui currently provides GraphQL subscriptions on
+Mainnet and Testnet.
+
 Build, sign, and execute a PTB:
 
 ```kotlin

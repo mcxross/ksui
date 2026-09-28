@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.api
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
@@ -33,6 +34,7 @@ import xyz.mcxross.ksui.generated.ExecuteTransactionBlockMutation
 import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
 import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
+import xyz.mcxross.ksui.generated.SubscribeTransactionsSubscription
 import xyz.mcxross.ksui.internal.devInspectTransactionBlock
 import xyz.mcxross.ksui.internal.dryRunTransactionBlock
 import xyz.mcxross.ksui.internal.executeTransactionBlock
@@ -41,6 +43,7 @@ import xyz.mcxross.ksui.internal.getTransactionBlock
 import xyz.mcxross.ksui.internal.paginateTransactionBlockLists
 import xyz.mcxross.ksui.internal.queryTransactionBlocks
 import xyz.mcxross.ksui.internal.signAndSubmitTransaction
+import xyz.mcxross.ksui.internal.subscribeTransactions
 import xyz.mcxross.ksui.model.TransactionBlockFilter
 import xyz.mcxross.ksui.protocol.Transaction
 
@@ -52,6 +55,12 @@ import xyz.mcxross.ksui.protocol.Transaction
  * @property config The [SuiConfig] object specifying the RPC endpoint and connection settings.
  */
 class Transaction(val config: SuiConfig) : Transaction {
+
+  override fun subscribeTransactionBlocks(
+    filter: TransactionBlockFilter?,
+    after: String?,
+  ): Flow<Result<SubscribeTransactionsSubscription.Data?, SuiError>> =
+    subscribeTransactions(config, filter, after)
 
   /**
    * Creates a cryptographic signature for a given message using a signer's private key.

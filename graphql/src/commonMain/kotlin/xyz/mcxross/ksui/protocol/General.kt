@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.protocol
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.CheckpointId
@@ -31,6 +32,7 @@ import xyz.mcxross.ksui.generated.GetProtocolConfigQuery
 import xyz.mcxross.ksui.generated.GetReferenceGasPriceQuery
 import xyz.mcxross.ksui.generated.PaginateCheckpointTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.PaginateEpochValidatorsQuery
+import xyz.mcxross.ksui.generated.SubscribeCheckpointsSubscription
 
 /**
  * Defines the general-purpose API for querying chain-wide information.
@@ -41,6 +43,16 @@ import xyz.mcxross.ksui.generated.PaginateEpochValidatorsQuery
 interface General {
   /** The [SuiConfig] object specifying the RPC endpoint and connection settings. */
   val config: SuiConfig
+
+  /**
+   * Streams finalized checkpoints. Each edge includes a cursor for resuming after a disconnect.
+   * Collection opens a WebSocket connection; cancelling collection closes it. When both resume
+   * values are supplied, Sui starts after whichever is later.
+   */
+  fun subscribeCheckpoints(
+    after: String? = null,
+    afterCheckpoint: String? = null,
+  ): Flow<Result<SubscribeCheckpointsSubscription.Data?, SuiError>>
 
   /**
    * Fetches the first 4 bytes of the chain's genesis checkpoint digest.
