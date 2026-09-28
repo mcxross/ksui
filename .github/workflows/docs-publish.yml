@@ -13,7 +13,7 @@ jobs:
   deploy-gh-pages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew assembleDokkaSite
         shell: bash
       - name: Deploy docs to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.8.0
+        uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
           branch: gh-pages
           folder: build/dokka-site
