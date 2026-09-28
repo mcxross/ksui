@@ -16,6 +16,7 @@
 
 package xyz.mcxross.ksui.api
 
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.CheckpointId
@@ -31,6 +32,7 @@ import xyz.mcxross.ksui.generated.GetProtocolConfigQuery
 import xyz.mcxross.ksui.generated.GetReferenceGasPriceQuery
 import xyz.mcxross.ksui.generated.PaginateCheckpointTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.PaginateEpochValidatorsQuery
+import xyz.mcxross.ksui.generated.SubscribeCheckpointsSubscription
 import xyz.mcxross.ksui.internal.getChainIdentifier
 import xyz.mcxross.ksui.internal.getCheckpoint
 import xyz.mcxross.ksui.internal.getCurrentEpoch
@@ -40,6 +42,7 @@ import xyz.mcxross.ksui.internal.getProtocolConfig
 import xyz.mcxross.ksui.internal.getReferenceGasPrice
 import xyz.mcxross.ksui.internal.paginateCheckpointTransactionBlocks
 import xyz.mcxross.ksui.internal.paginateEpochValidators
+import xyz.mcxross.ksui.internal.subscribeCheckpoints
 import xyz.mcxross.ksui.protocol.General
 
 /**
@@ -48,6 +51,12 @@ import xyz.mcxross.ksui.protocol.General
  * @param config The [SuiConfig] object specifying the RPC endpoint and connection settings.
  */
 class General(override val config: SuiConfig) : General {
+
+  override fun subscribeCheckpoints(
+    after: String?,
+    afterCheckpoint: String?,
+  ): Flow<Result<SubscribeCheckpointsSubscription.Data?, SuiError>> =
+    subscribeCheckpoints(config, after, afterCheckpoint)
 
   /**
    * Fetches the first 4 bytes of the chain's genesis checkpoint digest.

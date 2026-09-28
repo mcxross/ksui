@@ -17,6 +17,9 @@
 package xyz.mcxross.ksui.client
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.network.ws.GraphQLWsProtocol
+import com.apollographql.apollo.network.ws.WebSocketEngine
+import com.apollographql.apollo.network.ws.WebSocketNetworkTransport
 import io.ktor.client.*
 import xyz.mcxross.ksui.core.client.ClientConfig
 import xyz.mcxross.ksui.core.model.SuiApiType
@@ -38,4 +41,21 @@ fun getGraphqlClient(config: SuiConfig): ApolloClient {
     builder.addHttpHeader(key, value.toString())
   }
   return builder.build()
+}
+
+internal fun getGraphqlSubscriptionClient(
+  config: SuiConfig,
+  webSocketEngine: WebSocketEngine? = null,
+): ApolloClient {
+  val url = config.getRequestUrl(SuiApiType.INDEXER)
+  val transport =
+    WebSocketNetworkTransport.Builder().serverUrl(url).protocol(GraphQLWsProtocol.Factory())
+  webSocketEngine?.let(transport::webSocketEngine)
+
+  val builder = ApolloClient.Builder().serverUrl(url)
+  config.getHeaders(SuiApiType.INDEXER)?.forEach { (key, value) ->
+    builder.addHttpHeader(key, value.toString())
+    transport.addHeader(key, value.toString())
+  }
+  return builder.subscriptionNetworkTransport(transport.build()).build()
 }

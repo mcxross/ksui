@@ -53,37 +53,24 @@ implementation("xyz.mcxross.ksui:ksui-jvm:<$latest_ksui_version>")
 
 # Client
 
-Ksui provides two configurable clients for interacting with Sui Full node.
-The encouraged way to create a client is to use the DSL-style builder functions. Both clients share some common
-configurations, but also have their own unique configurations that are ignored by the other client if specified.
-
-## Types of Clients
-
-* Http Client
-
-This client uses the JSON-RPC over HTTP protocol to communicate with the Sui Full nodes specified by the `endpoint`
-property in the `suiHttpClient` builder function.
-
-* Websocket Client
-
-This client uses the JSON-RPC over Websocket protocol to communicate with the Sui Full node specified by
-the `endpoint` property in the `suiWebsocketClient` builder function.
-
-It main serves as a subscription client for listening to events on the Sui Full node.
+`Sui` is the GraphQL module's entry point. Its `SuiConfig` selects the network or a custom indexer endpoint.
+Queries and mutations use HTTP. Subscriptions use the same endpoint over a WebSocket with the
+`graphql-transport-ws` protocol.
 
 ## Create Client
 
-To create a Http Client, use the `suiHttpClient` builder function.
-It takes a lambda with a receiver of type `SuiHttpClientConfig` as an argument for customizing the client.
-The builder function returns an instance of `SuiHttpClient`.
-
 ```kotlin
-val suiHttpClient = suiHttpClient {
-    endpoint = EndPoint.MAINNET
-    maxRetries = 10
-    connectionTimeout = 100000
-}
+val sui = Sui(SuiConfig(SuiSettings(network = Network.MAINNET)))
 ```
+
+## Subscriptions
+
+`subscribeCheckpoints`, `subscribeTransactionBlocks`, and `subscribeEvents` return cold flows of
+`Result` values. A subscription starts when its flow is collected and its WebSocket closes when
+collection is cancelled. Each delivered edge contains a cursor. Persist a cursor after processing
+its edge and pass it as `after` when starting a new stream to backfill missed data.
+
+Sui currently provides GraphQL subscriptions on Mainnet and Testnet.
 
 # Transactions
 
@@ -182,8 +169,7 @@ val txnBlockResponseList =
 
 # Package xyz.mcxross.ksui.client
 
-This package contains the `SuiHttpClient` and `SuiWebsocketClient` classes and related classes for interacting with Sui
-Full node.
+This package configures the HTTP and WebSocket transports used by the GraphQL client.
 
 # Package xyz.mcxross.ksui.exception
 

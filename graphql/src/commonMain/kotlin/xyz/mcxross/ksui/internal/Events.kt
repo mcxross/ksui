@@ -17,11 +17,13 @@
 package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.generated.QueryEventsQuery
+import xyz.mcxross.ksui.generated.SubscribeEventsSubscription
 import xyz.mcxross.ksui.model.EventFilter
 
 internal suspend fun queryEvents(
@@ -45,3 +47,16 @@ internal suspend fun queryEvents(
         )
     }
     .toResult()
+
+internal fun subscribeEvents(
+  config: SuiConfig,
+  filter: EventFilter?,
+  after: String?,
+): Flow<Result<SubscribeEventsSubscription.Data?, SuiError>> =
+  subscriptionResults(
+    config,
+    SubscribeEventsSubscription(
+      filter = Optional.presentIfNotNull(filter?.toGenerated()),
+      after = Optional.presentIfNotNull(after),
+    ),
+  )

@@ -17,6 +17,7 @@
 package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
+import kotlinx.coroutines.flow.Flow
 import xyz.mcxross.ksui.client.getGraphqlClient
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.CheckpointId
@@ -33,6 +34,7 @@ import xyz.mcxross.ksui.generated.GetProtocolConfigQuery
 import xyz.mcxross.ksui.generated.GetReferenceGasPriceQuery
 import xyz.mcxross.ksui.generated.PaginateCheckpointTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.PaginateEpochValidatorsQuery
+import xyz.mcxross.ksui.generated.SubscribeCheckpointsSubscription
 
 suspend inline fun <reified T> query(config: SuiConfig, query: RawQuery) {}
 
@@ -128,3 +130,16 @@ internal suspend fun paginateEpochValidators(
         .query(PaginateEpochValidatorsQuery(id, after = Optional.presentIfNotNull(after)))
     }
     .toResult()
+
+internal fun subscribeCheckpoints(
+  config: SuiConfig,
+  after: String?,
+  afterCheckpoint: String?,
+): Flow<Result<SubscribeCheckpointsSubscription.Data?, SuiError>> =
+  subscriptionResults(
+    config,
+    SubscribeCheckpointsSubscription(
+      after = Optional.presentIfNotNull(after),
+      afterCheckpoint = Optional.presentIfNotNull(afterCheckpoint),
+    ),
+  )

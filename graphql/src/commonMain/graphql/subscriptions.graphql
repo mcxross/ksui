@@ -1,0 +1,48 @@
+subscription SubscribeCheckpoints($after: String, $afterCheckpoint: UInt53) {
+    checkpoints(after: $after, afterCheckpoint: $afterCheckpoint) {
+        cursor
+        node {
+            sequenceNumber
+            digest
+            timestamp
+        }
+    }
+}
+
+subscription SubscribeEvents($filter: EventFilter, $after: String) {
+    events(filter: $filter, after: $after) {
+        cursor
+        node {
+            sequenceNumber
+            sender {
+                address
+            }
+            contents {
+                type {
+                    repr
+                }
+                json
+                bcs
+            }
+            timestamp
+        }
+    }
+}
+
+subscription SubscribeTransactions($filter: TransactionFilter, $after: String) {
+    transactions(filter: $filter, after: $after) {
+        cursor
+        node {
+            digest
+            sender {
+                address
+            }
+            effects {
+                status
+                checkpoint {
+                    sequenceNumber
+                }
+            }
+        }
+    }
+}
