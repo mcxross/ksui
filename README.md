@@ -170,6 +170,34 @@ targets. The gRPC module is available on the targets supported by kotlinx-rpc
 gRPC in this repo: Android, JVM, iOS, macOS, tvOS, and watchOS. JS is not
 currently a gRPC target.
 
+### Swift (iOS and macOS)
+
+SuiKit is ksui's Apple framework: the core and GraphQL modules as one dynamic
+XCFramework for iOS devices, the iOS Simulator, and macOS. Add this repository
+as a Swift package and depend on its `SuiKit` product:
+
+```swift
+dependencies: [.package(url: "https://github.com/mcxross/ksui", from: "<version>")],
+targets: [
+    .target(name: "App", dependencies: [.product(name: "SuiKit", package: "ksui")]),
+]
+```
+
+In Swift, functions that can fail are `throws` or `async throws`. `Result` and
+`Data` are named `SuiResult` and `TransactionDataEnvelope`, and the `SuiKit`
+object is `SuiKitDefaults`, so they don't shadow Swift and Foundation types.
+
+To build SuiKit locally, run `./gradlew :suikit:assembleSuiKitReleaseXCFramework`
+and set `SUIKIT_LOCAL_BUILD=1`; this checkout's `Package.swift` then uses the
+local build instead of the release. `swift test --package-path suikit/swift-smoke`
+checks it from Swift.
+
+The **Release SuiKit** workflow publishes the version in `gradle.properties`. It
+archives the XCFramework, with debug symbols in a separate `SuiKit.dSYMs.zip`,
+commits `Package.swift` with the archive's URL and checksum, and creates the
+`v<version>` release on that commit. The workflow pushes that commit to the branch
+it runs on, so the branch must accept pushes from GitHub Actions.
+
 ## Quick start
 
 ### Account management

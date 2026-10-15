@@ -1,0 +1,82 @@
+name: Release SuiKit
+
+# Publishes SuiKit for the version in gradle.properties. Package.swift must name the archive's checksum
+# at the release tag, so the workflow commits it first and then creates the release on that commit.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: suikit-release
+
+jobs:
+  release:
+    name: Release SuiKit
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+
+      - name: Read the release version
+        id: version
+        shell: bash
+        run: |
+          version=$(grep '^version=' gradle.properties | cut -d= -f2)
+          tag="v${version}"
+          if git rev-parse -q --verify "refs/tags/${tag}" > /dev/null; then
+            echo "::error::Tag ${tag} already exists; set a new version in gradle.properties"
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+
+      - name: Build the archives and point Package.swift at them
+        shell: bash
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :suikit:writeSuiKitReleaseManifest \
+            -PsuiKitReleaseUrl="https://github.com/${GITHUB_REPOSITORY}/releases/download/${{ steps.version.outputs.tag }}/SuiKit.xcframework.zip"
+
+      - name: Test SuiKit from Swift
+        run: swift test --package-path suikit/swift-smoke
+        env:
+          SUIKIT_LOCAL_BUILD: '1'
+
+      - name: Commit Package.swift and publish the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Package.swift
+          git commit -m "Publish SuiKit ${VERSION}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          prerelease=()
+          if [[ "${VERSION}" == *SNAPSHOT* ]]; then prerelease=(--prerelease); fi
+          gh release create "${TAG}" \
+            suikit/build/distributions/SuiKit.xcframework.zip \
+            suikit/build/distributions/SuiKit.dSYMs.zip \
+            --target "$(git rev-parse HEAD)" \
+            --title "SuiKit ${VERSION}" \
+            --notes "SuiKit ${VERSION} for Swift Package Manager. Add https://github.com/${GITHUB_REPOSITORY} and depend on the SuiKit product. SuiKit.dSYMs.zip has the debug symbols." \
+            "${prerelease[@]}"

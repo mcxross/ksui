@@ -1,3 +1,4 @@
+import java.security.MessageDigest
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins { alias(libs.plugins.kotlin.multiplatform) }
@@ -56,40 +57,48 @@ kotlin {
   }
 }
 
-val swiftPackageManifest = layout.buildDirectory.file("swiftpm-manifest/Package.swift")
+val xcFrameworkDirectory = layout.buildDirectory.dir("XCFrameworks/release")
 
-val writeSuiKitSwiftPackageManifest by
-  tasks.registering {
-    description = "Writes the manifest of the local SuiKit Swift package."
-    val manifest = swiftPackageManifest
-    outputs.file(manifest)
-    doLast {
-      manifest
-        .get()
-        .asFile
-        .writeText(
-          """
-          // swift-tools-version:5.9
-          import PackageDescription
+val distributions = layout.buildDirectory.dir("distributions")
 
-          let package = Package(
-            name: "SuiKit",
-            platforms: [.iOS(.v15), .macOS(.v12)],
-            products: [.library(name: "SuiKit", targets: ["SuiKit"])],
-            targets: [.binaryTarget(name: "SuiKit", path: "SuiKit.xcframework")]
-          )
-
-          """
-            .trimIndent()
-        )
-    }
+// Gradle's Copy and Zip tasks follow symlinks, which would break the macOS framework slice.
+val zipSuiKitXCFramework by
+  tasks.registering(Exec::class) {
+    group = "distribution"
+    description = "Archives the release SuiKit XCFramework and, separately, its debug symbols."
+    dependsOn("assembleSuiKitReleaseXCFramework")
+    val output = distributions.get().asFile
+    inputs.dir(xcFrameworkDirectory)
+    outputs.files(output.resolve("SuiKit.xcframework.zip"), output.resolve("SuiKit.dSYMs.zip"))
+    commandLine(
+      "bash",
+      file("archive-suikit.sh").absolutePath,
+      xcFrameworkDirectory.get().file("SuiKit.xcframework").asFile.absolutePath,
+      output.absolutePath,
+    )
   }
 
-tasks.register<Sync>("assembleSuiKitSwiftPackage") {
-  group = "build"
-  description = "Assembles a local Swift package that wraps the release SuiKit XCFramework."
-  dependsOn("assembleSuiKitReleaseXCFramework")
-  from(layout.buildDirectory.dir("XCFrameworks/release")) { include("SuiKit.xcframework/**") }
-  from(writeSuiKitSwiftPackageManifest)
-  into(layout.buildDirectory.dir("swiftpm/SuiKit"))
+tasks.register("writeSuiKitReleaseManifest") {
+  group = "distribution"
+  description = "Points the root Package.swift at the published SuiKit archive (-PsuiKitReleaseUrl)."
+  dependsOn(zipSuiKitXCFramework)
+  val archive = distributions.map { it.file("SuiKit.xcframework.zip") }
+  val manifest = rootProject.layout.projectDirectory.file("Package.swift").asFile
+  val releaseUrl = providers.gradleProperty("suiKitReleaseUrl")
+  doLast {
+    val url = releaseUrl.orNull ?: throw GradleException("Set -PsuiKitReleaseUrl to the archive URL")
+    // SwiftPM's binary-target checksum is the archive's SHA-256.
+    val digest = MessageDigest.getInstance("SHA-256").digest(archive.get().asFile.readBytes())
+    val checksum = digest.joinToString("") { "%02x".format(it) }
+    val declaration =
+      Regex("""^let release: \(url: String, checksum: String\)\? = .*$""", RegexOption.MULTILINE)
+    val text = manifest.readText()
+    check(declaration.containsMatchIn(text)) { "Package.swift has no release declaration" }
+    manifest.writeText(
+      text.replace(declaration) {
+        """let release: (url: String, checksum: String)? = (url: "$url", checksum: "$checksum")"""
+      }
+    )
+    logger.lifecycle("SuiKit $url $checksum")
+  }
 }
