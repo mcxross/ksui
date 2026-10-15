@@ -14,23 +14,28 @@ import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
 
 interface Object {
+  @Throws(Exception::class)
   suspend fun getObject(request: GetObjectRequest): Result<GetObjectResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getObject(
     objectId: String,
     version: ULong? = null,
     readMask: FieldMask? = null,
   ): Result<GetObjectResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun batchGetObjects(
     requests: List<GetObjectRequest>,
     readMask: FieldMask? = null,
   ): Result<BatchGetObjectsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listDynamicFields(
     request: ListDynamicFieldsRequest
   ): Result<ListDynamicFieldsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listDynamicFields(
     parent: String,
     pageSize: UInt? = null,
@@ -38,10 +43,12 @@ interface Object {
     readMask: FieldMask? = null,
   ): Result<ListDynamicFieldsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listOwnedObjects(
     request: ListOwnedObjectsRequest
   ): Result<ListOwnedObjectsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listOwnedObjects(
     owner: String,
     pageSize: UInt? = null,
@@ -50,6 +57,7 @@ interface Object {
     objectType: String? = null,
   ): Result<ListOwnedObjectsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listOwnedObjects(
     owner: AccountAddress,
     pageSize: UInt? = null,

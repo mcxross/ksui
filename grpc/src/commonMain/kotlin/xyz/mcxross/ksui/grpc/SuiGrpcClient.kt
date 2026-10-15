@@ -53,6 +53,7 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
     runtime.shutdownNow()
   }
 
+  @Throws(Exception::class)
   suspend fun awaitTermination(timeout: Duration) {
     runtime.awaitTermination(timeout)
   }

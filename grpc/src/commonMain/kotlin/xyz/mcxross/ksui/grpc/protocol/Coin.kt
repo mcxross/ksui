@@ -12,30 +12,38 @@ import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
 
 interface Coin {
+  @Throws(Exception::class)
   suspend fun getCoinInfo(request: GetCoinInfoRequest): Result<GetCoinInfoResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getCoinInfo(coinType: String): Result<GetCoinInfoResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getBalance(request: GetBalanceRequest): Result<GetBalanceResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getBalance(
     owner: String,
     coinType: String? = null,
   ): Result<GetBalanceResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getBalance(
     owner: AccountAddress,
     coinType: String? = null,
   ): Result<GetBalanceResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listBalances(request: ListBalancesRequest): Result<ListBalancesResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listBalances(
     owner: String,
     pageSize: UInt? = null,
     pageToken: ByteString? = null,
   ): Result<ListBalancesResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun listBalances(
     owner: AccountAddress,
     pageSize: UInt? = null,

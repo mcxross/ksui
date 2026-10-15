@@ -257,6 +257,7 @@ fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)
 
 @OptIn(ExperimentalEncodingApi::class)
+@Throws(Exception::class)
 suspend fun TransactionData.sign(signer: Account): Result<String, Exception> {
   val intentMessage = IntentMessage(Intent.suiTransaction(), this)
   val messageHash =

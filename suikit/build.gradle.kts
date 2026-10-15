@@ -40,6 +40,7 @@ kotlin {
       // Two static Kotlin frameworks cannot be linked into one app, so SuiKit stays dynamic.
       isStatic = false
       export(project(":ksui-core"))
+      export(project(":ksui"))
       xcFramework.add(this)
     }
   }
@@ -47,7 +48,10 @@ kotlin {
   sourceSets {
     commonMain {
       kotlin.srcDir(generateSuiKitInfo)
-      dependencies { api(project(":ksui-core")) }
+      dependencies {
+        api(project(":ksui-core"))
+        api(project(":ksui"))
+      }
     }
   }
 }

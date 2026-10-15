@@ -39,6 +39,7 @@ interface Sns {
    *   address.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun resolveNameServiceAddress(
     domain: String
   ): Result<ResolveNameServiceAddressQuery.Data?, SuiError>
@@ -54,6 +55,7 @@ interface Sns {
    *   and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun resolveNameServiceNames(
     address: AccountAddress,
     limit: Int? = null,

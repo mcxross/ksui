@@ -55,6 +55,7 @@ interface Events {
    *   events and cursors for pagination.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun queryEvents(
     filter: EventFilter,
     before: String? = null,
