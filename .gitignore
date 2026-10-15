@@ -1,6 +1,8 @@
 .kotlin
 .idea
 **/build
+**/.build
+**/.swiftpm
 .gradle
 **/local.properties
 set-gas-env.sh

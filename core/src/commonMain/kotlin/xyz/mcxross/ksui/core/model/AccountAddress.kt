@@ -12,7 +12,7 @@ import xyz.mcxross.ksui.core.serializer.AccountAddressSerializer
 @Serializable(with = AccountAddressSerializer::class)
 data class AccountAddress(val data: ByteArray) {
 
-  constructor(s: String) : this(fromString(s).data)
+  @Throws(IllegalArgumentException::class) constructor(s: String) : this(fromString(s).data)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -37,6 +37,7 @@ data class AccountAddress(val data: ByteArray) {
 
     val EMPTY = AccountAddress(ByteArray(LENGTH))
 
+    @Throws(IllegalArgumentException::class)
     fun from(data: ByteArray): AccountAddress {
       require(data.size == LENGTH + 1) {
         "Address must be $LENGTH bytes long, but was ${data.size}"
@@ -44,6 +45,7 @@ data class AccountAddress(val data: ByteArray) {
       return AccountAddress(data)
     }
 
+    @Throws(IllegalArgumentException::class)
     fun fromString(s: String): AccountAddress {
       return try {
         fromHexLiteral(s)
@@ -52,6 +54,7 @@ data class AccountAddress(val data: ByteArray) {
       }
     }
 
+    @Throws(IllegalArgumentException::class)
     fun fromPublicKey(publicKey: PublicKey): AccountAddress {
       when (publicKey.scheme()) {
         SignatureScheme.ED25519 ->

@@ -40,6 +40,7 @@ fun idToMapped(id: String): Map<String, String> {
   return mapOf(PACKAGE_ID to parts[0], MODULE to parts[1], FUNCTION to parts[2])
 }
 
+@Throws(IllegalArgumentException::class)
 fun idToParts(id: String): Triple<String, String, String> {
   val parts = id.split("::")
   if (parts.size != 3) {

@@ -36,7 +36,7 @@ open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
 
   fun `object`(objectArg: ObjectArg): Argument = builder.`object`(objectArg)
 
-  fun address(str: String): Argument = builder.address(str)
+  @Throws(IllegalArgumentException::class) fun address(str: String): Argument = builder.address(str)
 
   fun address(account: Account): Argument = builder.address(account)
 
@@ -50,18 +50,21 @@ open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
 
   fun denyList(): Argument = builder.denyList()
 
+  @Throws(IllegalArgumentException::class)
   fun withdrawal(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
     source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
   ): Argument = builder.withdrawal(amount, coinType, source)
 
+  @Throws(IllegalArgumentException::class)
   fun withdrawCoin(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
     source: FundsWithdrawalSource = FundsWithdrawalSource.Sender,
   ): Argument.Result = builder.withdrawCoin(amount, coinType, source)
 
+  @Throws(IllegalArgumentException::class)
   fun withdrawBalance(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
@@ -92,6 +95,7 @@ open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
     coinType: TypeTag = SUI_COIN_TYPE,
   ): Argument.Result = builder.sendBalance(balance, recipient, coinType)
 
+  @Throws(IllegalArgumentException::class)
   fun transferBalance(
     amount: ULong,
     recipient: AccountAddress,
@@ -112,8 +116,10 @@ open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
 
   fun arg(value: AccountAddress): Argument = builder.arg(value)
 
+  @Throws(IllegalArgumentException::class, ClassCastException::class)
   fun <T> arg(values: List<T>, elementType: TypeTag): Argument = builder.arg(values, elementType)
 
+  @Throws(IllegalArgumentException::class)
   fun moveCall(block: MoveCallScope.() -> Unit): Argument.Result {
     val b = MoveCallBuilder().apply(block)
     require(b.isValid()) { "MoveCallBuilder is not valid" }
@@ -122,36 +128,42 @@ open class PtbDsl(val builder: ProgrammableTransactionBuilder) {
     return builder.moveCall(target = b.target, b.typeArguments, b.arguments)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun splitCoins(block: SplitCoinsScope.() -> Unit): List<Argument.NestedResult> {
     val b = SplitCoinsBuilder().apply(block)
     require(b.isValid()) { "SplitCoinsBuilder is not valid" }
     return builder.splitCoins(b.coin!!, b.into)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun transferObjects(block: TransferObjectsScope.() -> Unit): Argument.Result {
     val b = TransferObjectsBuilder().apply(block)
     require(b.isValid()) { "TransferObjectsBuilder is not valid" }
     return builder.transferObjects(b.objects, b.to!!)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun mergeCoins(block: MergeCoinsScope.() -> Unit): Argument.Result {
     val b = MergeCoinsBuilder().apply(block)
     require(b.isValid()) { "MergeCoinsBuilder is not valid" }
     return builder.mergeCoins(b.coin!!, b.coins)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun publish(block: PublishScope.() -> Unit): Argument.Result {
     val b = PublishBuilder().apply(block)
     require(b.isValid()) { "PublishBuilder is not valid" }
     return builder.publish(b.bytes, b.dependencies)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun makeMoveVec(block: MakeMoveVecScope.() -> Unit): Argument.Result {
     val b = MakeMoveVecBuilder().apply(block)
     require(b.isValid()) { "MakeMoveVecBuilder is not valid" }
     return builder.makeMoveVec(b.typeTag, b.values)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun upgrade(block: UpgradeScope.() -> Unit): Argument.Result {
     val b = UpgradeBuilder().apply(block)
     require(b.isValid()) { "UpgradeBuilder is not valid" }
