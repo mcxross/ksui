@@ -39,7 +39,7 @@ data class AccountAddress(val data: ByteArray) {
 
     @Throws(IllegalArgumentException::class)
     fun from(data: ByteArray): AccountAddress {
-      require(data.size == LENGTH + 1) {
+      require(data.size == LENGTH) {
         "Address must be $LENGTH bytes long, but was ${data.size}"
       }
       return AccountAddress(data)
