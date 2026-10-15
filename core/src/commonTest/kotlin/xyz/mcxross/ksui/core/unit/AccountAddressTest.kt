@@ -31,4 +31,13 @@ class AccountAddressTest :
       val exception = runCatching { AccountAddress.fromString(raw) }.exceptionOrNull()
       exception.shouldBeInstanceOf<IllegalArgumentException>()
     }
+
+    "AccountAddress from bytes accepts exactly 32 bytes" {
+      val bytes = ByteArray(AccountAddress.LENGTH) { it.toByte() }
+      AccountAddress.from(bytes) shouldBe AccountAddress(bytes)
+      listOf(AccountAddress.LENGTH - 1, AccountAddress.LENGTH + 1).forEach { size ->
+        val exception = runCatching { AccountAddress.from(ByteArray(size)) }.exceptionOrNull()
+        exception.shouldBeInstanceOf<IllegalArgumentException>()
+      }
+    }
   })
