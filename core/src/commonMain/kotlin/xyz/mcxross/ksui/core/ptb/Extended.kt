@@ -154,6 +154,7 @@ fun ProgrammableTransactionBuilder.arg(value: AccountAddress): Argument =
  * @param values The list of values for the vector.
  * @param elementType The strongly-typed `TypeTag` of the vector's elements.
  */
+@Throws(IllegalArgumentException::class, ClassCastException::class)
 fun <T> ProgrammableTransactionBuilder.arg(values: List<T>, elementType: TypeTag): Argument {
   return generic(TypeTag.Vector(elementType), values)
 }

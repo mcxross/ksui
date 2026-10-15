@@ -34,6 +34,7 @@ inline fun <reified T : TypeTag> ProgrammableTransactionBuilder.types(
   vararg types: T
 ): List<TypeTag> = types.toList()
 
+@Throws(IllegalArgumentException::class)
 fun String.toTypeTag(): TypeTag {
 
   when (this) {

@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package xyz.mcxross.ksui.core.model
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.ptb.TransactionKind
 import xyz.mcxross.ksui.core.serializer.TransactionInputListSerializer
@@ -58,6 +62,8 @@ data class DataTransaction(
   val transactions: List<TransactionKind> = emptyList(),
 )
 
+// Foundation already has `Data`, which this would shadow in files that import SuiKit.
+@ObjCName(swiftName = "TransactionDataEnvelope")
 @Serializable
 data class Data(
   val messageVersion: String,

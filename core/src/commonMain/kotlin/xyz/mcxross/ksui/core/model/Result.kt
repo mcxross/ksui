@@ -1,5 +1,12 @@
+@file:OptIn(ExperimentalObjCName::class)
+
 package xyz.mcxross.ksui.core.model
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
+
+// Swift already has `Result`, which this would shadow in files that import SuiKit.
+@ObjCName(swiftName = "SuiResult")
 sealed class Result<out V, out E> {
   data class Ok<out V>(val value: V) : Result<V, Nothing>()
 

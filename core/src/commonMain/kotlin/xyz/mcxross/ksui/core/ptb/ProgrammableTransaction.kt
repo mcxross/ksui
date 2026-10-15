@@ -15,6 +15,7 @@
  */
 package xyz.mcxross.ksui.core.ptb
 
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.serialization.Serializable
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.core.account.Account
@@ -31,7 +32,9 @@ import xyz.mcxross.ksui.core.util.MAX_COMMANDS_IN_PTB
   with =
     xyz.mcxross.ksui.core.serializer.ProgrammableTransactionSerializer::class
 )
-data class ProgrammableTransaction(
+data class ProgrammableTransaction
+@Throws(IllegalArgumentException::class)
+constructor(
   val inputs: List<xyz.mcxross.ksui.core.model.CallArg>,
   val commands: List<Command>,
 ) : TransactionKind() {
@@ -41,6 +44,12 @@ data class ProgrammableTransaction(
       "ProgrammableTransaction contains unresolved ObjectStr inputs. Call build(sui) first."
     }
   }
+
+  fun toBcs(): ByteArray = Bcs.encodeToByteArray(this)
+
+  /** BCS bytes of this transaction as a `TransactionKind`, as `serialized-tx-kind` expects. */
+  fun toTransactionKindBcs(): ByteArray =
+    Bcs.encodeToByteArray<TransactionKind>(TransactionKind.ProgrammableTransaction(this))
 }
 
 class ProgrammableTransactionBuilder : Command() {
@@ -83,6 +92,7 @@ class ProgrammableTransactionBuilder : Command() {
     return addInput(arg, xyz.mcxross.ksui.core.model.CallArg.Pure(data = bytes))
   }
 
+  @Throws(IllegalArgumentException::class)
   fun address(str: String): Argument {
     return input(AccountAddress.fromString(str).data)
   }
@@ -145,6 +155,7 @@ class ProgrammableTransactionBuilder : Command() {
   }
 
   /** Reserve [amount] from an address balance for a Move call in this transaction. */
+  @Throws(IllegalArgumentException::class)
   fun withdrawal(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
@@ -160,6 +171,7 @@ class ProgrammableTransactionBuilder : Command() {
   }
 
   /** Redeem an address balance reservation as a Coin<T>. */
+  @Throws(IllegalArgumentException::class)
   fun withdrawCoin(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
@@ -172,6 +184,7 @@ class ProgrammableTransactionBuilder : Command() {
     )
 
   /** Redeem an address balance reservation as a Balance<T>. */
+  @Throws(IllegalArgumentException::class)
   fun withdrawBalance(
     amount: ULong,
     coinType: TypeTag = SUI_COIN_TYPE,
@@ -212,12 +225,14 @@ class ProgrammableTransactionBuilder : Command() {
   ): Argument.Result = sendBalance(balance, recipient, coinType)
 
   /** Transfer directly between address balances without creating a coin object. */
+  @Throws(IllegalArgumentException::class)
   fun transferBalance(
     amount: ULong,
     recipient: AccountAddress,
     coinType: TypeTag = SUI_COIN_TYPE,
   ): Argument.Result = sendBalance(withdrawBalance(amount, coinType), recipient, coinType)
 
+  @Throws(IllegalArgumentException::class)
   fun moveCall(
     target: String,
     typeArgs: List<TypeTag> = emptyList(),
@@ -242,6 +257,7 @@ class ProgrammableTransactionBuilder : Command() {
     return Argument.Result((commands.size - 1).toUShort())
   }
 
+  @Throws(IllegalArgumentException::class)
   fun splitCoins(coin: Argument, into: List<Argument>): List<Argument.NestedResult> {
     require(into.isNotEmpty()) { "The 'into' list of amounts cannot be empty." }
     val command = SplitCoins(coin, into)
@@ -279,14 +295,17 @@ class ProgrammableTransactionBuilder : Command() {
     return Argument.Result((commands.size - 1).toUShort())
   }
 
+  @Throws(IllegalArgumentException::class)
   fun build(): ProgrammableTransaction = ProgrammableTransaction(inputs.values.toList(), list)
 
+  @Throws(IllegalArgumentException::class, IllegalStateException::class, CancellationException::class)
   suspend fun build(resolver: ProgrammableTransactionResolver): ProgrammableTransaction {
     val mutableInputs = resolver.mutableInputIndexes(list)
     val resolvedInputs = resolveAllInputs(resolver, mutableInputs)
     return ProgrammableTransaction(resolvedInputs, list)
   }
 
+  @Throws(IllegalArgumentException::class)
   fun build(@Suppress("UNUSED_PARAMETER") resolver: Any): ProgrammableTransaction = build()
 
   private suspend fun resolveAllInputs(
@@ -400,6 +419,7 @@ sealed class BuilderArg {
 internal val SUI_COIN_TYPE =
   TypeTag.Struct(StructTag(AccountAddress.fromString("0x2"), "sui", "SUI"))
 
+@Throws(IllegalArgumentException::class)
 fun ptb(block: PtbDsl.() -> Unit): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()
   val dsl = PtbDsl(builder)
@@ -407,6 +427,7 @@ fun ptb(block: PtbDsl.() -> Unit): ProgrammableTransaction {
   return builder.build()
 }
 
+@Throws(IllegalArgumentException::class)
 fun hexStringToByteArray(hexString: String): ByteArray {
   val cleanedHexString = hexString.removePrefix("0x").replace(Regex("[^0-9A-Fa-f]"), "")
   val len = cleanedHexString.length
