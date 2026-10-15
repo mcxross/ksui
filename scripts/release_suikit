@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Publishes SuiKit for the version in gradle.properties as a GitHub release that SwiftPM resolves by tag.
+# A tag cannot be republished, so each snapshot release gets its own suffix: v3.1.0-SNAPSHOT.<run>.
+#
+# The tag points at a commit that only changes Package.swift to name the archive and its checksum, so
+# the release branch itself is never pushed to.
+#
+
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions.sh"
+
+: "${GITHUB_REPOSITORY:?}" "${GITHUB_RUN_NUMBER:?}"
+
+version=$(grep '^version=' gradle.properties | cut -d= -f2)
+prerelease=false
+if [[ "${version}" == *SNAPSHOT* ]]; then
+  version="${version}.${GITHUB_RUN_NUMBER}"
+  prerelease=true
+fi
+tag="v${version}"
+
+if git ls-remote --exit-code --tags origin "refs/tags/${tag}" > /dev/null; then
+  die "Tag ${tag} already exists."
+fi
+
+approve "Publishing SuiKit ${version}..."
+url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${tag}/SuiKit.xcframework.zip"
+safe ./gradlew :suikit:writeSuiKitReleaseManifest -PsuiKitReleaseUrl="${url}"
+SUIKIT_LOCAL_BUILD=1 safe swift test --package-path suikit/swift-smoke
+
+git config user.name "github-actions[bot]"
+git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git checkout -q --detach
+git add Package.swift
+git commit -q -m "Publish SuiKit ${version}"
+git tag "${tag}"
+safe git push origin "refs/tags/${tag}"
+
+safe gh release create "${tag}" \
+  suikit/build/distributions/SuiKit.xcframework.zip \
+  suikit/build/distributions/SuiKit.dSYMs.zip \
+  --verify-tag \
+  --title "SuiKit ${version}" \
+  --notes "Add https://github.com/${GITHUB_REPOSITORY} as a Swift package at ${version} and depend on its SuiKit product. SuiKit.dSYMs.zip has the debug symbols." \
+  --prerelease="${prerelease}"

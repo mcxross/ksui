@@ -83,6 +83,9 @@ function publish_commit() {
     approve "Stable release, publishing to Maven Central..."
     safe ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
   fi
+
+  # Lets the release workflow publish SuiKit for the same version.
+  echo "released=true" >> "${GITHUB_OUTPUT:-/dev/null}"
 }
 
 git_head_commit=$(git rev-parse HEAD)

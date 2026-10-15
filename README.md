@@ -192,11 +192,12 @@ and set `SUIKIT_LOCAL_BUILD=1`; this checkout's `Package.swift` then uses the
 local build instead of the release. `swift test --package-path suikit/swift-smoke`
 checks it from Swift.
 
-The **Release SuiKit** workflow publishes the version in `gradle.properties`. It
-archives the XCFramework, with debug symbols in a separate `SuiKit.dSYMs.zip`,
-commits `Package.swift` with the archive's URL and checksum, and creates the
-`v<version>` release on that commit. The workflow pushes that commit to the branch
-it runs on, so the branch must accept pushes from GitHub Actions.
+Each ksui release also publishes SuiKit. After a release commit publishes to
+Maven Central, the release workflow archives the XCFramework, with debug symbols
+in a separate `SuiKit.dSYMs.zip`, and creates a `v<version>` GitHub release.
+Its tag points at a commit whose `Package.swift` names the archive and its
+checksum. A tag cannot be republished, so snapshot releases are tagged
+`v<version>.<run number>`, for example `v3.1.0-SNAPSHOT.12`.
 
 ## Quick start
 
