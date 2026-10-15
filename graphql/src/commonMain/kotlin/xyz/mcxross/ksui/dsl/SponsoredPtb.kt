@@ -49,6 +49,7 @@ class SponsoredPtbScope(private val sui: Sui) {
     _gasStationConfig.block()
   }
 
+  @Throws(Exception::class)
   suspend fun ptb(block: suspend NetworkPtbDsl.() -> Unit) {
     _ptb = xyz.mcxross.ksui.ptb.ptb(sui, sender, block)
   }

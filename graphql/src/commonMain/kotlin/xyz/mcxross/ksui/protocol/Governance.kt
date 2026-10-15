@@ -39,6 +39,7 @@ interface Governance {
    *   a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCommitteeInfo(
     epochId: Long? = null,
     after: String? = null,
@@ -52,5 +53,6 @@ interface Governance {
    *   their calculated APYs.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getValidatorApy(): Result<GetValidatorsApyQuery.Data?, SuiError>
 }

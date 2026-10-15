@@ -23,5 +23,6 @@ import xyz.mcxross.ksui.core.model.TransferredGasObject
 /** Faucet API namespace. This class provides functionality to create and fund accounts. */
 interface Faucet {
 
+  @Throws(Exception::class)
   suspend fun requestTestTokens(accountAddress: AccountAddress): Option<List<TransferredGasObject>>
 }

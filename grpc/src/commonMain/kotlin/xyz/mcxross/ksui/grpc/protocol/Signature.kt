@@ -9,10 +9,12 @@ import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 
 interface Signature {
+  @Throws(Exception::class)
   suspend fun verifySignature(
     request: VerifySignatureRequest
   ): Result<VerifySignatureResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun verifySignature(
     message: Bcs,
     signature: UserSignature,
@@ -20,6 +22,7 @@ interface Signature {
     jwks: List<ActiveJwk> = emptyList(),
   ): Result<VerifySignatureResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun verifySignature(
     messageBytes: ByteArray,
     signatureBytes: ByteArray,

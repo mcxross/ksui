@@ -44,6 +44,7 @@ class PasskeyAccount(
 
   companion object {
     @OptIn(ExperimentalUuidApi::class)
+    @Throws(Exception::class)
     suspend fun create(
       provider: PasskeyProvider,
       name: String,

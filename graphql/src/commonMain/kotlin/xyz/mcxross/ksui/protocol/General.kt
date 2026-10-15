@@ -63,6 +63,7 @@ interface General {
    * - `Ok`: Containing a nullable [GetChainIdentifierQuery.Data] object with the chain identifier.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getChainIdentifier(): Result<GetChainIdentifierQuery.Data?, SuiError>
 
   /**
@@ -75,6 +76,7 @@ interface General {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getReferenceGasPrice(): Result<GetReferenceGasPriceQuery.Data?, SuiError>
 
   /**
@@ -85,6 +87,7 @@ interface General {
    *   sequence number.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getLatestCheckpointSequenceNumber():
     Result<GetLatestCheckpointSequenceNumberQuery.Data?, SuiError>
 
@@ -99,6 +102,7 @@ interface General {
    * - `Ok`: Containing a nullable [GetCheckpointQuery.Data] object with the checkpoint details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCheckpoint(
     checkpointId: CheckpointId? = CheckpointId()
   ): Result<GetCheckpointQuery.Data?, SuiError>
@@ -119,6 +123,7 @@ interface General {
    *   pagination cursors.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCheckpoints(
     first: Int?,
     before: String?,
@@ -137,6 +142,7 @@ interface General {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getLatestSuiSystemState(): Result<GetLatestSuiSystemStateQuery.Data?, SuiError>
 
   /**
@@ -150,6 +156,7 @@ interface General {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getProtocolConfig(
     protocolVersion: Int? = null
   ): Result<GetProtocolConfigQuery.Data?, SuiError>
@@ -164,6 +171,7 @@ interface General {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCurrentEpoch(): Result<GetCurrentEpochQuery.Data?, SuiError>
 
   /**
@@ -176,6 +184,7 @@ interface General {
    *   list of transaction blocks and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun paginateCheckpointTransactionBlocks(
     id: CheckpointId? = null,
     after: String? = null,
@@ -191,6 +200,7 @@ interface General {
    *   validators and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun paginateEpochValidators(
     id: Long,
     after: String? = null,

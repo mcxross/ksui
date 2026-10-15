@@ -14,40 +14,48 @@ import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
 
 interface Transaction {
+  @Throws(Exception::class)
   suspend fun getTransaction(
     request: GetTransactionRequest
   ): Result<GetTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun getTransaction(
     digest: String,
     readMask: FieldMask? = null,
   ): Result<GetTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun batchGetTransactions(
     digests: List<String>,
     readMask: FieldMask? = null,
   ): Result<BatchGetTransactionsResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun executeTransaction(
     request: ExecuteTransactionRequest
   ): Result<ExecuteTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun executeTransaction(
     transaction: GrpcTransaction,
     signatures: List<UserSignature>,
     readMask: FieldMask? = null,
   ): Result<ExecuteTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun executeTransaction(
     transactionBytes: ByteArray,
     signatures: List<ByteArray>,
     readMask: FieldMask? = null,
   ): Result<ExecuteTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun simulateTransaction(
     request: SimulateTransactionRequest
   ): Result<SimulateTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun simulateTransaction(
     transaction: GrpcTransaction,
     readMask: FieldMask? = null,
@@ -55,6 +63,7 @@ interface Transaction {
     doGasSelection: Boolean? = null,
   ): Result<SimulateTransactionResponse, SuiError>
 
+  @Throws(Exception::class)
   suspend fun simulateTransaction(
     transactionBytes: ByteArray,
     readMask: FieldMask? = null,

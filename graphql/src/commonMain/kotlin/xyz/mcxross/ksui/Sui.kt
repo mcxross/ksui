@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package xyz.mcxross.ksui
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 import xyz.mcxross.ksui.protocol.Events
@@ -38,6 +42,8 @@ import xyz.mcxross.ksui.protocol.Transaction
  * @property client The globally configured default `Sui` client. Throws an
  *   [UninitializedPropertyAccessException] if accessed before a `Sui` instance is created.
  */
+// A Swift type named like its module, SuiKit, breaks module-qualified names such as SuiKit.Sui.
+@ObjCName(swiftName = "SuiKitDefaults")
 object SuiKit {
   lateinit var client: Sui
     private set

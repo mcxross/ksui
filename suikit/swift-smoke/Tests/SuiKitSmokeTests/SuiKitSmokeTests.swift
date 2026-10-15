@@ -26,6 +26,30 @@ final class SuiKitSmokeTests: XCTestCase {
     XCTAssertThrowsError(try builder.build())
   }
 
+  func testClientFailuresBecomeSwiftErrors() async throws {
+    let settings = SuiSettings(
+      network: Network.custom, fullNode: "http://127.0.0.1:9/graphql", faucet: nil, indexer: nil,
+      clientConfig: ClientConfig.companion.default_, fullNodeConfig: FullNodeConfig(headers: nil),
+      indexerConfig: IndexerConfig(headers: nil),
+      faucetConfig: FaucetConfig(headers: nil, authToken: nil))
+    let sui = Sui(config: SuiConfig(settings: settings), makeDefault: false)
+    let signer = try Account.companion.create(scheme: SignatureScheme.ed25519)
+    let options = ExecuteTransactionBlockResponseOptions(
+      showBalanceChanges: false, showEffects: false, showRawEffects: false, showEvents: false,
+      showInput: false, showObjectChanges: false, showRawInput: false)
+    do {
+      _ = try await sui.signAndExecuteTransactionBlock(
+        signer: signer, ptb: try ProgrammableTransactionBuilder().build(), gasBudget: 1_000_000,
+        options: options)
+      XCTFail("Executing against an unreachable node should fail")
+    } catch {}
+  }
+
+  func testInvalidPrivateKeyThrows() {
+    XCTAssertThrowsError(
+      try Account.companion.import(str: "not a private key", scheme: SignatureScheme.ed25519))
+  }
+
   func testVersionIsExported() {
     XCTAssertFalse(SuiKitInfo.shared.VERSION.isEmpty)
   }

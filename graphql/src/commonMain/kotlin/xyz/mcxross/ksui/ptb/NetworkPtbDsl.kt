@@ -27,6 +27,7 @@ class NetworkPtbDsl(
   private var fundingOwner: AccountAddress? = null
 
   /** Produce a Coin<T> from either holding system. Amount is in base units. */
+  @Throws(Exception::class)
   suspend fun coin(
     amount: ULong,
     coinType: TypeTag = SUI_TYPE,
@@ -35,6 +36,7 @@ class NetworkPtbDsl(
   ): Argument = fund(amount, coinType, source, useGasCoin, asBalance = false)
 
   /** Produce a Balance<T> from either holding system. Amount is in base units. */
+  @Throws(Exception::class)
   suspend fun balance(
     amount: ULong,
     coinType: TypeTag = SUI_TYPE,

@@ -64,6 +64,7 @@ private suspend fun composeTransaction(
 }
 
 @OptIn(ExperimentalEncodingApi::class)
+@Throws(Exception::class)
 suspend fun ProgrammableTransaction.compose(
   details: Pair<Account, ULong>,
   sui: Sui = SuiKit.client,

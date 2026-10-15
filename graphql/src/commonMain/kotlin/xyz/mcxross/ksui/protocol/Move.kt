@@ -43,6 +43,7 @@ interface Move {
    *   types.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getMoveFunctionArgTypes(
     id: String
   ): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError>
@@ -56,6 +57,7 @@ interface Move {
    *   function details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getNormalizedMoveFunction(
     id: String
   ): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError>
@@ -70,6 +72,7 @@ interface Move {
    *   module details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getNormalizedMoveModule(
     packageId: String,
     module: String,
@@ -85,6 +88,7 @@ interface Move {
    *   of modules and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getNormalizedMoveModulesByPackage(
     packageId: String,
     cursor: String?,
@@ -99,6 +103,7 @@ interface Move {
    *   struct details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getNormalizedMoveStruct(
     id: String
   ): Result<GetNormalizedMoveStructQuery.Data?, SuiError>
@@ -113,6 +118,7 @@ interface Move {
    * - `Ok`: Containing a nullable [GetTypeLayoutQuery.Data] object with the type layout details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getTypeLayout(type: String): Result<GetTypeLayoutQuery.Data?, SuiError>
 
   /**
@@ -140,6 +146,7 @@ interface Move {
    *   paginated lists of the module's components.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun paginateMoveModuleLists(
     packageId: String,
     module: String,

@@ -40,6 +40,7 @@ interface Object {
    * - `Ok`: Containing a nullable [GetObjectQuery.Data] object with the object's details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getObject(
     id: String,
     options: ObjectDataOptions = ObjectDataOptions(),
@@ -57,6 +58,7 @@ interface Object {
    *   pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getOwnedObjects(
     owner: AccountAddress,
     limit: Int? = null,
@@ -75,6 +77,7 @@ interface Object {
    * - `Ok`: Containing a nullable [MultiGetObjectsQuery.Data] object with a list of objects.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun multiGetObjects(
     ids: List<String>,
     limit: Int? = null,
@@ -97,6 +100,7 @@ interface Object {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun tryGetPastObject(
     id: String,
     version: Int? = null,
@@ -113,6 +117,7 @@ interface Object {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getDynamicFieldObject(
     parentId: String,
     name: DynamicFieldName,
@@ -129,6 +134,7 @@ interface Object {
    *   and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getDynamicFields(
     parentId: String,
     limit: Int? = null,

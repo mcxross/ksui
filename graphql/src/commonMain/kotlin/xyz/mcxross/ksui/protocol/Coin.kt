@@ -29,6 +29,7 @@ import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 /** Defines the API for interacting with coin-related data on the Sui network. */
 interface Coin {
   /** Returns typed totals for coin objects and the address balance of one coin type. */
+  @Throws(Exception::class)
   suspend fun getHoldings(
     address: AccountAddress,
     coinType: String = "0x2::sui::SUI",
@@ -48,6 +49,7 @@ interface Coin {
    *   can be `null` if the address holds no coins of the specified type.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getBalance(
     address: AccountAddress,
     coinType: String? = null,
@@ -67,6 +69,7 @@ interface Coin {
    *   balances and a `nextCursor` field for pagination.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getAllBalances(
     address: AccountAddress,
     limit: Int? = null,
@@ -89,6 +92,7 @@ interface Coin {
    *   objects and a `nextCursor` field for pagination.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCoins(
     address: AccountAddress,
     first: Int? = null,
@@ -104,6 +108,7 @@ interface Coin {
    * - `Ok`: Containing a nullable [GetTotalSupplyQuery.Data] object with the total supply details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getTotalSupply(type: String): Result<GetTotalSupplyQuery.Data?, SuiError>
 
   /**
@@ -116,5 +121,6 @@ interface Coin {
    * - `Ok`: Containing a nullable [GetCoinMetadataQuery.Data] object with the coin's metadata.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getCoinMetadata(type: String): Result<GetCoinMetadataQuery.Data?, SuiError>
 }

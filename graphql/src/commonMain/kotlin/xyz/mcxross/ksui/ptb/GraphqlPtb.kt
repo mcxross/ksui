@@ -15,11 +15,13 @@ import xyz.mcxross.ksui.core.ptb.ResolvedObjectOwner
 import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 
+@Throws(Exception::class)
 suspend fun ptb(
   client: Sui,
   block: suspend NetworkPtbDsl.() -> Unit,
 ): ProgrammableTransaction = ptb(client, null, block)
 
+@Throws(Exception::class)
 suspend fun ptb(
   client: Sui = SuiKit.client,
   sender: AccountAddress? = null,

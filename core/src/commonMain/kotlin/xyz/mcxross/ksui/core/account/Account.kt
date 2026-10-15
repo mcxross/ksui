@@ -57,8 +57,10 @@ abstract class Account {
 
   abstract val scheme: SignatureScheme
 
+  @Throws(Exception::class)
   abstract suspend fun sign(message: ByteArray): Result<ByteArray, E>
 
+  @Throws(Exception::class)
   abstract suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E>
 
   companion object {
@@ -71,6 +73,7 @@ abstract class Account {
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
+    @Throws(Exception::class)
     fun create(scheme: SignatureScheme = SignatureScheme.ED25519): Account {
       return when (scheme) {
         SignatureScheme.ED25519 -> Ed25519Account.generate()
@@ -89,6 +92,7 @@ abstract class Account {
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
+    @Throws(Exception::class)
     fun import(privateKey: ByteArray, scheme: SignatureScheme = SignatureScheme.ED25519): Account {
       return when (scheme) {
         SignatureScheme.ED25519 -> Ed25519Account(Ed25519PrivateKey(privateKey))
@@ -106,6 +110,7 @@ abstract class Account {
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
+    @Throws(Exception::class)
     fun import(str: String, scheme: SignatureScheme = SignatureScheme.ED25519): Account {
       if (str.contains(" ")) {
         return when (scheme) {
@@ -129,6 +134,7 @@ abstract class Account {
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
+    @Throws(Exception::class)
     fun import(phrases: List<String>, scheme: SignatureScheme = SignatureScheme.ED25519): Account {
       return when (scheme) {
         SignatureScheme.ED25519 -> {
@@ -146,6 +152,7 @@ abstract class Account {
      * @throws SignatureSchemeNotSupportedException If the specified signature scheme is not
      *   supported.
      */
+    @Throws(Exception::class)
     fun import(privateKey: PrivateKey): Account {
       return when (privateKey) {
         is Ed25519PrivateKey -> Ed25519Account(privateKey)

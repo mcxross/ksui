@@ -63,6 +63,7 @@ interface Transaction {
    * @param signer The [Account] containing the private key to sign with.
    * @return A [ByteArray] representing the resulting signature.
    */
+  @Throws(Exception::class)
   suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, E>
 
   /**
@@ -83,6 +84,7 @@ interface Transaction {
    *   inspection results.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun devInspectTransactionBlock(
     txBytes: String,
     options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
@@ -101,6 +103,7 @@ interface Transaction {
    *   simulation, such as the gas summary and effects.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun dryRunTransactionBlock(
     txBytes: String,
     option: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
@@ -118,6 +121,7 @@ interface Transaction {
    *   transaction response.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun executeTransactionBlock(
     txBytes: String,
     signatures: List<String>,
@@ -131,6 +135,7 @@ interface Transaction {
    * @param ptb The [ProgrammableTransaction] block to be executed.
    * @param gasBudget The maximum gas budget for the transaction.
    */
+  @Throws(Exception::class)
   suspend fun signAndExecuteTransactionBlock(
     signer: Account,
     ptb: ProgrammableTransaction,
@@ -138,12 +143,14 @@ interface Transaction {
     options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
 
+  @Throws(Exception::class)
   suspend fun sponsoredTransaction(
     ptb: ProgrammableTransaction,
     sender: AccountAddress,
     expiration: TransactionExpiration = TransactionExpiration.None,
   ): Result<GasLessTransactionData, Exception>
 
+  @Throws(Exception::class)
   suspend fun sponsoredTransaction(
     ptb: ProgrammableTransaction,
     sender: String,
@@ -161,6 +168,7 @@ interface Transaction {
    *   details.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getTransactionBlock(
     digest: String,
     options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
@@ -178,6 +186,7 @@ interface Transaction {
    *   transaction blocks and a pagination cursor.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun queryTransactionBlocks(
     filter: TransactionBlockFilter = TransactionBlockFilter(),
     options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
@@ -201,6 +210,7 @@ interface Transaction {
    *   requested component lists.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun paginateTransactionBlockLists(
     digest: String,
     hasMoreEvents: Boolean,
@@ -219,8 +229,10 @@ interface Transaction {
    *   count.
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
+  @Throws(Exception::class)
   suspend fun getTotalTransactionBlocks(): Result<GetTotalTransactionBlocksQuery.Data?, SuiError>
 
+  @Throws(Exception::class)
   suspend fun waitForTransaction(
     digest: String,
     options: TransactionBlockResponseOptions = TransactionBlockResponseOptions(),
