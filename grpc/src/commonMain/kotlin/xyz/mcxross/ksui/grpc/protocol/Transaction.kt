@@ -11,7 +11,11 @@ import sui.rpc.v2.SimulateTransactionResponse
 import sui.rpc.v2.Transaction as GrpcTransaction
 import sui.rpc.v2.UserSignature
 import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
 
 interface Transaction {
   @Throws(Exception::class)
@@ -70,4 +74,11 @@ interface Transaction {
     checks: SimulateTransactionRequest.TransactionChecks? = null,
     doGasSelection: Boolean? = null,
   ): Result<SimulateTransactionResponse, SuiError>
+
+  @Throws(Exception::class)
+  suspend fun buildTransaction(
+    sender: AccountAddress,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig = GasConfig(),
+  ): Result<TransactionData, SuiError>
 }

@@ -1,0 +1,18 @@
+query getGasContext($owner: SuiAddress!) {
+    chainIdentifier
+
+    epoch {
+        epochId
+        referenceGasPrice
+    }
+
+    address(address: $owner) {
+        balance(coinType: "0x2::sui::SUI") {
+            coinType {
+                repr
+            }
+            addressBalance
+            coinBalance
+        }
+    }
+}

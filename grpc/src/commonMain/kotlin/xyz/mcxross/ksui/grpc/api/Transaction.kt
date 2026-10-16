@@ -11,7 +11,13 @@ import sui.rpc.v2.SimulateTransactionResponse
 import sui.rpc.v2.Transaction as GrpcTransaction
 import sui.rpc.v2.UserSignature
 import xyz.mcxross.ksui.core.exception.SuiError
+import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.TransactionDataComposer
+import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
+import xyz.mcxross.ksui.grpc.internal.GrpcGasEnvironment
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.batchGetTransactions as internalBatchGetTransactions
 import xyz.mcxross.ksui.grpc.internal.executeTransaction as internalExecuteTransaction
@@ -85,5 +91,13 @@ internal class Transaction(private val runtime: GrpcRuntime) : TransactionProtoc
     doGasSelection: Boolean?,
   ): Result<SimulateTransactionResponse, SuiError> = handleGrpc {
     internalSimulateTransaction(runtime, transactionBytes, readMask, checks, doGasSelection)
+  }
+
+  override suspend fun buildTransaction(
+    sender: AccountAddress,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig,
+  ): Result<TransactionData, SuiError> = handleGrpc {
+    TransactionDataComposer.programmable(sender, ptb, gas, GrpcGasEnvironment(runtime))
   }
 }
