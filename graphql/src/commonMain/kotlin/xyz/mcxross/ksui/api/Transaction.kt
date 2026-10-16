@@ -21,11 +21,14 @@ import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.GasLessTransactionData
 import xyz.mcxross.ksui.core.model.Option
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.core.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.TransactionDataComposer
 import xyz.mcxross.ksui.core.model.TransactionExpiration
 import xyz.mcxross.ksui.core.model.TransactionMetaData
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
@@ -35,6 +38,7 @@ import xyz.mcxross.ksui.generated.GetTransactionBlockQuery
 import xyz.mcxross.ksui.generated.PaginateTransactionBlockListsQuery
 import xyz.mcxross.ksui.generated.QueryTransactionBlocksQuery
 import xyz.mcxross.ksui.generated.SubscribeTransactionsSubscription
+import xyz.mcxross.ksui.internal.GraphqlGasEnvironment
 import xyz.mcxross.ksui.internal.devInspectTransactionBlock
 import xyz.mcxross.ksui.internal.dryRunTransactionBlock
 import xyz.mcxross.ksui.internal.executeTransactionBlock
@@ -150,7 +154,22 @@ class Transaction(val config: SuiConfig) : Transaction {
     gasBudget: ULong,
     options: ExecuteTransactionBlockResponseOptions,
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError> =
-    signAndSubmitTransaction(config, signer, ptb, gasBudget, options)
+    signAndSubmitTransaction(config, signer, ptb, GasConfig(budget = gasBudget), options)
+
+  override suspend fun signAndExecuteTransactionBlock(
+    signer: Account,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig,
+    options: ExecuteTransactionBlockResponseOptions,
+  ): Result<ExecuteTransactionBlockMutation.Data?, SuiError> =
+    signAndSubmitTransaction(config, signer, ptb, gas, options)
+
+  override suspend fun buildTransactionBlock(
+    sender: AccountAddress,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig,
+  ): TransactionData =
+    TransactionDataComposer.programmable(sender, ptb, gas, GraphqlGasEnvironment(config))
 
   override suspend fun sponsoredTransaction(
     ptb: ProgrammableTransaction,
