@@ -305,6 +305,28 @@ val transaction = sui.signAndExecuteTransactionBlock(alice, ptb)
 When using the GraphQL `ptb` helper, object-string inputs are resolved through
 the configured `Sui` client before the transaction is built.
 
+### Gas payment
+
+An account can hold SUI as coin objects, in its address balance, or both. Pass a
+`GasConfig` and Ksui pays gas from whichever covers the transaction, estimating
+the budget by simulation:
+
+```kotlin
+val transaction = sui.signAndExecuteTransactionBlock(alice, ptb, GasConfig())
+```
+
+With the default `FundingSource.Auto`, gas comes from the sender's address
+balance when it covers the budget. A transaction that uses `Argument.GasCoin`,
+or whose address balance falls short, pays with coin objects instead, and any
+address balance is added to the gas coin. Set `source` to
+`FundingSource.AddressBalance` or `FundingSource.CoinObjects` to force one,
+`budget` or `price` to skip estimation or the reference gas price, or `payment`
+to pick the gas objects yourself. The `gasBudget` overload uses the same
+selection with a fixed budget.
+
+`buildTransactionBlock(sender, ptb, gas)` returns the transaction data without
+signing it, and `SuiGrpcClient.buildTransaction` does the same over gRPC.
+
 ### Core-only transaction building
 
 `ksui-core` can construct and sign transactions without depending on GraphQL or
