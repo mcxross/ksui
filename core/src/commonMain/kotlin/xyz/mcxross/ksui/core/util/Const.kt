@@ -24,3 +24,5 @@ const val FUNCTION = "function"
 const val SUI_PRIVATE_KEY_PREFIX = "suiprivkey"
 
 const val MAX_COMMANDS_IN_PTB = 1024
+
+const val MAX_GAS_PAYMENT_OBJECTS = 256
