@@ -22,9 +22,11 @@ import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.GasLessTransactionData
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.TransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.TransactionData
 import xyz.mcxross.ksui.core.model.TransactionExpiration
 import xyz.mcxross.ksui.core.model.TransactionMetaData
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
@@ -142,6 +144,36 @@ interface Transaction {
     gasBudget: ULong = 5_000_000UL,
     options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
   ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
+
+  /**
+   * Signs and executes a transaction block, paying gas as [gas] describes.
+   *
+   * @param signer The [Account] to sign the transaction with.
+   * @param ptb The [ProgrammableTransaction] block to be executed.
+   * @param gas The [GasConfig] for the transaction. By default gas comes from the signer's address
+   *   balance, falling back to coin objects, with the budget estimated by simulation.
+   */
+  @Throws(Exception::class)
+  suspend fun signAndExecuteTransactionBlock(
+    signer: Account,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig,
+    options: ExecuteTransactionBlockResponseOptions = ExecuteTransactionBlockResponseOptions(),
+  ): Result<ExecuteTransactionBlockMutation.Data?, SuiError>
+
+  /**
+   * Builds the transaction data for a transaction block without signing it.
+   *
+   * @param sender The address that sends the transaction and pays for gas.
+   * @param ptb The [ProgrammableTransaction] block to build.
+   * @param gas The [GasConfig] for the transaction.
+   */
+  @Throws(Exception::class)
+  suspend fun buildTransactionBlock(
+    sender: AccountAddress,
+    ptb: ProgrammableTransaction,
+    gas: GasConfig = GasConfig(),
+  ): TransactionData
 
   @Throws(Exception::class)
   suspend fun sponsoredTransaction(

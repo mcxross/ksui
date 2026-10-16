@@ -33,16 +33,11 @@ import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.exception.SuiException
 import xyz.mcxross.ksui.core.model.AccountAddress
-import xyz.mcxross.ksui.core.model.CallArg
-import xyz.mcxross.ksui.core.model.Digest
 import xyz.mcxross.ksui.core.model.ExecuteTransactionBlockResponseOptions
+import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.GasLessTransactionData
 import xyz.mcxross.ksui.core.model.Intent
 import xyz.mcxross.ksui.core.model.IntentMessage
-import xyz.mcxross.ksui.core.model.ObjectDigest
-import xyz.mcxross.ksui.core.model.ObjectArg
-import xyz.mcxross.ksui.core.model.ObjectReference
-import xyz.mcxross.ksui.core.model.Reference
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.core.model.TransactionBlockResponseOptions
@@ -216,55 +211,12 @@ internal suspend fun signAndSubmitTransaction(
   config: SuiConfig,
   signer: Account,
   ptb: ProgrammableTransaction,
-  gasBudget: ULong,
+  gas: GasConfig,
   options: ExecuteTransactionBlockResponseOptions,
 ): Result<ExecuteTransactionBlockMutation.Data?, SuiError> {
 
-  val gasPrice =
-    when (val gp = getReferenceGasPrice(config)) {
-      is Result.Ok -> gp.value
-      is Result.Err -> throw SuiException("Failed to get gas price")
-    }
-
-  val inputObjectIds = ptb.inputs.mapNotNull { input ->
-    when (val arg = (input as? CallArg.Object)?.arg) {
-      is ObjectArg.ImmOrOwnedObject -> arg.objectRef.reference.accountAddress
-      is ObjectArg.Receiving -> arg.objectRef.reference.accountAddress
-      is ObjectArg.SharedObject -> arg.id.hash
-      null -> null
-    }
-  }.toSet()
-  var paymentCursor: String? = null
-  var coins: List<ObjectReference> = emptyList()
-  do {
-    val paymentObject = when (val po = getCoins(config, signer.address, cursor = paymentCursor)) {
-      is Result.Ok -> po.value
-      is Result.Err -> throw SuiException("Failed to get payment object: ${po.error}")
-    }
-    val page = paymentObject?.address?.objects ?: throw SuiException("Failed to get payment object")
-    coins = page.nodes.filter { AccountAddress.fromString(it.address.toString()) !in inputObjectIds }
-      .map {
-        ObjectReference(
-          Reference(AccountAddress.fromString(it.address.toString())),
-          it.version.toString().toLong(),
-          ObjectDigest(Digest(it.digest.toString())),
-        )
-      }
-    if (coins.isNotEmpty() || !page.pageInfo.hasNextPage) break
-    val next = page.pageInfo.endCursor
-    if (next == null || next == paymentCursor) throw SuiException("Gas coin pagination did not advance")
-    paymentCursor = next
-  } while (true)
-  if (coins.isEmpty()) throw SuiException("No SUI coin object is available for gas payment")
-
   val txData =
-    TransactionDataComposer.programmable(
-      sender = signer.address,
-      gasPayment = coins,
-      pt = ptb,
-      gasBudget = gasBudget,
-      gasPrice = gasPrice?.epoch?.referenceGasPrice.toString().toULong(),
-    )
+    TransactionDataComposer.programmable(signer.address, ptb, gas, GraphqlGasEnvironment(config))
 
   val intentMessage = IntentMessage(Intent.suiTransaction(), txData)
 

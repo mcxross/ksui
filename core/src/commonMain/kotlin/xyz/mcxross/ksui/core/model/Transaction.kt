@@ -168,6 +168,17 @@ object TransactionDataComposer {
         GasData(payment = gapPayment, owner = sponsor, price = gasPrice, budget = gasBudget),
       expiration = TransactionExpiration.None,
     )
+
+  /**
+   * Composes [pt] with gas resolved from [environment]; unset [gas] fields come from the network.
+   */
+  @Throws(Exception::class)
+  suspend fun programmable(
+    sender: AccountAddress,
+    pt: ProgrammableTransaction,
+    gas: GasConfig,
+    environment: GasEnvironment,
+  ): TransactionData = composeWithGas(sender, pt, gas, environment)
 }
 
 @Serializable(with = TransactionDataSerializer::class)
@@ -234,7 +245,31 @@ sealed class TransactionExpiration {
 
   @Serializable
   data class Epoch(val epoch: xyz.mcxross.ksui.core.model.Epoch) : TransactionExpiration()
+
+  /** Replay protection for transactions that pay gas from an address balance. */
+  @Serializable
+  data class ValidDuring(
+    val minEpoch: ULong?,
+    val maxEpoch: ULong?,
+    val minTimestamp: ULong?,
+    val maxTimestamp: ULong?,
+    val chain: Digest,
+    val nonce: UInt,
+  ) : TransactionExpiration()
+
+  @Serializable
+  data class Validity(
+    val minEpoch: ULong?,
+    val maxEpoch: ULong?,
+    val minTimestamp: ULong?,
+    val maxTimestamp: ULong?,
+    val chain: Digest,
+    val nonce: UInt,
+    val allowedProposers: AllowedProposers?,
+  ) : TransactionExpiration()
 }
+
+@Serializable data class AllowedProposers(val epoch: ULong, val proposers: List<UInt>)
 
 @Serializable
 data class SenderSignedData(val senderSignedTransactions: List<SenderSignedTransaction>)
@@ -323,7 +358,8 @@ data class SponsoredTransactionPolicy(
  * Validates an untrusted gas-station response before the sender signs it.
  *
  * The sponsor may add only bounded gas data. The sender, transaction kind (including every PTB
- * input and command), and expiration must remain byte-for-byte identical to the original request.
+ * input and command), and expiration must remain byte-for-byte identical to the original request,
+ * except that a sponsor paying from its address balance may add the replay protection it requires.
  */
 fun GasLessTransactionData.validateSponsoredTransaction(
   transaction: TransactionData,
@@ -332,18 +368,26 @@ fun GasLessTransactionData.validateSponsoredTransaction(
   val sponsored = transaction as? TransactionData.V1
     ?: throw IllegalArgumentException("Gas station returned an unsupported transaction version")
 
+  val gas = sponsored.gasData
+  val replayProtected =
+    sponsored.expiration is TransactionExpiration.ValidDuring ||
+      sponsored.expiration is TransactionExpiration.Validity
+  val sponsorAddedExpiration =
+    gas.payment.isEmpty() && expiration == TransactionExpiration.None && replayProtected
+
   val returnedIntent =
     GasLessTransactionData(
       kind = sponsored.kind,
       sender = sponsored.sender,
-      expiration = sponsored.expiration,
+      expiration = if (sponsorAddedExpiration) expiration else sponsored.expiration,
     )
   require(bcsEncode(this).contentEquals(bcsEncode(returnedIntent))) {
     "Gas station changed the requested transaction intent"
   }
 
-  val gas = sponsored.gasData
-  require(gas.payment.isNotEmpty()) { "Gas station returned no sponsor payment objects" }
+  require(gas.payment.isNotEmpty() || replayProtected) {
+    "Gas station returned no sponsor payment"
+  }
   require(gas.owner != sender) { "Sponsored transaction gas must not be owned by the sender" }
   policy.expectedSponsor?.let { expected ->
     require(gas.owner == expected) { "Gas station returned an unexpected sponsor" }
