@@ -20,10 +20,11 @@ final class SuiKitSmokeTests: XCTestCase {
     XCTAssertThrowsError(try builder.moveCall(target: "not-a-target", typeArgs: [], args: []))
   }
 
-  func testUnresolvedObjectInputThrowsOnBuild() {
+  func testUnresolvedObjectInputThrowsOnBuild() throws {
     let builder = ProgrammableTransactionBuilder()
-    _ = builder.object(id: "0x123")
+    _ = try builder.object(id: "0x123")
     XCTAssertThrowsError(try builder.build())
+    XCTAssertThrowsError(try builder.object(id: "not-hex"))
   }
 
   func testClientFailuresBecomeSwiftErrors() async throws {
