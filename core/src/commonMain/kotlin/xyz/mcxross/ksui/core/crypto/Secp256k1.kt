@@ -100,5 +100,6 @@ class Secp256k1PublicKey(data: ByteArray) : PublicKey {
 
   override fun hashCode(): Int = keyBytes.contentHashCode()
 
-  override fun toString(): String = Hex(hash(Hash.BLAKE2B256, keyBytes)).toString()
+  // Not an address: Sui addresses are blake2b(flag || key). Use AccountAddress.fromPublicKey.
+  override fun toString(): String = "Secp256k1PublicKey(${Hex(keyBytes)})"
 }

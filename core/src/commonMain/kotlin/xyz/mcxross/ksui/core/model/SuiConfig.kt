@@ -92,14 +92,18 @@ open class ClientHeadersType {
  *
  * @param headers - extra headers we want to send with the request
  */
-data class FullNodeConfig(override var headers: Map<String, Any>? = null) : ClientHeadersType()
+data class FullNodeConfig(override var headers: Map<String, Any>? = null) : ClientHeadersType() {
+  override fun toString(): String = "FullNodeConfig(headers=${redactHeaders(headers)})"
+}
 
 /**
  * An Indexer only configuration object.
  *
  * @param headers - extra headers we want to send with the request
  */
-data class IndexerConfig(override var headers: Map<String, Any>? = null) : ClientHeadersType()
+data class IndexerConfig(override var headers: Map<String, Any>? = null) : ClientHeadersType() {
+  override fun toString(): String = "IndexerConfig(headers=${redactHeaders(headers)})"
+}
 
 /**
  * A Faucet only configuration object
@@ -107,4 +111,11 @@ data class IndexerConfig(override var headers: Map<String, Any>? = null) : Clien
  * @param headers - extra headers we want to send with the request
  * @param authToken - an auth token to send with a faucet request
  */
-data class FaucetConfig(val headers: Map<String, Any>? = null, val authToken: String? = null)
+data class FaucetConfig(val headers: Map<String, Any>? = null, val authToken: String? = null) {
+  override fun toString(): String =
+    "FaucetConfig(headers=${redactHeaders(headers)}, authToken=${if (authToken == null) "null" else "***"})"
+}
+
+// Header values often carry API keys, so keep them out of logs and crash reports.
+private fun redactHeaders(headers: Map<String, Any>?): String =
+  headers?.keys?.joinToString(prefix = "{", postfix = "}") { "$it=***" } ?: "null"

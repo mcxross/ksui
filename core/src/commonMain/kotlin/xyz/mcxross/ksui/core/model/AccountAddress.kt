@@ -90,6 +90,10 @@ data class AccountAddress(val data: ByteArray) {
       require(hex.length == LENGTH * 2) {
         "Address must be $LENGTH bytes long, but hex length was ${hex.length}"
       }
+      // String.toInt(16) accepts a leading '+' or '-', so reject anything that is not a hex digit.
+      require(hex.all { it in '0'..'9' || it in 'a'..'f' || it in 'A'..'F' }) {
+        "Address contains non-hex characters"
+      }
       val bytes = ByteArray(LENGTH) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
       return AccountAddress(bytes)
     }
