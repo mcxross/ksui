@@ -16,6 +16,7 @@ import xyz.mcxross.ksui.core.ptb.Argument
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransactionBuilder
 import xyz.mcxross.ksui.core.ptb.PtbDsl
 import xyz.mcxross.ksui.generated.GetCoinsQuery
+import xyz.mcxross.ksui.internal.COIN_PAGE_SIZE
 
 /** PTB operations that select funds using a Sui client. [sender] is required for funding calls. */
 class NetworkPtbDsl(
@@ -170,6 +171,7 @@ class NetworkPtbDsl(
       val response = when (
         val result = sui.getCoins(
           address = owner,
+          first = COIN_PAGE_SIZE,
           cursor = cursor,
           type = "0x2::coin::Coin<$coinType>",
         )

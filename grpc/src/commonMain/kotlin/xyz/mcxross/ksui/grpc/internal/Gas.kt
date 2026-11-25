@@ -23,6 +23,9 @@ import xyz.mcxross.ksui.core.util.bcsEncode
 
 private const val MAX_GAS_COIN_PAGES = 20
 
+// ListOwnedObjects returns 50 per page by default and at most 1000 (state_service.proto).
+private const val GAS_COIN_PAGE_SIZE = 1000u
+
 internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnvironment {
 
   override suspend fun context(owner: AccountAddress): GasContext = coroutineScope {
@@ -59,6 +62,7 @@ internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnviron
         listOwnedObjects(
           runtime,
           owner,
+          pageSize = GAS_COIN_PAGE_SIZE,
           pageToken = pageToken,
           readMask = readMask("object_id", "version", "digest", "balance"),
           objectType = "0x2::coin::Coin<$DEFAULT_SUI_COIN_TYPE>",

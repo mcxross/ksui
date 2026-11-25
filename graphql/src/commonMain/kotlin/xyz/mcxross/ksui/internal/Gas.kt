@@ -41,6 +41,9 @@ import xyz.mcxross.ksui.generated.type.ExecutionStatus
 
 private const val MAX_GAS_COIN_PAGES = 20
 
+// Address.objects allows at most 50 per page and defaults to 20 (mainnet/testnet serviceConfig).
+internal const val COIN_PAGE_SIZE = 50
+
 internal class GraphqlGasEnvironment(private val config: SuiConfig) : GasEnvironment {
 
   override suspend fun context(owner: AccountAddress): GasContext {
@@ -74,7 +77,7 @@ internal class GraphqlGasEnvironment(private val config: SuiConfig) : GasEnviron
     var pages = 0
     do {
       val page =
-        when (val result = getCoins(config, owner, cursor = cursor)) {
+        when (val result = getCoins(config, owner, first = COIN_PAGE_SIZE, cursor = cursor)) {
           is Result.Ok -> result.value?.address?.objects
           is Result.Err -> throw SuiException("Failed to get gas coins: ${result.error}")
         } ?: throw SuiException("Failed to get gas coins")

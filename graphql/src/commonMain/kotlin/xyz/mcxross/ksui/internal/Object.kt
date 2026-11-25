@@ -79,11 +79,36 @@ internal suspend fun getOwnedObjects(
     }
     .toResult()
 
+/**
+ * Keys per multiGetObjects request. The mainnet and testnet services reject any request larger
+ * than `serviceConfig.maxQueryPayloadSize` (5,000 bytes); with this query each key adds about
+ * 81 bytes, so 40 keys fit and about 45 do not (measured 2026-11-25). `maxMultiGetSize` (200) is
+ * not the binding limit. 32 leaves headroom for longer headers and future fields.
+ */
+internal const val MULTI_GET_OBJECTS_BATCH_SIZE = 32
+
+// `limit` and `cursor` are accepted for API compatibility only: multiGetObjects takes just `keys`.
 internal suspend fun multiGetObjects(
   config: SuiConfig,
   ids: List<String>,
-  limit: Int?,
-  cursor: String?,
+  @Suppress("UNUSED_PARAMETER") limit: Int?,
+  @Suppress("UNUSED_PARAMETER") cursor: String?,
+  options: ObjectDataOptions,
+): Result<MultiGetObjectsQuery.Data?, SuiError> {
+  if (ids.size <= MULTI_GET_OBJECTS_BATCH_SIZE) return multiGetObjectsBatch(config, ids, options)
+  val objects = ArrayList<MultiGetObjectsQuery.MultiGetObject?>(ids.size)
+  for (batch in ids.chunked(MULTI_GET_OBJECTS_BATCH_SIZE)) {
+    when (val result = multiGetObjectsBatch(config, batch, options)) {
+      is Result.Ok -> objects += result.value?.multiGetObjects.orEmpty()
+      is Result.Err -> return result
+    }
+  }
+  return Result.Ok(MultiGetObjectsQuery.Data(objects))
+}
+
+private suspend fun multiGetObjectsBatch(
+  config: SuiConfig,
+  ids: List<String>,
   options: ObjectDataOptions,
 ): Result<MultiGetObjectsQuery.Data?, SuiError> =
   handleQuery {

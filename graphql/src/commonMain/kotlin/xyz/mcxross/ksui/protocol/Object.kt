@@ -69,9 +69,10 @@ interface Object {
   /**
    * Fetches the details of multiple objects in a single batch request.
    *
-   * @param ids A list of unique IDs of the objects to fetch.
-   * @param limit An optional integer to specify the maximum number of objects to return per page.
-   * @param cursor An optional cursor string for pagination.
+   * @param ids A list of unique IDs of the objects to fetch. Long lists are split into several
+   *   requests to stay under the service's request-size limit, and the results keep this order.
+   * @param limit Ignored: the GraphQL multiGetObjects field takes only keys and is not paginated.
+   * @param cursor Ignored, for the same reason.
    * @param options The options specifying which fields of the objects to include in the response.
    * @return A [Result] which is either:
    * - `Ok`: Containing a nullable [MultiGetObjectsQuery.Data] object with a list of objects.
