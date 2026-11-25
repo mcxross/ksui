@@ -15,12 +15,15 @@
  */
 package xyz.mcxross.ksui.core.model
 
+import kotlin.concurrent.Volatile
 import xyz.mcxross.ksui.core.client.ClientConfig
 import xyz.mcxross.ksui.core.util.NetworkToFaucetAPI
 import xyz.mcxross.ksui.core.util.NetworkToIndexerAPI
 import xyz.mcxross.ksui.core.util.NetworkToNodeAPI
 
-class SuiConfig(settings: SuiSettings? = null) {
+class SuiConfig(settings: SuiSettings? = null) : AutoCloseable {
+
+  @Volatile var clientResource: AutoCloseable? = null
 
   val network: Network = settings?.network ?: Network.DEVNET
   val fullNode: String? = settings?.fullNode
@@ -30,6 +33,12 @@ class SuiConfig(settings: SuiSettings? = null) {
   val fullNodeConfig: FullNodeConfig = settings?.fullNodeConfig ?: FullNodeConfig()
   val indexerConfig: IndexerConfig = settings?.indexerConfig ?: IndexerConfig()
   val faucetConfig: FaucetConfig = settings?.faucetConfig ?: FaucetConfig()
+
+  override fun close() {
+    val resource = clientResource
+    clientResource = null
+    resource?.close()
+  }
 
   fun getRequestUrl(apiType: SuiApiType): String {
     return when (apiType) {

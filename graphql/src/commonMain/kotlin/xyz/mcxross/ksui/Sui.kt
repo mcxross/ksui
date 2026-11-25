@@ -19,6 +19,7 @@ package xyz.mcxross.ksui
 
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
+import xyz.mcxross.ksui.client.withClientInitLock
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.protocol.Coin
 import xyz.mcxross.ksui.protocol.Events
@@ -30,50 +31,18 @@ import xyz.mcxross.ksui.protocol.Object
 import xyz.mcxross.ksui.protocol.Sns
 import xyz.mcxross.ksui.protocol.Transaction
 
-/**
- * A singleton object that holds a default, globally accessible `Sui` client instance.
- *
- * This pattern simplifies the API by allowing functions like `ptb` to work without explicitly
- * passing a client instance for every call, making the syntax cleaner (`ptb { ... }`).
- *
- * The default client is automatically set when the first `Sui` object is instantiated in an
- * application. This behavior can be opted out of on a per-instance basis if needed.
- *
- * @property client The globally configured default `Sui` client. Throws an
- *   [UninitializedPropertyAccessException] if accessed before a `Sui` instance is created.
- */
-// A Swift type named like its module, SuiKit, breaks module-qualified names such as SuiKit.Sui.
 @ObjCName(swiftName = "SuiKitDefaults")
 object SuiKit {
   lateinit var client: Sui
     private set
 
   internal fun setDefault(client: Sui) {
-    if (!::client.isInitialized) {
-      this.client = client
-    }
+    withClientInitLock { this.client = client }
   }
 }
 
-/**
- * The primary entry point for interacting with the Sui network.
- *
- * This class provides a unified API surface by delegating to various specialized API clients (e.g.,
- * `Coin`, `Events`, `Transaction`). This composition pattern allows for clean separation of
- * concerns while offering a simple, cohesive interface.
- *
- * Upon instantiation, this class can automatically configure a default, globally-accessible client
- * instance via the [SuiKit] object. This enables the use of convenient top-level functions like
- * `ptb { ... }` without needing to pass the client instance explicitly.
- *
- * @param config The [SuiConfig] used to configure the connection and behavior of all underlying API
- *   clients.
- * @param makeDefault If `true`, this instance will be set as the default client in [SuiKit], making
- *   it available for global functions. This is useful for setting up a primary client at
- *   application startup. Set to `false` to create a temporary or secondary client without
- *   overwriting the default.
- */
 class Sui(config: SuiConfig = SuiConfig(), makeDefault: Boolean = true) :
+  AutoCloseable,
   Coin by xyz.mcxross.ksui.api.Coin(config),
   Events by xyz.mcxross.ksui.api.Events(config),
   Governance by xyz.mcxross.ksui.api.Governance(config),
@@ -87,5 +56,9 @@ class Sui(config: SuiConfig = SuiConfig(), makeDefault: Boolean = true) :
     if (makeDefault) {
       SuiKit.setDefault(this)
     }
+  }
+
+  override fun close() {
+    config.close()
   }
 }

@@ -165,6 +165,7 @@ class NetworkPtbDsl(
 
   private suspend fun loadCoins(owner: AccountAddress, coinType: TypeTag, state: FundingState) {
     var cursor: String? = null
+    var pages = 0
     do {
       val response = when (
         val result = sui.getCoins(
@@ -186,8 +187,9 @@ class NetworkPtbDsl(
         )
         state.coins += AvailableCoin(balance = balance, reference = reference)
       }
+      pages++
       val next = page.pageInfo.endCursor
-      if (!page.pageInfo.hasNextPage) break
+      if (!page.pageInfo.hasNextPage || pages >= MAX_FUNDING_COIN_PAGES) break
       require(next != null && next != cursor) { "Coin object pagination did not advance" }
       cursor = next
     } while (true)
@@ -216,5 +218,7 @@ class NetworkPtbDsl(
     var usedExplicitObjects = false
   }
 }
+
+private const val MAX_FUNDING_COIN_PAGES = 50
 
 private val SUI_TYPE = TypeTag.Struct(StructTag(AccountAddress.fromString("0x2"), "sui", "SUI"))

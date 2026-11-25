@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.ApolloCall
@@ -22,6 +21,7 @@ import com.apollographql.apollo.exception.ApolloException
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import kotlinx.coroutines.CancellationException
 import xyz.mcxross.ksui.core.exception.ErrorLocation
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
@@ -31,10 +31,6 @@ internal suspend fun <D : Operation.Data> handleQuery(
 ): Result<D?, SuiError> {
   try {
     val response = queryCall().execute()
-
-    if (response.data != null) {
-      return Ok(response.data)
-    }
 
     val errors = response.errors
     if (!errors.isNullOrEmpty()) {
@@ -50,8 +46,16 @@ internal suspend fun <D : Operation.Data> handleQuery(
           }
         )
       )
-    } else {
-      SuiError(listOf(SdkErrorDetail(message = "GraphQL errors in response")))
+    }
+
+    response.exception?.let { ex ->
+      return Err(
+        SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${ex.message}")))
+      )
+    }
+
+    if (response.data != null) {
+      return Ok(response.data)
     }
 
     return Err(
@@ -63,7 +67,13 @@ internal suspend fun <D : Operation.Data> handleQuery(
         )
       )
     )
+  } catch (e: CancellationException) {
+    throw e
   } catch (e: ApolloException) {
+    return Err(
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}")))
+    )
+  } catch (e: Exception) {
     return Err(
       SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}")))
     )

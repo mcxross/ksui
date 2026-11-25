@@ -26,7 +26,10 @@ import kotlinx.serialization.json.Json
 import xyz.mcxross.ksui.core.client.ClientConfig
 import xyz.mcxross.ksui.core.model.UserAgent as KsuiUserAgent
 
-/** Create a new Ktor client with the given configuration. */
+private val CLIENT_INIT_LOCK = Any()
+
+internal actual fun <T> withClientInitLock(block: () -> T): T = synchronized(CLIENT_INIT_LOCK, block)
+
 actual fun httpClient(clientConfig: ClientConfig) =
   HttpClient(CIO) {
 
@@ -58,11 +61,14 @@ actual fun httpClient(clientConfig: ClientConfig) =
     // Set the content negotiation. This is required for the client to know how to handle JSON.
     install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) }
 
-    // How about retries? Things can go wrong, so let's retry a few times.
     if (clientConfig.maxRetries > 0 || clientConfig.retryOnServerErrors > 0) {
       install(HttpRequestRetry) {
-        retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
-        maxRetries = clientConfig.maxRetries
+        if (clientConfig.retryOnServerErrors > 0) {
+          retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
+        }
+        if (clientConfig.maxRetries > 0) {
+          maxRetries = clientConfig.maxRetries
+        }
         exponentialDelay()
       }
     }

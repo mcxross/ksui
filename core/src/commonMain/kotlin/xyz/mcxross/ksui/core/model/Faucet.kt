@@ -28,6 +28,6 @@ data class FaucetRequest(
 
 @Serializable
 data class FaucetResponse(
-  val transferredGasObjects: List<TransferredGasObject>,
+  val transferredGasObjects: List<TransferredGasObject>? = null,
   val error: String? = null,
 )

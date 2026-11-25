@@ -3,12 +3,13 @@
 
 query dryRunTransactionBlock(
     $transaction: JSON!
+    $doGasSelection: Boolean
     $showBalanceChanges: Boolean = false
     $showEffects: Boolean = false
     $showEvents: Boolean = false
     $showObjectChanges: Boolean = false
 ) {
-    simulateTransaction(transaction: $transaction) {
+    simulateTransaction(transaction: $transaction, doGasSelection: $doGasSelection) {
         effects {
             status
             executionError {

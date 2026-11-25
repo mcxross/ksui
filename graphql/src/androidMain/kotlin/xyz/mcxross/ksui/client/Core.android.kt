@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package xyz.mcxross.ksui.client
 
 import io.ktor.client.*
@@ -28,6 +27,11 @@ import kotlinx.serialization.json.Json
 import xyz.mcxross.ksui.core.client.ClientConfig
 import xyz.mcxross.ksui.core.model.UserAgent as KsuiUserAgent
 
+private val CLIENT_INIT_LOCK = Any()
+
+internal actual fun <T> withClientInitLock(block: () -> T): T =
+  synchronized(CLIENT_INIT_LOCK, block)
+
 actual fun httpClient(clientConfig: ClientConfig) =
   HttpClient(OkHttp) {
     followRedirects = clientConfig.followRedirects
@@ -39,44 +43,40 @@ actual fun httpClient(clientConfig: ClientConfig) =
       connectTimeoutMillis = clientConfig.connectTimeout
     }
 
-    // Set the user agent. If the user wants to use a like agent, use that instead, otherwise use
-    // the user's agent.
     if (clientConfig.likeAgent == null) {
       install(UserAgent) { agent = clientConfig.agent }
     } else {
       when (clientConfig.likeAgent) {
         KsuiUserAgent.BROWSER -> BrowserUserAgent()
         KsuiUserAgent.CURL -> CurlUserAgent()
-        else -> {
-          install(UserAgent) { agent = clientConfig.agent }
-        }
+        else -> install(UserAgent) { agent = clientConfig.agent }
       }
     }
 
-    // Set the content negotiation. This is required for the client to know how to handle JSON.
     install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) }
 
-    // How about retries? Things can go wrong, so let's retry a few times.
     if (clientConfig.maxRetries > 0 || clientConfig.retryOnServerErrors > 0) {
       install(HttpRequestRetry) {
-        retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
-        maxRetries = clientConfig.maxRetries
+        if (clientConfig.retryOnServerErrors > 0) {
+          retryOnServerErrors(maxRetries = clientConfig.retryOnServerErrors)
+        }
+        if (clientConfig.maxRetries > 0) {
+          maxRetries = clientConfig.maxRetries
+        }
         exponentialDelay()
       }
     }
 
-    // Enable caching if the user wants it.
     if (clientConfig.cache) install(HttpCache)
 
     engine {
-
-      // Set the proxy if the user wants it.
       clientConfig.proxy?.let { proxy = ProxyBuilder.http(it) }
 
       config {
-        retryOnConnectionFailure(clientConfig.followRedirects)
+        retryOnConnectionFailure(true)
         connectTimeout(clientConfig.connectTimeoutMillis, TimeUnit.MILLISECONDS)
-        followRedirects(clientConfig.followSslRedirects)
+        followRedirects(clientConfig.followRedirects)
+        followSslRedirects(clientConfig.followSslRedirects)
         readTimeout(clientConfig.readTimeoutMillis, TimeUnit.MILLISECONDS)
         writeTimeout(clientConfig.writeTimeoutMillis, TimeUnit.MILLISECONDS)
       }

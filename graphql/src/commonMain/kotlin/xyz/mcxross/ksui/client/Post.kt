@@ -13,41 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package xyz.mcxross.ksui.client
 
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import xyz.mcxross.ksui.core.model.RequestOptions
 import xyz.mcxross.ksui.core.model.SuiApiType
 
-suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>) {
-  getClient(options.suiConfig.clientConfig).post(options.suiConfig.getRequestUrl(options.type)) {
+suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V>): HttpResponse {
+  val overrides = options.overrides
+  if (overrides != null) {
+    return httpClient(overrides).use { client ->
+      client.post(options.suiConfig.getRequestUrl(options.type)) {
+        contentType(ContentType.Application.Json)
+        options.suiConfig.getHeaders(options.type)?.forEach { (key, value) -> header(key, value) }
+        setBody(options.body)
+      }
+    }
+  }
+  return getClient(options.suiConfig).post(options.suiConfig.getRequestUrl(options.type)) {
     contentType(ContentType.Application.Json)
     options.suiConfig.getHeaders(options.type)?.forEach { (key, value) -> header(key, value) }
     setBody(options.body)
   }
 }
 
-suspend inline fun <reified T> postSuiFaucet(options: RequestOptions.PostSuiRequestOptions<T>) {
-  val response =
-    post<T>(
-      RequestOptions.PostRequestOptions(
-        suiConfig = options.suiConfig,
-        type = SuiApiType.FAUCET,
-        body = options.body,
-      )
+suspend inline fun <reified T> postSuiFaucet(
+  options: RequestOptions.PostSuiRequestOptions<T>
+): HttpResponse =
+  post(
+    RequestOptions.PostRequestOptions(
+      suiConfig = options.suiConfig,
+      type = SuiApiType.FAUCET,
+      params = options.params,
+      body = options.body,
+      overrides = options.overrides,
     )
-}
+  )
 
-suspend inline fun <reified T> postSuiIndexer(options: RequestOptions.PostSuiRequestOptions<T>) {
-  val response =
-    post<T>(
-      RequestOptions.PostRequestOptions(
-        suiConfig = options.suiConfig,
-        type = SuiApiType.INDEXER,
-        body = options.body,
-      )
+suspend inline fun <reified T> postSuiIndexer(
+  options: RequestOptions.PostSuiRequestOptions<T>
+): HttpResponse =
+  post(
+    RequestOptions.PostRequestOptions(
+      suiConfig = options.suiConfig,
+      type = SuiApiType.INDEXER,
+      params = options.params,
+      body = options.body,
+      overrides = options.overrides,
     )
-  return response
-}
+  )

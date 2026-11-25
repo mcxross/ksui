@@ -360,7 +360,7 @@ private fun coinReservation(
   return ObjectReference(Reference(AccountAddress.from(id)), 0, ObjectDigest(Digest(digest)))
 }
 
-internal fun selectTopGasCoins(
+fun selectTopGasCoins(
   existing: MutableList<CoinObject>,
   incoming: Iterable<CoinObject>,
   limit: Int = MAX_GAS_PAYMENT_OBJECTS,

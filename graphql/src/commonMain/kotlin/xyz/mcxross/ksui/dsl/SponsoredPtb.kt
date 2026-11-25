@@ -15,25 +15,28 @@
  */
 package xyz.mcxross.ksui.dsl
 
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.Sui
-import xyz.mcxross.ksui.client.httpClient
+import xyz.mcxross.ksui.client.getClient
+import xyz.mcxross.ksui.core.exception.SuiException
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.GasLessTransactionData
 import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
 import xyz.mcxross.ksui.core.model.TransactionData
 import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
-import xyz.mcxross.ksui.ptb.NetworkPtbDsl
 import xyz.mcxross.ksui.core.util.bcsDecode
+import xyz.mcxross.ksui.ptb.NetworkPtbDsl
 
 class GasStationConfig {
   var url: String = ""
@@ -68,7 +71,7 @@ suspend inline fun <reified T, reified R> sponsoredTransaction(
   crossinline requestFactory: (String, String) -> T,
   policy: SponsoredTransactionPolicy,
   crossinline responseTransactionBytes: (R) -> String,
-  httpClient: io.ktor.client.HttpClient? = null,
+  httpClient: HttpClient? = null,
   noinline block: suspend SponsoredPtbScope.() -> Unit,
 ): R {
   val scope = SponsoredPtbScope(sui)
@@ -78,7 +81,7 @@ suspend inline fun <reified T, reified R> sponsoredTransaction(
   val gasLess = GasLessTransactionData.new(ptb, sender)
   val txBytes = Base64.encode(Bcs.encodeToByteArray(gasLess))
 
-  val client = httpClient ?: httpClient(sui.config.clientConfig)
+  val client = httpClient ?: getClient(sui.config)
 
   val response =
     client.post(config.url) {
@@ -86,6 +89,10 @@ suspend inline fun <reified T, reified R> sponsoredTransaction(
       config.headers.forEach { (k, v) -> header(k, v) }
       setBody(requestFactory(txBytes, sender.toString()))
     }
+
+  if (!response.status.isSuccess()) {
+    throw SuiException("Gas station request failed with HTTP ${response.status.value}")
+  }
 
   val body = response.body<R>()
   val sponsoredBytes = Base64.decode(responseTransactionBytes(body))

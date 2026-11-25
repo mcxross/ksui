@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Subscription
 import com.apollographql.apollo.exception.ApolloException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import xyz.mcxross.ksui.client.getGraphqlSubscriptionClient
+import xyz.mcxross.ksui.client.getSharedGraphqlSubscriptionClient
 import xyz.mcxross.ksui.core.exception.ErrorLocation
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
@@ -33,15 +32,23 @@ import xyz.mcxross.ksui.core.model.SuiConfig
 internal fun <D : Subscription.Data> subscriptionResults(
   config: SuiConfig,
   operation: Subscription<D>,
-): Flow<Result<D?, SuiError>> = subscriptionResults({ getGraphqlSubscriptionClient(config) }, operation)
+): Flow<Result<D?, SuiError>> =
+  subscriptionResults(
+    clientFactory = { getSharedGraphqlSubscriptionClient(config) },
+    operation = operation,
+    closeOnFinish = false,
+  )
 
 internal fun <D : Subscription.Data> subscriptionResults(
   clientFactory: () -> ApolloClient,
   operation: Subscription<D>,
+  closeOnFinish: Boolean = true,
 ): Flow<Result<D?, SuiError>> = flow {
   val client = clientFactory()
   try {
     client.subscription(operation).toFlow().collect { emit(it.toSuiResult()) }
+  } catch (e: CancellationException) {
+    throw e
   } catch (e: ApolloException) {
     emit(
       Result.Err(
@@ -49,12 +56,13 @@ internal fun <D : Subscription.Data> subscriptionResults(
       )
     )
   } finally {
-    client.close()
+    if (closeOnFinish) {
+      client.close()
+    }
   }
 }
 
 private fun <D : Subscription.Data> ApolloResponse<D>.toSuiResult(): Result<D?, SuiError> {
-  data?.let { return Result.Ok(it) }
   errors?.takeIf { it.isNotEmpty() }?.let { graphQLErrors ->
     return Result.Err(
       SuiError(
@@ -69,12 +77,17 @@ private fun <D : Subscription.Data> ApolloResponse<D>.toSuiResult(): Result<D?, 
       )
     )
   }
+  exception?.let { ex ->
+    return Result.Err(
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL subscription failed: ${ex.message}")))
+    )
+  }
+  data?.let { return Result.Ok(it) }
   return Result.Err(
     SuiError(
       listOf(
         SdkErrorDetail(
-          message = exception?.let { "GraphQL subscription failed: ${it.message}" }
-            ?: "Unknown error: no data and no errors returned from GraphQL server"
+          message = "Unknown error: no data and no errors returned from GraphQL server"
         )
       )
     )

@@ -1,9 +1,11 @@
 package xyz.mcxross.ksui.ptb
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import xyz.mcxross.ksui.Sui
 import xyz.mcxross.ksui.SuiKit
-import xyz.mcxross.ksui.core.model.ObjectDataOptions
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.ObjectDataOptions
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.ptb.Argument
 import xyz.mcxross.ksui.core.ptb.Command
@@ -12,7 +14,6 @@ import xyz.mcxross.ksui.core.ptb.ProgrammableTransactionBuilder
 import xyz.mcxross.ksui.core.ptb.ProgrammableTransactionResolver
 import xyz.mcxross.ksui.core.ptb.ResolvedObject
 import xyz.mcxross.ksui.core.ptb.ResolvedObjectOwner
-import xyz.mcxross.ksui.generated.GetNormalizedMoveFunctionQuery
 import xyz.mcxross.ksui.generated.fragment.RPC_MOVE_FUNCTION_FIELDS
 
 @Throws(Exception::class)
@@ -37,24 +38,34 @@ private class GraphqlProgrammableTransactionResolver(private val sui: Sui) :
   ProgrammableTransactionResolver {
 
   override suspend fun mutableInputIndexes(commands: List<Command>): Set<Int> {
-    val mutableInputs = mutableSetOf<Int>()
-    val functionSignatureCache = mutableMapOf<String, GetNormalizedMoveFunctionQuery.Data?>()
+    val moveCalls = commands.filterIsInstance<Command.MoveCall>()
+    if (moveCalls.isEmpty()) return emptySet()
 
-    for (command in commands) {
-      if (command !is Command.MoveCall) continue
+    val distinctTargets =
+      moveCalls
+        .map { "${it.moveCall.pakage.hash}::${it.moveCall.module}::${it.moveCall.function}" }
+        .distinct()
 
-      val callDetails = command.moveCall
-      val target = "${callDetails.pakage.hash}::${callDetails.module}::${callDetails.function}"
-      val signatureResponse =
-        functionSignatureCache.getOrPut(target) {
-          when (val result = sui.getNormalizedMoveFunction(target)) {
-            is Result.Ok -> result.value
-            is Result.Err ->
-              throw IllegalStateException("Failed to get function signature for $target")
+    val signaturesByTarget = coroutineScope {
+      distinctTargets
+        .associateWith { target ->
+          async {
+            when (val result = sui.getNormalizedMoveFunction(target)) {
+              is Result.Ok -> result.value
+              is Result.Err ->
+                throw IllegalStateException("Failed to get function signature for $target")
+            }
           }
         }
+        .mapValues { (_, deferred) -> deferred.await() }
+    }
+
+    val mutableInputs = mutableSetOf<Int>()
+    for (command in moveCalls) {
+      val callDetails = command.moveCall
+      val target = "${callDetails.pakage.hash}::${callDetails.module}::${callDetails.function}"
       val params: List<RPC_MOVE_FUNCTION_FIELDS.Parameter> =
-        signatureResponse
+        signaturesByTarget[target]
           ?.`object`
           ?.asMovePackage
           ?.module
@@ -88,6 +99,7 @@ private class GraphqlProgrammableTransactionResolver(private val sui: Sui) :
                   owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L
                 )
               "AddressOwner" -> ResolvedObjectOwner.AddressOwner
+              "Immutable" -> ResolvedObjectOwner.Immutable
               else ->
                 throw IllegalStateException("Unsupported object owner type: ${owner?.__typename}")
             }
@@ -109,8 +121,7 @@ private class GraphqlProgrammableTransactionResolver(private val sui: Sui) :
   }
 
   private fun normalize(id: String): String {
-    val clean = id.removePrefix("0x")
-    val padded = clean.padStart(64, '0')
-    return "0x$padded"
+    val clean = id.trim().removePrefix("0x").removePrefix("0X").lowercase()
+    return "0x${clean.padStart(64, '0')}"
   }
 }

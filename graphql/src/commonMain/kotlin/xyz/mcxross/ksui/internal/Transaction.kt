@@ -18,6 +18,7 @@ package xyz.mcxross.ksui.internal
 import com.apollographql.apollo.api.Optional
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -82,8 +83,8 @@ internal suspend fun dryRunTransactionBlock(
   config: SuiConfig,
   txBytes: String,
   options: ExecuteTransactionBlockResponseOptions,
+  doGasSelection: Boolean? = null,
 ): Result<DryRunTransactionBlockQuery.Data?, SuiError> {
-
   val transactionInput = mapOf("bcs" to mapOf("value" to txBytes))
 
   return handleQuery {
@@ -91,10 +92,11 @@ internal suspend fun dryRunTransactionBlock(
         .query(
           DryRunTransactionBlockQuery(
             transaction = transactionInput,
-            showObjectChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+            doGasSelection = Optional.presentIfNotNull(doGasSelection),
+            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
             showEffects = Optional.presentIfNotNull(options.showEffects),
             showEvents = Optional.presentIfNotNull(options.showEvents),
-            showBalanceChanges = Optional.presentIfNotNull(options.showObjectChanges),
+            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
           )
         )
     }
@@ -202,9 +204,8 @@ internal suspend fun paginateTransactionBlockLists(
     }
     .toResult()
 
-internal suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, E> {
-  return signer.sign(message)
-}
+internal suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, E> =
+  signer.sign(message)
 
 @OptIn(ExperimentalEncodingApi::class)
 internal suspend fun signAndSubmitTransaction(
@@ -214,7 +215,6 @@ internal suspend fun signAndSubmitTransaction(
   gas: GasConfig,
   options: ExecuteTransactionBlockResponseOptions,
 ): Result<ExecuteTransactionBlockMutation.Data?, SuiError> {
-
   val txData =
     TransactionDataComposer.programmable(signer.address, ptb, gas, GraphqlGasEnvironment(config))
 
@@ -222,41 +222,23 @@ internal suspend fun signAndSubmitTransaction(
 
   val serializedSignatureBytes: ByteArray =
     when (val sig = signer.sign(hash(Hash.BLAKE2B256, Bcs.encodeToByteArray(intentMessage)))) {
-      is Result.Ok -> {
+      is Result.Ok ->
         when (signer.scheme) {
           SignatureScheme.PASSKEY -> sig.value
           else -> byteArrayOf(signer.scheme.scheme) + sig.value + signer.publicKey.data
         }
-      }
-      is Result.Err -> {
-        throw sig.error
-      }
+      is Result.Err -> throw sig.error
     }
 
   val tx = txData with listOf(Base64.encode(serializedSignatureBytes))
-
   val content = tx.content()
 
-  val response =
-    getGraphqlClient(config)
-      .mutation(
-        ExecuteTransactionBlockMutation(
-          transactionDataBcs = content.first,
-          signatures = content.second,
-          showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-          showEffects = Optional.presentIfNotNull(options.showEffects),
-          showEvents = Optional.presentIfNotNull(options.showEvents),
-          showInput = Optional.presentIfNotNull(options.showInput),
-          showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-        )
-      )
-      .execute()
-
-  if (response.errors != null) {
-    throw SuiException(response.errors.toString())
+  return when (
+    val result = executeTransactionBlock(config, content.first, content.second, options)
+  ) {
+    is Result.Ok -> result
+    is Result.Err -> throw SuiException(result.error.toString())
   }
-
-  return Result.Ok(response.data)
 }
 
 internal fun sponsoredTransaction(
@@ -271,24 +253,6 @@ internal fun sponsoredTransaction(
   }
 }
 
-/**
- * Waits for a transaction block to be processed and available on the network by polling the
- * `getTransactionBlock` API.
- *
- * This is a crucial utility to use after `signAndExecuteTransactionBlock` to ensure a transaction's
- * effects are finalized and available for querying before proceeding. This implementation uses
- * idiomatic Kotlin coroutines for robust handling of timeouts, polling, and cancellation.
- *
- * @param digest The digest of the transaction to wait for.
- * @param options The options object specifying which fields to return (e.g., effects, object
- *   changes).
- * @param timeout The total time in milliseconds to wait for the transaction before failing.
- *   Defaults to 60 seconds.
- * @param pollInterval The time in milliseconds to wait between each polling attempt. Defaults to 2
- *   seconds.
- * @return A [Result.Ok] containing the transaction block response once it's found, or a
- *   [Result.Err] if the operation times out or encounters an unrecoverable error.
- */
 internal suspend fun waitForTransaction(
   config: SuiConfig,
   digest: String,
@@ -300,20 +264,26 @@ internal suspend fun waitForTransaction(
     withTimeout(timeout) {
       while (true) {
         when (val result = getTransactionBlock(config, digest, options)) {
-          is Result.Ok -> return@withTimeout result
-          is Result.Err -> {
+          is Result.Ok -> {
+            if (result.value?.transaction != null) {
+              return@withTimeout result
+            }
             delay(pollInterval)
           }
+          is Result.Err -> delay(pollInterval)
         }
       }
+      @Suppress("UNREACHABLE_CODE")
+      Result.Err(SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected fallthrough"))))
     }
-    Result.Err(SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected fallthrough"))))
   } catch (e: TimeoutCancellationException) {
     Result.Err(
       SuiError(
         errors = listOf(SdkErrorDetail(message = "Timed out waiting for transaction $digest"))
       )
     )
+  } catch (e: CancellationException) {
+    throw e
   } catch (e: Exception) {
     Result.Err(
       SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected error: ${e.message}")))
