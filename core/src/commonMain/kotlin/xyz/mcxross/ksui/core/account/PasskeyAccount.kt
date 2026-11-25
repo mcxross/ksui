@@ -28,19 +28,16 @@ class PasskeyAccount(
   override val publicKey: PasskeyPublicKey,
   private val provider: PasskeyProvider,
 ) : Account() {
-  override val address: AccountAddress
-    get() = AccountAddress.fromPublicKey(publicKey)
+  override val address: AccountAddress by lazy { AccountAddress.fromPublicKey(publicKey) }
 
   override val scheme: SignatureScheme
     get() = SignatureScheme.PASSKEY
 
-  override suspend fun sign(message: ByteArray): Result<ByteArray, E> {
-    return provider.sign(publicKey.data, message)
-  }
+  override suspend fun sign(message: ByteArray): Result<ByteArray, E> =
+    provider.sign(publicKey.data, message)
 
-  override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> {
-    return provider.verify(publicKey.data, message, signature)
-  }
+  override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
+    provider.verify(publicKey.data, message, signature)
 
   companion object {
     @OptIn(ExperimentalUuidApi::class)
@@ -51,8 +48,6 @@ class PasskeyAccount(
       displayName: String = name,
       userId: String = Uuid.random().toHexDashString(),
       challenge: String = Uuid.random().toHexDashString(),
-    ): Result<PasskeyAccount, E> {
-      return provider.create(name, displayName, userId, challenge)
-    }
+    ): Result<PasskeyAccount, E> = provider.create(name, displayName, userId, challenge)
   }
 }

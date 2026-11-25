@@ -16,7 +16,6 @@
 package xyz.mcxross.ksui.core.crypto
 
 import java.nio.ByteBuffer
-import java.nio.charset.Charset
 import java.util.Arrays
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -24,10 +23,7 @@ import javax.crypto.spec.SecretKeySpec
 class ED25519KeyDerive(val key: ByteArray, val chaincode: ByteArray) {
 
   fun derive(index: Int): ED25519KeyDerive {
-    if (!hasHardenedBit(index)) {
-      // todo: create an exception
-      throw RuntimeException()
-    }
+    require(hasHardenedBit(index)) { "Only hardened derivation is supported" }
 
     val indexBytes = ByteArray(4)
     ByteBuffer.wrap(indexBytes).putInt(index)
@@ -53,20 +49,17 @@ class ED25519KeyDerive(val key: ByteArray, val chaincode: ByteArray) {
     return current
   }
 
-  private fun hasHardenedBit(a: Int): Boolean {
-    return (a and HARDENED_BIT) != 0
-  }
+  private fun hasHardenedBit(a: Int): Boolean = (a and HARDENED_BIT) != 0
 
   companion object {
     private const val DEFAULT_DERIVE_PATH = "m/44H/784H/0H/0H/0H"
     private const val HARDENED_BIT = -0x80000000
 
-    fun createKeyByDefaultPath(seed: ByteArray): ED25519KeyDerive {
-      return createMasterKey(seed).deriveFromPath()
-    }
+    fun createKeyByDefaultPath(seed: ByteArray): ED25519KeyDerive =
+      createMasterKey(seed).deriveFromPath()
 
     fun createMasterKey(seed: ByteArray): ED25519KeyDerive {
-      val i = hmacSha512("ed25519 seed".toByteArray(Charset.defaultCharset()), seed)
+      val i = hmacSha512("ed25519 seed".toByteArray(Charsets.UTF_8), seed)
       val il = Arrays.copyOfRange(i, 0, 32)
       val ir = Arrays.copyOfRange(i, 32, 64)
       return ED25519KeyDerive(il, ir)

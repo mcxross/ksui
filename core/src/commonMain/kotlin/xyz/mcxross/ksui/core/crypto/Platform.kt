@@ -35,7 +35,7 @@ expect fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E
 expect fun derivePrivateKeyFromMnemonic(
   mnemonic: List<String>,
   scheme: SignatureScheme = SignatureScheme.ED25519,
-  path: String = "m/44'/784'/0/0/0",
+  path: String = "m/44'/784'/0'/0'/0'",
 ): ByteArray
 
 expect fun verifySignature(
@@ -43,3 +43,5 @@ expect fun verifySignature(
   message: ByteArray,
   signature: ByteArray,
 ): Result<Boolean, E>
+
+expect fun secureRandomBytes(size: Int): ByteArray

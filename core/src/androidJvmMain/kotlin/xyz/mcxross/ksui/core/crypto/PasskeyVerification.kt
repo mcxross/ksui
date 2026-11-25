@@ -40,15 +40,10 @@ private fun sha256(data: ByteArray): ByteArray =
     ByteArray(it.digestSize).also { out -> it.doFinal(out, 0) }
   }
 
-/**
- * Parses the full signature byte array from the Sui network. It strips the 0x06 flag and
- * BCS-decodes the payload.
- */
 private fun parseSerializedPasskeySignature(signature: ByteArray): PasskeyAuthenticator {
   if (signature.isEmpty() || signature.first() != SignatureScheme.PASSKEY.scheme) {
     throw IllegalArgumentException("Invalid Passkey signature scheme")
   }
-  // Remove the 0x06 flag before decoding
   val bcsPayload = signature.copyOfRange(1, signature.size)
   return Bcs.decodeFromByteArray<PasskeyAuthenticator>(bcsPayload)
 }
@@ -89,17 +84,12 @@ internal fun passkeyAssertionContextIsValid(
   return true
 }
 
-/**
- * Verifies only the Sui proof-of-key signature. It intentionally has no relying-party context and
- * must not be used as a complete WebAuthn authentication decision.
- */
 internal fun verifyPasskeySignature(
   publicKey: PasskeyPublicKey,
   message: ByteArray,
   signature: ByteArray,
 ): Boolean = verifyPasskeySignatureInternal(publicKey, message, signature)
 
-/** Verifies a Passkey assertion and its relying-party ceremony policy. */
 internal fun verifyPasskeyAssertion(
   publicKey: PasskeyPublicKey,
   message: ByteArray,
@@ -150,11 +140,12 @@ private fun verifyPasskeySignatureInternal(
       }
     }
 
-    if (publicKey.data.size != 33) return false
-    if (parsed.userSignature.size != 1 + 64 + publicKey.data.size) return false
+    val pubKeyData = publicKey.data
+    if (pubKeyData.size != 33) return false
+    if (parsed.userSignature.size != 1 + 64 + pubKeyData.size) return false
     if (parsed.userSignature[0] != SignatureScheme.Secp256r1.scheme) return false
-    val pkFromSignature = parsed.userSignature.copyOfRange(1 + 64, 1 + 64 + publicKey.data.size)
-    if (!publicKey.data.contentEquals(pkFromSignature)) return false
+    val pkFromSignature = parsed.userSignature.copyOfRange(1 + 64, 1 + 64 + pubKeyData.size)
+    if (!pubKeyData.contentEquals(pkFromSignature)) return false
 
     val clientDataJsonBytes = parsed.clientDataJson.toByteArray(Charsets.UTF_8)
     val clientDataJsonDigest = sha256(clientDataJsonBytes)
@@ -165,7 +156,12 @@ private fun verifyPasskeySignatureInternal(
     val s = BigInteger(1, parsed.userSignature.copyOfRange(1 + 32, 1 + 64))
 
     val curveParams = org.bouncycastle.crypto.ec.CustomNamedCurves.getByName("secp256r1")
-    val point = curveParams.curve.decodePoint(publicKey.data)
+    val n = curveParams.n
+    // Sui consensus enforces canonical low-S secp256r1 signatures (1 <= s <= n / 2).
+    if (r <= BigInteger.ZERO || r >= n) return false
+    if (s <= BigInteger.ZERO || s > n.shiftRight(1)) return false
+
+    val point = curveParams.curve.decodePoint(pubKeyData)
     val keyParameters =
       ECPublicKeyParameters(
         point,
@@ -180,7 +176,7 @@ private fun verifyPasskeySignatureInternal(
     val signer = ECDSASigner()
     signer.init(false, keyParameters)
     return signer.verifySignature(messageHash, r, s)
-  } catch (e: Exception) {
+  } catch (_: Exception) {
     return false
   }
 }

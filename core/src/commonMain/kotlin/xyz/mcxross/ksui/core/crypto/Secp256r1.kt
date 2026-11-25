@@ -5,34 +5,72 @@ import xyz.mcxross.ksui.core.account.Secp256r1Account
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.Result
 
-class Secp256r1PrivateKey(private val privateKey: ByteArray) : PrivateKey {
-  override val data: ByteArray
-    get() = privateKey
+class Secp256r1PrivateKey(privateKey: ByteArray) : PrivateKey {
+  private val keyBytes: ByteArray =
+    privateKey.copyOf().also {
+      require(it.size == 32) { "Secp256r1 private key must be 32 bytes, but was ${it.size}" }
+    }
+  private var closed: Boolean = false
 
-  override val publicKey: Secp256r1PublicKey
-    get() = derivePublicKey(this, SignatureScheme.Secp256r1) as Secp256r1PublicKey
+  override val data: ByteArray
+    get() {
+      check(!closed) { "Private key is closed" }
+      return keyBytes.copyOf()
+    }
+
+  override val publicKey: Secp256r1PublicKey by lazy {
+    derivePublicKey(this, SignatureScheme.Secp256r1) as Secp256r1PublicKey
+  }
 
   constructor(
     scheme: SignatureScheme = SignatureScheme.Secp256r1
-  ) : this(
-    derivePrivateKeyFromMnemonic(
-      generateMnemonic().split(" "),
-      SignatureScheme.Secp256r1,
-      Secp256r1Account.DERIVATION_PATH,
-    )
-  )
+  ) : this(generateSecp256r1KeyBytes(scheme))
 
-  constructor(privateKey: String) : this(PrivateKey.fromEncoded(privateKey).data)
+  constructor(privateKey: String) : this(decodeSecp256r1KeyBytes(privateKey))
 
-  override fun sign(data: ByteArray): Result<ByteArray, Exception> {
+  override fun sign(data: ByteArray): Result<ByteArray, E> {
+    if (closed) return Result.Err(IllegalStateException("Private key is closed"))
     return sign(data, this)
+  }
+
+  override fun close() {
+    keyBytes.fill(0)
+    closed = true
+  }
+
+  companion object {
+    private fun generateSecp256r1KeyBytes(scheme: SignatureScheme): ByteArray {
+      require(scheme == SignatureScheme.Secp256r1) {
+        "Unsupported scheme for Secp256r1PrivateKey: $scheme"
+      }
+      return derivePrivateKeyFromMnemonic(
+        generateMnemonic().split(" "),
+        SignatureScheme.Secp256r1,
+        Secp256r1Account.DERIVATION_PATH,
+      )
+    }
+
+    private fun decodeSecp256r1KeyBytes(encoded: String): ByteArray {
+      val parsed = PrivateKey.fromEncoded(encoded)
+      try {
+        require(parsed is Secp256r1PrivateKey) {
+          "Expected Secp256r1 private key, but got ${parsed.publicKey.scheme()}"
+        }
+        return parsed.data
+      } finally {
+        parsed.close()
+      }
+    }
   }
 }
 
-class Secp256r1PublicKey(override val data: ByteArray) : PublicKey {
-  override fun scheme(): SignatureScheme {
-    return SignatureScheme.Secp256r1
-  }
+class Secp256r1PublicKey(data: ByteArray) : PublicKey {
+  private val keyBytes: ByteArray = data.copyOf()
+
+  override val data: ByteArray
+    get() = keyBytes.copyOf()
+
+  override fun scheme(): SignatureScheme = SignatureScheme.Secp256r1
 
   override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     verifySignature(this, message, signature)
@@ -41,14 +79,10 @@ class Secp256r1PublicKey(override val data: ByteArray) : PublicKey {
     if (this === other) return true
     if (other == null || this::class != other::class) return false
     other as Secp256r1PublicKey
-    return data.contentEquals(other.data)
+    return keyBytes.contentEquals(other.keyBytes)
   }
 
-  override fun hashCode(): Int {
-    return data.contentHashCode()
-  }
+  override fun hashCode(): Int = keyBytes.contentHashCode()
 
-  override fun toString(): String {
-    return Hex(hash(Hash.BLAKE2B256, data)).toString()
-  }
+  override fun toString(): String = Hex(hash(Hash.BLAKE2B256, keyBytes)).toString()
 }

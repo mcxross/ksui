@@ -24,66 +24,41 @@ import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
 
-/**
- * This file defines the `Secp256k1Account` class, which extends the `Account` abstract class and
- * provides specific implementations for the Ed25519 signature scheme.
- *
- * The `Secp256k1Account` class has the following properties:
- * - `privateKey`: The private key of the account.
- * - `mnemonic`: A string representing the mnemonic phrase associated with the account.
- * - `publicKey`: The public key of the account, derived from the private key.
- * - `address`: The account address, derived from the public key and the signature scheme.
- * - `scheme`: The signature scheme used by the account, which is Ed25519.
- *
- * The class provides the following methods:
- * - `toString()`: Returns a non-sensitive string representation of the account.
- *
- * The companion object provides the following methods:
- * - `generate()`: Generates a new `Secp256k1Account` using a randomly generated mnemonic phrase and
- *   seed.
- */
-class Secp256k1Account(private val privateKey: Secp256k1PrivateKey) : Account() {
+class Secp256k1Account(
+  private val privateKey: Secp256k1PrivateKey,
+  val mnemonic: String,
+) : Account() {
 
-  var mnemonic: String = ""
+  constructor(privateKey: Secp256k1PrivateKey) : this(privateKey, "")
 
   override val publicKey: Secp256k1PublicKey
     get() = privateKey.publicKey
 
-  override val address: AccountAddress
-    get() = AccountAddress.fromPublicKey(publicKey)
+  override val address: AccountAddress by lazy { AccountAddress.fromPublicKey(publicKey) }
 
   override val scheme: SignatureScheme
     get() = SignatureScheme.Secp256k1
 
-  override suspend fun sign(message: ByteArray): Result<ByteArray, E> {
-    return privateKey.sign(message)
-  }
+  override suspend fun sign(message: ByteArray): Result<ByteArray, E> = privateKey.sign(message)
 
   override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     publicKey.verify(message, signature)
 
-  constructor(privateKey: Secp256k1PrivateKey, mnemonic: String) : this(privateKey) {
-    this.mnemonic = mnemonic
+  override fun close() {
+    privateKey.close()
   }
 
-  override fun toString(): String {
-    return "Secp256k1Account{address=$address}"
-  }
+  override fun toString(): String = "Secp256k1Account{address=$address}"
 
   companion object {
-
     const val DERIVATION_PATH = "m/54'/784'/0'/0/0"
 
-    /**
-     * Generates a new `Secp256k1Account` using a randomly generated mnemonic phrase and seed.
-     *
-     * @return The new `Secp256k1Account`.
-     */
     fun generate(): Secp256k1Account {
       val seedPhrase = generateMnemonic().split(" ")
       val finalPrivateKeyBytes =
         derivePrivateKeyFromMnemonic(seedPhrase, SignatureScheme.Secp256k1, DERIVATION_PATH)
       val privateKey = Secp256k1PrivateKey(finalPrivateKeyBytes)
+      finalPrivateKeyBytes.fill(0)
       return Secp256k1Account(privateKey, seedPhrase.joinToString(" "))
     }
   }

@@ -22,27 +22,12 @@ import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.util.SUI_PRIVATE_KEY_PREFIX
 import xyz.mcxross.ksui.core.util.convertBits
 
-/**
- * This interface defines the `PrivateKey` interface, which represents a private key in the SUI
- * blockchain. The private key is used to sign transactions and messages.
- *
- * The `[PrivateKey]` interface also implements SIP-15 for its private key import and export
- * methods. This is to visually distinguish a 32-byte private key representation from a 32-bytes Sui
- * address that is currently also Hex encoded
- */
-interface PrivateKey {
+interface PrivateKey : AutoCloseable {
   val data: ByteArray
   val publicKey: PublicKey
 
-  /**
-   * Encodes the private key using Bech32 with the specified human-readable part.
-   *
-   * The default human-readable part is [SUI_PRIVATE_KEY_PREFIX].
-   *
-   * @param humanReadablePart The human-readable part to use in the Bech32 encoding. Defaults to
-   *   [SUI_PRIVATE_KEY_PREFIX].
-   * @return The Bech32 encoded private key.
-   */
+  override fun close() {}
+
   fun export(humanReadablePart: String = SUI_PRIVATE_KEY_PREFIX): String {
     require(humanReadablePart.length in 1..83) {
       "Human readable part must be between 1 and 83 characters"
@@ -56,33 +41,48 @@ interface PrivateKey {
         else -> throw SignatureSchemeNotSupportedException()
       }
 
-    return Bech32.encode(
-      humanReadablePart = humanReadablePart,
-      data = convertBits(byteArrayOf(flag) + data, 8, 5, true),
-    )
+    val keyBytes = data
+    val raw = ByteArray(1 + keyBytes.size)
+    raw[0] = flag
+    try {
+      keyBytes.copyInto(raw, destinationOffset = 1)
+      return Bech32.encode(
+        humanReadablePart = humanReadablePart,
+        data = convertBits(raw, 8, 5, true),
+      )
+    } finally {
+      keyBytes.fill(0)
+      raw.fill(0)
+    }
   }
 
   fun sign(data: ByteArray): Result<ByteArray, E>
 
   companion object {
 
-    /**
-     * Creates a PrivateKey instance from a Bech32 encoded string.
-     *
-     * @param encoded The Bech32 encoded private key.
-     * @return The PrivateKey instance.
-     * @throws SignatureSchemeNotSupportedException If the signature scheme is not supported.
-     */
-    fun fromEncoded(encoded: String): PrivateKey {
-      val convertedBit = convertBits(Bech32.decode(encoded).data, 5, 8, false)
-      return when (convertedBit[0]) {
-        SignatureScheme.ED25519.scheme ->
-          Ed25519PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
-        SignatureScheme.Secp256k1.scheme ->
-          Secp256k1PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
-        SignatureScheme.Secp256r1.scheme ->
-          Secp256r1PrivateKey(convertedBit.sliceArray(1 until convertedBit.size))
-        else -> throw SignatureSchemeNotSupportedException()
+    fun fromEncoded(encoded: String): PrivateKey = fromEncoded(encoded, SUI_PRIVATE_KEY_PREFIX)
+
+    fun fromEncoded(encoded: String, expectedHrp: String): PrivateKey {
+      val decoded = Bech32.decode(encoded)
+      require(decoded.humanReadablePart.equals(expectedHrp, ignoreCase = true)) {
+        "Invalid private key prefix: ${decoded.humanReadablePart}"
+      }
+      val convertedBit = convertBits(decoded.data, 5, 8, false)
+      require(convertedBit.size == 33) {
+        "Private key payload must be 32 bytes, but was ${convertedBit.size - 1}"
+      }
+      val schemeByte = convertedBit[0]
+      val keyBytes = convertedBit.copyOfRange(1, convertedBit.size)
+      convertedBit.fill(0)
+      return try {
+        when (schemeByte) {
+          SignatureScheme.ED25519.scheme -> Ed25519PrivateKey(keyBytes)
+          SignatureScheme.Secp256k1.scheme -> Secp256k1PrivateKey(keyBytes)
+          SignatureScheme.Secp256r1.scheme -> Secp256r1PrivateKey(keyBytes)
+          else -> throw SignatureSchemeNotSupportedException()
+        }
+      } finally {
+        keyBytes.fill(0)
       }
     }
   }

@@ -15,11 +15,15 @@
  */
 package xyz.mcxross.ksui.core.unit
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import org.komputing.kbech32.Bech32
 import xyz.mcxross.ksui.core.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
+import xyz.mcxross.ksui.core.crypto.Secp256k1PrivateKey
+import xyz.mcxross.ksui.core.util.convertBits
 
 class PrivateKeyTest :
   StringSpec({
@@ -37,6 +41,28 @@ class PrivateKeyTest :
     "Private key import via encoded bytes preserves bytes" {
       val privateKey = PrivateKey.fromEncoded(PRIVATE_KEY_DATA)
       privateKey.data.size shouldBe 32
+      privateKey.export() shouldBe PRIVATE_KEY_DATA
+    }
+
+    "PrivateKey.fromEncoded rejects wrong HRP and invalid lengths" {
+      val wrongHrp =
+        Bech32.encode("cosmos", convertBits(ByteArray(33) { 1 }, 8, 5, true))
+      shouldThrow<IllegalArgumentException> { PrivateKey.fromEncoded(wrongHrp) }
+
+      val wrongLen =
+        Bech32.encode("suiprivkey", convertBits(ByteArray(17) { 0 }, 8, 5, true))
+      shouldThrow<IllegalArgumentException> { PrivateKey.fromEncoded(wrongLen) }
+    }
+
+    "Typed private key constructor rejects cross-scheme Bech32 strings" {
+      val k1Encoded = Secp256k1PrivateKey(ByteArray(32) { 3 }).export()
+      shouldThrow<IllegalArgumentException> { Ed25519PrivateKey(k1Encoded) }
+    }
+
+    "Mutating returned PrivateKey.data does not mutate stored key" {
+      val privateKey = Ed25519PrivateKey(PRIVATE_KEY_DATA)
+      val leaked = privateKey.data
+      leaked.fill(0)
       privateKey.export() shouldBe PRIVATE_KEY_DATA
     }
   })

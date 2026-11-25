@@ -53,10 +53,15 @@ kotlin {
   }
 
   sourceSets {
-    val androidJvmMain by creating {
+    val fastkryptoMain by creating {
       dependsOn(commonMain.get())
+      dependencies { implementation(libs.fastkrypto) }
+    }
+    val androidJvmMain by creating {
+      dependsOn(fastkryptoMain)
       dependencies { implementation(libs.bouncycastle.bcprov) }
     }
+    val appleMain by getting { dependsOn(fastkryptoMain) }
     val androidMain by getting {
       dependsOn(androidJvmMain)
       dependencies {

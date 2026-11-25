@@ -25,10 +25,9 @@ import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCreden
 import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.encoding.Base64
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.bouncycastle.asn1.ASN1InputStream
-import org.bouncycastle.asn1.ASN1Integer
-import org.bouncycastle.asn1.ASN1Sequence
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.ec.CustomNamedCurves
@@ -41,6 +40,38 @@ import xyz.mcxross.ksui.core.model.PasskeyAuthenticator
 import xyz.mcxross.ksui.core.model.RegistrationResponses
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.utils.PasskeyUtils.recoverPublicKeyPoint
+
+@Serializable
+private data class WebAuthnRp(val id: String, val name: String)
+
+@Serializable
+private data class WebAuthnUser(val id: String, val name: String, val displayName: String)
+
+@Serializable
+private data class WebAuthnCredParam(val type: String, val alg: Int)
+
+@Serializable
+private data class WebAuthnAuthenticatorSelection(
+  val authenticatorAttachment: String,
+  val requireResidentKey: Boolean,
+  val userVerification: String,
+)
+
+@Serializable
+private data class WebAuthnCreateRequest(
+  val rp: WebAuthnRp,
+  val user: WebAuthnUser,
+  val challenge: String,
+  val pubKeyCredParams: List<WebAuthnCredParam>,
+  val authenticatorSelection: WebAuthnAuthenticatorSelection,
+)
+
+@Serializable
+private data class WebAuthnGetRequest(
+  val rpId: String,
+  val challenge: String,
+  val userVerification: String,
+)
 
 actual class PasskeyProvider(
   private val context: Context,
@@ -61,36 +92,26 @@ actual class PasskeyProvider(
     userId: String,
     challenge: String,
   ): Result<PasskeyAccount, E> {
-
     val requestJson =
-      """
-      {
-        "rp": { "id": "$rpId", "name": "Sui Passkey dApp" },
-        "user": {
-          "id": "${
-        android.util.Base64.encodeToString(
-          userId.toByteArray(),
-          android.util.Base64.NO_WRAP,
+      json.encodeToString(
+        WebAuthnCreateRequest(
+          rp = WebAuthnRp(id = rpId, name = "Sui Passkey dApp"),
+          user =
+            WebAuthnUser(
+              id = base64UrlEncoder.encode(userId.encodeToByteArray()),
+              name = name,
+              displayName = displayName,
+            ),
+          challenge = base64UrlEncoder.encode(challenge.encodeToByteArray()),
+          pubKeyCredParams = listOf(WebAuthnCredParam(type = "public-key", alg = -7)),
+          authenticatorSelection =
+            WebAuthnAuthenticatorSelection(
+              authenticatorAttachment = "platform",
+              requireResidentKey = true,
+              userVerification = "required",
+            ),
         )
-      }",
-          "name": "$name",
-          "displayName": "$displayName"
-        },
-        "challenge": "${
-        android.util.Base64.encodeToString(
-          challenge.toByteArray(),
-          android.util.Base64.NO_WRAP,
-        )
-      }",
-        "pubKeyCredParams": [{ "type": "public-key", "alg": -7 }],
-        "authenticatorSelection": {
-          "authenticatorAttachment": "platform",
-          "requireResidentKey": true,
-          "userVerification": "required"
-        }
-      }
-      """
-        .trimIndent()
+      )
 
     val request = CreatePublicKeyCredentialRequest(requestJson)
 
@@ -128,17 +149,14 @@ actual class PasskeyProvider(
         is CreatePublicKeyCredentialDomException -> {
           return Result.Err(IllegalStateException("Passkey DOM error: ${e.domError}", e))
         }
-
         is CreateCredentialCancellationException -> {
           return Result.Err(IllegalStateException("User canceled Passkey creation.", e))
         }
-
         is CreateCredentialInterruptedException -> {
           return Result.Err(
             IllegalStateException("Passkey creation was interrupted. Please try again.", e)
           )
         }
-
         is CreateCredentialProviderConfigurationException -> {
           return Result.Err(IllegalStateException("Device not configured for Passkeys.", e))
         }
@@ -150,10 +168,14 @@ actual class PasskeyProvider(
   }
 
   internal actual suspend fun sign(pk: ByteArray, challenge: ByteArray): Result<ByteArray, E> {
-    val challengeBase64Url = base64UrlEncoder.encode(challenge)
-
     val requestJson =
-      """{"rpId":"$rpId","challenge":"$challengeBase64Url","userVerification":"required"}"""
+      json.encodeToString(
+        WebAuthnGetRequest(
+          rpId = rpId,
+          challenge = base64UrlEncoder.encode(challenge),
+          userVerification = "required",
+        )
+      )
     val request =
       GetCredentialRequest(credentialOptions = listOf(GetPublicKeyCredentialOption(requestJson)))
 
@@ -212,24 +234,25 @@ actual class PasskeyProvider(
       )
     )
 
-  /**
-   * Signs a message and recovers the possible public keys from the signature.
-   *
-   * @param message The message to sign.
-   * @return A list of possible PasskeyPublicKey objects.
-   */
   suspend fun signAndRecover(message: ByteArray): List<PasskeyPublicKey> {
     val requestJson =
-      """{"rpId":"$rpId","challenge":"${base64UrlEncoder.encode(message)}","userVerification":"required"}"""
-    val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(requestJson = requestJson)
-    val request = GetCredentialRequest(credentialOptions = listOf(getPublicKeyCredentialOption))
+      json.encodeToString(
+        WebAuthnGetRequest(
+          rpId = rpId,
+          challenge = base64UrlEncoder.encode(message),
+          userVerification = "required",
+        )
+      )
+    val request =
+      GetCredentialRequest(credentialOptions = listOf(GetPublicKeyCredentialOption(requestJson)))
 
     try {
       val result = credentialManager.getCredential(context, request)
       val publicKeyCredential = result.credential as PublicKeyCredential
-      val responseJsonString = publicKeyCredential.authenticationResponseJson
-      val json = Json { ignoreUnknownKeys = true }
-      val credentials = json.decodeFromString<AuthenticationResponse>(responseJsonString)
+      val credentials =
+        json.decodeFromString<AuthenticationResponse>(
+          publicKeyCredential.authenticationResponseJson
+        )
 
       val authenticatorData = base64UrlEncoder.decode(credentials.response.authenticatorData)
       val signatureDER = base64UrlEncoder.decode(credentials.response.signature)
@@ -247,10 +270,7 @@ actual class PasskeyProvider(
           ByteArray(it.digestSize).also { out -> it.doFinal(out, 0) }
         }
 
-      val asn1InputStream = ASN1InputStream(signatureDER)
-      val asn1Sequence = asn1InputStream.readObject() as ASN1Sequence
-      val r = (asn1Sequence.getObjectAt(0) as ASN1Integer).value
-      val s = (asn1Sequence.getObjectAt(1) as ASN1Integer).value
+      val (r, s) = decodeDerEcdsaSignature(signatureDER)
 
       val x9ecParams = CustomNamedCurves.getByName("secp256r1")
       val curveParams =
@@ -261,12 +281,9 @@ actual class PasskeyProvider(
           val recoveredPoint =
             recoverPublicKeyPoint(i, r, s, BigInteger(1, messageHash), curveParams)
           if (recoveredPoint != null) {
-            val compressedPublicKey = recoveredPoint.getEncoded(true)
-            possibleKeys.add(PasskeyPublicKey(compressedPublicKey))
+            possibleKeys.add(PasskeyPublicKey(recoveredPoint.getEncoded(true)))
           }
-        } catch (e: Exception) {
-          // Ignore exceptions for invalid recovery IDs
-        }
+        } catch (_: Exception) {}
       }
       return possibleKeys
     } catch (e: GetCredentialException) {

@@ -24,63 +24,38 @@ import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
 
-/**
- * This file defines the `Ed25519Account` class, which extends the `Account` abstract class and
- * provides specific implementations for the Ed25519 signature scheme.
- *
- * The `Ed25519Account` class has the following properties:
- * - `privateKey`: The private key of the account.
- * - `mnemonic`: A string representing the mnemonic phrase associated with the account.
- * - `publicKey`: The public key of the account, derived from the private key.
- * - `address`: The account address, derived from the public key and the signature scheme.
- * - `scheme`: The signature scheme used by the account, which is Ed25519.
- *
- * The class provides the following methods:
- * - `toString()`: Returns a non-sensitive string representation of the account.
- *
- * The companion object provides the following methods:
- * - `generate()`: Generates a new `Ed25519Account` using a randomly generated mnemonic phrase and
- *   seed.
- */
-class Ed25519Account(private val privateKey: Ed25519PrivateKey) : Account() {
+class Ed25519Account(
+  private val privateKey: Ed25519PrivateKey,
+  val mnemonic: String,
+) : Account() {
 
-  var mnemonic: String = ""
+  constructor(privateKey: Ed25519PrivateKey) : this(privateKey, "")
 
   override val publicKey: Ed25519PublicKey
     get() = privateKey.publicKey
 
-  override val address: AccountAddress
-    get() = AccountAddress.fromPublicKey(publicKey)
+  override val address: AccountAddress by lazy { AccountAddress.fromPublicKey(publicKey) }
 
   override val scheme: SignatureScheme
     get() = SignatureScheme.ED25519
 
-  override suspend fun sign(message: ByteArray): Result<ByteArray, E> {
-    return privateKey.sign(message)
-  }
+  override suspend fun sign(message: ByteArray): Result<ByteArray, E> = privateKey.sign(message)
 
   override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     publicKey.verify(message, signature)
 
-  constructor(privateKey: Ed25519PrivateKey, mnemonic: String) : this(privateKey) {
-    this.mnemonic = mnemonic
+  override fun close() {
+    privateKey.close()
   }
 
-  override fun toString(): String {
-    return "Ed25519Account{address=$address}"
-  }
+  override fun toString(): String = "Ed25519Account{address=$address}"
 
   companion object {
-
-    /**
-     * Generates a new `Ed25519Account` using a randomly generated mnemonic phrase and seed.
-     *
-     * @return The new `Ed25519Account`.
-     */
     fun generate(): Ed25519Account {
       val mnemonicPhrase = generateMnemonic().split(" ")
       val privateKeyBytes = derivePrivateKeyFromMnemonic(mnemonicPhrase, SignatureScheme.ED25519)
       val privateKey = Ed25519PrivateKey(privateKeyBytes)
+      privateKeyBytes.fill(0)
       return Ed25519Account(privateKey, mnemonicPhrase.joinToString(" "))
     }
   }

@@ -75,7 +75,8 @@ actual fun hash(hash: Hash, data: ByteArray): ByteArray =
     }
   }
 
-actual fun generateMnemonic(): String = Bip39Module.generateMnemonic(EnglishWordlistModule.wordlist, 128)
+actual fun generateMnemonic(): String =
+  Bip39Module.generateMnemonic(EnglishWordlistModule.wordlist, 128)
 
 actual fun generateSeed(mnemonic: List<String>): ByteArray =
   Bip39Module.mnemonicToSeedSync(mnemonic.joinToString(" "), "").toByteArray()
@@ -122,7 +123,7 @@ actual fun derivePrivateKeyFromMnemonic(
     SignatureScheme.ED25519 ->
       deriveEd25519PrivateKey(
         Bip39Module.mnemonicToSeedSync(mnemonic.joinToString(" "), "").toByteArray(),
-        DEFAULT_ED25519_DERIVATION_PATH,
+        path,
       )
     else -> throw SignatureSchemeNotSupportedException()
   }
@@ -150,6 +151,14 @@ actual fun verifySignature(
     Result.Err(e)
   }
 
+actual fun secureRandomBytes(size: Int): ByteArray {
+  require(size >= 0) { "Size must be non-negative" }
+  if (size == 0) return ByteArray(0)
+  val array = Uint8Array(size)
+  js("globalThis.crypto.getRandomValues")(array)
+  return array.toByteArray()
+}
+
 private fun mnemonicKeyPair(phrase: String): KeyPair {
   val privateKey =
     deriveEd25519PrivateKey(
@@ -165,6 +174,9 @@ private fun mnemonicKeyPair(phrase: String): KeyPair {
 }
 
 private fun deriveEd25519PrivateKey(seed: ByteArray, path: String): ByteArray {
+  val parts = path.trim().split('/')
+  require(parts.size >= 2 && parts.first() == "m") { "Invalid Ed25519 derivation path: $path" }
+
   var digest =
     HmacModule.hmac(
         Sha2Module.sha512,
@@ -175,9 +187,15 @@ private fun deriveEd25519PrivateKey(seed: ByteArray, path: String): ByteArray {
   var key = digest.copyOfRange(0, 32)
   var chainCode = digest.copyOfRange(32, 64)
 
-  for (component in path.split('/').drop(1)) {
-    require(component.endsWith("'")) { "Ed25519 derivation requires hardened path components" }
-    val child = component.dropLast(1).toLong() + 0x80000000L
+  for (component in parts.drop(1)) {
+    require(component.endsWith("'") || component.endsWith("H")) {
+      "Ed25519 derivation requires hardened path components"
+    }
+    val rawIndex = component.dropLast(1).toLongOrNull()
+    require(rawIndex != null && rawIndex in 0..Int.MAX_VALUE.toLong()) {
+      "Invalid child index: $component"
+    }
+    val child = rawIndex + 0x80000000L
     val data = ByteArray(37)
     key.copyInto(data, destinationOffset = 1)
     data[33] = (child shr 24).toByte()
@@ -192,8 +210,16 @@ private fun deriveEd25519PrivateKey(seed: ByteArray, path: String): ByteArray {
   return key
 }
 
-private fun ByteArray.toUint8Array(): Uint8Array =
-  Uint8Array(size).also { result -> result.set(toTypedArray()) }
+private fun ByteArray.toUint8Array(): Uint8Array {
+  val out = Uint8Array(size)
+  val dyn = out.asDynamic()
+  for (i in indices) {
+    dyn[i] = this[i].toInt() and 0xff
+  }
+  return out
+}
 
-private fun Uint8Array.toByteArray(): ByteArray =
-  ByteArray(length) { index -> asDynamic()[index].unsafeCast<Int>().toByte() }
+private fun Uint8Array.toByteArray(): ByteArray {
+  val dyn = asDynamic()
+  return ByteArray(length) { index -> dyn[index].unsafeCast<Int>().toByte() }
+}

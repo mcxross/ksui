@@ -8,7 +8,6 @@ import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.hash
 import xyz.mcxross.ksui.core.serializer.AccountAddressSerializer
 
-/** Represents an account address. */
 @Serializable(with = AccountAddressSerializer::class)
 data class AccountAddress(val data: ByteArray) {
 
@@ -17,92 +16,81 @@ data class AccountAddress(val data: ByteArray) {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other == null || this::class != other::class) return false
-
     other as AccountAddress
-
     return data.contentEquals(other.data)
   }
 
-  override fun hashCode(): Int {
-    return data.contentHashCode()
-  }
+  override fun hashCode(): Int = data.contentHashCode()
 
-  override fun toString(): String {
-    return Hex(data).toString()
-  }
+  override fun toString(): String = Hex(data).toString()
 
   companion object {
 
     const val LENGTH: Int = 32
 
-    val EMPTY = AccountAddress(ByteArray(LENGTH))
+    val EMPTY: AccountAddress
+      get() = AccountAddress(ByteArray(LENGTH))
 
     @Throws(IllegalArgumentException::class)
     fun from(data: ByteArray): AccountAddress {
       require(data.size == LENGTH) {
         "Address must be $LENGTH bytes long, but was ${data.size}"
       }
-      return AccountAddress(data)
+      return AccountAddress(data.copyOf())
     }
 
     @Throws(IllegalArgumentException::class)
     fun fromString(s: String): AccountAddress {
       return try {
         fromHexLiteral(s)
-      } catch (e: Exception) {
+      } catch (_: Exception) {
         fromHex(s)
       }
     }
 
     @Throws(IllegalArgumentException::class)
     fun fromPublicKey(publicKey: PublicKey): AccountAddress {
+      val pubKeyBytes = publicKey.data
       when (publicKey.scheme()) {
         SignatureScheme.ED25519 ->
-          require(publicKey.data.size == 32) {
-            "Ed25519 public key must be 32 bytes long, but was ${publicKey.data.size}"
+          require(pubKeyBytes.size == 32) {
+            "Ed25519 public key must be 32 bytes long, but was ${pubKeyBytes.size}"
           }
         SignatureScheme.Secp256k1 ->
-          require(publicKey.data.size == 33) {
-            "Secp256k1 public key must be 33 bytes long, but was ${publicKey.data.size}"
+          require(pubKeyBytes.size == 33) {
+            "Secp256k1 public key must be 33 bytes long, but was ${pubKeyBytes.size}"
           }
         SignatureScheme.Secp256r1 ->
-          require(publicKey.data.size == 33) {
-            "Secp256r1 public key must be 33 bytes long, but was ${publicKey.data.size}"
+          require(pubKeyBytes.size == 33) {
+            "Secp256r1 public key must be 33 bytes long, but was ${pubKeyBytes.size}"
           }
         SignatureScheme.PASSKEY ->
-          require(publicKey.data.size == 33) {
-            "Passkey public key must be 33 bytes long, but was ${publicKey.data.size}"
+          require(pubKeyBytes.size == 33) {
+            "Passkey public key must be 33 bytes long, but was ${pubKeyBytes.size}"
           }
         else ->
           throw IllegalArgumentException("Unsupported public key scheme: ${publicKey.scheme()}")
       }
-      return AccountAddress(
-        Hex(hash(Hash.BLAKE2B256, byteArrayOf(publicKey.scheme().scheme) + publicKey.data))
-          .toByteArray()
-      )
+      val payload = ByteArray(1 + pubKeyBytes.size)
+      payload[0] = publicKey.scheme().scheme
+      pubKeyBytes.copyInto(payload, destinationOffset = 1)
+      return AccountAddress(hash(Hash.BLAKE2B256, payload))
     }
 
     private fun fromHexLiteral(literal: String): AccountAddress {
-      require(literal.startsWith("0x")) { "Address must start with 0x" }
-
-      val hexLen = literal.length - 2
-
-      // If the string is too short, pad it
-      return if (hexLen < LENGTH * 2) {
-        val hexStr = StringBuilder(LENGTH * 2)
-        for (i in 0 until LENGTH * 2 - hexLen) {
-          hexStr.append('0')
-        }
-        hexStr.append(literal.substring(2))
-        fromHex(hexStr.toString())
-      } else {
-        fromHex(literal.substring(2))
+      require(literal.startsWith("0x") || literal.startsWith("0X")) { "Address must start with 0x" }
+      val body = literal.substring(2)
+      require(body.isNotEmpty() && body.length <= LENGTH * 2) {
+        "Invalid hex literal length: ${body.length}"
       }
+      return fromHex(body.padStart(LENGTH * 2, '0'))
     }
 
     private fun fromHex(hex: String): AccountAddress {
-      val bytes = ByteArray(hex.length / 2) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
-      require(bytes.size == LENGTH) { "Address must be $LENGTH bytes long, but was ${bytes.size}" }
+      require(hex.length == LENGTH * 2) {
+        "Address must be $LENGTH bytes long, but hex length was ${hex.length}"
+      }
+      val bytes = ByteArray(LENGTH) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
       return AccountAddress(bytes)
     }
   }

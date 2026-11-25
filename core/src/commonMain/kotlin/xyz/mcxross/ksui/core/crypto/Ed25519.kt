@@ -19,53 +19,69 @@ import xyz.mcxross.ksui.core.Hex
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.Result
 
-/**
- * This class represents an Ed25519 private key.
- *
- * Creating a private key instance by either generating or _importing_ will not generate a
- * passphrase. If you want to generate a passphrase, you can use the [Account.create] method.
- *
- * @property privateKey The private key data.
- */
-class Ed25519PrivateKey(private val privateKey: ByteArray) : PrivateKey {
+class Ed25519PrivateKey(privateKey: ByteArray) : PrivateKey {
+
+  private val keyBytes: ByteArray =
+    privateKey.copyOf().also {
+      require(it.size == 32) { "Ed25519 private key must be 32 bytes, but was ${it.size}" }
+    }
+  private var closed: Boolean = false
 
   override val data: ByteArray
-    get() = privateKey
+    get() {
+      check(!closed) { "Private key is closed" }
+      return keyBytes.copyOf()
+    }
 
-  override val publicKey: Ed25519PublicKey
-    get() = derivePublicKey(this, SignatureScheme.ED25519) as Ed25519PublicKey
+  override val publicKey: Ed25519PublicKey by lazy {
+    derivePublicKey(this, SignatureScheme.ED25519) as Ed25519PublicKey
+  }
 
-  /**
-   * Creates a new [Ed25519PrivateKey] with a randomly generated private key.
-   *
-   * Default signature scheme is [SignatureScheme.ED25519].
-   *
-   * @param scheme The signature scheme to use.
-   * @throws IllegalArgumentException If the signature scheme is not supported.
-   */
   constructor(
     scheme: SignatureScheme = SignatureScheme.ED25519
-  ) : this(derivePrivateKeyFromMnemonic(generateMnemonic().split(" ")))
+  ) : this(generateEd25519KeyBytes(scheme))
 
-  /**
-   * Creates a new [Ed25519PrivateKey] from an encoded private key.
-   *
-   * The expected format is a Bech32 encoded private key.
-   *
-   * @param privateKey The encoded private key.
-   * @throws IllegalArgumentException If the private key is invalid.
-   */
-  constructor(privateKey: String) : this(PrivateKey.fromEncoded(privateKey).data)
+  constructor(privateKey: String) : this(decodeEd25519KeyBytes(privateKey))
 
   override fun sign(data: ByteArray): Result<ByteArray, E> {
+    if (closed) return Result.Err(IllegalStateException("Private key is closed"))
     return sign(data, this)
+  }
+
+  override fun close() {
+    keyBytes.fill(0)
+    closed = true
+  }
+
+  companion object {
+    private fun generateEd25519KeyBytes(scheme: SignatureScheme): ByteArray {
+      require(scheme == SignatureScheme.ED25519) {
+        "Unsupported scheme for Ed25519PrivateKey: $scheme"
+      }
+      return derivePrivateKeyFromMnemonic(generateMnemonic().split(" "), SignatureScheme.ED25519)
+    }
+
+    private fun decodeEd25519KeyBytes(encoded: String): ByteArray {
+      val parsed = PrivateKey.fromEncoded(encoded)
+      try {
+        require(parsed is Ed25519PrivateKey) {
+          "Expected Ed25519 private key, but got ${parsed.publicKey.scheme()}"
+        }
+        return parsed.data
+      } finally {
+        parsed.close()
+      }
+    }
   }
 }
 
-class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
-  override fun scheme(): SignatureScheme {
-    return SignatureScheme.ED25519
-  }
+class Ed25519PublicKey(data: ByteArray) : PublicKey {
+  private val keyBytes: ByteArray = data.copyOf()
+
+  override val data: ByteArray
+    get() = keyBytes.copyOf()
+
+  override fun scheme(): SignatureScheme = SignatureScheme.ED25519
 
   override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
     verifySignature(this, message, signature)
@@ -73,17 +89,11 @@ class Ed25519PublicKey(override val data: ByteArray) : PublicKey {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other == null || this::class != other::class) return false
-
     other as Ed25519PublicKey
-
-    return data.contentEquals(other.data)
+    return keyBytes.contentEquals(other.keyBytes)
   }
 
-  override fun hashCode(): Int {
-    return data.contentHashCode()
-  }
+  override fun hashCode(): Int = keyBytes.contentHashCode()
 
-  override fun toString(): String {
-    return Hex(hash(Hash.BLAKE2B256, data)).toString()
-  }
+  override fun toString(): String = Hex(hash(Hash.BLAKE2B256, keyBytes)).toString()
 }
