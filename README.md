@@ -16,7 +16,6 @@ across Android, iOS, JS, JVM, and native Kotlin targets.
 ![badge-ios](http://img.shields.io/badge/Platform-iOS-orange.svg?logo=apple)
 ![badge-js](http://img.shields.io/badge/Platform-NodeJS-yellow.svg?logo=javascript)
 ![badge-jvm](http://img.shields.io/badge/Platform-JVM-red.svg?logo=openjdk)
-![badge-linux](http://img.shields.io/badge/Platform-Linux-lightgrey.svg?logo=linux)
 ![badge-macos](http://img.shields.io/badge/Platform-macOS-orange.svg?logo=apple)
 
 # Table of contents
@@ -64,7 +63,7 @@ This split keeps the dependency graph explicit so you can add only what you need
 The current snapshot version is:
 
 ```kotlin
-val ksuiVersion = "2.2.8-SNAPSHOT"
+val ksuiVersion = "3.1.0-SNAPSHOT"
 ```
 
 For snapshots, add Sonatype's snapshot repository:
@@ -87,7 +86,7 @@ Add the module you need to the appropriate source set. In most applications,
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui:2.2.8-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui:3.1.0-SNAPSHOT")
         }
     }
 }
@@ -100,7 +99,7 @@ building, and transaction signing primitives:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui-core:2.2.8-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-core:3.1.0-SNAPSHOT")
         }
     }
 }
@@ -112,7 +111,7 @@ Use `ksui-grpc` when you want the gRPC client:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui-grpc:2.2.8-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-grpc:3.1.0-SNAPSHOT")
         }
     }
 }
@@ -124,8 +123,8 @@ You can depend on more than one module when needed:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui:2.2.8-SNAPSHOT")
-            implementation("xyz.mcxross.ksui:ksui-grpc:2.2.8-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui:3.1.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-grpc:3.1.0-SNAPSHOT")
         }
     }
 }
@@ -137,7 +136,7 @@ For a non-KMP Android app:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-android:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-android:3.1.0-SNAPSHOT")
 }
 ```
 
@@ -145,7 +144,7 @@ For a JVM-only project:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-jvm:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-jvm:3.1.0-SNAPSHOT")
 }
 ```
 
@@ -153,21 +152,21 @@ Platform artifacts are also published for the split modules. For example:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-core-android:2.2.8-SNAPSHOT")
-    implementation("xyz.mcxross.ksui:ksui-grpc-android:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-core-android:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-android:3.1.0-SNAPSHOT")
 }
 ```
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-core-jvm:2.2.8-SNAPSHOT")
-    implementation("xyz.mcxross.ksui:ksui-grpc-jvm:2.2.8-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-core-jvm:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-jvm:3.1.0-SNAPSHOT")
 }
 ```
 
-The GraphQL module supports Android, iOS, JS, JVM, macOS, tvOS, and watchOS
+The GraphQL module supports Android, iOS, JS, JVM, and macOS
 targets. The gRPC module is available on the targets supported by kotlinx-rpc
-gRPC in this repo: Android, JVM, iOS, macOS, tvOS, and watchOS. JS is not
+gRPC in this repo: Android, JVM, iOS, and macOS. JS is not
 currently a gRPC target.
 
 ### Swift (iOS and macOS)

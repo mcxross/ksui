@@ -51,9 +51,6 @@ kotlin {
   }
 
   macosArm64()
-  tvosArm64()
-  watchosArm32()
-  watchosArm64()
 
   applyDefaultHierarchyTemplate()
 
