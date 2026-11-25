@@ -102,9 +102,12 @@ internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnviron
     }
     val gasUsed = effects.gasUsed
     return GasCostSummary(
-      computationCost = gasUsed.computationCost ?: 0UL,
-      storageCost = gasUsed.storageCost ?: 0UL,
-      storageRebate = gasUsed.storageRebate ?: 0UL,
+      // A missing field would otherwise budget only the safety overhead and fail on chain.
+      computationCost =
+        gasUsed.computationCost ?: throw SuiException("Simulation returned no computation cost"),
+      storageCost = gasUsed.storageCost ?: throw SuiException("Simulation returned no storage cost"),
+      storageRebate =
+        gasUsed.storageRebate ?: throw SuiException("Simulation returned no storage rebate"),
     )
   }
 

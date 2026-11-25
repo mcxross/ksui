@@ -310,7 +310,7 @@ suspend fun TransactionData.sign(signer: Account): Result<String, Exception> {
         }
       Result.Ok(Base64.encode(serializedSignature))
     }
-    is Result.Err -> Result.Err(Exception(sig.error.toString()))
+    is Result.Err -> Result.Err(sig.error)
   }
 }
 

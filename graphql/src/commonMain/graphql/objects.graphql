@@ -182,6 +182,7 @@ fragment RPC_OBJECT_OWNER_FIELDS on Owner {
         __typename
     }
     ... on ConsensusAddressOwner {
+        startVersion
         address {
             address
         }

@@ -96,7 +96,19 @@ private class GraphqlProgrammableTransactionResolver(private val sui: Sui) :
             when (owner?.__typename) {
               "Shared" ->
                 ResolvedObjectOwner.Shared(
-                  owner.onShared?.initialSharedVersion?.toString()?.toLong() ?: 0L
+                  owner.onShared?.initialSharedVersion?.toString()?.toLong()
+                    ?: throw IllegalStateException(
+                      "Shared object ${fields.objectId} has no initialSharedVersion"
+                    )
+                )
+              // Consensus-owned objects go in as shared inputs keyed by their start version, as the
+              // Mysten SDK does and as sui.rpc.v2 Owner.version documents.
+              "ConsensusAddressOwner" ->
+                ResolvedObjectOwner.Shared(
+                  owner.onConsensusAddressOwner?.startVersion?.toString()?.toLong()
+                    ?: throw IllegalStateException(
+                      "Consensus-owned object ${fields.objectId} has no startVersion"
+                    )
                 )
               "AddressOwner" -> ResolvedObjectOwner.AddressOwner
               "Immutable" -> ResolvedObjectOwner.Immutable
