@@ -24,6 +24,7 @@ import com.apollographql.apollo.network.ws.WebSocketEngine
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlin.test.assertContains
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
@@ -79,7 +80,7 @@ class GraphqlSubscriptionTest :
         it.name.equals("Sec-WebSocket-Protocol", ignoreCase = true) &&
           it.value.contains("graphql-transport-ws")
       } shouldBe true
-      checkpoint.engine.closed shouldBe true
+      checkpoint.engine.awaitClosed()
 
       val event =
         exchange(
@@ -127,7 +128,7 @@ class GraphqlSubscriptionTest :
           error = "denied",
         )
       (error.result as Result.Err).error.errors?.single()?.message shouldBe "denied"
-      error.engine.closed shouldBe true
+      error.engine.awaitClosed()
     }
   })
 
@@ -167,7 +168,10 @@ private class FakeWebSocketEngine : WebSocketEngine {
   val received = Channel<String>(Channel.UNLIMITED)
   lateinit var url: String
   lateinit var headers: List<HttpHeader>
-  var closed = false
+  private val closedSignal = CompletableDeferred<Unit>()
+
+  /** Apollo closes the socket on its own coroutine after the subscription ends, so wait for it. */
+  suspend fun awaitClosed() = withTimeout(5_000) { closedSignal.await() }
 
   override suspend fun open(url: String, headers: List<HttpHeader>): WebSocketConnection {
     this.url = url
@@ -184,7 +188,7 @@ private class FakeWebSocketEngine : WebSocketEngine {
       }
 
       override fun close() {
-        closed = true
+        closedSignal.complete(Unit)
         received.close()
       }
     }
