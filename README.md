@@ -63,7 +63,7 @@ This split keeps the dependency graph explicit so you can add only what you need
 The current snapshot version is:
 
 ```kotlin
-val ksuiVersion = "3.1.0-SNAPSHOT"
+val ksuiVersion = "3.2.0-SNAPSHOT"
 ```
 
 For snapshots, add Sonatype's snapshot repository:
@@ -86,7 +86,7 @@ Add the module you need to the appropriate source set. In most applications,
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui:3.1.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui:3.2.0-SNAPSHOT")
         }
     }
 }
@@ -99,7 +99,7 @@ building, and transaction signing primitives:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui-core:3.1.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-core:3.2.0-SNAPSHOT")
         }
     }
 }
@@ -111,7 +111,7 @@ Use `ksui-grpc` when you want the gRPC client:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui-grpc:3.1.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-grpc:3.2.0-SNAPSHOT")
         }
     }
 }
@@ -123,8 +123,8 @@ You can depend on more than one module when needed:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("xyz.mcxross.ksui:ksui:3.1.0-SNAPSHOT")
-            implementation("xyz.mcxross.ksui:ksui-grpc:3.1.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui:3.2.0-SNAPSHOT")
+            implementation("xyz.mcxross.ksui:ksui-grpc:3.2.0-SNAPSHOT")
         }
     }
 }
@@ -136,7 +136,7 @@ For a non-KMP Android app:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-android:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-android:3.2.0-SNAPSHOT")
 }
 ```
 
@@ -144,7 +144,7 @@ For a JVM-only project:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-jvm:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-jvm:3.2.0-SNAPSHOT")
 }
 ```
 
@@ -152,15 +152,15 @@ Platform artifacts are also published for the split modules. For example:
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-core-android:3.1.0-SNAPSHOT")
-    implementation("xyz.mcxross.ksui:ksui-grpc-android:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-core-android:3.2.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-android:3.2.0-SNAPSHOT")
 }
 ```
 
 ```kotlin
 dependencies {
-    implementation("xyz.mcxross.ksui:ksui-core-jvm:3.1.0-SNAPSHOT")
-    implementation("xyz.mcxross.ksui:ksui-grpc-jvm:3.1.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-core-jvm:3.2.0-SNAPSHOT")
+    implementation("xyz.mcxross.ksui:ksui-grpc-jvm:3.2.0-SNAPSHOT")
 }
 ```
 
@@ -196,7 +196,7 @@ Maven Central, the release workflow archives the XCFramework, with debug symbols
 in a separate `SuiKit.dSYMs.zip`, and creates a `v<version>` GitHub release.
 Its tag points at a commit whose `Package.swift` names the archive and its
 checksum. A tag cannot be republished, so snapshot releases are tagged
-`v<version>.<run number>`, for example `v3.1.0-SNAPSHOT.12`.
+`v<version>.<run number>`, for example `v3.2.0-SNAPSHOT.12`.
 
 ## Quick start
 
