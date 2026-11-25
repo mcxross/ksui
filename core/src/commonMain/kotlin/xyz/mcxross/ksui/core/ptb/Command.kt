@@ -20,11 +20,7 @@ import xyz.mcxross.ksui.core.model.ObjectId
 import xyz.mcxross.ksui.core.model.TypeTag
 
 @Serializable(with = xyz.mcxross.ksui.core.serializer.CommandSerializer::class)
-open class Command {
-  protected val commands: MutableList<Command> = mutableListOf()
-  val list: List<Command>
-    get() = commands
-
+sealed class Command {
   @Serializable data class MoveCall(val moveCall: ProgrammableMoveCall) : Command()
 
   @Serializable
@@ -37,9 +33,7 @@ open class Command {
   @Serializable
   data class Publish(val bytes: List<List<Byte>>, val dependencies: List<ObjectId>) : Command()
 
-  @Serializable(
-    with = xyz.mcxross.ksui.core.serializer.MakeMoveVecSerializer::class
-  )
+  @Serializable(with = xyz.mcxross.ksui.core.serializer.MakeMoveVecSerializer::class)
   data class MakeMoveVec(val typeTag: TypeTag?, val values: List<Argument>) : Command()
 
   @Serializable
@@ -133,7 +127,8 @@ internal class MakeMoveVecBuilder : MakeMoveVecScope, Builder {
   override var typeTag: TypeTag? = null
   override lateinit var values: List<Argument>
 
-  override fun isValid(): Boolean = typeTag != null && this::values.isInitialized
+  override fun isValid(): Boolean =
+    this::values.isInitialized && (typeTag != null || values.isNotEmpty())
 }
 
 internal class UpgradeBuilder : UpgradeScope, Builder {

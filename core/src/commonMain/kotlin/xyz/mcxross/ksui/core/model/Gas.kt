@@ -15,10 +15,10 @@
  */
 package xyz.mcxross.ksui.core.model
 
-import kotlin.random.Random
 import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.crypto.Hash
 import xyz.mcxross.ksui.core.crypto.hash
+import xyz.mcxross.ksui.core.crypto.secureRandomBytes
 import xyz.mcxross.ksui.core.exception.SuiException
 import xyz.mcxross.ksui.core.ptb.Argument
 import xyz.mcxross.ksui.core.ptb.Command
@@ -26,6 +26,7 @@ import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
 import xyz.mcxross.ksui.core.ptb.SUI_COIN_TYPE
 import xyz.mcxross.ksui.core.ptb.TransactionKind
 import xyz.mcxross.ksui.core.util.MAX_GAS_PAYMENT_OBJECTS
+import xyz.mcxross.ksui.core.util.bcsDecode
 import xyz.mcxross.ksui.core.util.bcsEncode
 
 @Serializable
@@ -36,18 +37,21 @@ data class GasData(
   val budget: ULong,
 )
 
-/**
- * How a transaction pays for gas. [FundingSource.Auto] pays from the sender's address balance
- * unless the transaction uses the gas coin or the balance can't cover the budget. A null [budget]
- * is estimated by simulation, a null [price] is the reference gas price, and a non-null [payment]
- * is used as is.
- */
 data class GasConfig(
   val source: FundingSource = FundingSource.Auto,
   val budget: ULong? = null,
   val price: ULong? = null,
   val payment: List<ObjectReference>? = null,
-)
+  val maxGasCoinSpend: ULong? = null,
+  val smashCoins: Boolean = true,
+) {
+  constructor(
+    source: FundingSource,
+    budget: ULong?,
+    price: ULong?,
+    payment: List<ObjectReference>?,
+  ) : this(source, budget, price, payment, null, true)
+}
 
 data class GasContext(
   val epoch: ULong,
@@ -64,7 +68,6 @@ data class GasCostSummary(
   val storageRebate: ULong,
 )
 
-/** The network reads gas resolution needs, implemented by each client over its transport. */
 interface GasEnvironment {
   @Throws(Exception::class) suspend fun context(owner: AccountAddress): GasContext
 
@@ -103,13 +106,37 @@ internal suspend fun composeWithGas(
 ): TransactionData {
   val context = environment.context(sender)
   val price = gas.price ?: context.referenceGasPrice
-  val budget = gas.budget ?: estimateBudget(sender, pt, price, context, environment)
-  val payment = gas.payment ?: selectPayment(sender, pt, gas.source, budget, context, environment)
+
+  var cachedCoins: List<CoinObject>? = null
+  suspend fun loadCoinsOnce(): List<CoinObject> {
+    cachedCoins?.let { return it }
+    return environment.coins(sender).also { cachedCoins = it }
+  }
+
+  val budget =
+    gas.budget
+      ?: estimateBudget(
+        sender = sender,
+        pt = pt,
+        price = price,
+        gas = gas,
+        context = context,
+        environment = environment,
+        coinsProvider = ::loadCoinsOnce,
+      )
+  val (payment, usesReservationOnly) =
+    if (gas.payment != null) {
+      gas.payment to false
+    } else {
+      selectPayment(sender, pt, gas, budget, context, ::loadCoinsOnce)
+    }
+
+  val needsReplayExpiration = payment.isEmpty() || usesReservationOnly
   return TransactionData.V1(
     kind = TransactionKind.ProgrammableTransaction(pt),
     sender = sender,
     gasData = GasData(payment, sender, price, budget),
-    expiration = if (payment.isEmpty()) context.validDuring() else TransactionExpiration.None,
+    expiration = if (needsReplayExpiration) context.validDuring() else TransactionExpiration.None,
   )
 }
 
@@ -117,21 +144,32 @@ private suspend fun estimateBudget(
   sender: AccountAddress,
   pt: ProgrammableTransaction,
   price: ULong,
+  gas: GasConfig,
   context: GasContext,
   environment: GasEnvironment,
+  coinsProvider: suspend () -> List<CoinObject>,
 ): ULong {
+  val usesGasCoin = pt.commands.any { it.usesGasCoin() }
+  val simPayment =
+    when {
+      gas.payment != null -> gas.payment
+      usesGasCoin && context.holdings.addressBalance == 0UL ->
+        availableCoins(pt, coinsProvider()).take(MAX_GAS_PAYMENT_OBJECTS).map { it.reference }
+      else -> emptyList()
+    }
   val cost =
     environment.simulate(
       TransactionData.V1(
         kind = TransactionKind.ProgrammableTransaction(pt),
         sender = sender,
-        gasData = GasData(emptyList(), sender, price, MAX_GAS_BUDGET),
-        expiration = context.validDuring(),
+        gasData = GasData(simPayment, sender, price, MAX_GAS_BUDGET),
+        expiration = if (simPayment.isEmpty()) context.validDuring() else TransactionExpiration.None,
       )
     )
-  val computation = cost.computationCost + GAS_SAFE_OVERHEAD * price
+  val overhead = checkedMul(GAS_SAFE_OVERHEAD, price)
+  val computation = checkedAdd(cost.computationCost, overhead)
   return if (cost.storageCost > cost.storageRebate) {
-    computation + cost.storageCost - cost.storageRebate
+    checkedAdd(computation, cost.storageCost - cost.storageRebate)
   } else {
     computation
   }
@@ -140,30 +178,99 @@ private suspend fun estimateBudget(
 private suspend fun selectPayment(
   sender: AccountAddress,
   pt: ProgrammableTransaction,
-  source: FundingSource,
+  gas: GasConfig,
   budget: ULong,
   context: GasContext,
-  environment: GasEnvironment,
-): List<ObjectReference> {
-  val withdrawn =
-    pt.inputs.sumOf { input ->
-      val arg = (input as? CallArg.FundsWithdrawal)?.arg
-      if (arg?.coinType == SUI_COIN_TYPE) arg.amount else 0UL
+  coinsProvider: suspend () -> List<CoinObject>,
+): Pair<List<ObjectReference>, Boolean> {
+  var withdrawn = 0UL
+  for (input in pt.inputs) {
+    val arg = (input as? CallArg.FundsWithdrawal)?.arg ?: continue
+    if (arg.coinType == SUI_COIN_TYPE && arg.source == FundsWithdrawalSource.Sender) {
+      withdrawn = checkedAdd(withdrawn, arg.amount)
     }
+  }
   val addressBalance =
     context.holdings.addressBalance.let { if (it > withdrawn) it - withdrawn else 0UL }
   val usesGasCoin = pt.commands.any { it.usesGasCoin() }
 
-  if (
-    source == FundingSource.AddressBalance ||
-      (source == FundingSource.Auto && !usesGasCoin && addressBalance >= budget)
-  ) {
-    if (addressBalance < budget) {
-      throw SuiException("Address balance $addressBalance cannot cover gas budget $budget")
+  val boundedSpend =
+    when {
+      !usesGasCoin -> 0UL
+      gas.maxGasCoinSpend != null -> gas.maxGasCoinSpend
+      !gas.smashCoins -> inferPureSplitGasCoinSpend(pt)
+      else -> null
     }
-    return emptyList()
+  val requiredTotal = boundedSpend?.let { checkedAdd(budget, it) }
+  val minimumNeeded = requiredTotal ?: budget
+
+  if (gas.source == FundingSource.AddressBalance) {
+    if (addressBalance < minimumNeeded) {
+      throw SuiException("Address balance $addressBalance cannot cover required $minimumNeeded")
+    }
+    return if (!usesGasCoin) {
+      emptyList<ObjectReference>() to false
+    } else {
+      val reserveAmount = requiredTotal ?: addressBalance
+      listOf(coinReservation(sender, reserveAmount, context.epoch, context.chain)) to true
+    }
   }
 
+  if (gas.source == FundingSource.Auto && !usesGasCoin && addressBalance >= budget) {
+    return emptyList<ObjectReference>() to false
+  }
+
+  val coins = availableCoins(pt, coinsProvider())
+  val reserveSlotForAccumulator =
+    gas.source == FundingSource.Auto && addressBalance > 0UL && requiredTotal == null
+  val maxCoinObjects =
+    if (reserveSlotForAccumulator) MAX_GAS_PAYMENT_OBJECTS - 1 else MAX_GAS_PAYMENT_OBJECTS
+
+  val payment = mutableListOf<ObjectReference>()
+  var total = 0UL
+  for (coin in coins) {
+    if ((requiredTotal != null && total >= requiredTotal) || payment.size == maxCoinObjects) break
+    if (requiredTotal != null && payment.size == MAX_GAS_PAYMENT_OBJECTS - 1) {
+      val withCoin = checkedAdd(total, coin.balance)
+      if (withCoin < requiredTotal && gas.source == FundingSource.Auto && addressBalance > 0UL) {
+        break
+      }
+    }
+    payment += coin.reference
+    total = checkedAdd(total, coin.balance)
+  }
+
+  var addedReservation = false
+  if (gas.source == FundingSource.Auto && addressBalance > 0UL) {
+    val reserveAmount =
+      when {
+        requiredTotal == null -> addressBalance
+        total < requiredTotal -> minOf(addressBalance, requiredTotal - total)
+        else -> 0UL
+      }
+    if (reserveAmount > 0UL) {
+      // Placing the synthetic coin reservation at index 0 smashes real coins and settles change to
+      // the sender's address balance per SIP-58 gas-smashing rules.
+      payment.add(0, coinReservation(sender, reserveAmount, context.epoch, context.chain))
+      total = checkedAdd(total, reserveAmount)
+      addedReservation = true
+    }
+  }
+
+  if (total < minimumNeeded) {
+    val coinsTotal = coins.fold(0UL) { acc, c -> saturatingAdd(acc, c.balance) }
+    throw SuiException(
+      "Insufficient SUI for gas requirement $minimumNeeded: coin objects hold $coinsTotal, " +
+        "address balance holds $addressBalance"
+    )
+  }
+  return payment to (addedReservation && payment.size == 1)
+}
+
+private fun availableCoins(
+  pt: ProgrammableTransaction,
+  coins: List<CoinObject>,
+): List<CoinObject> {
   val inputObjects =
     pt.inputs
       .mapNotNull { input ->
@@ -175,67 +282,69 @@ private suspend fun selectPayment(
         }
       }
       .toSet()
-  val coins =
-    environment
-      .coins(sender)
-      .filter { it.reference.reference.accountAddress !in inputObjects }
-      .sortedByDescending { it.balance }
-
-  // Gas payments are smashed into the gas coin, so a transaction that uses it gets every coin and,
-  // through a reservation, the address balance too. Otherwise take only what covers the budget.
-  val payment = mutableListOf<ObjectReference>()
-  var total = 0UL
-  for (coin in coins) {
-    if ((!usesGasCoin && total >= budget) || payment.size == MAX_GAS_PAYMENT_OBJECTS - 1) break
-    payment += coin.reference
-    total += coin.balance
-  }
-  if (source == FundingSource.Auto && addressBalance > 0UL && (usesGasCoin || total < budget)) {
-    payment.add(0, coinReservation(sender, addressBalance, context.epoch, context.chain))
-    total += addressBalance
-  }
-  if (total < budget) {
-    throw SuiException(
-      "Insufficient SUI for gas budget $budget: coin objects hold ${coins.sumOf { it.balance }}, " +
-        "address balance holds $addressBalance"
-    )
-  }
-  return payment
+  return coins
+    .filter { it.reference.reference.accountAddress !in inputObjects }
+    .sortedByDescending { it.balance }
 }
 
-private fun Command.usesGasCoin(): Boolean {
-  val arguments =
-    when (this) {
-      is Command.MoveCall -> moveCall.arguments
-      is Command.TransferObjects -> objects + address
-      is Command.SplitCoins -> into + coin
-      is Command.MergeCoins -> coins + coin
-      is Command.MakeMoveVec -> values
-      is Command.Upgrade -> listOf(upgradeTicket)
-      else -> emptyList()
+private fun inferPureSplitGasCoinSpend(pt: ProgrammableTransaction): ULong? {
+  var spend = 0UL
+  for (cmd in pt.commands) {
+    when (cmd) {
+      is Command.SplitCoins -> {
+        if (cmd.into.any { it == Argument.GasCoin }) return null
+        if (cmd.coin == Argument.GasCoin) {
+          for (amtArg in cmd.into) {
+            val idx = (amtArg as? Argument.Input)?.index?.toInt() ?: return null
+            val pure = pt.inputs.getOrNull(idx) as? CallArg.Pure ?: return null
+            if (pure.data.size != 8) return null
+            spend = checkedAdd(spend, bcsDecode<ULong>(pure.data))
+          }
+        }
+      }
+      else -> if (cmd.usesGasCoin()) return null
     }
-  return Argument.GasCoin in arguments
+  }
+  return spend
 }
 
-private fun GasContext.validDuring(): TransactionExpiration =
-  TransactionExpiration.ValidDuring(
+private fun Command.usesGasCoin(): Boolean =
+  when (this) {
+    is Command.MoveCall -> Argument.GasCoin in moveCall.arguments
+    is Command.TransferObjects -> address == Argument.GasCoin || Argument.GasCoin in objects
+    is Command.SplitCoins -> coin == Argument.GasCoin || Argument.GasCoin in into
+    is Command.MergeCoins -> coin == Argument.GasCoin || Argument.GasCoin in coins
+    is Command.MakeMoveVec -> Argument.GasCoin in values
+    is Command.Upgrade -> upgradeTicket == Argument.GasCoin
+    is Command.Publish -> false
+  }
+
+private fun GasContext.validDuring(): TransactionExpiration {
+  val bytes = secureRandomBytes(4)
+  val nonce =
+    ((bytes[0].toUInt() and 0xffu) shl 24) or
+      ((bytes[1].toUInt() and 0xffu) shl 16) or
+      ((bytes[2].toUInt() and 0xffu) shl 8) or
+      (bytes[3].toUInt() and 0xffu)
+  return TransactionExpiration.ValidDuring(
     minEpoch = epoch,
-    maxEpoch = epoch + 1UL,
+    maxEpoch = checkedAdd(epoch, 1UL),
     minTimestamp = null,
     maxTimestamp = null,
     chain = chain,
-    nonce = Random.nextInt().toUInt(),
+    nonce = nonce,
   )
+}
 
-// A reservation against the owner's SUI address balance, shaped as a gas coin reference: the id is
-// the owner's accumulator field id masked with the chain id, and the digest carries the amount,
-// the epoch and a magic suffix.
+// Synthetic SIP-58 coin reservation ObjectRef: ID is the accumulator dynamic-field hash XORed with
+// the chain digest, and the 32-byte digest packs (amount: u64, epoch: u32, 20-byte 0xac magic).
 private fun coinReservation(
   owner: AccountAddress,
   amount: ULong,
   epoch: ULong,
   chain: Digest,
 ): ObjectReference {
+  require(epoch <= UInt.MAX_VALUE.toULong()) { "Epoch exceeds u32 coin reservation limit: $epoch" }
   val fieldId =
     hash(
       Hash.BLAKE2B256,
@@ -247,6 +356,41 @@ private fun coinReservation(
     )
   val id =
     ByteArray(AccountAddress.LENGTH) { (fieldId[it].toInt() xor chain.data[it].toInt()).toByte() }
-  val digest = bcsEncode(amount.toLong()) + bcsEncode(epoch.toInt()) + COIN_RESERVATION_MAGIC
+  val digest = bcsEncode(amount) + bcsEncode(epoch.toUInt()) + COIN_RESERVATION_MAGIC
   return ObjectReference(Reference(AccountAddress.from(id)), 0, ObjectDigest(Digest(digest)))
+}
+
+internal fun selectTopGasCoins(
+  existing: MutableList<CoinObject>,
+  incoming: Iterable<CoinObject>,
+  limit: Int = MAX_GAS_PAYMENT_OBJECTS,
+) {
+  for (coin in incoming) {
+    if (existing.size < limit) {
+      existing += coin
+    } else {
+      val minIdx = existing.indices.minBy { existing[it].balance }
+      if (coin.balance > existing[minIdx].balance) {
+        existing[minIdx] = coin
+      }
+    }
+  }
+}
+
+private fun checkedAdd(a: ULong, b: ULong): ULong {
+  val sum = a + b
+  if (sum < a) throw SuiException("Unsigned 64-bit overflow in gas calculation: $a + $b")
+  return sum
+}
+
+private fun checkedMul(a: ULong, b: ULong): ULong {
+  if (a == 0UL || b == 0UL) return 0UL
+  val product = a * b
+  if (product / a != b) throw SuiException("Unsigned 64-bit overflow in gas calculation: $a * $b")
+  return product
+}
+
+private fun saturatingAdd(a: ULong, b: ULong): ULong {
+  val sum = a + b
+  return if (sum < a) ULong.MAX_VALUE else sum
 }

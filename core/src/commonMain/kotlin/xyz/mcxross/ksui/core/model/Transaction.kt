@@ -342,31 +342,32 @@ data class GasLessTransactionData(
   }
 }
 
-/** Limits the gas fields a sponsor may add without changing the user's transaction intent. */
 data class SponsoredTransactionPolicy(
   val maxGasBudget: ULong,
   val maxGasPrice: ULong,
   val expectedSponsor: AccountAddress? = null,
+  val expectedChain: Digest? = null,
+  val maxExpirationEpochs: ULong? = null,
 ) {
+  constructor(
+    maxGasBudget: ULong,
+    maxGasPrice: ULong,
+    expectedSponsor: AccountAddress? = null,
+  ) : this(maxGasBudget, maxGasPrice, expectedSponsor, null, null)
+
   init {
     require(maxGasBudget > 0UL) { "Maximum gas budget must be positive" }
     require(maxGasPrice > 0UL) { "Maximum gas price must be positive" }
   }
 }
 
-/**
- * Validates an untrusted gas-station response before the sender signs it.
- *
- * The sponsor may add only bounded gas data. The sender, transaction kind (including every PTB
- * input and command), and expiration must remain byte-for-byte identical to the original request,
- * except that a sponsor paying from its address balance may add the replay protection it requires.
- */
 fun GasLessTransactionData.validateSponsoredTransaction(
   transaction: TransactionData,
   policy: SponsoredTransactionPolicy,
 ): TransactionData.V1 {
-  val sponsored = transaction as? TransactionData.V1
-    ?: throw IllegalArgumentException("Gas station returned an unsupported transaction version")
+  val sponsored =
+    transaction as? TransactionData.V1
+      ?: throw IllegalArgumentException("Gas station returned an unsupported transaction version")
 
   val gas = sponsored.gasData
   val replayProtected =
@@ -385,6 +386,28 @@ fun GasLessTransactionData.validateSponsoredTransaction(
     "Gas station changed the requested transaction intent"
   }
 
+  when (val exp = sponsored.expiration) {
+    is TransactionExpiration.ValidDuring ->
+      validateReplayExpiration(
+        minEpoch = exp.minEpoch,
+        maxEpoch = exp.maxEpoch,
+        minTimestamp = exp.minTimestamp,
+        maxTimestamp = exp.maxTimestamp,
+        chain = exp.chain,
+        policy = policy,
+      )
+    is TransactionExpiration.Validity ->
+      validateReplayExpiration(
+        minEpoch = exp.minEpoch,
+        maxEpoch = exp.maxEpoch,
+        minTimestamp = exp.minTimestamp,
+        maxTimestamp = exp.maxTimestamp,
+        chain = exp.chain,
+        policy = policy,
+      )
+    else -> {}
+  }
+
   require(gas.payment.isNotEmpty() || replayProtected) {
     "Gas station returned no sponsor payment"
   }
@@ -400,4 +423,30 @@ fun GasLessTransactionData.validateSponsoredTransaction(
   }
 
   return sponsored
+}
+
+private fun validateReplayExpiration(
+  minEpoch: ULong?,
+  maxEpoch: ULong?,
+  minTimestamp: ULong?,
+  maxTimestamp: ULong?,
+  chain: Digest,
+  policy: SponsoredTransactionPolicy,
+) {
+  if (minEpoch != null && maxEpoch != null) {
+    require(minEpoch <= maxEpoch) { "Sponsored transaction minEpoch exceeds maxEpoch" }
+  }
+  if (minTimestamp != null && maxTimestamp != null) {
+    require(minTimestamp <= maxTimestamp) {
+      "Sponsored transaction minTimestamp exceeds maxTimestamp"
+    }
+  }
+  policy.expectedChain?.let { expected ->
+    require(chain == expected) { "Gas station returned an unexpected chain digest" }
+  }
+  policy.maxExpirationEpochs?.let { maxSpan ->
+    require(minEpoch != null && maxEpoch != null && maxEpoch - minEpoch <= maxSpan) {
+      "Sponsored transaction expiration epoch window exceeds policy"
+    }
+  }
 }

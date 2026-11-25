@@ -21,100 +21,93 @@ import xyz.mcxross.bcs.Bcs
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.extension.asIdParts
 import xyz.mcxross.ksui.core.model.AccountAddress
+import xyz.mcxross.ksui.core.model.CallArg
+import xyz.mcxross.ksui.core.model.Digest
 import xyz.mcxross.ksui.core.model.FundsWithdrawalArg
 import xyz.mcxross.ksui.core.model.FundsWithdrawalSource
+import xyz.mcxross.ksui.core.model.ObjectArg
+import xyz.mcxross.ksui.core.model.ObjectDigest
 import xyz.mcxross.ksui.core.model.ObjectId
+import xyz.mcxross.ksui.core.model.ObjectReference
+import xyz.mcxross.ksui.core.model.Reference
 import xyz.mcxross.ksui.core.model.StructTag
 import xyz.mcxross.ksui.core.model.TypeTag
 import xyz.mcxross.ksui.core.util.MAX_COMMANDS_IN_PTB
 
-@Serializable(
-  with =
-    xyz.mcxross.ksui.core.serializer.ProgrammableTransactionSerializer::class
-)
+@Serializable(with = xyz.mcxross.ksui.core.serializer.ProgrammableTransactionSerializer::class)
 data class ProgrammableTransaction
 @Throws(IllegalArgumentException::class)
 constructor(
-  val inputs: List<xyz.mcxross.ksui.core.model.CallArg>,
+  val inputs: List<CallArg>,
   val commands: List<Command>,
 ) : TransactionKind() {
   init {
     require(commands.size <= MAX_COMMANDS_IN_PTB) { "Maximum number of commands is 1024" }
-    require(inputs.none { it is xyz.mcxross.ksui.core.model.CallArg.ObjectStr }) {
+    require(inputs.none { it is CallArg.ObjectStr }) {
       "ProgrammableTransaction contains unresolved ObjectStr inputs. Call build(sui) first."
     }
   }
 
   fun toBcs(): ByteArray = Bcs.encodeToByteArray(this)
 
-  /** BCS bytes of this transaction as a `TransactionKind`, as `serialized-tx-kind` expects. */
   fun toTransactionKindBcs(): ByteArray =
     Bcs.encodeToByteArray<TransactionKind>(TransactionKind.ProgrammableTransaction(this))
 }
 
-class ProgrammableTransactionBuilder : Command() {
+class ProgrammableTransactionBuilder {
 
-  private val inputs: MutableMap<BuilderArg, xyz.mcxross.ksui.core.model.CallArg> = mutableMapOf()
+  private val inputValues: MutableList<CallArg> = mutableListOf()
+  private val inputIndexByArg: MutableMap<BuilderArg, UShort> = mutableMapOf()
+  private val objectIndexByNormalizedId: MutableMap<String, UShort> = mutableMapOf()
+  private val commands: MutableList<Command> = mutableListOf()
 
-  private fun normalize(id: String): String {
-    val clean = id.removePrefix("0x")
-    val padded = clean.padStart(64, '0')
-    return "0x$padded"
+  val list: List<Command>
+    get() = commands.toList()
+
+  private fun addInput(arg: BuilderArg, value: CallArg): Argument {
+    inputIndexByArg[arg]?.let { return Argument.Input(it) }
+    require(inputValues.size <= UShort.MAX_VALUE.toInt()) {
+      "Maximum number of PTB inputs is ${UShort.MAX_VALUE}"
+    }
+    val nextIndex = inputValues.size.toUShort()
+    inputValues += value
+    inputIndexByArg[arg] = nextIndex
+    return Argument.Input(nextIndex)
   }
 
-  private val SYSTEM_ADDRESSES =
-    setOf(
-      normalize("0x5"), // System State
-      normalize("0x6"), // Clock
-      normalize("0x8"), // Random
-      normalize("0x403"), // DenyList
-    )
-
-  private fun addInput(arg: BuilderArg, value: xyz.mcxross.ksui.core.model.CallArg): Argument {
-    var index = 0
-    for (key in inputs.keys) {
-      if (key == arg) {
-        return Argument.Input(index.toUShort())
-      }
-      index++
+  private fun appendCommand(command: Command): UShort {
+    require(commands.size < MAX_COMMANDS_IN_PTB) {
+      "Maximum number of commands is $MAX_COMMANDS_IN_PTB"
     }
-    inputs[arg] = value
-    return Argument.Input((inputs.size - 1).toUShort())
+    val index = commands.size.toUShort()
+    commands += command
+    return index
   }
 
   fun input(bytes: ByteArray, forceSeparate: Boolean = false): Argument {
+    val copy = bytes.copyOf()
     val arg =
       if (forceSeparate) {
-        BuilderArg.ForcedNonUniquePure(inputs.size)
+        BuilderArg.ForcedNonUniquePure(inputValues.size)
       } else {
-        BuilderArg.Pure(bytes)
+        BuilderArg.Pure(copy)
       }
-    return addInput(arg, xyz.mcxross.ksui.core.model.CallArg.Pure(data = bytes))
+    return addInput(arg, CallArg.Pure(data = copy))
   }
 
   @Throws(IllegalArgumentException::class)
-  fun address(str: String): Argument {
-    return input(AccountAddress.fromString(str).data)
-  }
+  fun address(str: String): Argument = input(AccountAddress.fromString(str).data)
 
-  fun address(account: Account): Argument {
-    return address(account.address)
-  }
+  fun address(account: Account): Argument = address(account.address)
 
-  fun address(address: AccountAddress): Argument {
-    return input(address.data)
-  }
+  fun address(address: AccountAddress): Argument = input(address.data)
 
-  inline fun <reified T> pure(value: T): Argument {
-    return input(Bcs.encodeToByteArray(value))
-  }
+  inline fun <reified T> pure(value: T): Argument = input(Bcs.encodeToByteArray(value))
 
-  fun pure(bytes: ByteArray): Argument {
-    return input(bytes)
-  }
+  fun pure(bytes: ByteArray): Argument = input(bytes)
 
   inline fun <reified T> input(value: T): Argument {
-    if (value is xyz.mcxross.ksui.core.model.ObjectArg) {
+    if (value is ObjectArg) {
       return `object`(value)
     }
     return input(Bcs.encodeToByteArray(value))
@@ -128,33 +121,19 @@ class ProgrammableTransactionBuilder : Command() {
 
   fun denyList(): Argument = `object`("0x403")
 
+  @Throws(IllegalArgumentException::class)
   fun `object`(id: String): Argument {
-    val normalizedId = normalize(id)
-
-    inputs.entries.forEachIndexed { index, entry ->
-      val value = entry.value
-      if (
-        value is xyz.mcxross.ksui.core.model.CallArg.ObjectStr &&
-          normalize(value.id) == normalizedId
-      ) {
-        return Argument.Input(index.toUShort())
-      }
-    }
-
-    return addInput(
-      BuilderArg.ForcedNonUniqueObject(inputs.size),
-      xyz.mcxross.ksui.core.model.CallArg.ObjectStr(id),
-    )
+    val normalizedId = normalizeSuiObjectId(id)
+    objectIndexByNormalizedId[normalizedId]?.let { return Argument.Input(it) }
+    val added =
+      addInput(BuilderArg.ForcedNonUniqueObject(inputValues.size), CallArg.ObjectStr(normalizedId))
+    objectIndexByNormalizedId[normalizedId] = (added as Argument.Input).index
+    return added
   }
 
-  fun `object`(objectArg: xyz.mcxross.ksui.core.model.ObjectArg): Argument {
-    return addInput(
-      BuilderArg.ForcedNonUniqueObject(inputs.size),
-      xyz.mcxross.ksui.core.model.CallArg.Object(objectArg),
-    )
-  }
+  fun `object`(objectArg: ObjectArg): Argument =
+    addInput(BuilderArg.ForcedNonUniqueObject(inputValues.size), CallArg.Object(objectArg))
 
-  /** Reserve [amount] from an address balance for a Move call in this transaction. */
   @Throws(IllegalArgumentException::class)
   fun withdrawal(
     amount: ULong,
@@ -163,14 +142,11 @@ class ProgrammableTransactionBuilder : Command() {
   ): Argument {
     require(amount > 0uL) { "Withdrawal amount must be positive" }
     return addInput(
-      BuilderArg.ForcedNonUniqueWithdrawal(inputs.size),
-      xyz.mcxross.ksui.core.model.CallArg.FundsWithdrawal(
-        FundsWithdrawalArg(amount, coinType, source)
-      ),
+      BuilderArg.ForcedNonUniqueWithdrawal(inputValues.size),
+      CallArg.FundsWithdrawal(FundsWithdrawalArg(amount, coinType, source)),
     )
   }
 
-  /** Redeem an address balance reservation as a Coin<T>. */
   @Throws(IllegalArgumentException::class)
   fun withdrawCoin(
     amount: ULong,
@@ -183,7 +159,6 @@ class ProgrammableTransactionBuilder : Command() {
       listOf(withdrawal(amount, coinType, source)),
     )
 
-  /** Redeem an address balance reservation as a Balance<T>. */
   @Throws(IllegalArgumentException::class)
   fun withdrawBalance(
     amount: ULong,
@@ -196,7 +171,6 @@ class ProgrammableTransactionBuilder : Command() {
       listOf(withdrawal(amount, coinType, source)),
     )
 
-  /** Deposit a Coin<T> into the recipient's address balance. */
   fun sendCoinToBalance(
     coin: Argument,
     recipient: AccountAddress,
@@ -204,7 +178,6 @@ class ProgrammableTransactionBuilder : Command() {
   ): Argument.Result =
     moveCall("0x2::coin::send_funds", listOf(coinType), listOf(coin, address(recipient)))
 
-  /** Deposit a Balance<T> into the recipient's address balance. */
   fun sendBalance(
     balance: Argument,
     recipient: AccountAddress,
@@ -224,7 +197,6 @@ class ProgrammableTransactionBuilder : Command() {
     coinType: TypeTag = SUI_COIN_TYPE,
   ): Argument.Result = sendBalance(balance, recipient, coinType)
 
-  /** Transfer directly between address balances without creating a coin object. */
   @Throws(IllegalArgumentException::class)
   fun transferBalance(
     amount: ULong,
@@ -247,62 +219,51 @@ class ProgrammableTransactionBuilder : Command() {
         typeArgs,
         args,
       )
-    commands.add(MoveCall(moveCall))
-    return Argument.Result((commands.size - 1).toUShort())
+    return Argument.Result(appendCommand(Command.MoveCall(moveCall)))
   }
 
-  fun transferObjects(objects: List<Argument>, address: Argument): Argument.Result {
-    val command = TransferObjects(objects, address)
-    commands.add(command)
-    return Argument.Result((commands.size - 1).toUShort())
-  }
+  fun transferObjects(objects: List<Argument>, address: Argument): Argument.Result =
+    Argument.Result(appendCommand(Command.TransferObjects(objects, address)))
 
   @Throws(IllegalArgumentException::class)
   fun splitCoins(coin: Argument, into: List<Argument>): List<Argument.NestedResult> {
     require(into.isNotEmpty()) { "The 'into' list of amounts cannot be empty." }
-    val command = SplitCoins(coin, into)
-    commands.add(command)
-    val commandIndex = (commands.size - 1).toUShort()
+    require(into.size <= UShort.MAX_VALUE.toInt()) { "Too many split amounts" }
+    val commandIndex = appendCommand(Command.SplitCoins(coin, into))
     return into.indices.map { i -> Argument.NestedResult(commandIndex, i.toUShort()) }
   }
 
-  fun mergeCoins(coin: Argument, coins: List<Argument>): Argument.Result {
-    val command = MergeCoins(coin, coins)
-    commands.add(command)
-    return Argument.Result((commands.size - 1).toUShort())
-  }
+  fun mergeCoins(coin: Argument, coins: List<Argument>): Argument.Result =
+    Argument.Result(appendCommand(Command.MergeCoins(coin, coins)))
 
-  fun publish(bytes: List<List<Byte>>, dependencies: List<ObjectId>): Argument.Result {
-    val command = Publish(bytes, dependencies)
-    commands.add(command)
-    return Argument.Result((commands.size - 1).toUShort())
-  }
+  fun publish(bytes: List<List<Byte>>, dependencies: List<ObjectId>): Argument.Result =
+    Argument.Result(appendCommand(Command.Publish(bytes, dependencies)))
 
-  fun makeMoveVec(typeTag: TypeTag?, values: List<Argument>): Argument.Result {
-    val command = MakeMoveVec(typeTag, values)
-    commands.add(command)
-    return Argument.Result((commands.size - 1).toUShort())
-  }
+  fun makeMoveVec(typeTag: TypeTag?, values: List<Argument>): Argument.Result =
+    Argument.Result(appendCommand(Command.MakeMoveVec(typeTag, values)))
 
   fun upgrade(
     modules: List<List<Byte>>,
     dependencies: List<ObjectId>,
     packageId: ObjectId,
     upgradeTicket: Argument,
-  ): Argument.Result {
-    val command = Upgrade(modules, dependencies, packageId, upgradeTicket)
-    commands.add(command)
-    return Argument.Result((commands.size - 1).toUShort())
-  }
+  ): Argument.Result =
+    Argument.Result(appendCommand(Command.Upgrade(modules, dependencies, packageId, upgradeTicket)))
 
   @Throws(IllegalArgumentException::class)
-  fun build(): ProgrammableTransaction = ProgrammableTransaction(inputs.values.toList(), list)
+  fun build(): ProgrammableTransaction =
+    ProgrammableTransaction(inputValues.toList(), commands.toList())
 
-  @Throws(IllegalArgumentException::class, IllegalStateException::class, CancellationException::class)
+  @Throws(
+    IllegalArgumentException::class,
+    IllegalStateException::class,
+    CancellationException::class,
+  )
   suspend fun build(resolver: ProgrammableTransactionResolver): ProgrammableTransaction {
-    val mutableInputs = resolver.mutableInputIndexes(list)
+    val snapshotCommands = commands.toList()
+    val mutableInputs = resolver.mutableInputIndexes(snapshotCommands)
     val resolvedInputs = resolveAllInputs(resolver, mutableInputs)
-    return ProgrammableTransaction(resolvedInputs, list)
+    return ProgrammableTransaction(resolvedInputs, snapshotCommands)
   }
 
   @Throws(IllegalArgumentException::class)
@@ -311,24 +272,30 @@ class ProgrammableTransactionBuilder : Command() {
   private suspend fun resolveAllInputs(
     resolver: ProgrammableTransactionResolver,
     mutableInputs: Set<Int>,
-  ): List<xyz.mcxross.ksui.core.model.CallArg> {
-    val inputList = inputs.values.toList()
+  ): List<CallArg> {
+    val snapshotInputs = inputValues.toList()
     val idsToResolve =
-      inputList
-        .filterIsInstance<xyz.mcxross.ksui.core.model.CallArg.ObjectStr>()
-        .map { normalize(it.id) }
+      snapshotInputs
+        .filterIsInstance<CallArg.ObjectStr>()
+        .map { normalizeSuiObjectId(it.id) }
         .filter { !SYSTEM_ADDRESSES.contains(it) }
         .distinct()
     val objectsMap =
-      if (idsToResolve.isEmpty()) emptyMap() else resolver.resolveObjects(idsToResolve)
+      if (idsToResolve.isEmpty()) {
+        emptyMap()
+      } else {
+        resolver.resolveObjects(idsToResolve).entries.associate { (k, v) ->
+          normalizeSuiObjectId(k) to v
+        }
+      }
 
-    return inputList.withIndex().map { (index, callArg) ->
-      if (callArg !is xyz.mcxross.ksui.core.model.CallArg.ObjectStr) return@map callArg
+    return snapshotInputs.withIndex().map { (index, callArg) ->
+      if (callArg !is CallArg.ObjectStr) return@map callArg
 
-      val normalizedId = normalize(callArg.id)
+      val normalizedId = normalizeSuiObjectId(callArg.id)
       if (SYSTEM_ADDRESSES.contains(normalizedId)) {
-        xyz.mcxross.ksui.core.model.CallArg.Object(
-          xyz.mcxross.ksui.core.model.ObjectArg.SharedObject(
+        CallArg.Object(
+          ObjectArg.SharedObject(
             id = ObjectId(AccountAddress.fromString(normalizedId)),
             initialSharedVersion = 1L,
             mutable = index in mutableInputs,
@@ -343,35 +310,51 @@ class ProgrammableTransactionBuilder : Command() {
         val resolvedObjectArg =
           when (val owner = suiObject.owner) {
             is ResolvedObjectOwner.Shared ->
-              xyz.mcxross.ksui.core.model.ObjectArg.SharedObject(
+              ObjectArg.SharedObject(
                 id = ObjectId(AccountAddress.fromString(suiObject.objectId)),
                 initialSharedVersion = owner.initialSharedVersion,
                 mutable = index in mutableInputs,
               )
-            ResolvedObjectOwner.AddressOwner -> {
+            ResolvedObjectOwner.AddressOwner,
+            ResolvedObjectOwner.Immutable -> {
               val digest =
                 suiObject.digest
                   ?: throw IllegalStateException("Couldn't Resolve digest for ${callArg.id}")
               val version =
                 suiObject.version
                   ?: throw IllegalStateException("Couldn't Resolve version for ${callArg.id}")
-              xyz.mcxross.ksui.core.model.ObjectArg.ImmOrOwnedObject(
-                xyz.mcxross.ksui.core.model.ObjectReference(
-                  xyz.mcxross.ksui.core.model.Reference(
-                    AccountAddress.fromString(suiObject.objectId)
-                  ),
+              ObjectArg.ImmOrOwnedObject(
+                ObjectReference(
+                  Reference(AccountAddress.fromString(suiObject.objectId)),
                   version,
-                  xyz.mcxross.ksui.core.model.ObjectDigest(
-                    xyz.mcxross.ksui.core.model.Digest.fromString(digest)
-                  ),
+                  ObjectDigest(Digest.fromString(digest)),
                 )
               )
             }
           }
-        xyz.mcxross.ksui.core.model.CallArg.Object(resolvedObjectArg)
+        CallArg.Object(resolvedObjectArg)
       }
     }
   }
+
+  companion object {
+    private val SYSTEM_ADDRESSES =
+      setOf(
+        normalizeSuiObjectId("0x5"),
+        normalizeSuiObjectId("0x6"),
+        normalizeSuiObjectId("0x8"),
+        normalizeSuiObjectId("0x403"),
+      )
+  }
+}
+
+internal fun normalizeSuiObjectId(id: String): String {
+  val clean = id.trim().removePrefix("0x").removePrefix("0X").lowercase()
+  require(clean.isNotEmpty() && clean.length <= 64) { "Invalid Sui object ID length: $id" }
+  require(clean.all { it in '0'..'9' || it in 'a'..'f' }) {
+    "Invalid hex character in Sui object ID: $id"
+  }
+  return "0x${clean.padStart(64, '0')}"
 }
 
 interface ProgrammableTransactionResolver {
@@ -391,6 +374,8 @@ sealed class ResolvedObjectOwner {
   data class Shared(val initialSharedVersion: Long) : ResolvedObjectOwner()
 
   data object AddressOwner : ResolvedObjectOwner()
+
+  data object Immutable : ResolvedObjectOwner()
 }
 
 @Serializable
@@ -404,9 +389,7 @@ sealed class BuilderArg {
       return data.contentEquals(other.data)
     }
 
-    override fun hashCode(): Int {
-      return data.contentHashCode()
-    }
+    override fun hashCode(): Int = data.contentHashCode()
   }
 
   @Serializable data class ForcedNonUniquePure(val index: Int) : BuilderArg()
@@ -429,13 +412,19 @@ fun ptb(block: PtbDsl.() -> Unit): ProgrammableTransaction {
 
 @Throws(IllegalArgumentException::class)
 fun hexStringToByteArray(hexString: String): ByteArray {
-  val cleanedHexString = hexString.removePrefix("0x").replace(Regex("[^0-9A-Fa-f]"), "")
-  val len = cleanedHexString.length
-
-  require(len % 2 == 0) { "Hex string must have an even length" }
-
-  return ByteArray(len / 2) { i ->
-    val index = i * 2
-    cleanedHexString.substring(index, index + 2).toInt(16).toByte()
+  val clean = hexString.removePrefix("0x").removePrefix("0X")
+  require(clean.length % 2 == 0) { "Hex string must have an even length" }
+  return ByteArray(clean.length / 2) { i ->
+    val hi = hexNibble(clean[i * 2])
+    val lo = hexNibble(clean[i * 2 + 1])
+    ((hi shl 4) or lo).toByte()
   }
 }
+
+private fun hexNibble(c: Char): Int =
+  when (c) {
+    in '0'..'9' -> c - '0'
+    in 'a'..'f' -> c - 'a' + 10
+    in 'A'..'F' -> c - 'A' + 10
+    else -> throw IllegalArgumentException("Invalid hex character: '$c'")
+  }
