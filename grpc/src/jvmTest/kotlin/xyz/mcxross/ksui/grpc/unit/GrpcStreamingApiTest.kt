@@ -7,13 +7,18 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import sui.rpc.v2.AffectedAddressFilter
 import sui.rpc.v2.EventFilterInternal
 import sui.rpc.v2.ListCheckpointsRequestInternal
 import sui.rpc.v2.ListEventsRequestInternal
 import sui.rpc.v2.QueryEndReason
 import sui.rpc.v2.SubscribeEventsRequest
 import sui.rpc.v2.SubscribeTransactionsRequest
+import sui.rpc.v2.TransactionFilter
 import sui.rpc.v2.TransactionFilterInternal
+import sui.rpc.v2.TransactionLiteral
+import sui.rpc.v2.TransactionTerm
+import sui.rpc.v2.invoke
 import sui.rpc.v2.presence
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
@@ -71,6 +76,23 @@ class GrpcStreamingApiTest :
       }
       frames.filter { it.presence.hasCheckpoint }.map { it.checkpoint.sequenceNumber } shouldBe listOf(10uL, 11uL, 12uL)
       frames.last().end.reason shouldBe QueryEndReason.CHECKPOINT_BOUND
+    }
+
+    "the README filter example builds an affected-address filter" {
+      // Keep in sync with the "Streaming" section of README.md.
+      val filter = TransactionFilter {
+        terms = listOf(
+          TransactionTerm {
+            literals = listOf(
+              TransactionLiteral {
+                predicate = TransactionLiteral.Predicate.AffectedAddress(AffectedAddressFilter { address = "0x2" })
+              }
+            )
+          }
+        )
+      }
+      val predicate = filter.terms.single().literals.single().predicate
+      (predicate as TransactionLiteral.Predicate.AffectedAddress).value.address shouldBe "0x2"
     }
 
     "listEvents stops at the indexed tip with LEDGER_TIP" {

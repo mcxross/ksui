@@ -363,6 +363,44 @@ time. Streaming calls such as checkpoint subscriptions have no deadline. To
 change it, set `requestTimeout` in `ClientConfig`, or pass `requestTimeout` to
 `SuiGrpcClient.connect` (`null` turns it off).
 
+#### Streaming
+
+`SuiGrpcClient` streams checkpoints, transactions and events as they finalize.
+A Sui subscription always starts at the server's tip and can't resume, so
+`checkpointStream`, `transactionStream` and `eventStream` handle reconnects for
+you. When a stream drops, or when you pass an earlier `resumeFrom`, they replay
+what was missed with the matching List scan, then continue live, with no gaps
+and no duplicates.
+
+```kotlin
+// Every transaction that touches an address.
+val filter = TransactionFilter {
+    terms = listOf(
+        TransactionTerm {
+            literals = listOf(
+                TransactionLiteral {
+                    predicate = TransactionLiteral.Predicate.AffectedAddress(
+                        AffectedAddressFilter { address = "0x..." }
+                    )
+                }
+            )
+        }
+    )
+}
+
+client.transactionStream(resumeFrom = savedPosition, filter = filter).collect { result ->
+    val frame = result.unwrap()
+    frame.item?.let { handle(it) } // null on frames that only move the resume point
+    savedPosition = frame.resumeFrom // persist it to continue here after a restart
+}
+```
+
+`resumeFrom = null` starts at the live tip, and `StreamPosition.atCheckpoint(n)`
+starts at checkpoint `n`. Transient errors such as `UNAVAILABLE` reconnect
+with backoff (`StreamRetryPolicy`). Errors such as an invalid filter, or a
+resume point the node has already pruned, end the flow with a `Result.Err`.
+The raw `subscribe*` and `list*` calls are also available.
+
 The libraries don't ship a logging backend. Add an SLF4J provider, such as
 `ch.qos.logback:logback-classic`, to your application if you want Ktor and gRPC
 logs on the JVM.
