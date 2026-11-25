@@ -75,6 +75,7 @@ function publish_commit() {
   approve "Release marker found at ${release_commit} on branch ${branch}; publishing trusted HEAD ${trusted_commit}..."
   safe chmod +x ./gradlew
   safe ./gradlew generateApolloSources
+  safe ./gradlew :ksui-core:jvmTest :ksui:jvmTest :ksui-grpc:jvmTest
 
   if contains_snapshot "${release_commit}"; then
     approve "Snapshot release, publishing snapshot artifact..."

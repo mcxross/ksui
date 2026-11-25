@@ -7,10 +7,15 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy-gh-pages:
+  verify-docs:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -32,8 +37,34 @@ jobs:
       - name: Generate API docs site
         run: ./gradlew assembleDokkaSite
         shell: bash
+
+  deploy-gh-pages:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        shell: bash
+      - name: Generate GraphQL Client
+        run: ./gradlew generateApolloSources
+        shell: bash
+      - name: Generate API docs site
+        run: ./gradlew assembleDokkaSite
+        shell: bash
       - name: Deploy docs to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.9.0
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         with:
           branch: gh-pages
           folder: build/dokka-site

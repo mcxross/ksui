@@ -70,6 +70,8 @@ EOF
 
   [[ ! -e "${malicious_marker}" ]] || fail "historical Gradle code was executed"
   grep -Fxq "generateApolloSources" "${log}" || fail "source generation was not preserved"
+  grep -Fxq ":ksui-core:jvmTest :ksui:jvmTest :ksui-grpc:jvmTest" "${log}" ||
+    fail "unit test gate was not executed"
   grep -Fxq "publishToMavenCentral" "${log}" || fail "snapshot publication was not preserved"
 }
 
@@ -90,8 +92,40 @@ function test_direct_stable_release_is_preserved() {
   )
 
   grep -Fxq "generateApolloSources" "${log}" || fail "source generation was not preserved"
+  grep -Fxq ":ksui-core:jvmTest :ksui:jvmTest :ksui-grpc:jvmTest" "${log}" ||
+    fail "unit test gate was not executed"
   grep -Fxq "publishAndReleaseToMavenCentral --no-configuration-cache" "${log}" ||
     fail "stable publication was not preserved"
+}
+
+function test_failing_unit_tests_abort_publication() {
+  local repository="${TEST_ROOT}/failing-tests"
+  local log="${TEST_ROOT}/failing-tests.log"
+
+  initialize_repository "${repository}" main
+  cat >"${repository}/gradlew" <<'EOF'
+#!/bin/bash
+echo "$*" >>"${RELEASE_TEST_LOG}"
+if [[ "$*" == *"jvmTest"* ]]; then
+  exit 1
+fi
+EOF
+  chmod +x "${repository}/gradlew"
+  git -C "${repository}" add .
+  git -C "${repository}" commit -q -m "release v9.9.9"
+
+  local trusted_sha
+  trusted_sha=$(git -C "${repository}" rev-parse HEAD)
+  if (
+    cd "${repository}"
+    EXPECTED_RELEASE_SHA="${trusted_sha}" RELEASE_TEST_LOG="${log}" ./scripts/release
+  ); then
+    fail "release continued after unit tests failed"
+  fi
+
+  if grep -q "publish" "${log}"; then
+    fail "publish task ran despite failing unit tests"
+  fi
 }
 
 function test_main_merge_skips_snapshot_release_marker() {
@@ -136,6 +170,7 @@ function test_ci_sha_mismatch_fails_closed() {
 
 test_merged_release_publishes_trusted_head
 test_direct_stable_release_is_preserved
+test_failing_unit_tests_abort_publication
 test_main_merge_skips_snapshot_release_marker
 test_ci_sha_mismatch_fails_closed
 echo "release_test: all checks passed"
