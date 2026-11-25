@@ -95,15 +95,32 @@ internal class FakeLedger(
   /** Checkpoints that execute while no subscription is open, before the next one starts. */
   @Volatile var checkpointsBetweenSubscriptions: ULong = 0u
 
+  /**
+   * When set, the List index no longer follows the chain: it only moves this many checkpoints
+   * towards [tip] on each List call, so scans end with LEDGER_TIP until it catches up.
+   */
+  @Volatile var indexCatchUpPerScan: ULong? = null
+
+  /** Fail every subscription with this status before its first frame. */
+  @Volatile var subscribeError: GrpcStatusCode? = null
+
+  val scans = AtomicInteger()
+
   val subscriptions = AtomicInteger()
   val requests: MutableList<Any> = Collections.synchronizedList(mutableListOf())
 
   private fun checkpointMatches(c: ULong) = c % 3u == 0uL
 
   private fun nextSubscriptionStart(): ULong {
+    subscribeError?.let { throw it.asException("rejected") }
     if (subscriptions.getAndIncrement() > 0) tip += checkpointsBetweenSubscriptions
-    if (indexedTip < tip - 1u) indexedTip = tip - 1u
+    if (indexCatchUpPerScan == null && indexedTip < tip - 1u) indexedTip = tip - 1u
     return tip
+  }
+
+  private fun onScan() {
+    scans.incrementAndGet()
+    indexCatchUpPerScan?.let { step -> indexedTip = minOf(tip, indexedTip + step) }
   }
 
   private suspend fun frame(count: Int) {
@@ -115,7 +132,7 @@ internal class FakeLedger(
 
   private fun advanceTo(c: ULong) {
     if (tip < c) tip = c
-    if (indexedTip < c) indexedTip = c
+    if (indexCatchUpPerScan == null && indexedTip < c) indexedTip = c
   }
 
   private fun watermark(position: Key, covered: ULong?) =
@@ -283,6 +300,7 @@ internal class FakeLedger(
       override fun ListCheckpoints(message: ListCheckpointsRequest): Flow<ListCheckpointsResponse> =
         flow {
           requests += message
+          onScan()
           val start = Key(message.startCheckpoint ?: 0u)
           val end = Key(message.endCheckpoint ?: ULong.MAX_VALUE)
           scan(start, end, 0, message.presence.hasFilter,
@@ -305,6 +323,7 @@ internal class FakeLedger(
       override fun ListTransactions(message: ListTransactionsRequest): Flow<ListTransactionsResponse> =
         flow {
           requests += message
+          onScan()
           var start = Key(message.startCheckpoint ?: 0u, message.startTransactionIndex ?: 0u)
           message.options.after?.let { start = maxOf(start, Key.decode(it)) }
           val end =
@@ -329,6 +348,7 @@ internal class FakeLedger(
 
       override fun ListEvents(message: ListEventsRequest): Flow<ListEventsResponse> = flow {
         requests += message
+        onScan()
         var start =
           Key(message.startCheckpoint ?: 0u, message.startTransactionIndex ?: 0u, message.startEventIndex ?: 0u)
         message.options.after?.let { start = maxOf(start, Key.decode(it)) }

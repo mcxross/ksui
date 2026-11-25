@@ -2,7 +2,10 @@ package xyz.mcxross.ksui.grpc.api
 
 import com.google.protobuf.kotlin.FieldMask
 import kotlinx.coroutines.flow.Flow
+import sui.rpc.v2.Checkpoint
+import sui.rpc.v2.Event
 import sui.rpc.v2.EventFilter
+import sui.rpc.v2.ExecutedTransaction
 import sui.rpc.v2.ListCheckpointsRequest
 import sui.rpc.v2.ListCheckpointsResponse
 import sui.rpc.v2.ListEventsRequest
@@ -18,8 +21,15 @@ import sui.rpc.v2.SubscribeTransactionsResponse
 import sui.rpc.v2.TransactionFilter
 import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.Result
+import xyz.mcxross.ksui.grpc.StreamFrame
+import xyz.mcxross.ksui.grpc.StreamPosition
+import xyz.mcxross.ksui.grpc.StreamRetryPolicy
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.asGrpcResult
+import xyz.mcxross.ksui.grpc.internal.checkpointSource
+import xyz.mcxross.ksui.grpc.internal.eventSource
+import xyz.mcxross.ksui.grpc.internal.resumableStream
+import xyz.mcxross.ksui.grpc.internal.transactionSource
 import xyz.mcxross.ksui.grpc.internal.listCheckpoints as internalListCheckpoints
 import xyz.mcxross.ksui.grpc.internal.listEvents as internalListEvents
 import xyz.mcxross.ksui.grpc.internal.listTransactions as internalListTransactions
@@ -79,4 +89,28 @@ internal class Subscription(private val runtime: GrpcRuntime) : SubscriptionProt
 
   override fun listEvents(request: ListEventsRequest): Flow<Result<ListEventsResponse, SuiError>> =
     internalListEvents(runtime, request).asGrpcResult()
+
+  override fun checkpointStream(
+    resumeFrom: StreamPosition?,
+    filter: TransactionFilter?,
+    readMask: FieldMask?,
+    retry: StreamRetryPolicy,
+  ): Flow<Result<StreamFrame<Checkpoint>, SuiError>> =
+    resumableStream(checkpointSource(runtime, filter, readMask), resumeFrom, retry)
+
+  override fun transactionStream(
+    resumeFrom: StreamPosition?,
+    filter: TransactionFilter?,
+    readMask: FieldMask?,
+    retry: StreamRetryPolicy,
+  ): Flow<Result<StreamFrame<ExecutedTransaction>, SuiError>> =
+    resumableStream(transactionSource(runtime, filter, readMask), resumeFrom, retry)
+
+  override fun eventStream(
+    resumeFrom: StreamPosition?,
+    filter: EventFilter?,
+    readMask: FieldMask?,
+    retry: StreamRetryPolicy,
+  ): Flow<Result<StreamFrame<Event>, SuiError>> =
+    resumableStream(eventSource(runtime, filter, readMask), resumeFrom, retry)
 }

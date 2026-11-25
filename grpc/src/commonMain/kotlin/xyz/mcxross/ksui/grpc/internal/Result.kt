@@ -31,7 +31,7 @@ internal fun <T> Flow<T>.asGrpcResult(): Flow<Result<T, SuiError>> =
       emit(Result.Err(e.toSuiError()))
     }
 
-private fun Exception.toSuiError(): SuiError =
+internal fun Exception.toSuiError(): SuiError =
   when (this) {
     is GrpcStatusException -> {
       val code = status.statusCode
