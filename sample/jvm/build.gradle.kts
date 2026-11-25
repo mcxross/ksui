@@ -16,6 +16,8 @@ dependencies {
   implementation(libs.ktor.serialization.kotlinx.json)
   implementation(libs.bcs)
   implementation(libs.ktor.client.cio)
+  // The libraries no longer ship a logging backend; an application picks its own.
+  runtimeOnly(libs.logback.classic)
   testImplementation(libs.junit.jupiter.api)
   testRuntimeOnly(libs.junit.jupiter.engine)
 }

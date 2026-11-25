@@ -3,8 +3,10 @@ pluginManagement {
     google()
     gradlePluginPortal()
     mavenCentral()
-    maven(url = "../repo")
-    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc")
+    // Pre-release kotlinx-rpc gRPC builds (0.11.0-grpc-*) are published only here.
+    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc") {
+      content { includeGroupAndSubgroups("org.jetbrains.kotlinx") }
+    }
   }
 }
 
@@ -22,11 +24,14 @@ project(":grpc").name = "ksui-grpc"
 
 dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+  // No mavenLocal(): a locally installed artifact with the same version would silently replace the
+  // published one, so local builds could test code that users never get.
   repositories {
-    mavenLocal()
     mavenCentral()
     google()
-    maven(url = "https://central.sonatype.com/repository/maven-snapshots")
-    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc")
+    // Pre-release kotlinx-rpc gRPC builds (0.11.0-grpc-*) are published only here.
+    maven("https://redirector.kotlinlang.org/maven/kxrpc-grpc") {
+      content { includeGroupAndSubgroups("org.jetbrains.kotlinx") }
+    }
   }
 }

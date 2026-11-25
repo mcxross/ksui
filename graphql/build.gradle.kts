@@ -57,18 +57,12 @@ kotlin {
     }
   }
   sourceSets {
-    val androidJvmMain by creating {
-      dependsOn(commonMain.get())
-      dependencies { implementation(libs.bouncycastle.bcprov) }
-    }
+    val androidJvmMain by creating { dependsOn(commonMain.get()) }
     val appleMain by getting { dependencies { implementation(libs.ktor.client.darwin) } }
     val androidMain by getting {
       dependsOn(androidJvmMain)
       dependencies {
         implementation(libs.ktor.client.okhttp)
-        implementation(libs.androidx.credentials)
-        implementation(libs.androidx.credentials.play)
-        implementation(libs.play.services.identity.credentials)
         implementation(libs.fastkrypto.android)
       }
     }
@@ -95,7 +89,6 @@ kotlin {
       dependsOn(androidJvmMain)
       dependencies {
         implementation(libs.ktor.client.cio)
-        implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
       }
     }
@@ -103,6 +96,7 @@ kotlin {
       dependencies {
         implementation(libs.kotest.runner.junit5)
         implementation(libs.kotlin.test.junit5)
+        runtimeOnly(libs.logback.classic)
       }
     }
     iosArm64Main.dependencies { implementation(libs.fastkrypto.iosarm64) }

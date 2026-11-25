@@ -90,7 +90,6 @@ kotlin {
     val jvmMain by getting {
       dependsOn(androidJvmMain)
       dependencies {
-        implementation(libs.logback.classic)
         implementation(libs.fastkrypto.jvm)
       }
     }

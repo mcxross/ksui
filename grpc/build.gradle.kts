@@ -115,11 +115,9 @@ kotlin {
       implementation(libs.kotest.assertions.core)
     }
     androidMain.dependencies { implementation(libs.grpc.okhttp) }
-    jvmMain.dependencies {
-      implementation(libs.grpc.netty)
-      implementation(libs.logback.classic)
-    }
+    jvmMain.dependencies { implementation(libs.grpc.netty) }
     jvmTest.dependencies {
+      runtimeOnly(libs.logback.classic)
       implementation(libs.kotlinx.rpc.grpc.server)
       implementation(libs.kotest.runner.junit5)
       implementation(libs.kotlin.test.junit5)
