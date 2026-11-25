@@ -90,7 +90,10 @@ data class FundsWithdrawalArg(
 )
 
 /** Account that supplies the reserved funds. Sponsor refers to the gas owner. */
-enum class FundsWithdrawalSource { Sender, Sponsor }
+enum class FundsWithdrawalSource {
+  Sender,
+  Sponsor,
+}
 
 @Serializable(with = ObjectArgSerializer::class)
 sealed class ObjectArg {
@@ -285,8 +288,8 @@ typealias Txn = Envelope<SenderSignedData>
 fun TransactionData.toTransaction(txSignatures: List<String>): Txn =
   Envelope(
     SenderSignedData(
-      listOf(SenderSignedTransaction(IntentMessage(Intent.suiTransaction(), this), txSignatures))
-    )
+      listOf(SenderSignedTransaction(IntentMessage(Intent.suiTransaction(), this), txSignatures)),
+    ),
   )
 
 infix fun TransactionData.with(txSignatures: List<String>): Txn = toTransaction(txSignatures)

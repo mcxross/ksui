@@ -38,8 +38,7 @@ abstract class Account : AutoCloseable {
 
   override fun close() {}
 
-  @Throws(Exception::class)
-  abstract suspend fun sign(message: ByteArray): Result<ByteArray, E>
+  @Throws(Exception::class) abstract suspend fun sign(message: ByteArray): Result<ByteArray, E>
 
   @Throws(Exception::class)
   abstract suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E>
@@ -83,7 +82,7 @@ abstract class Account : AutoCloseable {
       if (key.publicKey.scheme() != scheme) {
         key.close()
         throw IllegalArgumentException(
-          "Encoded private key scheme ${key.publicKey.scheme()} does not match requested $scheme"
+          "Encoded private key scheme ${key.publicKey.scheme()} does not match requested $scheme",
         )
       }
       return import(key)

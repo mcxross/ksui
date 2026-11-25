@@ -31,7 +31,7 @@ enum class TransactionBlockKindInput(public val rawValue: String) {
 
   companion object {
     fun fromGenerated(
-      value: xyz.mcxross.ksui.generated.type.TransactionKindInput
+      value: xyz.mcxross.ksui.generated.type.TransactionKindInput,
     ): TransactionBlockKindInput {
       return entries.find { it.rawValue == value.rawValue } ?: UNKNOWN__
     }

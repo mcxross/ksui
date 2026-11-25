@@ -32,7 +32,7 @@ interface Object {
 
   @Throws(Exception::class)
   suspend fun listDynamicFields(
-    request: ListDynamicFieldsRequest
+    request: ListDynamicFieldsRequest,
   ): Result<ListDynamicFieldsResponse, SuiError>
 
   @Throws(Exception::class)
@@ -45,7 +45,7 @@ interface Object {
 
   @Throws(Exception::class)
   suspend fun listOwnedObjects(
-    request: ListOwnedObjectsRequest
+    request: ListOwnedObjectsRequest,
   ): Result<ListOwnedObjectsResponse, SuiError>
 
   @Throws(Exception::class)

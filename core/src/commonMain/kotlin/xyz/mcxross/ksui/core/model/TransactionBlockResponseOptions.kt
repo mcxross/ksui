@@ -31,7 +31,7 @@ data class TransactionBlockResponseOptions(
 )
 
 fun transactionBlockResponseOptions(
-  block: TransactionBlockResponseOptionsBuilder.() -> Unit
+  block: TransactionBlockResponseOptionsBuilder.() -> Unit,
 ): TransactionBlockResponseOptions {
   return TransactionBlockResponseOptionsBuilder().apply(block).build()
 }

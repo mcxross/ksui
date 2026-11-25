@@ -16,7 +16,8 @@ private fun addr(short: String) = AccountAddress.fromString(short)
 
 private val SUI = TypeTag.Struct(StructTag(addr("0x2"), "sui", "SUI"))
 
-private fun coinOf(inner: TypeTag) = TypeTag.Struct(StructTag(addr("0x2"), "coin", "Coin", listOf(inner)))
+private fun coinOf(inner: TypeTag) =
+  TypeTag.Struct(StructTag(addr("0x2"), "coin", "Coin", listOf(inner)))
 
 class TypeTagParsingTest :
   StringSpec({
@@ -54,8 +55,16 @@ class TypeTagParsingTest :
     }
 
     "TypeTag parses several and nested type parameters, with any spacing" {
-      " 0x3::pool::Pool< 0x2::sui::SUI ,vector<u8>,  0x2::coin::Coin<0x2::sui::SUI> > ".toTypeTag() shouldBe
-        TypeTag.Struct(StructTag(addr("0x3"), "pool", "Pool", listOf(SUI, TypeTag.Vector(TypeTag.U8), coinOf(SUI))))
+      " 0x3::pool::Pool< 0x2::sui::SUI ,vector<u8>,  0x2::coin::Coin<0x2::sui::SUI> > "
+        .toTypeTag() shouldBe
+        TypeTag.Struct(
+          StructTag(
+            addr("0x3"),
+            "pool",
+            "Pool",
+            listOf(SUI, TypeTag.Vector(TypeTag.U8), coinOf(SUI)),
+          ),
+        )
     }
 
     "TypeTag parses vectors of generic structs" {
@@ -98,7 +107,8 @@ class TypeTagParsingTest :
           "",
         )
         .forEach { text ->
-          shouldThrow<IllegalArgumentException> { text.toTypeTag() }.message!! shouldContain "Could not parse TypeTag"
+          shouldThrow<IllegalArgumentException> { text.toTypeTag() }.message!! shouldContain
+            "Could not parse TypeTag"
         }
     }
 

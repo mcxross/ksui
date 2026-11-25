@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FaucetRequest(
-  @SerialName("FixedAmountRequest") val fixedAmountRequest: FixedAmountRequest
+  @SerialName("FixedAmountRequest") val fixedAmountRequest: FixedAmountRequest,
 )
 
 @Serializable

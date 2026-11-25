@@ -90,10 +90,10 @@ private val SUI_BALANCE_KEY =
       "Key",
       listOf(
         TypeTag.Struct(
-          StructTag(AccountAddress.fromString("0x2"), "balance", "Balance", listOf(SUI_COIN_TYPE))
-        )
+          StructTag(AccountAddress.fromString("0x2"), "balance", "Balance", listOf(SUI_COIN_TYPE)),
+        ),
       ),
-    )
+    ),
   )
 
 private val COIN_RESERVATION_MAGIC = ByteArray(20) { 0xac.toByte() }
@@ -109,7 +109,9 @@ internal suspend fun composeWithGas(
 
   var cachedCoins: List<CoinObject>? = null
   suspend fun loadCoinsOnce(): List<CoinObject> {
-    cachedCoins?.let { return it }
+    cachedCoins?.let {
+      return it
+    }
     return environment.coins(sender).also { cachedCoins = it }
   }
 
@@ -163,8 +165,9 @@ private suspend fun estimateBudget(
         kind = TransactionKind.ProgrammableTransaction(pt),
         sender = sender,
         gasData = GasData(simPayment, sender, price, MAX_GAS_BUDGET),
-        expiration = if (simPayment.isEmpty()) context.validDuring() else TransactionExpiration.None,
-      )
+        expiration =
+          if (simPayment.isEmpty()) context.validDuring() else TransactionExpiration.None,
+      ),
     )
   val overhead = checkedMul(GAS_SAFE_OVERHEAD, price)
   val computation = checkedAdd(cost.computationCost, overhead)
@@ -261,7 +264,7 @@ private suspend fun selectPayment(
     val coinsTotal = coins.fold(0UL) { acc, c -> saturatingAdd(acc, c.balance) }
     throw SuiException(
       "Insufficient SUI for gas requirement $minimumNeeded: coin objects hold $coinsTotal, " +
-        "address balance holds $addressBalance"
+        "address balance holds $addressBalance",
     )
   }
   return payment to (addedReservation && payment.size == 1)

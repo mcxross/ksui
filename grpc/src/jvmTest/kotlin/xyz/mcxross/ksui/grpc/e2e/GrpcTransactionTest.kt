@@ -196,7 +196,7 @@ private suspend fun waitForTransactionByDigest(
     }
   } catch (e: Exception) {
     throw SuiException(
-      "Transaction not found after gRPC submit: ${e.message}; last error: ${lastError ?: "none"}"
+      "Transaction not found after gRPC submit: ${e.message}; last error: ${lastError ?: "none"}",
     )
   }
 }

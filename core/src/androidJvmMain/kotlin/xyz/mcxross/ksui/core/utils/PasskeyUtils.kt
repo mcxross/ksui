@@ -45,7 +45,7 @@ object PasskeyUtils {
           x.toByteArray().let {
             if (it.size > 32) it.copyOfRange(it.size - 32, it.size)
             else ByteArray(32 - it.size) + it
-          }
+          },
       )
 
     if (!R.multiply(n).isInfinity) {

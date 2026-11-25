@@ -63,7 +63,7 @@ object MoveNormalizedFunctionParameterSerializer : KSerializer<MoveFunctionParam
                 MoveFunctionParameter.U256()
               } else {
                 MoveFunctionParameter.Undefined()
-              }
+              },
             )
           } else if (jsonElement["Vector"] is JsonPrimitive) {
             MoveFunctionParameter.Undefined()

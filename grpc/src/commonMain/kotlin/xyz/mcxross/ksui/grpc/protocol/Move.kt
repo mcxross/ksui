@@ -41,7 +41,7 @@ interface Move {
 
   @Throws(Exception::class)
   suspend fun listPackageVersions(
-    request: ListPackageVersionsRequest
+    request: ListPackageVersionsRequest,
   ): Result<ListPackageVersionsResponse, SuiError>
 
   @Throws(Exception::class)

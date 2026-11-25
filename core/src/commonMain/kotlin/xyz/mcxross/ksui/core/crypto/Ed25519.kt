@@ -38,7 +38,7 @@ class Ed25519PrivateKey(privateKey: ByteArray) : PrivateKey {
   }
 
   constructor(
-    scheme: SignatureScheme = SignatureScheme.ED25519
+    scheme: SignatureScheme = SignatureScheme.ED25519,
   ) : this(generateEd25519KeyBytes(scheme))
 
   constructor(privateKey: String) : this(decodeEd25519KeyBytes(privateKey))

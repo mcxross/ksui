@@ -152,7 +152,8 @@ private inline fun <T> ByteArray.useThenWipe(block: (ByteArray) -> T): T =
 
 /**
  * fastkrypto rejects a bad BIP-39 checksum or a word outside the English wordlist with an
- * InvalidInput error that has no message. Report it as IllegalArgumentException, like the JS target.
+ * InvalidInput error that has no message. Report it as IllegalArgumentException, like the JS
+ * target.
  */
 private inline fun <T> mnemonicCall(block: () -> T): T =
   try {

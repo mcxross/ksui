@@ -41,14 +41,12 @@ import xyz.mcxross.ksui.core.model.RegistrationResponses
 import xyz.mcxross.ksui.core.model.Result
 import xyz.mcxross.ksui.core.utils.PasskeyUtils.recoverPublicKeyPoint
 
-@Serializable
-private data class WebAuthnRp(val id: String, val name: String)
+@Serializable private data class WebAuthnRp(val id: String, val name: String)
 
 @Serializable
 private data class WebAuthnUser(val id: String, val name: String, val displayName: String)
 
-@Serializable
-private data class WebAuthnCredParam(val type: String, val alg: Int)
+@Serializable private data class WebAuthnCredParam(val type: String, val alg: Int)
 
 @Serializable
 private data class WebAuthnAuthenticatorSelection(
@@ -110,7 +108,7 @@ actual class PasskeyProvider(
               requireResidentKey = true,
               userVerification = "required",
             ),
-        )
+        ),
       )
 
     val request = CreatePublicKeyCredentialRequest(requestJson)
@@ -140,8 +138,8 @@ actual class PasskeyProvider(
       } else {
         return Result.Err(
           IllegalStateException(
-            "Passkey result Bundle error: Couldn't retrieve registrationResponseJson"
-          )
+            "Passkey result Bundle error: Couldn't retrieve registrationResponseJson",
+          ),
         )
       }
     } catch (e: CreateCredentialException) {
@@ -154,7 +152,7 @@ actual class PasskeyProvider(
         }
         is CreateCredentialInterruptedException -> {
           return Result.Err(
-            IllegalStateException("Passkey creation was interrupted. Please try again.", e)
+            IllegalStateException("Passkey creation was interrupted. Please try again.", e),
           )
         }
         is CreateCredentialProviderConfigurationException -> {
@@ -174,7 +172,7 @@ actual class PasskeyProvider(
           rpId = rpId,
           challenge = base64UrlEncoder.encode(challenge),
           userVerification = "required",
-        )
+        ),
       )
     val request =
       GetCredentialRequest(credentialOptions = listOf(GetPublicKeyCredentialOption(requestJson)))
@@ -184,7 +182,7 @@ actual class PasskeyProvider(
       val publicKeyCredential = result.credential as PublicKeyCredential
       val credentials =
         json.decodeFromString<AuthenticationResponse>(
-          publicKeyCredential.authenticationResponseJson
+          publicKeyCredential.authenticationResponseJson,
         )
 
       val authenticatorData = base64UrlEncoder.decode(credentials.response.authenticatorData)
@@ -203,7 +201,7 @@ actual class PasskeyProvider(
 
       val bcsPayload =
         Bcs.encodeToByteArray(
-          PasskeyAuthenticator(authenticatorData, clientDataJsonString, userSignature)
+          PasskeyAuthenticator(authenticatorData, clientDataJsonString, userSignature),
         )
 
       val passkeyFlag: Byte = 0x06
@@ -211,7 +209,7 @@ actual class PasskeyProvider(
         ByteArray(1 + bcsPayload.size).apply {
           this[0] = passkeyFlag
           System.arraycopy(bcsPayload, 0, this, 1, bcsPayload.size)
-        }
+        },
       )
     } catch (e: GetCredentialException) {
       return Result.Err(IllegalStateException("Signing failed: ${e.message}", e))
@@ -231,7 +229,7 @@ actual class PasskeyProvider(
         expectedRpId = rpId,
         expectedOrigin = expectedOrigin,
         requireUserVerification = true,
-      )
+      ),
     )
 
   suspend fun signAndRecover(message: ByteArray): List<PasskeyPublicKey> {
@@ -241,7 +239,7 @@ actual class PasskeyProvider(
           rpId = rpId,
           challenge = base64UrlEncoder.encode(message),
           userVerification = "required",
-        )
+        ),
       )
     val request =
       GetCredentialRequest(credentialOptions = listOf(GetPublicKeyCredentialOption(requestJson)))
@@ -251,7 +249,7 @@ actual class PasskeyProvider(
       val publicKeyCredential = result.credential as PublicKeyCredential
       val credentials =
         json.decodeFromString<AuthenticationResponse>(
-          publicKeyCredential.authenticationResponseJson
+          publicKeyCredential.authenticationResponseJson,
         )
 
       val authenticatorData = base64UrlEncoder.decode(credentials.response.authenticatorData)
@@ -311,8 +309,7 @@ actual class PasskeyProvider(
           packageInfo.signingInfo?.apkContentsSigners?.firstOrNull()
         } else {
           packageInfo.signatures?.firstOrNull()
-        }
-          ?: throw IllegalStateException("Unable to determine the Android application origin")
+        } ?: throw IllegalStateException("Unable to determine the Android application origin")
       val certificateHash = MessageDigest.getInstance("SHA-256").digest(certificate.toByteArray())
       val encoded =
         android.util.Base64.encodeToString(

@@ -41,8 +41,7 @@ internal fun subscribeCheckpoints(
 internal fun subscribeTransactions(
   runtime: GrpcRuntime,
   request: SubscribeTransactionsRequest,
-): Flow<SubscribeTransactionsResponse> =
-  runtime.subscriptionService.SubscribeTransactions(request)
+): Flow<SubscribeTransactionsResponse> = runtime.subscriptionService.SubscribeTransactions(request)
 
 internal fun subscribeTransactions(
   runtime: GrpcRuntime,

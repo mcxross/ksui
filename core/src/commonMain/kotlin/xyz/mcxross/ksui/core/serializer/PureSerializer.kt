@@ -32,7 +32,7 @@ object PureSerializer :
   }
 
   override fun deserialize(
-    decoder: kotlinx.serialization.encoding.Decoder
+    decoder: kotlinx.serialization.encoding.Decoder,
   ): xyz.mcxross.ksui.core.model.CallArg.Pure {
     throw NotImplementedError("BuilderArg.Pure is not implemented")
   }

@@ -11,7 +11,7 @@ import xyz.mcxross.ksui.core.model.Result
 interface Signature {
   @Throws(Exception::class)
   suspend fun verifySignature(
-    request: VerifySignatureRequest
+    request: VerifySignatureRequest,
   ): Result<VerifySignatureResponse, SuiError>
 
   @Throws(Exception::class)

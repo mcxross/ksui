@@ -15,7 +15,7 @@ import xyz.mcxross.ksui.grpc.protocol.Sns as SnsProtocol
 
 internal class Sns(private val runtime: GrpcRuntime) : SnsProtocol {
   override suspend fun lookupName(
-    request: LookupNameRequest
+    request: LookupNameRequest,
   ): Result<LookupNameResponse, SuiError> = handleGrpc { internalLookupName(runtime, request) }
 
   override suspend fun lookupName(name: String): Result<LookupNameResponse, SuiError> = handleGrpc {
@@ -23,19 +23,19 @@ internal class Sns(private val runtime: GrpcRuntime) : SnsProtocol {
   }
 
   override suspend fun reverseLookupName(
-    request: ReverseLookupNameRequest
+    request: ReverseLookupNameRequest,
   ): Result<ReverseLookupNameResponse, SuiError> = handleGrpc {
     internalReverseLookupName(runtime, request)
   }
 
   override suspend fun reverseLookupName(
-    address: String
+    address: String,
   ): Result<ReverseLookupNameResponse, SuiError> = handleGrpc {
     internalReverseLookupName(runtime, address)
   }
 
   override suspend fun reverseLookupName(
-    address: AccountAddress
+    address: AccountAddress,
   ): Result<ReverseLookupNameResponse, SuiError> = handleGrpc {
     internalReverseLookupName(runtime, address)
   }

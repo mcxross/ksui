@@ -26,14 +26,17 @@ import xyz.mcxross.ksui.generated.ResolveNameServiceNamesQuery
 internal suspend fun resolveNameServiceAddress(
   config: SuiConfig,
   domain: String,
-): Result<ResolveNameServiceAddressQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(ResolveNameServiceAddressQuery(domain)) }.toResult()
+): Result<ResolveNameServiceAddressQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(ResolveNameServiceAddressQuery(domain))
+}
+  .toResult()
 
 internal suspend fun resolveNameServiceNames(
   config: SuiConfig,
   address: AccountAddress,
   limit: Int? = null,
   cursor: String? = null,
-): Result<ResolveNameServiceNamesQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(ResolveNameServiceNamesQuery(address.toString())) }
-    .toResult()
+): Result<ResolveNameServiceNamesQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(ResolveNameServiceNamesQuery(address.toString()))
+}
+  .toResult()

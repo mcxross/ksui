@@ -43,7 +43,7 @@ suspend inline fun <reified V> post(options: RequestOptions.PostRequestOptions<V
 }
 
 suspend inline fun <reified T> postSuiFaucet(
-  options: RequestOptions.PostSuiRequestOptions<T>
+  options: RequestOptions.PostSuiRequestOptions<T>,
 ): HttpResponse =
   post(
     RequestOptions.PostRequestOptions(
@@ -52,11 +52,11 @@ suspend inline fun <reified T> postSuiFaucet(
       params = options.params,
       body = options.body,
       overrides = options.overrides,
-    )
+    ),
   )
 
 suspend inline fun <reified T> postSuiIndexer(
-  options: RequestOptions.PostSuiRequestOptions<T>
+  options: RequestOptions.PostSuiRequestOptions<T>,
 ): HttpResponse =
   post(
     RequestOptions.PostRequestOptions(
@@ -65,5 +65,5 @@ suspend inline fun <reified T> postSuiIndexer(
       params = options.params,
       body = options.body,
       overrides = options.overrides,
-    )
+    ),
   )

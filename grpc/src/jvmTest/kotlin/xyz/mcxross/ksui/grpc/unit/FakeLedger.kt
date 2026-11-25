@@ -61,7 +61,8 @@ import xyz.mcxross.ksui.core.util.runBlocking
 
 /** (checkpoint, transaction index, event index), ordered like ledger keys and positions. */
 internal data class Key(val c: ULong, val t: ULong = 0u, val e: UInt = 0u) : Comparable<Key> {
-  override fun compareTo(other: Key): Int = compareValuesBy(this, other, { it.c }, { it.t }, { it.e })
+  override fun compareTo(other: Key): Int =
+    compareValuesBy(this, other, { it.c }, { it.t }, { it.e })
 
   fun encode(): ByteString = ByteString("$c/$t/$e".encodeToByteArray())
 
@@ -150,7 +151,7 @@ internal class FakeLedger(
   val subscriptionService =
     object : SubscriptionService {
       override fun SubscribeCheckpoints(
-        message: SubscribeCheckpointsRequest
+        message: SubscribeCheckpointsRequest,
       ): Flow<SubscribeCheckpointsResponse> = flow {
         requests += message
         val filtered = message.presence.hasFilter
@@ -169,7 +170,7 @@ internal class FakeLedger(
               if (!filtered || checkpointMatches(c)) {
                 checkpoint = CheckpointInternal().apply { sequenceNumber = c }
               }
-            }
+            },
           )
           frame(++frames)
           c++
@@ -177,13 +178,17 @@ internal class FakeLedger(
       }
 
       override fun SubscribeTransactions(
-        message: SubscribeTransactionsRequest
+        message: SubscribeTransactionsRequest,
       ): Flow<SubscribeTransactionsResponse> = flow {
         requests += message
         val filtered = message.presence.hasFilter
         val start = nextSubscriptionStart()
         var frames = 0
-        emit(SubscribeTransactionsResponseInternal().apply { watermark = watermark(Key(start), start - 1u) })
+        emit(
+          SubscribeTransactionsResponseInternal().apply {
+            watermark = watermark(Key(start), start - 1u)
+          },
+        )
         frame(++frames)
         var c = start
         while (true) {
@@ -194,12 +199,16 @@ internal class FakeLedger(
               SubscribeTransactionsResponseInternal().apply {
                 transaction = transactionAt(Key(c, t))
                 watermark = watermark(Key(c, t + 1u), if (t == txPerCheckpoint - 1u) c else c - 1u)
-              }
+              },
             )
             frame(++frames)
           }
           if (filtered) {
-            emit(SubscribeTransactionsResponseInternal().apply { watermark = watermark(Key(c + 1u), c) })
+            emit(
+              SubscribeTransactionsResponseInternal().apply {
+                watermark = watermark(Key(c + 1u), c)
+              },
+            )
             frame(++frames)
           }
           c++
@@ -212,7 +221,11 @@ internal class FakeLedger(
           val filtered = message.presence.hasFilter
           val start = nextSubscriptionStart()
           var frames = 0
-          emit(SubscribeEventsResponseInternal().apply { watermark = watermark(Key(start), start - 1u) })
+          emit(
+            SubscribeEventsResponseInternal().apply {
+              watermark = watermark(Key(start), start - 1u)
+            },
+          )
           frame(++frames)
           var c = start
           while (true) {
@@ -223,7 +236,7 @@ internal class FakeLedger(
                 SubscribeEventsResponseInternal().apply {
                   event = eventAt(Key(c, t, e))
                   watermark = watermark(Key(c, t, e + 1u), c - 1u)
-                }
+                },
               )
               frame(++frames)
             }
@@ -285,7 +298,11 @@ internal class FakeLedger(
       if (last) return out
     }
     val reachedEnd = end.c <= indexedTip + 1u
-    return out + terminal(if (reachedEnd) end else Key(indexedTip + 1u), if (reachedEnd) QueryEndReason.CHECKPOINT_BOUND else QueryEndReason.LEDGER_TIP)
+    return out +
+      terminal(
+        if (reachedEnd) end else Key(indexedTip + 1u),
+        if (reachedEnd) QueryEndReason.CHECKPOINT_BOUND else QueryEndReason.LEDGER_TIP,
+      )
   }
 
   private fun next(k: Key, level: Int) =
@@ -303,33 +320,44 @@ internal class FakeLedger(
           onScan()
           val start = Key(message.startCheckpoint ?: 0u)
           val end = Key(message.endCheckpoint ?: ULong.MAX_VALUE)
-          scan(start, end, 0, message.presence.hasFilter,
-            { k, last ->
-              ListCheckpointsResponseInternal().apply {
-                checkpoint = CheckpointInternal().apply { sequenceNumber = k.c }
-                watermark = watermark(next(k, 0), k.c)
-                if (last) this.end = QueryEndInternal().apply { reason = QueryEndReason.ITEM_LIMIT }
-              }
-            },
-            { p, reason ->
-              ListCheckpointsResponseInternal().apply {
-                watermark = watermark(p, p.c - 1u)
-                this.end = QueryEndInternal().apply { this.reason = reason }
-              }
-            },
-          ).forEach { emit(it) }
+          scan(
+              start,
+              end,
+              0,
+              message.presence.hasFilter,
+              { k, last ->
+                ListCheckpointsResponseInternal().apply {
+                  checkpoint = CheckpointInternal().apply { sequenceNumber = k.c }
+                  watermark = watermark(next(k, 0), k.c)
+                  if (last)
+                    this.end = QueryEndInternal().apply { reason = QueryEndReason.ITEM_LIMIT }
+                }
+              },
+              { p, reason ->
+                ListCheckpointsResponseInternal().apply {
+                  watermark = watermark(p, p.c - 1u)
+                  this.end = QueryEndInternal().apply { this.reason = reason }
+                }
+              },
+            )
+            .forEach { emit(it) }
         }
 
-      override fun ListTransactions(message: ListTransactionsRequest): Flow<ListTransactionsResponse> =
-        flow {
-          requests += message
-          onScan()
-          var start = Key(message.startCheckpoint ?: 0u, message.startTransactionIndex ?: 0u)
-          message.options.after?.let { start = maxOf(start, Key.decode(it)) }
-          val end =
-            message.endTransactionIndex?.let { Key((message.endCheckpoint ?: 1u) - 1u, it) }
-              ?: Key(message.endCheckpoint ?: ULong.MAX_VALUE)
-          scan(start, end, 1, message.presence.hasFilter,
+      override fun ListTransactions(
+        message: ListTransactionsRequest,
+      ): Flow<ListTransactionsResponse> = flow {
+        requests += message
+        onScan()
+        var start = Key(message.startCheckpoint ?: 0u, message.startTransactionIndex ?: 0u)
+        message.options.after?.let { start = maxOf(start, Key.decode(it)) }
+        val end =
+          message.endTransactionIndex?.let { Key((message.endCheckpoint ?: 1u) - 1u, it) }
+            ?: Key(message.endCheckpoint ?: ULong.MAX_VALUE)
+        scan(
+            start,
+            end,
+            1,
+            message.presence.hasFilter,
             { k, last ->
               ListTransactionsResponseInternal().apply {
                 transaction = transactionAt(k)
@@ -343,60 +371,82 @@ internal class FakeLedger(
                 this.end = QueryEndInternal().apply { this.reason = reason }
               }
             },
-          ).forEach { emit(it) }
-        }
+          )
+          .forEach { emit(it) }
+      }
 
       override fun ListEvents(message: ListEventsRequest): Flow<ListEventsResponse> = flow {
         requests += message
         onScan()
         var start =
-          Key(message.startCheckpoint ?: 0u, message.startTransactionIndex ?: 0u, message.startEventIndex ?: 0u)
+          Key(
+            message.startCheckpoint ?: 0u,
+            message.startTransactionIndex ?: 0u,
+            message.startEventIndex ?: 0u,
+          )
         message.options.after?.let { start = maxOf(start, Key.decode(it)) }
         val end =
           if (message.endTransactionIndex != null || message.endEventIndex != null) {
-            Key((message.endCheckpoint ?: 1u) - 1u, message.endTransactionIndex ?: 0u, message.endEventIndex ?: 0u)
+            Key(
+              (message.endCheckpoint ?: 1u) - 1u,
+              message.endTransactionIndex ?: 0u,
+              message.endEventIndex ?: 0u,
+            )
           } else {
             Key(message.endCheckpoint ?: ULong.MAX_VALUE)
           }
-        scan(start, end, 2, message.presence.hasFilter,
-          { k, last ->
-            ListEventsResponseInternal().apply {
-              event = eventAt(k)
-              watermark = watermark(next(k, 2), k.c - 1u)
-              if (last) this.end = QueryEndInternal().apply { reason = QueryEndReason.ITEM_LIMIT }
-            }
-          },
-          { p, reason ->
-            ListEventsResponseInternal().apply {
-              watermark = watermark(p, p.c - 1u)
-              this.end = QueryEndInternal().apply { this.reason = reason }
-            }
-          },
-        ).forEach { emit(it) }
+        scan(
+            start,
+            end,
+            2,
+            message.presence.hasFilter,
+            { k, last ->
+              ListEventsResponseInternal().apply {
+                event = eventAt(k)
+                watermark = watermark(next(k, 2), k.c - 1u)
+                if (last) this.end = QueryEndInternal().apply { reason = QueryEndReason.ITEM_LIMIT }
+              }
+            },
+            { p, reason ->
+              ListEventsResponseInternal().apply {
+                watermark = watermark(p, p.c - 1u)
+                this.end = QueryEndInternal().apply { this.reason = reason }
+              }
+            },
+          )
+          .forEach { emit(it) }
       }
 
       private fun unimplemented(): Nothing = throw GrpcStatusCode.UNIMPLEMENTED.asException("fake")
 
-      override suspend fun GetServiceInfo(message: GetServiceInfoRequest): GetServiceInfoResponse = unimplemented()
+      override suspend fun GetServiceInfo(message: GetServiceInfoRequest): GetServiceInfoResponse =
+        unimplemented()
 
       override suspend fun GetObject(message: GetObjectRequest): GetObjectResponse = unimplemented()
 
-      override suspend fun BatchGetObjects(message: BatchGetObjectsRequest): BatchGetObjectsResponse = unimplemented()
+      override suspend fun BatchGetObjects(
+        message: BatchGetObjectsRequest,
+      ): BatchGetObjectsResponse = unimplemented()
 
-      override fun ListObjectVersions(message: ListObjectVersionsRequest): Flow<ListObjectVersionsResponse> =
-        flow { unimplemented() }
+      override fun ListObjectVersions(
+        message: ListObjectVersionsRequest,
+      ): Flow<ListObjectVersionsResponse> = flow { unimplemented() }
 
-      override suspend fun GetTransaction(message: GetTransactionRequest): GetTransactionResponse = unimplemented()
-
-      override suspend fun BatchGetTransactions(message: BatchGetTransactionsRequest): BatchGetTransactionsResponse =
+      override suspend fun GetTransaction(message: GetTransactionRequest): GetTransactionResponse =
         unimplemented()
 
-      override suspend fun GetCheckpoint(message: GetCheckpointRequest): GetCheckpointResponse = unimplemented()
+      override suspend fun BatchGetTransactions(
+        message: BatchGetTransactionsRequest,
+      ): BatchGetTransactionsResponse = unimplemented()
+
+      override suspend fun GetCheckpoint(message: GetCheckpointRequest): GetCheckpointResponse =
+        unimplemented()
 
       override suspend fun GetEpoch(message: GetEpochRequest): GetEpochResponse = unimplemented()
 
-      override suspend fun GetProtocolConfig(message: GetProtocolConfigRequest): GetProtocolConfigResponse =
-        unimplemented()
+      override suspend fun GetProtocolConfig(
+        message: GetProtocolConfigRequest,
+      ): GetProtocolConfigResponse = unimplemented()
     }
 
   fun <T> serve(block: (port: Int) -> T): T {

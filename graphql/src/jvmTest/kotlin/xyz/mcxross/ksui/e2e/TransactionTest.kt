@@ -29,7 +29,7 @@ class TransactionTest :
               transactionFilter {
                 affectedAddress = aliceAddr
                 sentAddress = aliceAddr
-              }
+              },
           )
 
         val value = result.expect { "Query failed when it should have succeeded" }
@@ -48,7 +48,7 @@ class TransactionTest :
               transactionFilter {
                 affectedAddress = tmpAddr
                 sentAddress = tmpAddr
-              }
+              },
           )
 
         val value = result.expect("Query failed when it should have succeeded")

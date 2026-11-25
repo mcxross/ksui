@@ -27,7 +27,7 @@ import xyz.mcxross.ksui.core.exception.SdkErrorDetail
 import xyz.mcxross.ksui.core.exception.SuiError
 
 internal suspend fun <D : Operation.Data> handleQuery(
-  queryCall: suspend () -> ApolloCall<D>
+  queryCall: suspend () -> ApolloCall<D>,
 ): Result<D?, SuiError> {
   try {
     val response = queryCall().execute()
@@ -43,14 +43,14 @@ internal suspend fun <D : Operation.Data> handleQuery(
               path = it.path,
               extensions = it.extensions,
             )
-          }
-        )
+          },
+        ),
       )
     }
 
     response.exception?.let { ex ->
       return Err(
-        SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${ex.message}")))
+        SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${ex.message}"))),
       )
     }
 
@@ -62,20 +62,20 @@ internal suspend fun <D : Operation.Data> handleQuery(
       SuiError(
         listOf(
           SdkErrorDetail(
-            message = "Unknown error: no data and no errors returned from GraphQL server"
-          )
-        )
-      )
+            message = "Unknown error: no data and no errors returned from GraphQL server",
+          ),
+        ),
+      ),
     )
   } catch (e: CancellationException) {
     throw e
   } catch (e: ApolloException) {
     return Err(
-      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}")))
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}"))),
     )
   } catch (e: Exception) {
     return Err(
-      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}")))
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL client request failed: ${e.message}"))),
     )
   }
 }

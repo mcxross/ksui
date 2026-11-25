@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
 import xyz.mcxross.ksui.core.model.ObjectReference
 
 @Serializable(
-  with = xyz.mcxross.ksui.core.serializer.TransactionKindSerializer::class
+  with = xyz.mcxross.ksui.core.serializer.TransactionKindSerializer::class,
 )
 sealed class TransactionKind {
   @Serializable data class DefaultTransaction(val kind: String) : TransactionKind()
@@ -57,9 +57,9 @@ sealed class TransactionKind {
   @Serializable
   data class Publish(
     @Serializable(
-      with = xyz.mcxross.ksui.core.serializer.DisassembledFieldSerializer::class
+      with = xyz.mcxross.ksui.core.serializer.DisassembledFieldSerializer::class,
     )
-    val disassembled: Any
+    val disassembled: Any,
   ) : TransactionKind()
 
   @Serializable

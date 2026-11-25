@@ -46,8 +46,8 @@ internal fun Exception.toSuiError(): SuiError =
                 "grpcStatus" to code.value,
                 "exception" to "GrpcStatusException",
               ),
-          )
-        )
+          ),
+        ),
       )
     }
     else ->
@@ -56,7 +56,7 @@ internal fun Exception.toSuiError(): SuiError =
           SdkErrorDetail(
             message = "gRPC client request failed: ${message ?: "unknown error"}",
             extensions = mapOf("exception" to "Throwable"),
-          )
-        )
+          ),
+        ),
       )
   }

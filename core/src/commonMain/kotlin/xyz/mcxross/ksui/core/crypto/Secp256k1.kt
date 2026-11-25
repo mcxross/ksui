@@ -38,7 +38,7 @@ class Secp256k1PrivateKey(privateKey: ByteArray) : PrivateKey {
   }
 
   constructor(
-    scheme: SignatureScheme = SignatureScheme.Secp256k1
+    scheme: SignatureScheme = SignatureScheme.Secp256k1,
   ) : this(generateSecp256k1KeyBytes(scheme))
 
   constructor(privateKey: String) : this(decodeSecp256k1KeyBytes(privateKey))

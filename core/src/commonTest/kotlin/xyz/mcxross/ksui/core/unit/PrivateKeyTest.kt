@@ -45,12 +45,10 @@ class PrivateKeyTest :
     }
 
     "PrivateKey.fromEncoded rejects wrong HRP and invalid lengths" {
-      val wrongHrp =
-        Bech32.encode("cosmos", convertBits(ByteArray(33) { 1 }, 8, 5, true))
+      val wrongHrp = Bech32.encode("cosmos", convertBits(ByteArray(33) { 1 }, 8, 5, true))
       shouldThrow<IllegalArgumentException> { PrivateKey.fromEncoded(wrongHrp) }
 
-      val wrongLen =
-        Bech32.encode("suiprivkey", convertBits(ByteArray(17) { 0 }, 8, 5, true))
+      val wrongLen = Bech32.encode("suiprivkey", convertBits(ByteArray(17) { 0 }, 8, 5, true))
       shouldThrow<IllegalArgumentException> { PrivateKey.fromEncoded(wrongLen) }
     }
 

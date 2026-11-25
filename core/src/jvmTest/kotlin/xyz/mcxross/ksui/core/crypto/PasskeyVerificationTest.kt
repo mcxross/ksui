@@ -24,8 +24,7 @@ class PasskeyVerificationTest :
     val origin = "android:apk-key-hash:test-application"
     val challenge = ByteArray(32) { it.toByte() }
     val challengeBase64 = Base64.getUrlEncoder().withoutPadding().encodeToString(challenge)
-    val clientData =
-      """{"type":"webauthn.get","challenge":"$challengeBase64","origin":"$origin"}"""
+    val clientData = """{"type":"webauthn.get","challenge":"$challengeBase64","origin":"$origin"}"""
 
     fun sha256(bytes: ByteArray): ByteArray =
       SHA256Digest().let {

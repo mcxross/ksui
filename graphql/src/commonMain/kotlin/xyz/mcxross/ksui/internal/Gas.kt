@@ -49,9 +49,10 @@ internal class GraphqlGasEnvironment(private val config: SuiConfig) : GasEnviron
   override suspend fun context(owner: AccountAddress): GasContext {
     val data =
       when (
-        val result =
-          handleQuery { getGraphqlClient(config).query(GetGasContextQuery(owner.toString())) }
-            .toResult()
+        val result = handleQuery {
+          getGraphqlClient(config).query(GetGasContextQuery(owner.toString()))
+        }
+          .toResult()
       ) {
         is Result.Ok -> result.value
         is Result.Err -> throw SuiException("Failed to get gas context: ${result.error}")

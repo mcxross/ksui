@@ -75,7 +75,7 @@ private fun bcsEncodePureValue(type: TypeTag, value: Any): ByteArray {
         type.tag.isSuiObjectId() -> output.addAll(AccountAddress.fromString(value.toString()).data)
         else ->
           throw IllegalArgumentException(
-            "Cannot serialize non-pure struct ${type.tag} as a pure value."
+            "Cannot serialize non-pure struct ${type.tag} as a pure value.",
           )
       }
     else -> throw IllegalArgumentException("Unsupported pure type for serialization: $type")
@@ -92,11 +92,10 @@ internal fun ProgrammableTransactionBuilder.generic(type: TypeTag, value: Any): 
       is TypeTag.Vector -> {
         require(value is List<*>) { "Value for a vector type must be a List." }
         val elementType = type.elementType
-        val mappedValues =
-          value.map {
-            requireNotNull(it) { "Vector elements must not be null" }
-            generic(elementType, it)
-          }
+        val mappedValues = value.map {
+          requireNotNull(it) { "Vector elements must not be null" }
+          generic(elementType, it)
+        }
         makeMoveVec(typeTag = elementType, values = mappedValues)
       }
       else -> {

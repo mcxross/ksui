@@ -59,19 +59,32 @@ class GrpcStreamingApiTest :
 
     "subscribeEvents streams events with a watermark on every frame" {
       val ledger = FakeLedger()
-      val frames = ledger.withClient { it.subscribeEvents(filter = EventFilterInternal()).collectOk(3) }
-      ledger.requests.filterIsInstance<SubscribeEventsRequest>().single().presence.hasFilter shouldBe true
+      val frames = ledger.withClient {
+        it.subscribeEvents(filter = EventFilterInternal()).collectOk(3)
+      }
+      ledger.requests
+        .filterIsInstance<SubscribeEventsRequest>()
+        .single()
+        .presence
+        .hasFilter shouldBe true
       frames.all { it.presence.hasWatermark } shouldBe true
       frames.drop(1).map { it.event.checkpoint } shouldBe listOf(100uL, 100uL)
     }
 
     "listCheckpoints scans [start, end) and ends with CHECKPOINT_BOUND" {
-      val frames = FakeLedger().withClient { client ->
-        client
-          .listCheckpoints(ListCheckpointsRequestInternal().apply { startCheckpoint = 10u; endCheckpoint = 13u })
-          .collectOk(10)
-      }
-      frames.filter { it.presence.hasCheckpoint }.map { it.checkpoint.sequenceNumber } shouldBe listOf(10uL, 11uL, 12uL)
+      val frames =
+        FakeLedger().withClient { client ->
+          client
+            .listCheckpoints(
+              ListCheckpointsRequestInternal().apply {
+                startCheckpoint = 10u
+                endCheckpoint = 13u
+              },
+            )
+            .collectOk(10)
+        }
+      frames.filter { it.presence.hasCheckpoint }.map { it.checkpoint.sequenceNumber } shouldBe
+        listOf(10uL, 11uL, 12uL)
       frames.last().end.reason shouldBe QueryEndReason.CHECKPOINT_BOUND
     }
 

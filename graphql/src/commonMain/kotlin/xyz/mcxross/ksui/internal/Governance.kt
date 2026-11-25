@@ -27,19 +27,20 @@ internal suspend fun getCommitteeInfo(
   config: SuiConfig,
   epochId: Long?,
   after: String?,
-): Result<GetCommitteeInfoQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetCommitteeInfoQuery(
-            Optional.presentIfNotNull(epochId),
-            Optional.presentIfNotNull(after),
-          )
-        )
-    }
-    .toResult()
+): Result<GetCommitteeInfoQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetCommitteeInfoQuery(
+        Optional.presentIfNotNull(epochId),
+        Optional.presentIfNotNull(after),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getValidatorsApy(
-  config: SuiConfig
-): Result<GetValidatorsApyQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetValidatorsApyQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetValidatorsApyQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetValidatorsApyQuery())
+}
+  .toResult()

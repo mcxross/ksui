@@ -39,11 +39,12 @@ fun main() = runBlocking {
     sui.signAndExecuteTransactionBlock(
       signer = ALICE_ACCOUNT,
       ptb = ptb,
-      options = ExecuteTransactionBlockResponseOptions(showEffects = true, showObjectChanges = true),
+      options =
+        ExecuteTransactionBlockResponseOptions(showEffects = true, showObjectChanges = true),
     )
 
   println(
-    "============================================<<<>>>============================================"
+    "============================================<<<>>>============================================",
   )
   println("Execution Response: $res")
 }

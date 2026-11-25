@@ -17,7 +17,8 @@ class DefaultClientTest :
       SuiKit.client shouldBeSameInstanceAs sui
       sui.close()
       val error = runCatching { SuiKit.client }.exceptionOrNull()
-      error.shouldBeInstanceOf<IllegalStateException>().message!! shouldContain "No default Sui client"
+      error.shouldBeInstanceOf<IllegalStateException>().message!! shouldContain
+        "No default Sui client"
     }
 
     "closing a client that is not the default leaves the default alone" {

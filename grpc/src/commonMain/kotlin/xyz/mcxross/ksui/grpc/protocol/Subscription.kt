@@ -39,11 +39,11 @@ import xyz.mcxross.ksui.grpc.StreamRetryPolicy
  */
 interface Subscription {
   fun subscribeCheckpoints(
-    request: SubscribeCheckpointsRequest
+    request: SubscribeCheckpointsRequest,
   ): Flow<Result<SubscribeCheckpointsResponse, SuiError>>
 
   fun subscribeCheckpoints(
-    readMask: FieldMask? = null
+    readMask: FieldMask? = null,
   ): Flow<Result<SubscribeCheckpointsResponse, SuiError>>
 
   /** Checkpoints that contain at least one transaction matching [filter]. */
@@ -53,7 +53,7 @@ interface Subscription {
   ): Flow<Result<SubscribeCheckpointsResponse, SuiError>>
 
   fun subscribeTransactions(
-    request: SubscribeTransactionsRequest
+    request: SubscribeTransactionsRequest,
   ): Flow<Result<SubscribeTransactionsResponse, SuiError>>
 
   /** Transactions as they execute. A filtered stream opens with a progress-only frame. */
@@ -63,7 +63,7 @@ interface Subscription {
   ): Flow<Result<SubscribeTransactionsResponse, SuiError>>
 
   fun subscribeEvents(
-    request: SubscribeEventsRequest
+    request: SubscribeEventsRequest,
   ): Flow<Result<SubscribeEventsResponse, SuiError>>
 
   /** Events as they are emitted. A filtered stream opens with a progress-only frame. */
@@ -77,12 +77,12 @@ interface Subscription {
    * that says why the scan stopped; resume an item- or scan-limited scan from its watermark.
    */
   fun listCheckpoints(
-    request: ListCheckpointsRequest
+    request: ListCheckpointsRequest,
   ): Flow<Result<ListCheckpointsResponse, SuiError>>
 
   /** Scans transactions; see [listCheckpoints] for how a scan ends and resumes. */
   fun listTransactions(
-    request: ListTransactionsRequest
+    request: ListTransactionsRequest,
   ): Flow<Result<ListTransactionsResponse, SuiError>>
 
   /** Scans events; see [listCheckpoints] for how a scan ends and resumes. */
@@ -91,10 +91,10 @@ interface Subscription {
   /**
    * Checkpoints from [resumeFrom], with no gaps or duplicates across reconnects.
    *
-   * With [resumeFrom] set, the stream first replays what it missed with a List scan, then
-   * continues live; `null` starts at the live tip. Save [StreamFrame.resumeFrom] of the last frame
-   * you handled to continue there later, for example after a restart. With a [filter], frames
-   * without an item keep the resume point moving while nothing matches.
+   * With [resumeFrom] set, the stream first replays what it missed with a List scan, then continues
+   * live; `null` starts at the live tip. Save [StreamFrame.resumeFrom] of the last frame you
+   * handled to continue there later, for example after a restart. With a [filter], frames without
+   * an item keep the resume point moving while nothing matches.
    *
    * The flow reconnects according to [retry] and ends only with a [Result.Err], when retrying
    * stops, or when the collector cancels it.

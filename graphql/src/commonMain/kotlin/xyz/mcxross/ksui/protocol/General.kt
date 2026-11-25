@@ -104,7 +104,7 @@ interface General {
    */
   @Throws(Exception::class)
   suspend fun getCheckpoint(
-    checkpointId: CheckpointId? = CheckpointId()
+    checkpointId: CheckpointId? = CheckpointId(),
   ): Result<GetCheckpointQuery.Data?, SuiError>
 
   /**
@@ -158,7 +158,7 @@ interface General {
    */
   @Throws(Exception::class)
   suspend fun getProtocolConfig(
-    protocolVersion: Int? = null
+    protocolVersion: Int? = null,
   ): Result<GetProtocolConfigQuery.Data?, SuiError>
 
   /**

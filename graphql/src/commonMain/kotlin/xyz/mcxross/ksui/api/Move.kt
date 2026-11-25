@@ -56,7 +56,7 @@ class Move(val config: SuiConfig) : Move {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getMoveFunctionArgTypes(
-    id: String
+    id: String,
   ): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError> {
     val parts = id.asIdParts()
     return getMoveFunctionArgTypes(config, parts.first, parts.second, parts.third)
@@ -72,7 +72,7 @@ class Move(val config: SuiConfig) : Move {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getNormalizedMoveFunction(
-    id: String
+    id: String,
   ): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError> {
     val parts = id.asIdParts()
     return getNormalizedMoveFunction(config, parts.first, parts.second, parts.third)
@@ -120,7 +120,7 @@ class Move(val config: SuiConfig) : Move {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getNormalizedMoveStruct(
-    id: String
+    id: String,
   ): Result<GetNormalizedMoveStructQuery.Data?, SuiError> {
     val parts = id.asIdParts()
     return getNormalizedMoveStruct(config, parts.first, parts.second, parts.third)

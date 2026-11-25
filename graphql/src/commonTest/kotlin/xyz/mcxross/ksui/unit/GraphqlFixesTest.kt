@@ -54,13 +54,15 @@ class GraphqlFixesTest :
         else -> ByteArray(0)
       }
 
-    fun mockSui(handler: suspend MockRequestHandleScope.(HttpRequestData) -> HttpResponseData): Sui {
+    fun mockSui(
+      handler: suspend MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
+    ): Sui {
       val config =
         SuiConfig(
           SuiSettings(
             indexer = "https://indexer.test/graphql",
             faucet = "https://faucet.test/gas",
-          )
+          ),
         )
       val ktor = HttpClient(MockEngine(handler)) { install(ContentNegotiation) { json(json) } }
       installHttpClientForTest(config, ktor)
@@ -102,7 +104,10 @@ class GraphqlFixesTest :
 
       sui.dryRunTransactionBlock(
         "AA==",
-        ExecuteTransactionBlockResponseOptions(showBalanceChanges = false, showObjectChanges = true),
+        ExecuteTransactionBlockResponseOptions(
+          showBalanceChanges = false,
+          showObjectChanges = true,
+        ),
       )
       val vars = requireNotNull(capturedVars)
       vars["showBalanceChanges"]!!.jsonPrimitive.boolean shouldBe false
@@ -197,7 +202,10 @@ class GraphqlFixesTest :
         )
       }
       val tokens = sui.requestTestTokens(AccountAddress.fromString("0x123"))
-      val list = tokens.shouldBeInstanceOf<Option.Some<List<xyz.mcxross.ksui.core.model.TransferredGasObject>>>().value
+      val list =
+        tokens
+          .shouldBeInstanceOf<Option.Some<List<xyz.mcxross.ksui.core.model.TransferredGasObject>>>()
+          .value
       list.single().id shouldBe "0xabc"
       sui.close()
     }

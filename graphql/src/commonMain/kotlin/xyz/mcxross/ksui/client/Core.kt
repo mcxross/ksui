@@ -65,7 +65,9 @@ internal fun installHttpClientForTest(config: SuiConfig, client: HttpClient) {
 }
 
 private fun sessionFor(config: SuiConfig): GraphqlClientSession {
-  (config.clientResource as? GraphqlClientSession)?.let { return it }
+  (config.clientResource as? GraphqlClientSession)?.let {
+    return it
+  }
   return withClientInitLock {
     (config.clientResource as? GraphqlClientSession)
       ?: GraphqlClientSession(config).also { config.clientResource = it }
@@ -84,7 +86,9 @@ private class GraphqlClientSession(
   val httpClient: HttpClient
     get() {
       check(!closed) { "Sui client session is closed" }
-      lazyHttp?.let { return it }
+      lazyHttp?.let {
+        return it
+      }
       return withClientInitLock {
         check(!closed) { "Sui client session is closed" }
         lazyHttp ?: httpClient(config.clientConfig).also { lazyHttp = it }
@@ -94,7 +98,9 @@ private class GraphqlClientSession(
   val graphqlClient: ApolloClient
     get() {
       check(!closed) { "Sui client session is closed" }
-      lazyGraphql?.let { return it }
+      lazyGraphql?.let {
+        return it
+      }
       return withClientInitLock {
         check(!closed) { "Sui client session is closed" }
         lazyGraphql ?: buildHttpApolloClient(config, httpClient).also { lazyGraphql = it }
@@ -104,7 +110,9 @@ private class GraphqlClientSession(
   val subscriptionClient: ApolloClient
     get() {
       check(!closed) { "Sui client session is closed" }
-      lazySubscription?.let { return it }
+      lazySubscription?.let {
+        return it
+      }
       return withClientInitLock {
         check(!closed) { "Sui client session is closed" }
         lazySubscription

@@ -33,58 +33,57 @@ internal suspend fun getMoveFunctionArgTypes(
   packageId: String,
   module: String,
   function: String,
-): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config).query(GetMoveFunctionArgTypesQuery(packageId, module, function))
-    }
-    .toResult()
+): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetMoveFunctionArgTypesQuery(packageId, module, function))
+}
+  .toResult()
 
 internal suspend fun getNormalizedMoveFunction(
   config: SuiConfig,
   packageId: Any,
   module: String,
   function: String,
-): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config).query(GetNormalizedMoveFunctionQuery(packageId, module, function))
-    }
-    .toResult()
+): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetNormalizedMoveFunctionQuery(packageId, module, function))
+}
+  .toResult()
 
 internal suspend fun getNormalizedMoveModule(
   config: SuiConfig,
   packageId: Any,
   module: String,
-): Result<GetNormalizedMoveModuleQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetNormalizedMoveModuleQuery(packageId, module)) }
-    .toResult()
+): Result<GetNormalizedMoveModuleQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetNormalizedMoveModuleQuery(packageId, module))
+}
+  .toResult()
 
 internal suspend fun getNormalizedMoveModulesByPackage(
   config: SuiConfig,
   packageId: String,
   cursor: String?,
-): Result<GetNormalizedMoveModulesByPackageQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(GetNormalizedMoveModulesByPackageQuery(packageId, Optional.presentIfNotNull(cursor)))
-    }
-    .toResult()
+): Result<GetNormalizedMoveModulesByPackageQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(GetNormalizedMoveModulesByPackageQuery(packageId, Optional.presentIfNotNull(cursor)))
+}
+  .toResult()
 
 internal suspend fun getNormalizedMoveStruct(
   config: SuiConfig,
   packageId: Any,
   module: String,
   struct: String,
-): Result<GetNormalizedMoveStructQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config).query(GetNormalizedMoveStructQuery(packageId, module, struct))
-    }
-    .toResult()
+): Result<GetNormalizedMoveStructQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetNormalizedMoveStructQuery(packageId, module, struct))
+}
+  .toResult()
 
 internal suspend fun getTypeLayout(
   config: SuiConfig,
   type: String,
-): Result<GetTypeLayoutQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetTypeLayoutQuery(type)) }.toResult()
+): Result<GetTypeLayoutQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetTypeLayoutQuery(type))
+}
+  .toResult()
 
 internal suspend fun paginateMoveModuleLists(
   config: SuiConfig,
@@ -98,22 +97,21 @@ internal suspend fun paginateMoveModuleLists(
   afterStructs: String?,
   afterFunctions: String?,
   afterEnums: String?,
-): Result<PaginateMoveModuleListsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          PaginateMoveModuleListsQuery(
-            packageId,
-            module,
-            hasMoreFriends,
-            hasMoreStructs,
-            hasMoreFunctions,
-            hasMoreEnums,
-            afterFriends = Optional.presentIfNotNull(afterFriends),
-            afterStructs = Optional.presentIfNotNull(afterStructs),
-            afterFunctions = Optional.presentIfNotNull(afterFunctions),
-            afterEnums = Optional.presentIfNotNull(afterEnums),
-          )
-        )
-    }
-    .toResult()
+): Result<PaginateMoveModuleListsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      PaginateMoveModuleListsQuery(
+        packageId,
+        module,
+        hasMoreFriends,
+        hasMoreStructs,
+        hasMoreFunctions,
+        hasMoreEnums,
+        afterFriends = Optional.presentIfNotNull(afterFriends),
+        afterStructs = Optional.presentIfNotNull(afterStructs),
+        afterFunctions = Optional.presentIfNotNull(afterFunctions),
+        afterEnums = Optional.presentIfNotNull(afterEnums),
+      ),
+    )
+}
+  .toResult()

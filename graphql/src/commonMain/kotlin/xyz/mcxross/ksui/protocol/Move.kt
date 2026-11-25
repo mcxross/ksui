@@ -45,7 +45,7 @@ interface Move {
    */
   @Throws(Exception::class)
   suspend fun getMoveFunctionArgTypes(
-    id: String
+    id: String,
   ): Result<GetMoveFunctionArgTypesQuery.Data?, SuiError>
 
   /**
@@ -59,7 +59,7 @@ interface Move {
    */
   @Throws(Exception::class)
   suspend fun getNormalizedMoveFunction(
-    id: String
+    id: String,
   ): Result<GetNormalizedMoveFunctionQuery.Data?, SuiError>
 
   /**
@@ -105,7 +105,7 @@ interface Move {
    */
   @Throws(Exception::class)
   suspend fun getNormalizedMoveStruct(
-    id: String
+    id: String,
   ): Result<GetNormalizedMoveStructQuery.Data?, SuiError>
 
   /**

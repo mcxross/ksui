@@ -21,7 +21,7 @@ import xyz.mcxross.ksui.grpc.protocol.Move as MoveProtocol
 
 internal class Move(private val runtime: GrpcRuntime) : MoveProtocol {
   override suspend fun getPackage(
-    request: GetPackageRequest
+    request: GetPackageRequest,
   ): Result<GetPackageResponse, SuiError> = handleGrpc { internalGetPackage(runtime, request) }
 
   override suspend fun getPackage(packageId: String): Result<GetPackageResponse, SuiError> =
@@ -30,7 +30,7 @@ internal class Move(private val runtime: GrpcRuntime) : MoveProtocol {
     }
 
   override suspend fun getDatatype(
-    request: GetDatatypeRequest
+    request: GetDatatypeRequest,
   ): Result<GetDatatypeResponse, SuiError> = handleGrpc { internalGetDatatype(runtime, request) }
 
   override suspend fun getDatatype(
@@ -42,7 +42,7 @@ internal class Move(private val runtime: GrpcRuntime) : MoveProtocol {
   }
 
   override suspend fun getFunction(
-    request: GetFunctionRequest
+    request: GetFunctionRequest,
   ): Result<GetFunctionResponse, SuiError> = handleGrpc { internalGetFunction(runtime, request) }
 
   override suspend fun getFunction(
@@ -54,7 +54,7 @@ internal class Move(private val runtime: GrpcRuntime) : MoveProtocol {
   }
 
   override suspend fun listPackageVersions(
-    request: ListPackageVersionsRequest
+    request: ListPackageVersionsRequest,
   ): Result<ListPackageVersionsResponse, SuiError> = handleGrpc {
     internalListPackageVersions(runtime, request)
   }

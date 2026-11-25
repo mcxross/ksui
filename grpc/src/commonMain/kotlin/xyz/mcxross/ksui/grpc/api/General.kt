@@ -22,7 +22,7 @@ internal class General(private val runtime: GrpcRuntime) : GeneralProtocol {
   }
 
   override suspend fun getCheckpoint(
-    request: GetCheckpointRequest
+    request: GetCheckpointRequest,
   ): Result<GetCheckpointResponse, SuiError> = handleGrpc {
     internalGetCheckpoint(runtime, request)
   }

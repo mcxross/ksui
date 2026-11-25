@@ -42,7 +42,7 @@ internal suspend fun batchGetTransactions(
     BatchGetTransactionsRequestInternal().apply {
       this.digests = digests
       readMask?.let { this.readMask = it }
-    }
+    },
   )
 
 internal suspend fun executeTransaction(

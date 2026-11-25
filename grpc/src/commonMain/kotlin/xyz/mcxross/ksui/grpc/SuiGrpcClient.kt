@@ -78,19 +78,22 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
       )
     }
 
-    /** Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default). */
+    /**
+     * Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default).
+     */
     fun connect(
       host: String,
       port: Int,
       usePlaintext: Boolean = false,
       headers: Map<String, Any>? = null,
       configure: GrpcClientConfiguration.() -> Unit = {},
-    ): SuiGrpcClient = connect(host, port, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
+    ): SuiGrpcClient =
+      connect(host, port, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
 
     /**
      * @param requestTimeout deadline for each unary call. Streaming calls such as checkpoint
-     *   subscriptions get no deadline. Pass `null` to disable it; an interceptor added in [configure]
-     *   can still set its own `callOptions.timeout`.
+     *   subscriptions get no deadline. Pass `null` to disable it; an interceptor added in
+     *   [configure] can still set its own `callOptions.timeout`.
      */
     fun connect(
       host: String,
@@ -115,13 +118,16 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
       return SuiGrpcClient(GrpcRuntime(client))
     }
 
-    /** Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default). */
+    /**
+     * Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default).
+     */
     fun connectTarget(
       target: String,
       usePlaintext: Boolean = false,
       headers: Map<String, Any>? = null,
       configure: GrpcClientConfiguration.() -> Unit = {},
-    ): SuiGrpcClient = connectTarget(target, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
+    ): SuiGrpcClient =
+      connectTarget(target, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
 
     /** @param requestTimeout deadline for each unary call; see the [connect] overload. */
     fun connectTarget(
@@ -145,7 +151,8 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
       return SuiGrpcClient(GrpcRuntime(client))
     }
 
-    private val DEFAULT_REQUEST_TIMEOUT: Duration? = ClientConfig().requestTimeout.toRequestTimeout()
+    private val DEFAULT_REQUEST_TIMEOUT: Duration? =
+      ClientConfig().requestTimeout.toRequestTimeout()
   }
 }
 
@@ -157,14 +164,14 @@ private fun GrpcClientConfiguration.applyUnaryDeadline(timeout: Duration?) {
   intercept(
     object : GrpcClientInterceptor {
       override fun <Request, Response> GrpcClientCallScope<Request, Response>.intercept(
-        request: Flow<Request>
+        request: Flow<Request>,
       ): Flow<Response> {
         if (method.methodType == GrpcMethodType.UNARY && callOptions.timeout == null) {
           callOptions.timeout = timeout
         }
         return proceed(request)
       }
-    }
+    },
   )
 }
 
@@ -252,7 +259,10 @@ private fun validateHeaders(headers: Map<String, Any>?): List<Pair<String, Strin
   if (headers.isNullOrEmpty()) return emptyList()
   return headers.map { (rawKey, rawValue) ->
     val key = rawKey.trim().lowercase()
-    require(key.isNotEmpty() && key.all { it in 'a'..'z' || it in '0'..'9' || it == '-' || it == '_' || it == '.' }) {
+    require(
+      key.isNotEmpty() &&
+        key.all { it in 'a'..'z' || it in '0'..'9' || it == '-' || it == '_' || it == '.' },
+    ) {
       "Invalid gRPC metadata header name: $rawKey"
     }
     val value = rawValue.toString()
@@ -269,11 +279,11 @@ private fun GrpcClientConfiguration.applyHeaders(headers: List<Pair<String, Stri
   intercept(
     object : GrpcClientInterceptor {
       override fun <Request, Response> GrpcClientCallScope<Request, Response>.intercept(
-        request: Flow<Request>
+        request: Flow<Request>,
       ): Flow<Response> {
         headers.forEach { (key, value) -> requestHeaders.append(key, value) }
         return proceed(request)
       }
-    }
+    },
   )
 }

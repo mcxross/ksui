@@ -46,14 +46,13 @@ import xyz.mcxross.ksui.model.TransactionBlockFilter
  */
 interface Transaction {
   /**
-   * Streams matching finalized transactions. Save each processed edge cursor and pass it as
-   * [after] to resume. Collection opens a WebSocket connection; cancelling collection closes it.
+   * Streams matching finalized transactions. Save each processed edge cursor and pass it as [after]
+   * to resume. Collection opens a WebSocket connection; cancelling collection closes it.
    */
   fun subscribeTransactionBlocks(
     filter: TransactionBlockFilter? = null,
     after: String? = null,
   ): Flow<Result<SubscribeTransactionsSubscription.Data?, SuiError>>
-
 
   /**
    * Creates a cryptographic signature for a given message using a signer's private key.

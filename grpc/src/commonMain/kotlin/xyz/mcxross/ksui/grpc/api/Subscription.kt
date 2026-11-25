@@ -28,24 +28,24 @@ import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
 import xyz.mcxross.ksui.grpc.internal.asGrpcResult
 import xyz.mcxross.ksui.grpc.internal.checkpointSource
 import xyz.mcxross.ksui.grpc.internal.eventSource
-import xyz.mcxross.ksui.grpc.internal.resumableStream
-import xyz.mcxross.ksui.grpc.internal.transactionSource
 import xyz.mcxross.ksui.grpc.internal.listCheckpoints as internalListCheckpoints
 import xyz.mcxross.ksui.grpc.internal.listEvents as internalListEvents
 import xyz.mcxross.ksui.grpc.internal.listTransactions as internalListTransactions
+import xyz.mcxross.ksui.grpc.internal.resumableStream
 import xyz.mcxross.ksui.grpc.internal.subscribeCheckpoints as internalSubscribeCheckpoints
 import xyz.mcxross.ksui.grpc.internal.subscribeEvents as internalSubscribeEvents
 import xyz.mcxross.ksui.grpc.internal.subscribeTransactions as internalSubscribeTransactions
+import xyz.mcxross.ksui.grpc.internal.transactionSource
 import xyz.mcxross.ksui.grpc.protocol.Subscription as SubscriptionProtocol
 
 internal class Subscription(private val runtime: GrpcRuntime) : SubscriptionProtocol {
   override fun subscribeCheckpoints(
-    request: SubscribeCheckpointsRequest
+    request: SubscribeCheckpointsRequest,
   ): Flow<Result<SubscribeCheckpointsResponse, SuiError>> =
     internalSubscribeCheckpoints(runtime, request).asGrpcResult()
 
   override fun subscribeCheckpoints(
-    readMask: FieldMask?
+    readMask: FieldMask?,
   ): Flow<Result<SubscribeCheckpointsResponse, SuiError>> =
     internalSubscribeCheckpoints(runtime, readMask).asGrpcResult()
 
@@ -56,7 +56,7 @@ internal class Subscription(private val runtime: GrpcRuntime) : SubscriptionProt
     internalSubscribeCheckpoints(runtime, readMask, filter).asGrpcResult()
 
   override fun subscribeTransactions(
-    request: SubscribeTransactionsRequest
+    request: SubscribeTransactionsRequest,
   ): Flow<Result<SubscribeTransactionsResponse, SuiError>> =
     internalSubscribeTransactions(runtime, request).asGrpcResult()
 
@@ -67,7 +67,7 @@ internal class Subscription(private val runtime: GrpcRuntime) : SubscriptionProt
     internalSubscribeTransactions(runtime, filter, readMask).asGrpcResult()
 
   override fun subscribeEvents(
-    request: SubscribeEventsRequest
+    request: SubscribeEventsRequest,
   ): Flow<Result<SubscribeEventsResponse, SuiError>> =
     internalSubscribeEvents(runtime, request).asGrpcResult()
 
@@ -78,12 +78,12 @@ internal class Subscription(private val runtime: GrpcRuntime) : SubscriptionProt
     internalSubscribeEvents(runtime, filter, readMask).asGrpcResult()
 
   override fun listCheckpoints(
-    request: ListCheckpointsRequest
+    request: ListCheckpointsRequest,
   ): Flow<Result<ListCheckpointsResponse, SuiError>> =
     internalListCheckpoints(runtime, request).asGrpcResult()
 
   override fun listTransactions(
-    request: ListTransactionsRequest
+    request: ListTransactionsRequest,
   ): Flow<Result<ListTransactionsResponse, SuiError>> =
     internalListTransactions(runtime, request).asGrpcResult()
 

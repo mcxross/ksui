@@ -42,7 +42,7 @@ internal suspend fun batchGetObjects(
     BatchGetObjectsRequestInternal().apply {
       this.requests = requests
       readMask?.let { this.readMask = it }
-    }
+    },
   )
 
 internal suspend fun listDynamicFields(

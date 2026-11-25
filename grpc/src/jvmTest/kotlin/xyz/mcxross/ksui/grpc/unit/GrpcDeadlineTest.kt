@@ -68,7 +68,7 @@ class GrpcDeadlineTest :
               network = Network.CUSTOM,
               fullNode = "http://localhost:$port",
               clientConfig = ClientConfig(requestTimeout = 300),
-            )
+            ),
           )
         val client = SuiGrpcClient.fromConfig(config)
         try {
@@ -139,7 +139,7 @@ private class SlowSignatureService : SignatureVerificationService {
 // Emits a frame every 400 ms, so three frames take longer than the 200 ms unary deadline.
 private class SlowCheckpointStream : SubscriptionService {
   override fun SubscribeCheckpoints(
-    message: SubscribeCheckpointsRequest
+    message: SubscribeCheckpointsRequest,
   ): Flow<SubscribeCheckpointsResponse> = flow {
     for (cursor in 1UL..3UL) {
       delay(400.milliseconds)
@@ -148,7 +148,7 @@ private class SlowCheckpointStream : SubscriptionService {
   }
 
   override fun SubscribeTransactions(
-    message: SubscribeTransactionsRequest
+    message: SubscribeTransactionsRequest,
   ): Flow<SubscribeTransactionsResponse> = flow {}
 
   override fun SubscribeEvents(message: SubscribeEventsRequest): Flow<SubscribeEventsResponse> =

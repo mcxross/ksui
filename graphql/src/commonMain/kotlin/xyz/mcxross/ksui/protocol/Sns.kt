@@ -41,7 +41,7 @@ interface Sns {
    */
   @Throws(Exception::class)
   suspend fun resolveNameServiceAddress(
-    domain: String
+    domain: String,
   ): Result<ResolveNameServiceAddressQuery.Data?, SuiError>
 
   /**

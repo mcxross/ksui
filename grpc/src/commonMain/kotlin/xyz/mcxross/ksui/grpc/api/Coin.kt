@@ -19,7 +19,7 @@ import xyz.mcxross.ksui.grpc.protocol.Coin as CoinProtocol
 
 internal class Coin(private val runtime: GrpcRuntime) : CoinProtocol {
   override suspend fun getCoinInfo(
-    request: GetCoinInfoRequest
+    request: GetCoinInfoRequest,
   ): Result<GetCoinInfoResponse, SuiError> = handleGrpc { internalGetCoinInfo(runtime, request) }
 
   override suspend fun getCoinInfo(coinType: String): Result<GetCoinInfoResponse, SuiError> =
@@ -28,7 +28,7 @@ internal class Coin(private val runtime: GrpcRuntime) : CoinProtocol {
     }
 
   override suspend fun getBalance(
-    request: GetBalanceRequest
+    request: GetBalanceRequest,
   ): Result<GetBalanceResponse, SuiError> = handleGrpc { internalGetBalance(runtime, request) }
 
   override suspend fun getBalance(
@@ -46,7 +46,7 @@ internal class Coin(private val runtime: GrpcRuntime) : CoinProtocol {
   }
 
   override suspend fun listBalances(
-    request: ListBalancesRequest
+    request: ListBalancesRequest,
   ): Result<ListBalancesResponse, SuiError> = handleGrpc { internalListBalances(runtime, request) }
 
   override suspend fun listBalances(

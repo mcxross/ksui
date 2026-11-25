@@ -31,7 +31,7 @@ enum class IntentScope {
 
 @Serializable
 enum class IntentVersion {
-  V0
+  V0,
 }
 
 @Serializable

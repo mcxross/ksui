@@ -20,7 +20,7 @@ import xyz.mcxross.ksui.core.ptb.ProgrammableTransaction
 interface Transaction {
   @Throws(Exception::class)
   suspend fun getTransaction(
-    request: GetTransactionRequest
+    request: GetTransactionRequest,
   ): Result<GetTransactionResponse, SuiError>
 
   @Throws(Exception::class)
@@ -37,7 +37,7 @@ interface Transaction {
 
   @Throws(Exception::class)
   suspend fun executeTransaction(
-    request: ExecuteTransactionRequest
+    request: ExecuteTransactionRequest,
   ): Result<ExecuteTransactionResponse, SuiError>
 
   @Throws(Exception::class)
@@ -56,7 +56,7 @@ interface Transaction {
 
   @Throws(Exception::class)
   suspend fun simulateTransaction(
-    request: SimulateTransactionRequest
+    request: SimulateTransactionRequest,
   ): Result<SimulateTransactionResponse, SuiError>
 
   @Throws(Exception::class)

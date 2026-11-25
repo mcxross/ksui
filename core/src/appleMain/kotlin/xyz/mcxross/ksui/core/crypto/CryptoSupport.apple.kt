@@ -15,7 +15,7 @@ internal actual fun verifyPasskeyProofOfKey(
   signature: ByteArray,
 ): Result<Boolean, E> =
   Result.Err(
-    UnsupportedOperationException("Passkey signature verification is not available on Apple")
+    UnsupportedOperationException("Passkey signature verification is not available on Apple"),
   )
 
 actual fun secureRandomBytes(size: Int): ByteArray {

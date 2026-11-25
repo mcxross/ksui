@@ -41,8 +41,8 @@ class SuiConfigTest :
         SuiConfig(
           SuiSettings(
             faucetConfig =
-              FaucetConfig(headers = mapOf("x-client" to "ksui-test"), authToken = "faucet-token")
-          )
+              FaucetConfig(headers = mapOf("x-client" to "ksui-test"), authToken = "faucet-token"),
+          ),
         )
 
       val headers = config.getHeaders(SuiApiType.FAUCET)

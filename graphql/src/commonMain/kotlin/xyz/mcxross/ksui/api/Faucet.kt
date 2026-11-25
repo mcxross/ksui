@@ -25,6 +25,6 @@ import xyz.mcxross.ksui.protocol.Faucet
 
 class Faucet(val config: SuiConfig) : Faucet {
   override suspend fun requestTestTokens(
-    accountAddress: AccountAddress
+    accountAddress: AccountAddress,
   ): Option<List<TransferredGasObject>> = requestTestTokens(config, accountAddress)
 }

@@ -20,13 +20,11 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import org.komputing.kbech32.Bech32
 import xyz.mcxross.ksui.core.PRIVATE_KEY_DATA
 import xyz.mcxross.ksui.core.account.Account
 import xyz.mcxross.ksui.core.account.Ed25519Account
 import xyz.mcxross.ksui.core.account.Secp256k1Account
 import xyz.mcxross.ksui.core.account.Secp256r1Account
-import xyz.mcxross.ksui.core.crypto.Ed25519PrivateKey
 import xyz.mcxross.ksui.core.crypto.Ed25519PublicKey
 import xyz.mcxross.ksui.core.crypto.PrivateKey
 import xyz.mcxross.ksui.core.crypto.Secp256k1PrivateKey
@@ -34,7 +32,6 @@ import xyz.mcxross.ksui.core.crypto.SignatureScheme
 import xyz.mcxross.ksui.core.crypto.derivePrivateKeyFromMnemonic
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Result
-import xyz.mcxross.ksui.core.util.convertBits
 
 class AccountTest :
   StringSpec({

@@ -48,16 +48,16 @@ fun transactionFilter(block: TransactionFilterScope.() -> Unit): TransactionFilt
   val root = TransactionScope(ScopeKind.ROOT).apply(block)
   val terms = root.terms()
   return TransactionFilter {
-    this.terms =
-      terms.map { literals ->
-        TransactionTerm { this.literals = literals.map { it.toTransactionLiteral() } }
-      }
+    this.terms = terms.map { literals ->
+      TransactionTerm { this.literals = literals.map { it.toTransactionLiteral() } }
+    }
   }
 }
 
 /**
  * Builds a filter for [xyz.mcxross.ksui.grpc.protocol.Subscription.eventStream] and the raw event
- * calls, with the same rules as [transactionFilter]. Only the predicates that apply to events are available.
+ * calls, with the same rules as [transactionFilter]. Only the predicates that apply to events are
+ * available.
  *
  * @throws IllegalArgumentException if the block adds no condition or a value is malformed.
  */
@@ -65,7 +65,9 @@ fun eventFilter(block: EventFilterScope.() -> Unit): EventFilter {
   val root = EventScope(ScopeKind.ROOT).apply(block)
   val terms = root.terms()
   return EventFilter {
-    this.terms = terms.map { literals -> EventTerm { this.literals = literals.map { it.toEventLiteral() } } }
+    this.terms = terms.map { literals ->
+      EventTerm { this.literals = literals.map { it.toEventLiteral() } }
+    }
   }
 }
 
@@ -203,7 +205,8 @@ internal abstract class ConditionScope(private val kind: ScopeKind) {
   private val groups = mutableListOf<List<List<Literal>>>()
 
   protected fun add(condition: Condition) {
-    if (kind == ScopeKind.ANY_OF) alternatives += listOf(Literal(condition)) else literals += Literal(condition)
+    if (kind == ScopeKind.ANY_OF) alternatives += listOf(Literal(condition))
+    else literals += Literal(condition)
   }
 
   protected fun addNegated(scope: ConditionScope) {
@@ -235,11 +238,13 @@ internal abstract class ConditionScope(private val kind: ScopeKind) {
 
   protected fun addSender(address: AccountAddress) = add(Condition.Sender(address.toString()))
 
-  protected fun addEmitModule(path: String) = add(Condition.EmitModule(MovePaths.path(path, 2, "emitModule")))
+  protected fun addEmitModule(path: String) =
+    add(Condition.EmitModule(MovePaths.path(path, 2, "emitModule")))
 
   protected fun addEventType(type: String) = add(Condition.EventType(MovePaths.type(type)))
 
-  protected fun addEventStreamHead(streamId: AccountAddress) = add(Condition.EventStreamHead(streamId.toString()))
+  protected fun addEventStreamHead(streamId: AccountAddress) =
+    add(Condition.EventStreamHead(streamId.toString()))
 }
 
 internal class TransactionScope(kind: ScopeKind) :
@@ -252,19 +257,24 @@ internal class TransactionScope(kind: ScopeKind) :
 
   override fun eventStreamHead(streamId: AccountAddress) = addEventStreamHead(streamId)
 
-  override fun affectedAddress(address: AccountAddress) = add(Condition.AffectedAddress(address.toString()))
+  override fun affectedAddress(address: AccountAddress) =
+    add(Condition.AffectedAddress(address.toString()))
 
-  override fun affectedObject(objectId: AccountAddress) = add(Condition.AffectedObject(objectId.toString()))
+  override fun affectedObject(objectId: AccountAddress) =
+    add(Condition.AffectedObject(objectId.toString()))
 
   override fun moveCall(path: String) = add(Condition.MoveCall(MovePaths.path(path, 3, "moveCall")))
 
   override fun packageWrite() = add(Condition.PackageWrite)
 
-  override fun not(block: TransactionNotScope.() -> Unit) = addNegated(TransactionScope(ScopeKind.NOT).apply(block))
+  override fun not(block: TransactionNotScope.() -> Unit) =
+    addNegated(TransactionScope(ScopeKind.NOT).apply(block))
 
-  override fun allOf(block: TransactionAllOfScope.() -> Unit) = addAllOf(TransactionScope(ScopeKind.ALL_OF).apply(block))
+  override fun allOf(block: TransactionAllOfScope.() -> Unit) =
+    addAllOf(TransactionScope(ScopeKind.ALL_OF).apply(block))
 
-  override fun anyOf(block: TransactionAnyOfScope.() -> Unit) = addAnyOf(TransactionScope(ScopeKind.ANY_OF).apply(block))
+  override fun anyOf(block: TransactionAnyOfScope.() -> Unit) =
+    addAnyOf(TransactionScope(ScopeKind.ANY_OF).apply(block))
 }
 
 internal class EventScope(kind: ScopeKind) :
@@ -277,11 +287,14 @@ internal class EventScope(kind: ScopeKind) :
 
   override fun eventStreamHead(streamId: AccountAddress) = addEventStreamHead(streamId)
 
-  override fun not(block: EventNotScope.() -> Unit) = addNegated(EventScope(ScopeKind.NOT).apply(block))
+  override fun not(block: EventNotScope.() -> Unit) =
+    addNegated(EventScope(ScopeKind.NOT).apply(block))
 
-  override fun allOf(block: EventAllOfScope.() -> Unit) = addAllOf(EventScope(ScopeKind.ALL_OF).apply(block))
+  override fun allOf(block: EventAllOfScope.() -> Unit) =
+    addAllOf(EventScope(ScopeKind.ALL_OF).apply(block))
 
-  override fun anyOf(block: EventAnyOfScope.() -> Unit) = addAnyOf(EventScope(ScopeKind.ANY_OF).apply(block))
+  override fun anyOf(block: EventAnyOfScope.() -> Unit) =
+    addAnyOf(EventScope(ScopeKind.ANY_OF).apply(block))
 }
 
 private fun Literal.toTransactionLiteral(): TransactionLiteral {
@@ -290,16 +303,26 @@ private fun Literal.toTransactionLiteral(): TransactionLiteral {
     negated = literal.negated
     predicate =
       when (val c = literal.condition) {
-        is Condition.Sender -> TransactionLiteral.Predicate.Sender(SenderFilter { address = c.address })
+        is Condition.Sender ->
+          TransactionLiteral.Predicate.Sender(SenderFilter { address = c.address })
         is Condition.AffectedAddress ->
-          TransactionLiteral.Predicate.AffectedAddress(AffectedAddressFilter { address = c.address })
+          TransactionLiteral.Predicate.AffectedAddress(
+            AffectedAddressFilter { address = c.address },
+          )
         is Condition.AffectedObject ->
-          TransactionLiteral.Predicate.AffectedObject(AffectedObjectFilter { objectId = c.objectId })
-        is Condition.MoveCall -> TransactionLiteral.Predicate.MoveCall(MoveCallFilter { function = c.function })
-        is Condition.EmitModule -> TransactionLiteral.Predicate.EmitModule(EmitModuleFilter { module = c.module })
-        is Condition.EventType -> TransactionLiteral.Predicate.EventType(EventTypeFilter { eventType = c.eventType })
+          TransactionLiteral.Predicate.AffectedObject(
+            AffectedObjectFilter { objectId = c.objectId },
+          )
+        is Condition.MoveCall ->
+          TransactionLiteral.Predicate.MoveCall(MoveCallFilter { function = c.function })
+        is Condition.EmitModule ->
+          TransactionLiteral.Predicate.EmitModule(EmitModuleFilter { module = c.module })
+        is Condition.EventType ->
+          TransactionLiteral.Predicate.EventType(EventTypeFilter { eventType = c.eventType })
         is Condition.EventStreamHead ->
-          TransactionLiteral.Predicate.EventStreamHead(EventStreamHeadFilter { streamId = c.streamId })
+          TransactionLiteral.Predicate.EventStreamHead(
+            EventStreamHeadFilter { streamId = c.streamId },
+          )
         Condition.PackageWrite -> TransactionLiteral.Predicate.PackageWrite(PackageWriteFilter {})
       }
   }
@@ -312,8 +335,10 @@ private fun Literal.toEventLiteral(): EventLiteral {
     predicate =
       when (val c = literal.condition) {
         is Condition.Sender -> EventLiteral.Predicate.Sender(SenderFilter { address = c.address })
-        is Condition.EmitModule -> EventLiteral.Predicate.EmitModule(EmitModuleFilter { module = c.module })
-        is Condition.EventType -> EventLiteral.Predicate.EventType(EventTypeFilter { eventType = c.eventType })
+        is Condition.EmitModule ->
+          EventLiteral.Predicate.EmitModule(EmitModuleFilter { module = c.module })
+        is Condition.EventType ->
+          EventLiteral.Predicate.EventType(EventTypeFilter { eventType = c.eventType })
         is Condition.EventStreamHead ->
           EventLiteral.Predicate.EventStreamHead(EventStreamHeadFilter { streamId = c.streamId })
         else -> error("$c does not apply to events")
@@ -322,12 +347,13 @@ private fun Literal.toEventLiteral(): EventLiteral {
 }
 
 /**
- * Strict checks and canonical forms for the Move paths and type strings filters take. Addresses
- * are written in full (`0x` and 64 hex digits).
+ * Strict checks and canonical forms for the Move paths and type strings filters take. Addresses are
+ * written in full (`0x` and 64 hex digits).
  */
 internal object MovePaths {
   private val IDENTIFIER = Regex("^(?:[A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]+)$")
-  private val PRIMITIVES = setOf("bool", "u8", "u16", "u32", "u64", "u128", "u256", "address", "signer")
+  private val PRIMITIVES =
+    setOf("bool", "u8", "u16", "u32", "u64", "u128", "u256", "address", "signer")
 
   private fun address(text: String, what: String): String =
     try {
@@ -348,7 +374,8 @@ internal object MovePaths {
     require(parts.size in 1..maxSegments) {
       "$what: expected up to $maxSegments '::'-separated parts, got '$path'"
     }
-    return (listOf(address(parts[0], what)) + parts.drop(1).map { identifier(it, what) }).joinToString("::")
+    return (listOf(address(parts[0], what)) + parts.drop(1).map { identifier(it, what) })
+      .joinToString("::")
   }
 
   /** `address[::module[::Name[<T, ...>]]]`. */
@@ -356,7 +383,9 @@ internal object MovePaths {
     val generic = type.indexOf('<')
     if (generic < 0) return path(type, 3, "eventType")
     val head = path(type.substring(0, generic), 3, "eventType")
-    require(head.split("::").size == 3) { "eventType: type arguments need address::module::Name, got '$type'" }
+    require(head.split("::").size == 3) {
+      "eventType: type arguments need address::module::Name, got '$type'"
+    }
     val parser = TypeParser(type, generic)
     val arguments = parser.typeArguments()
     parser.end()
@@ -414,7 +443,8 @@ internal object MovePaths {
       expect("::")
       val name = identifier(word(), "eventType")
       skipSpaces()
-      val arguments = if (text.startsWith("<", at)) "<${typeArguments().joinToString(", ")}>" else ""
+      val arguments =
+        if (text.startsWith("<", at)) "<${typeArguments().joinToString(", ")}>" else ""
       return "$address::$module::$name$arguments"
     }
 

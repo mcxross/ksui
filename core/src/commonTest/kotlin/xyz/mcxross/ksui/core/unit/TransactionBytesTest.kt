@@ -11,10 +11,24 @@ import xyz.mcxross.ksui.core.ptb.TransactionKind
 // suikit/swift-smoke builds the same transaction through SuiKit and expects these bytes.
 private val SAMPLE_TRANSACTION_KIND_HEX =
   "00" + // TransactionKind::ProgrammableTransaction
-    "01" + "00" + "11" + "02" + "0100000000000000" + "0200000000000000" + // Pure(vector<u64>[1, 2])
-    "01" + "00" + "00".repeat(31) + "42" + // MoveCall to package 0x42
-    "07" + "636f756e746572" + "09" + "62617463685f736574" + // counter::batch_set
-    "00" + "02" + "00" + "010000" // no type arguments; GasCoin, Input(0)
+    "01" +
+    "00" +
+    "11" +
+    "02" +
+    "0100000000000000" +
+    "0200000000000000" + // Pure(vector<u64>[1, 2])
+    "01" +
+    "00" +
+    "00".repeat(31) +
+    "42" + // MoveCall to package 0x42
+    "07" +
+    "636f756e746572" +
+    "09" +
+    "62617463685f736574" + // counter::batch_set
+    "00" +
+    "02" +
+    "00" +
+    "010000" // no type arguments; GasCoin, Input(0)
 
 private fun sampleTransaction(): ProgrammableTransaction {
   val builder = ProgrammableTransactionBuilder()

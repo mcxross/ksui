@@ -90,8 +90,8 @@ private fun StreamRetryPolicy.backoff(attempt: Int): Duration {
  *
  * Each attempt follows the sui.rpc.v2 contract: open the live subscription first and buffer it,
  * take the position its first frame establishes, replay `[position, that start)` with the List
- * scan, then hand over to the buffered live frames. Frames at or before the last delivered
- * position are dropped by comparing ledger positions, never cursor bytes.
+ * scan, then hand over to the buffered live frames. Frames at or before the last delivered position
+ * are dropped by comparing ledger positions, never cursor bytes.
  */
 internal fun <Live, Scan, T : Any> resumableStream(
   source: StreamSource<Live, Scan, T>,
@@ -192,13 +192,14 @@ private fun Watermark.position(): StreamPosition? =
     null
   }
 
-private fun Watermark.coveredPosition(): StreamPosition? =
-  checkpoint?.let { StreamPosition(it + 1u, cursor = cursor) }
+private fun Watermark.coveredPosition(): StreamPosition? = checkpoint?.let {
+  StreamPosition(it + 1u, cursor = cursor)
+}
 
 private fun missingPosition(kind: String): Nothing =
   throw IllegalStateException(
     "The server sent a $kind frame without Watermark.cursor_position; include the item's " +
-      "checkpoint and index fields in the read mask"
+      "checkpoint and index fields in the read mask",
   )
 
 // --- Checkpoints -------------------------------------------------------------------------------
@@ -212,7 +213,10 @@ internal fun checkpointSource(
     subscribe = { subscribeCheckpoints(runtime, readMask, filter) },
     fromLive = { frame ->
       val cursor = frame.cursor ?: throw IllegalStateException("Checkpoint frame without a cursor")
-      Positioned(frame.checkpoint.takeIf { frame.presence.hasCheckpoint }, StreamPosition(cursor + 1u))
+      Positioned(
+        frame.checkpoint.takeIf { frame.presence.hasCheckpoint },
+        StreamPosition(cursor + 1u),
+      )
     },
     scan = { from, until ->
       listCheckpoints(
@@ -231,8 +235,14 @@ internal fun checkpointSource(
       val after =
         frame.watermark.takeIf { frame.presence.hasWatermark }?.position()?.copy(cursor = null)
           ?: item?.sequenceNumber?.let { StreamPosition(it + 1u) }
-          ?: frame.watermark.takeIf { frame.presence.hasWatermark }?.coveredPosition()?.copy(cursor = null)
-      Scanned(after?.let { Positioned(item, it) }, frame.end.reason.takeIf { frame.presence.hasEnd })
+          ?: frame.watermark
+            .takeIf { frame.presence.hasWatermark }
+            ?.coveredPosition()
+            ?.copy(cursor = null)
+      Scanned(
+        after?.let { Positioned(item, it) },
+        frame.end.reason.takeIf { frame.presence.hasEnd },
+      )
     },
     itemKey = { after -> StreamPosition(after.checkpoint - 1u) },
   )

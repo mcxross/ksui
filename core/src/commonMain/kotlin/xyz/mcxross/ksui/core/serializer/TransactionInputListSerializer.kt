@@ -69,7 +69,7 @@ object TransactionInputListSerializer : KSerializer<List<DataTransactionInput>> 
               kotlinx.serialization.json.buildJsonObject { put("type", "default") }
             }
           }
-        }
+        },
       )
     encoder.encodeJsonElement(jsonArray)
   }

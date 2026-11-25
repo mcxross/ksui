@@ -34,7 +34,7 @@ class SerializationTest :
             Reference(AccountAddress.fromString("0x123")),
             100L,
             ObjectDigest(Digest("BqrFumAb7yjZKKQUApKjzqdgHUZY3XaTNWxNQsvjMSBc")),
-          )
+          ),
         )
 
       val bytes = bcs.encodeToByteArray<ObjectArg>(original)
@@ -64,7 +64,7 @@ class SerializationTest :
             Reference(AccountAddress.fromString("0x123")),
             55L,
             ObjectDigest(Digest("BqrFumAb7yjZKKQUApKjzqdgHUZY3XaTNWxNQsvjMSBc")),
-          )
+          ),
         )
 
       val string = bcs.encodeToByteArray<ObjectArg>(original)
@@ -108,7 +108,7 @@ class SerializationTest :
             "my_function",
             listOf(TypeTag.U64),
             listOf(Argument.Input(0u), Argument.GasCoin),
-          )
+          ),
         )
 
       val string = bcs.encodeToByteArray<Command.MoveCall>(original)
@@ -199,7 +199,7 @@ class SerializationTest :
         listOf(
           CallArg.Pure(byteArrayOf(100)),
           CallArg.Object(
-            ObjectArg.SharedObject(ObjectId(AccountAddress.fromString("0x123")), 1, true)
+            ObjectArg.SharedObject(ObjectId(AccountAddress.fromString("0x123")), 1, true),
           ),
         )
 

@@ -34,7 +34,7 @@ fun idToMapped(id: String): Map<String, String> {
   val parts = id.split("::")
   if (parts.size != 3) {
     throw IllegalArgumentException(
-      "Invalid ID. Expected 3 parts of the form 'packageId::module::function', but got ${parts.size} parts."
+      "Invalid ID. Expected 3 parts of the form 'packageId::module::function', but got ${parts.size} parts.",
     )
   }
   return mapOf(PACKAGE_ID to parts[0], MODULE to parts[1], FUNCTION to parts[2])
@@ -45,7 +45,7 @@ fun idToParts(id: String): Triple<String, String, String> {
   val parts = id.split("::")
   if (parts.size != 3) {
     throw IllegalArgumentException(
-      "Invalid ID. Expected 3 parts of the form 'packageId::module::function', but got ${parts.size} parts."
+      "Invalid ID. Expected 3 parts of the form 'packageId::module::function', but got ${parts.size} parts.",
     )
   }
   return Triple(parts[0], parts[1], parts[2])

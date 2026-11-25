@@ -38,14 +38,14 @@ object SuiKit {
 
   /**
    * The client that `ptb {}`, `compose` and the sponsored-transaction helpers use when none is
-   * passed. Every `Sui(makeDefault = true)` replaces it, so code that talks to more than one network
-   * should pass its client explicitly. Closing the default client clears it.
+   * passed. Every `Sui(makeDefault = true)` replaces it, so code that talks to more than one
+   * network should pass its client explicitly. Closing the default client clears it.
    */
   val client: Sui
     get() =
       default
         ?: throw IllegalStateException(
-          "No default Sui client: create Sui(config) with makeDefault = true, or pass a client"
+          "No default Sui client: create Sui(config) with makeDefault = true, or pass a client",
         )
 
   internal fun setDefault(client: Sui) {

@@ -90,7 +90,7 @@ actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): Pub
       Ed25519PublicKey(
         privateKey.data.useAsUint8ArrayThenWipe { key ->
           Ed25519Module.ed25519.getPublicKey(key).unsafeCast<Uint8Array>().toByteArray()
-        }
+        },
       )
     else -> throw SignatureSchemeNotSupportedException()
   }
@@ -110,7 +110,7 @@ actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E
               .sign(message.toUint8Array(), key)
               .unsafeCast<Uint8Array>()
               .toByteArray()
-          }
+          },
         )
       else -> throw SignatureSchemeNotSupportedException()
     }
@@ -144,7 +144,7 @@ actual fun verifySignature(
               message.toUint8Array(),
               publicKey.data.toUint8Array(),
             )
-            .unsafeCast<Boolean>()
+            .unsafeCast<Boolean>(),
         )
       else -> throw SignatureSchemeNotSupportedException()
     }
@@ -221,7 +221,8 @@ private fun deriveEd25519PrivateKey(seed: ByteArray, path: String): ByteArray {
     data[35] = (child shr 8).toByte()
     data[36] = child.toByte()
     digest =
-      HmacModule.hmac(Sha2Module.sha512, chainCode.toUint8Array(), data.toUint8Array()).toByteArray()
+      HmacModule.hmac(Sha2Module.sha512, chainCode.toUint8Array(), data.toUint8Array())
+        .toByteArray()
     key = digest.copyOfRange(0, 32)
     chainCode = digest.copyOfRange(32, 64)
   }

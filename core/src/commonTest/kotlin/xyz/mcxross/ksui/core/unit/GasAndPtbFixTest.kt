@@ -8,7 +8,6 @@ import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.CallArg
 import xyz.mcxross.ksui.core.model.CoinObject
 import xyz.mcxross.ksui.core.model.Digest
-import xyz.mcxross.ksui.core.model.FundingSource
 import xyz.mcxross.ksui.core.model.FundsWithdrawalSource
 import xyz.mcxross.ksui.core.model.GasConfig
 import xyz.mcxross.ksui.core.model.GasContext
@@ -25,6 +24,7 @@ import xyz.mcxross.ksui.core.model.SponsoredTransactionPolicy
 import xyz.mcxross.ksui.core.model.TransactionData
 import xyz.mcxross.ksui.core.model.TransactionDataComposer
 import xyz.mcxross.ksui.core.model.TransactionExpiration
+import xyz.mcxross.ksui.core.model.selectTopGasCoins
 import xyz.mcxross.ksui.core.model.validateSponsoredTransaction
 import xyz.mcxross.ksui.core.ptb.Argument
 import xyz.mcxross.ksui.core.ptb.Command
@@ -36,7 +36,6 @@ import xyz.mcxross.ksui.core.ptb.ResolvedObjectOwner
 import xyz.mcxross.ksui.core.ptb.arg
 import xyz.mcxross.ksui.core.ptb.hexStringToByteArray
 import xyz.mcxross.ksui.core.ptb.ptb
-import xyz.mcxross.ksui.core.model.selectTopGasCoins
 
 class GasAndPtbFixTest :
   StringSpec({
@@ -70,16 +69,17 @@ class GasAndPtbFixTest :
           object : ProgrammableTransactionResolver {
             override suspend fun mutableInputIndexes(commands: List<Command>): Set<Int> = emptySet()
 
-            override suspend fun resolveObjects(objectIds: List<String>): Map<String, ResolvedObject> =
-              objectIds.associateWith {
-                ResolvedObject(
-                  objectId = it,
-                  version = 5L,
-                  digest = "BqrFumAb7yjZKKQUApKjzqdgHUZY3XaTNWxNQsvjMSBc",
-                  owner = ResolvedObjectOwner.Immutable,
-                )
-              }
-          }
+            override suspend fun resolveObjects(
+              objectIds: List<String>,
+            ): Map<String, ResolvedObject> = objectIds.associateWith {
+              ResolvedObject(
+                objectId = it,
+                version = 5L,
+                digest = "BqrFumAb7yjZKKQUApKjzqdgHUZY3XaTNWxNQsvjMSBc",
+                owner = ResolvedObjectOwner.Immutable,
+              )
+            }
+          },
         )
       resolved.inputs.size shouldBe 1
       val obj = resolved.inputs.single().shouldBeInstanceOf<CallArg.Object>()
@@ -108,7 +108,8 @@ class GasAndPtbFixTest :
               epoch = 10UL,
               referenceGasPrice = 1_000UL,
               chain = chainDigest,
-              holdings = Holdings("0x2::sui::SUI", coinObjects = 0UL, addressBalance = 10_000_000UL),
+              holdings =
+                Holdings("0x2::sui::SUI", coinObjects = 0UL, addressBalance = 10_000_000UL),
             )
 
           override suspend fun coins(owner: AccountAddress) = emptyList<CoinObject>()
@@ -150,7 +151,8 @@ class GasAndPtbFixTest :
               epoch = 12UL,
               referenceGasPrice = 1_000UL,
               chain = chainDigest,
-              holdings = Holdings("0x2::sui::SUI", coinObjects = 30_000_000UL, addressBalance = 5_000_000UL),
+              holdings =
+                Holdings("0x2::sui::SUI", coinObjects = 30_000_000UL, addressBalance = 5_000_000UL),
             )
 
           override suspend fun coins(owner: AccountAddress) =
@@ -190,7 +192,7 @@ class GasAndPtbFixTest :
 
       val wideWindow =
         response.copy(
-          expiration = TransactionExpiration.ValidDuring(10UL, 20UL, null, null, chainDigest, 1u)
+          expiration = TransactionExpiration.ValidDuring(10UL, 20UL, null, null, chainDigest, 1u),
         )
       shouldThrow<IllegalArgumentException> {
         requested.validateSponsoredTransaction(wideWindow, policy)
@@ -198,7 +200,7 @@ class GasAndPtbFixTest :
 
       val valid =
         response.copy(
-          expiration = TransactionExpiration.ValidDuring(10UL, 11UL, null, null, chainDigest, 1u)
+          expiration = TransactionExpiration.ValidDuring(10UL, 11UL, null, null, chainDigest, 1u),
         )
       requested.validateSponsoredTransaction(valid, policy) shouldBe valid
     }

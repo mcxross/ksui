@@ -54,7 +54,7 @@ class GraphqlSubscriptionTest :
           SuiSettings(
             indexer = "https://example.test/graphql",
             indexerConfig = IndexerConfig(mapOf("X-API-Key" to "token")),
-          )
+          ),
         )
 
       val checkpoint =
@@ -68,8 +68,10 @@ class GraphqlSubscriptionTest :
         )
       checkpoint.payload["variables"]!!.jsonObject["after"]!!.jsonPrimitive.content shouldBe
         "prior-cp"
-      checkpoint.payload["variables"]!!.jsonObject["afterCheckpoint"]!!.jsonPrimitive.content shouldBe
-        "41"
+      checkpoint.payload["variables"]!!
+        .jsonObject["afterCheckpoint"]!!
+        .jsonPrimitive
+        .content shouldBe "41"
       (checkpoint.result as Result.Ok).value?.checkpoints?.cursor shouldBe "cp-42"
       checkpoint.engine.url shouldBe "https://example.test/graphql"
       checkpoint.engine.headers.any { it.name == "X-API-Key" && it.value == "token" } shouldBe true
@@ -90,8 +92,11 @@ class GraphqlSubscriptionTest :
         )
       event.payload["variables"]!!.jsonObject["after"]!!.jsonPrimitive.content shouldBe
         "prior-event"
-      event.payload["variables"]!!.jsonObject["filter"]!!.jsonObject["type"]!!.jsonPrimitive.content shouldBe
-        "0x2::coin::Coin"
+      event.payload["variables"]!!
+        .jsonObject["filter"]!!
+        .jsonObject["type"]!!
+        .jsonPrimitive
+        .content shouldBe "0x2::coin::Coin"
       (event.result as Result.Ok).value?.events?.cursor shouldBe "event-1"
 
       val transaction =
@@ -105,8 +110,11 @@ class GraphqlSubscriptionTest :
         )
       transaction.payload["variables"]!!.jsonObject["after"]!!.jsonPrimitive.content shouldBe
         "prior-tx"
-      transaction.payload["variables"]!!.jsonObject["filter"]!!.jsonObject["sentAddress"]!!.jsonPrimitive.content shouldBe
-        "0x1"
+      transaction.payload["variables"]!!
+        .jsonObject["filter"]!!
+        .jsonObject["sentAddress"]!!
+        .jsonPrimitive
+        .content shouldBe "0x1"
       (transaction.result as Result.Ok).value?.transactions?.node?.digest shouldBe "tx-digest"
     }
 
@@ -136,10 +144,11 @@ private suspend fun <D : Subscription.Data> exchange(
   error: String? = null,
 ): Exchange<D> = coroutineScope {
   val engine = FakeWebSocketEngine()
-  val collected =
-    async {
-      subscriptionResults({ getGraphqlSubscriptionClient(config, engine) }, operation).take(1).toList()
-    }
+  val collected = async {
+    subscriptionResults({ getGraphqlSubscriptionClient(config, engine) }, operation)
+      .take(1)
+      .toList()
+  }
   assertContains(withTimeout(5_000) { engine.sent.receive() }, "connection_init")
   engine.received.send("""{"type":"connection_ack"}""")
   val subscribe = Json.parseToJsonElement(withTimeout(5_000) { engine.sent.receive() }).jsonObject

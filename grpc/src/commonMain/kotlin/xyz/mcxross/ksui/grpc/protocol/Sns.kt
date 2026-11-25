@@ -17,7 +17,7 @@ interface Sns {
 
   @Throws(Exception::class)
   suspend fun reverseLookupName(
-    request: ReverseLookupNameRequest
+    request: ReverseLookupNameRequest,
   ): Result<ReverseLookupNameResponse, SuiError>
 
   @Throws(Exception::class)
@@ -25,6 +25,6 @@ interface Sns {
 
   @Throws(Exception::class)
   suspend fun reverseLookupName(
-    address: AccountAddress
+    address: AccountAddress,
   ): Result<ReverseLookupNameResponse, SuiError>
 }

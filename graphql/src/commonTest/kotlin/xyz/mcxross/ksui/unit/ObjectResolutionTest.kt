@@ -39,7 +39,9 @@ class ObjectResolutionTest :
   StringSpec({
     val json = Json { ignoreUnknownKeys = true }
 
-    fun mockSui(handler: suspend MockRequestHandleScope.(HttpRequestData) -> HttpResponseData): Sui {
+    fun mockSui(
+      handler: suspend MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
+    ): Sui {
       val config = SuiConfig(SuiSettings(indexer = "https://indexer.test/graphql"))
       val ktor = HttpClient(MockEngine(handler)) { install(ContentNegotiation) { json(json) } }
       installHttpClientForTest(config, ktor)
@@ -60,18 +62,31 @@ class ObjectResolutionTest :
       val ids = List(70) { "0x" + (it + 0x1000).toString(16).padStart(64, '0') }
       val batchSizes = mutableListOf<Int>()
       val sui = mockSui { request ->
-        val keys = request.variables()["keys"]!!.jsonArray.map { it.jsonObject["address"]!!.jsonPrimitive.content }
+        val keys =
+          request.variables()["keys"]!!.jsonArray.map {
+            it.jsonObject["address"]!!.jsonPrimitive.content
+          }
         batchSizes += keys.size
         val objects =
           keys.joinToString(",") {
             """{"__typename":"Object","objectId":"$it","version":1,"digest":"$DIGEST","owner":{"__typename":"Immutable"}}"""
           }
-        respond("""{"data":{"multiGetObjects":[$objects]}}""", HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
+        respond(
+          """{"data":{"multiGetObjects":[$objects]}}""",
+          HttpStatusCode.OK,
+          headersOf(HttpHeaders.ContentType, "application/json"),
+        )
       }
       val resolved = ptb(sui) { ids.forEach { `object`(it) } }
       batchSizes shouldBe listOf(MULTI_GET_OBJECTS_BATCH_SIZE, MULTI_GET_OBJECTS_BATCH_SIZE, 6)
       resolved.inputs.map {
-        (it as CallArg.Object).arg.shouldBeInstanceOf<ObjectArg.ImmOrOwnedObject>().objectRef.reference.accountAddress.toString()
+        (it as CallArg.Object)
+          .arg
+          .shouldBeInstanceOf<ObjectArg.ImmOrOwnedObject>()
+          .objectRef
+          .reference
+          .accountAddress
+          .toString()
       } shouldBe ids
       sui.close()
     }
@@ -80,14 +95,16 @@ class ObjectResolutionTest :
       var first: Int? = null
       val config = SuiConfig(SuiSettings(indexer = "https://indexer.test/graphql"))
       val ktor =
-        HttpClient(MockEngine { request ->
-          first = request.variables()["first"]?.jsonPrimitive?.int
-          respond(
-            """{"data":{"address":{"address":"0x${"1".padStart(64, '0')}","objects":{"pageInfo":{"hasNextPage":false,"endCursor":null},"nodes":[]}}}}""",
-            HttpStatusCode.OK,
-            headersOf(HttpHeaders.ContentType, "application/json"),
-          )
-        }) {
+        HttpClient(
+          MockEngine { request ->
+            first = request.variables()["first"]?.jsonPrimitive?.int
+            respond(
+              """{"data":{"address":{"address":"0x${"1".padStart(64, '0')}","objects":{"pageInfo":{"hasNextPage":false,"endCursor":null},"nodes":[]}}}}""",
+              HttpStatusCode.OK,
+              headersOf(HttpHeaders.ContentType, "application/json"),
+            )
+          },
+        ) {
           install(ContentNegotiation) { json(json) }
         }
       installHttpClientForTest(config, ktor)
@@ -101,7 +118,11 @@ class ObjectResolutionTest :
       val owner =
         """{"__typename":"ConsensusAddressOwner","startVersion":42,"address":{"address":"0x${"1".padStart(64, '0')}"}}"""
       val sui = mockSui {
-        respond(objectsResponse(id, owner), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
+        respond(
+          objectsResponse(id, owner),
+          HttpStatusCode.OK,
+          headersOf(HttpHeaders.ContentType, "application/json"),
+        )
       }
       val resolved = ptb(sui) { `object`(id) }
       val arg = resolved.inputs.single().shouldBeInstanceOf<CallArg.Object>().arg
@@ -113,10 +134,15 @@ class ObjectResolutionTest :
       val id = "0x" + "5a".padStart(64, '0')
       val owner = """{"__typename":"Shared","initialSharedVersion":null}"""
       val sui = mockSui {
-        respond(objectsResponse(id, owner), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
+        respond(
+          objectsResponse(id, owner),
+          HttpStatusCode.OK,
+          headersOf(HttpHeaders.ContentType, "application/json"),
+        )
       }
       val error = runCatching { ptb(sui) { `object`(id) } }.exceptionOrNull()
-      error.shouldBeInstanceOf<IllegalStateException>().message!! shouldContain "initialSharedVersion"
+      error.shouldBeInstanceOf<IllegalStateException>().message!! shouldContain
+        "initialSharedVersion"
       sui.close()
     }
   })

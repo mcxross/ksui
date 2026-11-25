@@ -28,7 +28,8 @@ import xyz.mcxross.ksui.core.model.UserAgent as KsuiUserAgent
 
 private val CLIENT_INIT_LOCK = Any()
 
-internal actual fun <T> withClientInitLock(block: () -> T): T = synchronized(CLIENT_INIT_LOCK, block)
+internal actual fun <T> withClientInitLock(block: () -> T): T =
+  synchronized(CLIENT_INIT_LOCK, block)
 
 actual fun httpClient(clientConfig: ClientConfig) =
   HttpClient(CIO) {

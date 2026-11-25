@@ -152,7 +152,7 @@ class General(override val config: SuiConfig) : General {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getCheckpoint(
-    checkpointId: CheckpointId?
+    checkpointId: CheckpointId?,
   ): Result<GetCheckpointQuery.Data?, SuiError> = getCheckpoint(config, checkpointId)
 
   /**
@@ -205,6 +205,6 @@ class General(override val config: SuiConfig) : General {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun getProtocolConfig(
-    protocolVersion: Int?
+    protocolVersion: Int?,
   ): Result<GetProtocolConfigQuery.Data?, SuiError> = getProtocolConfig(config, protocolVersion)
 }

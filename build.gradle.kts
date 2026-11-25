@@ -135,7 +135,7 @@ val generateDokkaSiteIndex by tasks.registering {
           </body>
         </html>
         """
-          .trimIndent()
+          .trimIndent(),
       )
   }
 }

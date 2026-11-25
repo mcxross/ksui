@@ -35,23 +35,22 @@ internal suspend fun getObject(
   config: SuiConfig,
   id: String,
   option: ObjectDataOptions,
-): Result<GetObjectQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetObjectQuery(
-            id,
-            showBcs = Optional.presentIfNotNull(option.showBcs),
-            showOwner = Optional.presentIfNotNull(option.showOwner),
-            showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
-            showContent = Optional.presentIfNotNull(option.showContent),
-            showDisplay = Optional.presentIfNotNull(option.showDisplay),
-            showType = Optional.presentIfNotNull(option.showType),
-            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
-          )
-        )
-    }
-    .toResult()
+): Result<GetObjectQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetObjectQuery(
+        id,
+        showBcs = Optional.presentIfNotNull(option.showBcs),
+        showOwner = Optional.presentIfNotNull(option.showOwner),
+        showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
+        showContent = Optional.presentIfNotNull(option.showContent),
+        showDisplay = Optional.presentIfNotNull(option.showDisplay),
+        showType = Optional.presentIfNotNull(option.showType),
+        showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getOwnedObjects(
   config: SuiConfig,
@@ -59,31 +58,30 @@ internal suspend fun getOwnedObjects(
   limit: Int?,
   cursor: String?,
   option: ObjectDataOptions,
-): Result<GetOwnedObjectsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetOwnedObjectsQuery(
-            owner.toString(),
-            limit = Optional.presentIfNotNull(limit),
-            cursor = Optional.presentIfNotNull(cursor),
-            showBcs = Optional.presentIfNotNull(option.showBcs),
-            showOwner = Optional.presentIfNotNull(option.showOwner),
-            showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
-            showContent = Optional.presentIfNotNull(option.showContent),
-            showDisplay = Optional.presentIfNotNull(option.showDisplay),
-            showType = Optional.presentIfNotNull(option.showType),
-            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
-          )
-        )
-    }
-    .toResult()
+): Result<GetOwnedObjectsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetOwnedObjectsQuery(
+        owner.toString(),
+        limit = Optional.presentIfNotNull(limit),
+        cursor = Optional.presentIfNotNull(cursor),
+        showBcs = Optional.presentIfNotNull(option.showBcs),
+        showOwner = Optional.presentIfNotNull(option.showOwner),
+        showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
+        showContent = Optional.presentIfNotNull(option.showContent),
+        showDisplay = Optional.presentIfNotNull(option.showDisplay),
+        showType = Optional.presentIfNotNull(option.showType),
+        showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      ),
+    )
+}
+  .toResult()
 
 /**
- * Keys per multiGetObjects request. The mainnet and testnet services reject any request larger
- * than `serviceConfig.maxQueryPayloadSize` (5,000 bytes); with this query each key adds about
- * 81 bytes, so 40 keys fit and about 45 do not (measured 2026-11-25). `maxMultiGetSize` (200) is
- * not the binding limit. 32 leaves headroom for longer headers and future fields.
+ * Keys per multiGetObjects request. The mainnet and testnet services reject any request larger than
+ * `serviceConfig.maxQueryPayloadSize` (5,000 bytes); with this query each key adds about 81 bytes,
+ * so 40 keys fit and about 45 do not (measured 2026-11-25). `maxMultiGetSize` (200) is not the
+ * binding limit. 32 leaves headroom for longer headers and future fields.
  */
 internal const val MULTI_GET_OBJECTS_BATCH_SIZE = 32
 
@@ -110,70 +108,68 @@ private suspend fun multiGetObjectsBatch(
   config: SuiConfig,
   ids: List<String>,
   options: ObjectDataOptions,
-): Result<MultiGetObjectsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          MultiGetObjectsQuery(
-            ids.map { ObjectKey(it) },
-            showBcs = Optional.presentIfNotNull(options.showBcs),
-            showOwner = Optional.presentIfNotNull(options.showOwner),
-            showPreviousTransaction = Optional.presentIfNotNull(options.showPreviousTransaction),
-            showContent = Optional.presentIfNotNull(options.showContent),
-            showDisplay = Optional.presentIfNotNull(options.showDisplay),
-            showType = Optional.presentIfNotNull(options.showType),
-            showStorageRebate = Optional.presentIfNotNull(options.showStorageRebate),
-          )
-        )
-    }
-    .toResult()
+): Result<MultiGetObjectsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      MultiGetObjectsQuery(
+        ids.map { ObjectKey(it) },
+        showBcs = Optional.presentIfNotNull(options.showBcs),
+        showOwner = Optional.presentIfNotNull(options.showOwner),
+        showPreviousTransaction = Optional.presentIfNotNull(options.showPreviousTransaction),
+        showContent = Optional.presentIfNotNull(options.showContent),
+        showDisplay = Optional.presentIfNotNull(options.showDisplay),
+        showType = Optional.presentIfNotNull(options.showType),
+        showStorageRebate = Optional.presentIfNotNull(options.showStorageRebate),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun tryGetPastObject(
   config: SuiConfig,
   id: String,
   version: Int?,
   option: ObjectDataOptions,
-): Result<TryGetPastObjectQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          TryGetPastObjectQuery(
-            id,
-            version = Optional.presentIfNotNull(version),
-            showBcs = Optional.presentIfNotNull(option.showBcs),
-            showOwner = Optional.presentIfNotNull(option.showOwner),
-            showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
-            showContent = Optional.presentIfNotNull(option.showContent),
-            showDisplay = Optional.presentIfNotNull(option.showDisplay),
-            showType = Optional.presentIfNotNull(option.showType),
-            showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
-          )
-        )
-    }
-    .toResult()
+): Result<TryGetPastObjectQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      TryGetPastObjectQuery(
+        id,
+        version = Optional.presentIfNotNull(version),
+        showBcs = Optional.presentIfNotNull(option.showBcs),
+        showOwner = Optional.presentIfNotNull(option.showOwner),
+        showPreviousTransaction = Optional.presentIfNotNull(option.showPreviousTransaction),
+        showContent = Optional.presentIfNotNull(option.showContent),
+        showDisplay = Optional.presentIfNotNull(option.showDisplay),
+        showType = Optional.presentIfNotNull(option.showType),
+        showStorageRebate = Optional.presentIfNotNull(option.showStorageRebate),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getDynamicFieldObject(
   config: SuiConfig,
   parentId: String,
   name: DynamicFieldName,
-): Result<GetDynamicFieldObjectQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name)) }
-    .toResult()
+): Result<GetDynamicFieldObjectQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetDynamicFieldObjectQuery(parentId, name))
+}
+  .toResult()
 
 internal suspend fun getDynamicFields(
   config: SuiConfig,
   parentId: String,
   first: Int?,
   cursor: String?,
-): Result<GetDynamicFieldsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetDynamicFieldsQuery(
-            parentId,
-            first = Optional.presentIfNotNull(first),
-            cursor = Optional.presentIfNotNull(cursor),
-          )
-        )
-    }
-    .toResult()
+): Result<GetDynamicFieldsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetDynamicFieldsQuery(
+        parentId,
+        first = Optional.presentIfNotNull(first),
+        cursor = Optional.presentIfNotNull(cursor),
+      ),
+    )
+}
+  .toResult()

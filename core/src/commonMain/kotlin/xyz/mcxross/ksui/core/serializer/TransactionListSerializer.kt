@@ -48,7 +48,7 @@ object TransactionListSerializer : KSerializer<List<TransactionKind>> {
               kotlinx.serialization.json.buildJsonObject {}
             }
           }
-        }
+        },
       )
     encoder.encodeJsonElement(jsonArray)
   }

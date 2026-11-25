@@ -46,7 +46,7 @@ class ProgrammableTransactionResolutionTest :
               listOf(
                 "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a904",
                 "0x7aaec1a24ced4f34d49c27f00b21f5e3c7a9b20f25e57a1fd2863b15abe3a902",
-              )
+              ),
             )
 
           moveCall {

@@ -62,11 +62,12 @@ class NetworkPtbDsl(
     }
     val state = state(owner, coinType)
     fundingOwner = owner
-    val fromAddress = when (source) {
-      FundingSource.CoinObjects -> 0uL
-      FundingSource.AddressBalance -> amount
-      FundingSource.Auto -> minOf(amount, state.addressRemaining)
-    }
+    val fromAddress =
+      when (source) {
+        FundingSource.CoinObjects -> 0uL
+        FundingSource.AddressBalance -> amount
+        FundingSource.Auto -> minOf(amount, state.addressRemaining)
+      }
     require(fromAddress <= state.addressRemaining) {
       "Insufficient address balance for $coinType: need $fromAddress, have ${state.addressRemaining}"
     }
@@ -75,22 +76,30 @@ class NetworkPtbDsl(
       "Insufficient coin objects for $coinType: need $fromObjects, have ${state.objectRemaining}"
     }
 
-    val objectCoin = if (fromObjects > 0uL) coinFromObjects(
-      owner, coinType, fromObjects, state, useGasCoin
-    ) else null
+    val objectCoin =
+      if (fromObjects > 0uL)
+        coinFromObjects(
+          owner,
+          coinType,
+          fromObjects,
+          state,
+          useGasCoin,
+        )
+      else null
     state.addressRemaining -= fromAddress
     state.objectRemaining -= fromObjects
 
     if (asBalance && objectCoin == null) return builder.withdrawBalance(fromAddress, coinType)
     val addressCoin = if (fromAddress > 0uL) builder.withdrawCoin(fromAddress, coinType) else null
-    val resultCoin = when {
-      addressCoin == null -> requireNotNull(objectCoin)
-      objectCoin == null -> addressCoin
-      else -> {
-        builder.mergeCoins(addressCoin, listOf(objectCoin))
-        addressCoin
+    val resultCoin =
+      when {
+        addressCoin == null -> requireNotNull(objectCoin)
+        objectCoin == null -> addressCoin
+        else -> {
+          builder.mergeCoins(addressCoin, listOf(objectCoin))
+          addressCoin
+        }
       }
-    }
     return if (asBalance) {
       builder.moveCall("0x2::coin::into_balance", listOf(coinType), listOf(resultCoin))
     } else resultCoin
@@ -102,10 +111,11 @@ class NetworkPtbDsl(
       require(it.owner == owner) { "Sender changed after reserving $key funds" }
       return it
     }
-    val holdings = when (val result = sui.getHoldings(owner, key)) {
-      is Result.Ok -> result.value
-      is Result.Err -> error("Could not fetch holdings for $key: ${result.error}")
-    }
+    val holdings =
+      when (val result = sui.getHoldings(owner, key)) {
+        is Result.Ok -> result.value
+        is Result.Err -> error("Could not fetch holdings for $key: ${result.error}")
+      }
     return FundingState(owner, holdings).also { funding[key] = it }
   }
 
@@ -127,19 +137,21 @@ class NetworkPtbDsl(
       "Cannot select explicit SUI coin objects after using the gas coin"
     }
     if (!state.loadedCoins) loadCoins(owner, coinType, state)
-    val selectableTotal = state.coins.fold(0uL) { total, coin ->
-      val next = total + coin.balance
-      require(next >= total) { "Coin object total exceeds u64" }
-      next
-    }
+    val selectableTotal =
+      state.coins.fold(0uL) { total, coin ->
+        val next = total + coin.balance
+        require(next >= total) { "Coin object total exceeds u64" }
+        next
+      }
     require(selectableTotal >= amount) {
       "Insufficient selectable coin objects for $coinType: need $amount, found $selectableTotal"
     }
     val selected = mutableListOf<AvailableCoin>()
     var selectedTotal = 0uL
-    val singleIndex = state.coins.indices
-      .filter { state.coins[it].balance >= amount }
-      .minByOrNull { state.coins[it].balance }
+    val singleIndex =
+      state.coins.indices
+        .filter { state.coins[it].balance >= amount }
+        .minByOrNull { state.coins[it].balance }
     if (singleIndex != null) {
       val coin = state.coins.removeAt(singleIndex)
       selected += coin
@@ -153,9 +165,12 @@ class NetworkPtbDsl(
       selectedTotal += next.balance
     }
     state.usedExplicitObjects = true
-    val arguments = selected.map { it.argument ?: builder.`object`(
-      ObjectArg.ImmOrOwnedObject(requireNotNull(it.reference))
-    ) }
+    val arguments = selected.map {
+      it.argument
+        ?: builder.`object`(
+          ObjectArg.ImmOrOwnedObject(requireNotNull(it.reference)),
+        )
+    }
     val primary = arguments.first()
     if (arguments.size > 1) builder.mergeCoins(primary, arguments.drop(1))
     if (selectedTotal == amount) return primary
@@ -168,25 +183,28 @@ class NetworkPtbDsl(
     var cursor: String? = null
     var pages = 0
     do {
-      val response = when (
-        val result = sui.getCoins(
-          address = owner,
-          first = COIN_PAGE_SIZE,
-          cursor = cursor,
-          type = "0x2::coin::Coin<$coinType>",
-        )
-      ) {
-        is Result.Ok -> result.value
-        is Result.Err -> error("Could not list coin objects for $coinType: ${result.error}")
-      }
+      val response =
+        when (
+          val result =
+            sui.getCoins(
+              address = owner,
+              first = COIN_PAGE_SIZE,
+              cursor = cursor,
+              type = "0x2::coin::Coin<$coinType>",
+            )
+        ) {
+          is Result.Ok -> result.value
+          is Result.Err -> error("Could not list coin objects for $coinType: ${result.error}")
+        }
       val page = requireNotNull(response?.address?.objects) { "Coin object page unavailable" }
       page.nodes.forEach { node ->
         val balance = coinBalance(node)
-        val reference = ObjectReference(
-          Reference(AccountAddress.fromString(node.address.toString())),
-          requireNotNull(node.version).toString().toLong(),
-          ObjectDigest(Digest.fromString(requireNotNull(node.digest))),
-        )
+        val reference =
+          ObjectReference(
+            Reference(AccountAddress.fromString(node.address.toString())),
+            requireNotNull(node.version).toString().toLong(),
+            ObjectDigest(Digest.fromString(requireNotNull(node.digest))),
+          )
         state.coins += AvailableCoin(balance = balance, reference = reference)
       }
       pages++
@@ -199,10 +217,11 @@ class NetworkPtbDsl(
   }
 
   private fun coinBalance(node: GetCoinsQuery.Node): ULong {
-    val fields = node.contents?.json as? Map<*, *>
-      ?: error("Coin object ${node.address} has no JSON contents")
+    val fields =
+      node.contents?.json as? Map<*, *> ?: error("Coin object ${node.address} has no JSON contents")
     return requireNotNull(fields["balance"]) { "Coin object ${node.address} has no balance" }
-      .toString().toULong()
+      .toString()
+      .toULong()
   }
 
   private data class AvailableCoin(

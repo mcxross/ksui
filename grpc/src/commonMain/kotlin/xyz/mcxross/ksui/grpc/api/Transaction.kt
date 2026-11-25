@@ -28,7 +28,7 @@ import xyz.mcxross.ksui.grpc.protocol.Transaction as TransactionProtocol
 
 internal class Transaction(private val runtime: GrpcRuntime) : TransactionProtocol {
   override suspend fun getTransaction(
-    request: GetTransactionRequest
+    request: GetTransactionRequest,
   ): Result<GetTransactionResponse, SuiError> = handleGrpc {
     internalGetTransaction(runtime, request)
   }
@@ -48,7 +48,7 @@ internal class Transaction(private val runtime: GrpcRuntime) : TransactionProtoc
   }
 
   override suspend fun executeTransaction(
-    request: ExecuteTransactionRequest
+    request: ExecuteTransactionRequest,
   ): Result<ExecuteTransactionResponse, SuiError> = handleGrpc {
     internalExecuteTransaction(runtime, request)
   }
@@ -70,7 +70,7 @@ internal class Transaction(private val runtime: GrpcRuntime) : TransactionProtoc
   }
 
   override suspend fun simulateTransaction(
-    request: SimulateTransactionRequest
+    request: SimulateTransactionRequest,
   ): Result<SimulateTransactionResponse, SuiError> = handleGrpc {
     internalSimulateTransaction(runtime, request)
   }

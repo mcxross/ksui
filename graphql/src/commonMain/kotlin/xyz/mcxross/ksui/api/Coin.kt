@@ -29,9 +29,9 @@ import xyz.mcxross.ksui.generated.GetCoinsQuery
 import xyz.mcxross.ksui.generated.GetTotalSupplyQuery
 import xyz.mcxross.ksui.internal.getAllBalances
 import xyz.mcxross.ksui.internal.getBalance
-import xyz.mcxross.ksui.internal.getHoldings
 import xyz.mcxross.ksui.internal.getCoinMetadata
 import xyz.mcxross.ksui.internal.getCoins
+import xyz.mcxross.ksui.internal.getHoldings
 import xyz.mcxross.ksui.internal.getTotalSupply
 import xyz.mcxross.ksui.protocol.Coin
 

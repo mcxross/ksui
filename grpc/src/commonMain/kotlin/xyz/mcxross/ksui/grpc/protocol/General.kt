@@ -11,8 +11,7 @@ import xyz.mcxross.ksui.core.model.CheckpointId
 import xyz.mcxross.ksui.core.model.Result
 
 interface General {
-  @Throws(Exception::class)
-  suspend fun getServiceInfo(): Result<GetServiceInfoResponse, SuiError>
+  @Throws(Exception::class) suspend fun getServiceInfo(): Result<GetServiceInfoResponse, SuiError>
 
   @Throws(Exception::class)
   suspend fun getCheckpoint(request: GetCheckpointRequest): Result<GetCheckpointResponse, SuiError>

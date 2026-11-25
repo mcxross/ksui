@@ -39,7 +39,7 @@ object MoveFunctionArgTypeSerializer : KSerializer<MoveFunctionArgType> {
     return when (val jsonElement = decoder.decodeJsonElement()) {
       is JsonObject -> {
         MoveFunctionArgType.MoveFunctionArgObject(
-          jsonElement["Object"]?.jsonPrimitive?.content ?: "ksui-default"
+          jsonElement["Object"]?.jsonPrimitive?.content ?: "ksui-default",
         )
       }
       is JsonPrimitive -> {

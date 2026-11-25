@@ -42,7 +42,7 @@ internal class Object(private val runtime: GrpcRuntime) : ObjectProtocol {
   }
 
   override suspend fun listDynamicFields(
-    request: ListDynamicFieldsRequest
+    request: ListDynamicFieldsRequest,
   ): Result<ListDynamicFieldsResponse, SuiError> = handleGrpc {
     internalListDynamicFields(runtime, request)
   }
@@ -57,7 +57,7 @@ internal class Object(private val runtime: GrpcRuntime) : ObjectProtocol {
   }
 
   override suspend fun listOwnedObjects(
-    request: ListOwnedObjectsRequest
+    request: ListOwnedObjectsRequest,
   ): Result<ListOwnedObjectsResponse, SuiError> = handleGrpc {
     internalListOwnedObjects(runtime, request)
   }

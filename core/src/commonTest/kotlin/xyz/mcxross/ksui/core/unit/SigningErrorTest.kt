@@ -30,8 +30,10 @@ class SigningErrorTest :
 
           override suspend fun sign(message: ByteArray): Result<ByteArray, E> = Result.Err(failure)
 
-          override suspend fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> =
-            Result.Ok(false)
+          override suspend fun verify(
+            message: ByteArray,
+            signature: ByteArray,
+          ): Result<Boolean, E> = Result.Ok(false)
         }
       val tx =
         TransactionData.V1(

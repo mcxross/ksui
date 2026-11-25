@@ -23,13 +23,13 @@ data class PasskeyPublicKey(override val data: ByteArray) : PublicKey {
   override fun scheme(): SignatureScheme = SignatureScheme.PASSKEY
 
   /**
-   * Passkey verification requires relying-party context, which a bare public key does not have.
-   * Use [PasskeyAccount.verify] for WebAuthn authentication or [verifySuiProofOfKey] only when
+   * Passkey verification requires relying-party context, which a bare public key does not have. Use
+   * [PasskeyAccount.verify] for WebAuthn authentication or [verifySuiProofOfKey] only when
    * intentionally matching Sui's context-free proof-of-key semantics.
    */
   override fun verify(message: ByteArray, signature: ByteArray): Result<Boolean, E> {
     return Result.Err(
-      IllegalStateException("Passkey verification requires a PasskeyAccount and provider policy")
+      IllegalStateException("Passkey verification requires a PasskeyAccount and provider policy"),
     )
   }
 

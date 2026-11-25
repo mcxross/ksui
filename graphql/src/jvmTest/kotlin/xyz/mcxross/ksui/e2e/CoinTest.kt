@@ -48,10 +48,11 @@ class CoinTest :
         holdings.coinType shouldBe SUI_TYPE
         holdings.total shouldBe holdings.coinObjects + holdings.addressBalance
 
-        val transaction = ptb(sui, alice.address) {
-          val funded = coin(1_000uL)
-          sendCoinToAddressBalance(funded, alice.address)
-        }
+        val transaction =
+          ptb(sui, alice.address) {
+            val funded = coin(1_000uL)
+            sendCoinToAddressBalance(funded, alice.address)
+          }
         transaction.commands.last().shouldBeInstanceOf<Command.MoveCall>()
         if (holdings.addressBalance > 0uL) {
           transaction.inputs.any { it is CallArg.FundsWithdrawal } shouldBe true

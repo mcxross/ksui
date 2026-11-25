@@ -45,7 +45,7 @@ class Sns(val config: SuiConfig) : Sns {
    * - `Err`: Containing a [SuiError] object with a list of [SdkErrorDetail]s.
    */
   override suspend fun resolveNameServiceAddress(
-    domain: String
+    domain: String,
   ): Result<ResolveNameServiceAddressQuery.Data?, SuiError> =
     resolveNameServiceAddress(config, domain)
 

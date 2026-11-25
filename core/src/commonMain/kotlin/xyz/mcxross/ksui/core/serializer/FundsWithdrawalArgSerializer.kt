@@ -8,7 +8,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import xyz.mcxross.ksui.core.model.FundsWithdrawalArg
 import xyz.mcxross.ksui.core.model.FundsWithdrawalSource
-import xyz.mcxross.ksui.core.model.TypeTag
 
 /** Sui BCS layout: Reservation::MaxAmountU64, WithdrawalTypeArg::Balance, WithdrawFrom. */
 object FundsWithdrawalArgSerializer : KSerializer<FundsWithdrawalArg> {
@@ -34,11 +33,12 @@ object FundsWithdrawalArgSerializer : KSerializer<FundsWithdrawalArg> {
     val typeArg = decoder.decodeEnum(descriptor)
     if (typeArg != 0) throw SerializationException("Unknown withdrawal type: $typeArg")
     val coinType = decoder.decodeSerializableValue(TypeTagSerializer)
-    val source = when (val index = decoder.decodeEnum(descriptor)) {
-      0 -> FundsWithdrawalSource.Sender
-      1 -> FundsWithdrawalSource.Sponsor
-      else -> throw SerializationException("Unknown withdrawal source: $index")
-    }
+    val source =
+      when (val index = decoder.decodeEnum(descriptor)) {
+        0 -> FundsWithdrawalSource.Sender
+        1 -> FundsWithdrawalSource.Sponsor
+        else -> throw SerializationException("Unknown withdrawal source: $index")
+      }
     return FundsWithdrawalArg(amount, coinType, source)
   }
 }

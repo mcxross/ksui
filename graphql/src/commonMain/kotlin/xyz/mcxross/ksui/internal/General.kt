@@ -39,35 +39,40 @@ import xyz.mcxross.ksui.generated.SubscribeCheckpointsSubscription
 suspend inline fun <reified T> query(config: SuiConfig, query: RawQuery) {}
 
 internal suspend fun getChainIdentifier(
-  config: SuiConfig
-): Result<GetChainIdentifierQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetChainIdentifierQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetChainIdentifierQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetChainIdentifierQuery())
+}
+  .toResult()
 
 internal suspend fun getReferenceGasPrice(
-  config: SuiConfig
-): Result<GetReferenceGasPriceQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetReferenceGasPriceQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetReferenceGasPriceQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetReferenceGasPriceQuery())
+}
+  .toResult()
 
 internal suspend fun getCurrentEpoch(
-  config: SuiConfig
-): Result<GetCurrentEpochQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetCurrentEpochQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetCurrentEpochQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetCurrentEpochQuery())
+}
+  .toResult()
 
 internal suspend fun getLatestCheckpointSequenceNumber(
-  config: SuiConfig
-): Result<GetLatestCheckpointSequenceNumberQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetLatestCheckpointSequenceNumberQuery()) }
-    .toResult()
+  config: SuiConfig,
+): Result<GetLatestCheckpointSequenceNumberQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetLatestCheckpointSequenceNumberQuery())
+}
+  .toResult()
 
 internal suspend fun getCheckpoint(
   config: SuiConfig,
   id: CheckpointId?,
-): Result<GetCheckpointQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(GetCheckpointQuery(Optional.presentIfNotNull(id?.sequenceNumber)))
-    }
-    .toResult()
+): Result<GetCheckpointQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetCheckpointQuery(Optional.presentIfNotNull(id?.sequenceNumber)))
+}
+  .toResult()
 
 internal suspend fun getCheckpoints(
   config: SuiConfig,
@@ -75,61 +80,59 @@ internal suspend fun getCheckpoints(
   before: String?,
   last: Int?,
   after: String?,
-): Result<GetCheckpointsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetCheckpointsQuery(
-            first = Optional.presentIfNotNull(first),
-            before = Optional.presentIfNotNull(before),
-            last = Optional.presentIfNotNull(last),
-            after = Optional.presentIfNotNull(after),
-          )
-        )
-    }
-    .toResult()
+): Result<GetCheckpointsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetCheckpointsQuery(
+        first = Optional.presentIfNotNull(first),
+        before = Optional.presentIfNotNull(before),
+        last = Optional.presentIfNotNull(last),
+        after = Optional.presentIfNotNull(after),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getLatestSuiSystemState(
-  config: SuiConfig
-): Result<GetLatestSuiSystemStateQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetLatestSuiSystemStateQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetLatestSuiSystemStateQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetLatestSuiSystemStateQuery())
+}
+  .toResult()
 
 internal suspend fun getProtocolConfig(
   config: SuiConfig,
   protocolVersion: Int?,
-): Result<GetProtocolConfigQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(GetProtocolConfigQuery(protocolVersion = Optional.presentIfNotNull(protocolVersion)))
-    }
-    .toResult()
+): Result<GetProtocolConfigQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(GetProtocolConfigQuery(protocolVersion = Optional.presentIfNotNull(protocolVersion)))
+}
+  .toResult()
 
 internal suspend fun paginateCheckpointTransactionBlocks(
   config: SuiConfig,
   id: CheckpointId?,
   after: String?,
-): Result<PaginateCheckpointTransactionBlocksQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          PaginateCheckpointTransactionBlocksQuery(
-            sequenceNumber = Optional.presentIfNotNull(id?.toGenerated()),
-            Optional.presentIfNotNull(after),
-          )
-        )
-    }
-    .toResult()
+): Result<PaginateCheckpointTransactionBlocksQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      PaginateCheckpointTransactionBlocksQuery(
+        sequenceNumber = Optional.presentIfNotNull(id?.toGenerated()),
+        Optional.presentIfNotNull(after),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun paginateEpochValidators(
   config: SuiConfig,
   id: Long,
   after: String?,
-): Result<PaginateEpochValidatorsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(PaginateEpochValidatorsQuery(id, after = Optional.presentIfNotNull(after)))
-    }
-    .toResult()
+): Result<PaginateEpochValidatorsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(PaginateEpochValidatorsQuery(id, after = Optional.presentIfNotNull(after)))
+}
+  .toResult()
 
 internal fun subscribeCheckpoints(
   config: SuiConfig,

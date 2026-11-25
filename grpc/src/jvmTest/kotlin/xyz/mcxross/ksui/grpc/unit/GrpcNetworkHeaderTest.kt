@@ -31,12 +31,12 @@ class GrpcNetworkHeaderTest :
             intercept(
               object : GrpcServerInterceptor {
                 override fun <Request, Response> GrpcServerCallScope<Request, Response>.intercept(
-                  request: Flow<Request>
+                  request: Flow<Request>,
                 ): Flow<Response> = flow {
                   headerValue = requestHeaders["x-custom-header"]
                   proceedUnmodified(request)
                 }
-              }
+              },
             )
             services {
               registerService<SignatureVerificationService> {
@@ -52,7 +52,7 @@ class GrpcNetworkHeaderTest :
             network = Network.CUSTOM,
             fullNode = "http://localhost:$port",
             fullNodeConfig = FullNodeConfig(headers = mapOf("X-Custom-Header" to "CustomValue")),
-          )
+          ),
         )
       val client = SuiGrpcClient.fromConfig(config)
 

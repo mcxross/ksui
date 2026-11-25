@@ -18,8 +18,8 @@ package xyz.mcxross.ksui.internal
 
 import com.apollographql.apollo.api.Optional
 import xyz.mcxross.ksui.client.getGraphqlClient
-import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.exception.SdkErrorDetail
+import xyz.mcxross.ksui.core.exception.SuiError
 import xyz.mcxross.ksui.core.model.AccountAddress
 import xyz.mcxross.ksui.core.model.Holdings
 import xyz.mcxross.ksui.core.model.Result
@@ -34,41 +34,41 @@ internal suspend fun getHoldings(
   config: SuiConfig,
   address: AccountAddress,
   coinType: String,
-): Result<Holdings, SuiError> = when (val result = getBalance(config, address, coinType)) {
-  is Result.Err -> result
-  is Result.Ok -> {
-    val balance = result.value?.address?.balance
-    if (balance == null) {
-      Result.Err(SuiError(listOf(SdkErrorDetail("Balance unavailable for $address"))))
-    } else {
-      Result.Ok(
-        Holdings(
-          coinType = balance.coinType?.repr ?: coinType,
-          coinObjects = requireNotNull(balance.coinBalance).toString().toULong(),
-          addressBalance = requireNotNull(balance.addressBalance).toString().toULong(),
+): Result<Holdings, SuiError> =
+  when (val result = getBalance(config, address, coinType)) {
+    is Result.Err -> result
+    is Result.Ok -> {
+      val balance = result.value?.address?.balance
+      if (balance == null) {
+        Result.Err(SuiError(listOf(SdkErrorDetail("Balance unavailable for $address"))))
+      } else {
+        Result.Ok(
+          Holdings(
+            coinType = balance.coinType?.repr ?: coinType,
+            coinObjects = requireNotNull(balance.coinBalance).toString().toULong(),
+            addressBalance = requireNotNull(balance.addressBalance).toString().toULong(),
+          ),
         )
-      )
+      }
     }
   }
-}
 
 internal suspend fun getAllBalances(
   config: SuiConfig,
   address: AccountAddress,
   limit: Int?,
   cursor: String?,
-): Result<GetAllBalancesQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetAllBalancesQuery(
-            address.toString(),
-            limit = Optional.presentIfNotNull(limit),
-            cursor = Optional.presentIfNotNull(cursor),
-          )
-        )
-    }
-    .toResult()
+): Result<GetAllBalancesQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetAllBalancesQuery(
+        address.toString(),
+        limit = Optional.presentIfNotNull(limit),
+        cursor = Optional.presentIfNotNull(cursor),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getCoins(
   config: SuiConfig,
@@ -76,39 +76,41 @@ internal suspend fun getCoins(
   first: Int? = null,
   cursor: String? = null,
   type: String? = null,
-): Result<GetCoinsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetCoinsQuery(
-            address.toString(),
-            first = Optional.presentIfNotNull(first),
-            cursor = Optional.presentIfNotNull(cursor),
-            type = Optional.presentIfNotNull(type),
-          )
-        )
-    }
-    .toResult()
+): Result<GetCoinsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetCoinsQuery(
+        address.toString(),
+        first = Optional.presentIfNotNull(first),
+        cursor = Optional.presentIfNotNull(cursor),
+        type = Optional.presentIfNotNull(type),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getTotalSupply(
   config: SuiConfig,
   type: String,
-): Result<GetTotalSupplyQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetTotalSupplyQuery(type)) }.toResult()
+): Result<GetTotalSupplyQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetTotalSupplyQuery(type))
+}
+  .toResult()
 
 internal suspend fun getBalance(
   config: SuiConfig,
   address: AccountAddress,
   coinType: String?,
-): Result<GetBalanceQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(GetBalanceQuery(address.toString(), type = Optional.presentIfNotNull(coinType)))
-    }
-    .toResult()
+): Result<GetBalanceQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(GetBalanceQuery(address.toString(), type = Optional.presentIfNotNull(coinType)))
+}
+  .toResult()
 
 internal suspend fun getCoinMetadata(
   config: SuiConfig,
   coinType: String,
-): Result<GetCoinMetadataQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetCoinMetadataQuery(coinType)) }.toResult()
+): Result<GetCoinMetadataQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetCoinMetadataQuery(coinType))
+}
+  .toResult()

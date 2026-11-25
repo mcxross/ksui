@@ -52,8 +52,8 @@ internal fun <D : Subscription.Data> subscriptionResults(
   } catch (e: ApolloException) {
     emit(
       Result.Err(
-        SuiError(listOf(SdkErrorDetail(message = "GraphQL subscription failed: ${e.message}")))
-      )
+        SuiError(listOf(SdkErrorDetail(message = "GraphQL subscription failed: ${e.message}"))),
+      ),
     )
   } finally {
     if (closeOnFinish) {
@@ -63,33 +63,37 @@ internal fun <D : Subscription.Data> subscriptionResults(
 }
 
 private fun <D : Subscription.Data> ApolloResponse<D>.toSuiResult(): Result<D?, SuiError> {
-  errors?.takeIf { it.isNotEmpty() }?.let { graphQLErrors ->
-    return Result.Err(
-      SuiError(
-        graphQLErrors.map {
-          SdkErrorDetail(
-            message = it.message,
-            locations = it.locations?.map { loc -> ErrorLocation(loc.line, loc.column) },
-            path = it.path,
-            extensions = it.extensions,
-          )
-        }
+  errors
+    ?.takeIf { it.isNotEmpty() }
+    ?.let { graphQLErrors ->
+      return Result.Err(
+        SuiError(
+          graphQLErrors.map {
+            SdkErrorDetail(
+              message = it.message,
+              locations = it.locations?.map { loc -> ErrorLocation(loc.line, loc.column) },
+              path = it.path,
+              extensions = it.extensions,
+            )
+          },
+        ),
       )
-    )
-  }
+    }
   exception?.let { ex ->
     return Result.Err(
-      SuiError(listOf(SdkErrorDetail(message = "GraphQL subscription failed: ${ex.message}")))
+      SuiError(listOf(SdkErrorDetail(message = "GraphQL subscription failed: ${ex.message}"))),
     )
   }
-  data?.let { return Result.Ok(it) }
+  data?.let {
+    return Result.Ok(it)
+  }
   return Result.Err(
     SuiError(
       listOf(
         SdkErrorDetail(
-          message = "Unknown error: no data and no errors returned from GraphQL server"
-        )
-      )
-    )
+          message = "Unknown error: no data and no errors returned from GraphQL server",
+        ),
+      ),
+    ),
   )
 }

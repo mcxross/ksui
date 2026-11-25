@@ -65,17 +65,17 @@ internal suspend fun devInspectTransactionBlock(
   val transactionInput = mapOf("bcs" to mapOf("value" to txBytes))
 
   return handleQuery {
-      getGraphqlClient(config)
-        .query(
-          DevInspectTransactionBlockQuery(
-            transactionInput,
-            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options.showEffects),
-            showEvents = Optional.presentIfNotNull(options.showEvents),
-            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-          )
-        )
-    }
+    getGraphqlClient(config)
+      .query(
+        DevInspectTransactionBlockQuery(
+          transactionInput,
+          showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+          showEffects = Optional.presentIfNotNull(options.showEffects),
+          showEvents = Optional.presentIfNotNull(options.showEvents),
+          showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+        ),
+      )
+  }
     .toResult()
 }
 
@@ -88,18 +88,18 @@ internal suspend fun dryRunTransactionBlock(
   val transactionInput = mapOf("bcs" to mapOf("value" to txBytes))
 
   return handleQuery {
-      getGraphqlClient(config)
-        .query(
-          DryRunTransactionBlockQuery(
-            transaction = transactionInput,
-            doGasSelection = Optional.presentIfNotNull(doGasSelection),
-            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options.showEffects),
-            showEvents = Optional.presentIfNotNull(options.showEvents),
-            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-          )
-        )
-    }
+    getGraphqlClient(config)
+      .query(
+        DryRunTransactionBlockQuery(
+          transaction = transactionInput,
+          doGasSelection = Optional.presentIfNotNull(doGasSelection),
+          showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+          showEffects = Optional.presentIfNotNull(options.showEffects),
+          showEvents = Optional.presentIfNotNull(options.showEvents),
+          showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+        ),
+      )
+  }
     .toResult()
 }
 
@@ -108,75 +108,74 @@ internal suspend fun executeTransactionBlock(
   txBytes: String,
   signatures: List<String>,
   options: ExecuteTransactionBlockResponseOptions,
-): Result<ExecuteTransactionBlockMutation.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .mutation(
-          ExecuteTransactionBlockMutation(
-            txBytes,
-            signatures,
-            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options.showEffects),
-            showEvents = Optional.presentIfNotNull(options.showEvents),
-            showInput = Optional.presentIfNotNull(options.showInput),
-            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-          )
-        )
-    }
-    .toResult()
+): Result<ExecuteTransactionBlockMutation.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .mutation(
+      ExecuteTransactionBlockMutation(
+        txBytes,
+        signatures,
+        showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+        showEffects = Optional.presentIfNotNull(options.showEffects),
+        showEvents = Optional.presentIfNotNull(options.showEvents),
+        showInput = Optional.presentIfNotNull(options.showInput),
+        showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getTransactionBlock(
   config: SuiConfig,
   digest: String,
   options: TransactionBlockResponseOptions,
-): Result<GetTransactionBlockQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          GetTransactionBlockQuery(
-            digest,
-            showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
-            showEvents = Optional.presentIfNotNull(options.showEvents),
-            showInput = Optional.presentIfNotNull(options.showInput),
-            showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options.showRawInput),
-          )
-        )
-    }
-    .toResult()
+): Result<GetTransactionBlockQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      GetTransactionBlockQuery(
+        digest,
+        showBalanceChanges = Optional.presentIfNotNull(options.showBalanceChanges),
+        showEffects = Optional.presentIfNotNull(options.showEffects),
+        showRawEffects = Optional.presentIfNotNull(options.showRawEffects),
+        showEvents = Optional.presentIfNotNull(options.showEvents),
+        showInput = Optional.presentIfNotNull(options.showInput),
+        showObjectChanges = Optional.presentIfNotNull(options.showObjectChanges),
+        showRawInput = Optional.presentIfNotNull(options.showRawInput),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun getTotalTransactionBlocks(
-  config: SuiConfig
-): Result<GetTotalTransactionBlocksQuery.Data?, SuiError> =
-  handleQuery { getGraphqlClient(config).query(GetTotalTransactionBlocksQuery()) }.toResult()
+  config: SuiConfig,
+): Result<GetTotalTransactionBlocksQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config).query(GetTotalTransactionBlocksQuery())
+}
+  .toResult()
 
 internal suspend fun queryTransactionBlocks(
   config: SuiConfig,
   filter: TransactionBlockFilter?,
   options: TransactionBlockResponseOptions?,
-): Result<QueryTransactionBlocksQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          QueryTransactionBlocksQuery(
-            first = Optional.presentIfNotNull(options?.first),
-            last = Optional.presentIfNotNull(options?.last),
-            before = Optional.presentIfNotNull(options?.before),
-            after = Optional.presentIfNotNull(options?.after),
-            showBalanceChanges = Optional.presentIfNotNull(options?.showBalanceChanges),
-            showEffects = Optional.presentIfNotNull(options?.showEffects),
-            showRawEffects = Optional.presentIfNotNull(options?.showRawEffects),
-            showEvents = Optional.presentIfNotNull(options?.showEvents),
-            showInput = Optional.presentIfNotNull(options?.showInput),
-            showObjectChanges = Optional.presentIfNotNull(options?.showObjectChanges),
-            showRawInput = Optional.presentIfNotNull(options?.showRawInput),
-            filter = Optional.presentIfNotNull(filter?.toGenerated()),
-          )
-        )
-    }
-    .toResult()
+): Result<QueryTransactionBlocksQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      QueryTransactionBlocksQuery(
+        first = Optional.presentIfNotNull(options?.first),
+        last = Optional.presentIfNotNull(options?.last),
+        before = Optional.presentIfNotNull(options?.before),
+        after = Optional.presentIfNotNull(options?.after),
+        showBalanceChanges = Optional.presentIfNotNull(options?.showBalanceChanges),
+        showEffects = Optional.presentIfNotNull(options?.showEffects),
+        showRawEffects = Optional.presentIfNotNull(options?.showRawEffects),
+        showEvents = Optional.presentIfNotNull(options?.showEvents),
+        showInput = Optional.presentIfNotNull(options?.showInput),
+        showObjectChanges = Optional.presentIfNotNull(options?.showObjectChanges),
+        showRawInput = Optional.presentIfNotNull(options?.showRawInput),
+        filter = Optional.presentIfNotNull(filter?.toGenerated()),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun paginateTransactionBlockLists(
   config: SuiConfig,
@@ -187,22 +186,21 @@ internal suspend fun paginateTransactionBlockLists(
   afterEvents: String?,
   afterBalanceChanges: String?,
   afterObjectChanges: String?,
-): Result<PaginateTransactionBlockListsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          PaginateTransactionBlockListsQuery(
-            digest,
-            hasMoreEvents,
-            hasMoreBalanceChanges,
-            hasMoreObjectChanges,
-            afterEvents = Optional.presentIfNotNull(afterEvents),
-            afterBalanceChanges = Optional.presentIfNotNull(afterBalanceChanges),
-            afterObjectChanges = Optional.presentIfNotNull(afterObjectChanges),
-          )
-        )
-    }
-    .toResult()
+): Result<PaginateTransactionBlockListsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      PaginateTransactionBlockListsQuery(
+        digest,
+        hasMoreEvents,
+        hasMoreBalanceChanges,
+        hasMoreObjectChanges,
+        afterEvents = Optional.presentIfNotNull(afterEvents),
+        afterBalanceChanges = Optional.presentIfNotNull(afterBalanceChanges),
+        afterObjectChanges = Optional.presentIfNotNull(afterObjectChanges),
+      ),
+    )
+}
+  .toResult()
 
 internal suspend fun signTransaction(message: ByteArray, signer: Account): Result<ByteArray, E> =
   signer.sign(message)
@@ -279,14 +277,14 @@ internal suspend fun waitForTransaction(
   } catch (e: TimeoutCancellationException) {
     Result.Err(
       SuiError(
-        errors = listOf(SdkErrorDetail(message = "Timed out waiting for transaction $digest"))
-      )
+        errors = listOf(SdkErrorDetail(message = "Timed out waiting for transaction $digest")),
+      ),
     )
   } catch (e: CancellationException) {
     throw e
   } catch (e: Exception) {
     Result.Err(
-      SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected error: ${e.message}")))
+      SuiError(errors = listOf(SdkErrorDetail(message = "Unexpected error: ${e.message}"))),
     )
   }
 }

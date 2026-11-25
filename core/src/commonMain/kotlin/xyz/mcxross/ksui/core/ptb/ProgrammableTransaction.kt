@@ -65,7 +65,9 @@ class ProgrammableTransactionBuilder {
     get() = commands.toList()
 
   private fun addInput(arg: BuilderArg, value: CallArg): Argument {
-    inputIndexByArg[arg]?.let { return Argument.Input(it) }
+    inputIndexByArg[arg]?.let {
+      return Argument.Input(it)
+    }
     require(inputValues.size <= UShort.MAX_VALUE.toInt()) {
       "Maximum number of PTB inputs is ${UShort.MAX_VALUE}"
     }
@@ -124,7 +126,9 @@ class ProgrammableTransactionBuilder {
   @Throws(IllegalArgumentException::class)
   fun `object`(id: String): Argument {
     val normalizedId = normalizeSuiObjectId(id)
-    objectIndexByNormalizedId[normalizedId]?.let { return Argument.Input(it) }
+    objectIndexByNormalizedId[normalizedId]?.let {
+      return Argument.Input(it)
+    }
     val added =
       addInput(BuilderArg.ForcedNonUniqueObject(inputValues.size), CallArg.ObjectStr(normalizedId))
     objectIndexByNormalizedId[normalizedId] = (added as Argument.Input).index
@@ -299,13 +303,13 @@ class ProgrammableTransactionBuilder {
             id = ObjectId(AccountAddress.fromString(normalizedId)),
             initialSharedVersion = 1L,
             mutable = index in mutableInputs,
-          )
+          ),
         )
       } else {
         val suiObject =
           objectsMap[normalizedId]
             ?: throw IllegalStateException(
-              "Object ${callArg.id} not found on chain. (Normalized lookup: $normalizedId)"
+              "Object ${callArg.id} not found on chain. (Normalized lookup: $normalizedId)",
             )
         val resolvedObjectArg =
           when (val owner = suiObject.owner) {
@@ -328,7 +332,7 @@ class ProgrammableTransactionBuilder {
                   Reference(AccountAddress.fromString(suiObject.objectId)),
                   version,
                   ObjectDigest(Digest.fromString(digest)),
-                )
+                ),
               )
             }
           }

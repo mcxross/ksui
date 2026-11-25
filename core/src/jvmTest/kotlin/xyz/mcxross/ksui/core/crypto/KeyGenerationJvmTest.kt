@@ -15,7 +15,8 @@ class KeyGenerationJvmTest :
     }
 
     "generated secp256k1 and secp256r1 keys derive public keys and sign" {
-      val keys: List<PrivateKey> = List(3) { Secp256k1PrivateKey() } + List(3) { Secp256r1PrivateKey() }
+      val keys: List<PrivateKey> =
+        List(3) { Secp256k1PrivateKey() } + List(3) { Secp256r1PrivateKey() }
       keys.map { it.data.toList() }.toSet() shouldHaveSize 6
       for (key in keys) {
         key.publicKey.data shouldHaveSize 33

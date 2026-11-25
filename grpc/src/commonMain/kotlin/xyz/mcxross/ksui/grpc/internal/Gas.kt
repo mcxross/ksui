@@ -109,7 +109,8 @@ internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnviron
       // A missing field would otherwise budget only the safety overhead and fail on chain.
       computationCost =
         gasUsed.computationCost ?: throw SuiException("Simulation returned no computation cost"),
-      storageCost = gasUsed.storageCost ?: throw SuiException("Simulation returned no storage cost"),
+      storageCost =
+        gasUsed.storageCost ?: throw SuiException("Simulation returned no storage cost"),
       storageRebate =
         gasUsed.storageRebate ?: throw SuiException("Simulation returned no storage rebate"),
     )

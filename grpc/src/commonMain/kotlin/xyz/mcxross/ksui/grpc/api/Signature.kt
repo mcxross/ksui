@@ -14,7 +14,7 @@ import xyz.mcxross.ksui.grpc.protocol.Signature as SignatureProtocol
 
 internal class Signature(private val runtime: GrpcRuntime) : SignatureProtocol {
   override suspend fun verifySignature(
-    request: VerifySignatureRequest
+    request: VerifySignatureRequest,
   ): Result<VerifySignatureResponse, SuiError> = handleGrpc {
     internalVerifySignature(runtime, request)
   }

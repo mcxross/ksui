@@ -33,20 +33,19 @@ internal suspend fun queryEvents(
   after: String?,
   first: Int?,
   last: Int?,
-): Result<QueryEventsQuery.Data?, SuiError> =
-  handleQuery {
-      getGraphqlClient(config)
-        .query(
-          QueryEventsQuery(
-            filter = filter.toGenerated(),
-            before = Optional.presentIfNotNull(before),
-            after = Optional.presentIfNotNull(after),
-            first = Optional.presentIfNotNull(first),
-            last = Optional.presentIfNotNull(last),
-          )
-        )
-    }
-    .toResult()
+): Result<QueryEventsQuery.Data?, SuiError> = handleQuery {
+  getGraphqlClient(config)
+    .query(
+      QueryEventsQuery(
+        filter = filter.toGenerated(),
+        before = Optional.presentIfNotNull(before),
+        after = Optional.presentIfNotNull(after),
+        first = Optional.presentIfNotNull(first),
+        last = Optional.presentIfNotNull(last),
+      ),
+    )
+}
+  .toResult()
 
 internal fun subscribeEvents(
   config: SuiConfig,

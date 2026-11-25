@@ -27,17 +27,17 @@ fun String.toTxnDigest(): TransactionDigest = TransactionDigest(this)
 
 /** Extension functions to create [Argument.Input]s from various types. */
 inline fun <reified T : Any> ProgrammableTransactionBuilder.inputs(
-  vararg inputs: T
+  vararg inputs: T,
 ): List<Argument> = inputs.map { it as? Argument.Result ?: input(it) }
 
 inline fun <reified T : TypeTag> ProgrammableTransactionBuilder.types(
-  vararg types: T
+  vararg types: T,
 ): List<TypeTag> = types.toList()
 
 /**
  * Parses a Move type such as `u64`, `vector<u8>` or `0x2::coin::Coin<0x2::sui::SUI>`, including
- * nested type arguments. Whitespace between tokens is ignored; anything else that is not a
- * complete type fails rather than being dropped.
+ * nested type arguments. Whitespace between tokens is ignored; anything else that is not a complete
+ * type fails rather than being dropped.
  *
  * @throws IllegalArgumentException if the string is not a complete Move type.
  */

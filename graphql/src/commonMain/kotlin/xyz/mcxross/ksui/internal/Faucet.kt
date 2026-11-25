@@ -38,7 +38,7 @@ internal suspend fun requestTestTokens(
         RequestOptions.PostSuiRequestOptions(
           suiConfig = config,
           body = FaucetRequest(FixedAmountRequest(accountAddress.toString())),
-        )
+        ),
       )
     if (!response.status.isSuccess()) return Option.None
     val payload = response.body<FaucetResponse>()

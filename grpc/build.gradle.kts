@@ -171,7 +171,7 @@ mavenPublishing {
       javadocJar = JavadocJar.Dokka("dokkaGenerate"),
       sourcesJar = true,
       androidVariantsToPublish = listOf("debug", "release"),
-    )
+    ),
   )
 
   pom {
