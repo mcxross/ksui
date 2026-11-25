@@ -61,27 +61,32 @@ actual fun derivePrivateKeyFromMnemonic(
   path: String,
 ): ByteArray {
   val phrase = mnemonic.joinToString(" ")
-  return when (scheme) {
-    SignatureScheme.ED25519 ->
-      mnemonicDerivePrivateKey(
-        phrase,
-        "",
-        FastKryptoSignatureScheme.ED25519,
-        normalizeEd25519Path(path),
-      )
-    SignatureScheme.Secp256k1 ->
-      mnemonicDerivePrivateKey(phrase, "", FastKryptoSignatureScheme.SECP256K1, path)
-    SignatureScheme.Secp256r1 ->
-      mnemonicDerivePrivateKey(phrase, "", FastKryptoSignatureScheme.SECP256R1, path)
-    else -> throw SignatureSchemeNotSupportedException()
+  return mnemonicCall {
+    when (scheme) {
+      SignatureScheme.ED25519 ->
+        mnemonicDerivePrivateKey(
+          phrase,
+          "",
+          FastKryptoSignatureScheme.ED25519,
+          normalizeEd25519Path(path),
+        )
+      SignatureScheme.Secp256k1 ->
+        mnemonicDerivePrivateKey(phrase, "", FastKryptoSignatureScheme.SECP256K1, path)
+      SignatureScheme.Secp256r1 ->
+        mnemonicDerivePrivateKey(phrase, "", FastKryptoSignatureScheme.SECP256R1, path)
+      else -> throw SignatureSchemeNotSupportedException()
+    }
   }
 }
 
 actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): PublicKey =
   when (schema) {
-    SignatureScheme.ED25519 -> Ed25519PublicKey(ed25519PublicKeyFromPrivate(privateKey.data))
-    SignatureScheme.Secp256k1 -> Secp256k1PublicKey(secp256k1PublicKeyFromPrivate(privateKey.data))
-    SignatureScheme.Secp256r1 -> Secp256r1PublicKey(secp256r1PublicKeyFromPrivate(privateKey.data))
+    SignatureScheme.ED25519 ->
+      Ed25519PublicKey(privateKey.data.useThenWipe(::ed25519PublicKeyFromPrivate))
+    SignatureScheme.Secp256k1 ->
+      Secp256k1PublicKey(privateKey.data.useThenWipe(::secp256k1PublicKeyFromPrivate))
+    SignatureScheme.Secp256r1 ->
+      Secp256r1PublicKey(privateKey.data.useThenWipe(::secp256r1PublicKeyFromPrivate))
     else -> throw SignatureSchemeNotSupportedException()
   }
 
@@ -94,9 +99,9 @@ actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E
   try {
     val signature =
       when (privateKey) {
-        is Ed25519PrivateKey -> ed25519Sign(privateKey.data, message)
-        is Secp256k1PrivateKey -> secp256k1Sign(privateKey.data, message)
-        is Secp256r1PrivateKey -> secp256r1Sign(privateKey.data, message)
+        is Ed25519PrivateKey -> privateKey.data.useThenWipe { ed25519Sign(it, message) }
+        is Secp256k1PrivateKey -> privateKey.data.useThenWipe { secp256k1Sign(it, message) }
+        is Secp256r1PrivateKey -> privateKey.data.useThenWipe { secp256r1Sign(it, message) }
         else -> throw SignatureSchemeNotSupportedException()
       }
     Result.Ok(signature)
@@ -126,15 +131,35 @@ actual fun verifySignature(
   }
 
 private fun mnemonicKeyPair(phrase: String): KeyPair {
-  val keyPair: FastKryptoKeyPairBytes =
+  val keyPair: FastKryptoKeyPairBytes = mnemonicCall {
     mnemonicDeriveKeypair(
       phrase,
       "",
       FastKryptoSignatureScheme.ED25519,
       DEFAULT_ED25519_DERIVATION_PATH,
     )
+  }
   return KeyPair(keyPair.privateKey, keyPair.publicKey)
 }
+
+/** Hands a private-key copy to native code, then zeroes the copy so it does not linger. */
+private inline fun <T> ByteArray.useThenWipe(block: (ByteArray) -> T): T =
+  try {
+    block(this)
+  } finally {
+    fill(0)
+  }
+
+/**
+ * fastkrypto rejects a bad BIP-39 checksum or a word outside the English wordlist with an
+ * InvalidInput error that has no message. Report it as IllegalArgumentException, like the JS target.
+ */
+private inline fun <T> mnemonicCall(block: () -> T): T =
+  try {
+    block()
+  } catch (e: FastCryptoFfiException) {
+    throw IllegalArgumentException("Invalid mnemonic phrase or derivation path", e)
+  }
 
 private fun normalizeEd25519Path(path: String): String {
   val parts = path.trim().split("/")

@@ -108,7 +108,11 @@ abstract class Account : AutoCloseable {
       return when (scheme) {
         SignatureScheme.ED25519 -> {
           val keyPair = importFromMnemonic(normalizedPhrase)
-          Ed25519Account(Ed25519PrivateKey(keyPair.privateKey), normalizedPhrase)
+          try {
+            Ed25519Account(Ed25519PrivateKey(keyPair.privateKey), normalizedPhrase)
+          } finally {
+            keyPair.privateKey.fill(0)
+          }
         }
         SignatureScheme.Secp256k1 -> {
           val keyBytes =
@@ -117,7 +121,11 @@ abstract class Account : AutoCloseable {
               SignatureScheme.Secp256k1,
               Secp256k1Account.DERIVATION_PATH,
             )
-          Secp256k1Account(Secp256k1PrivateKey(keyBytes), normalizedPhrase)
+          try {
+            Secp256k1Account(Secp256k1PrivateKey(keyBytes), normalizedPhrase)
+          } finally {
+            keyBytes.fill(0)
+          }
         }
         SignatureScheme.Secp256r1 -> {
           val keyBytes =
@@ -126,7 +134,11 @@ abstract class Account : AutoCloseable {
               SignatureScheme.Secp256r1,
               Secp256r1Account.DERIVATION_PATH,
             )
-          Secp256r1Account(Secp256r1PrivateKey(keyBytes), normalizedPhrase)
+          try {
+            Secp256r1Account(Secp256r1PrivateKey(keyBytes), normalizedPhrase)
+          } finally {
+            keyBytes.fill(0)
+          }
         }
         else -> throw SignatureSchemeNotSupportedException()
       }

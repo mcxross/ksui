@@ -55,6 +55,9 @@ private external object Ed25519Module {
 private external object Bip39Module {
   fun generateMnemonic(wordlist: Array<String>, strength: Int = definedExternally): String
 
+  // Checks the checksum and wordlist membership; mnemonicToSeedSync checks neither.
+  fun validateMnemonic(mnemonic: String, wordlist: Array<String>): Boolean
+
   fun mnemonicToSeedSync(
     mnemonic: String,
     passphrase: String = definedExternally,
@@ -85,10 +88,9 @@ actual fun derivePublicKey(privateKey: PrivateKey, schema: SignatureScheme): Pub
   when (schema) {
     SignatureScheme.ED25519 ->
       Ed25519PublicKey(
-        Ed25519Module.ed25519
-          .getPublicKey(privateKey.data.toUint8Array())
-          .unsafeCast<Uint8Array>()
-          .toByteArray()
+        privateKey.data.useAsUint8ArrayThenWipe { key ->
+          Ed25519Module.ed25519.getPublicKey(key).unsafeCast<Uint8Array>().toByteArray()
+        }
       )
     else -> throw SignatureSchemeNotSupportedException()
   }
@@ -103,10 +105,12 @@ actual fun sign(message: ByteArray, privateKey: PrivateKey): Result<ByteArray, E
     when (privateKey) {
       is Ed25519PrivateKey ->
         Result.Ok(
-          Ed25519Module.ed25519
-            .sign(message.toUint8Array(), privateKey.data.toUint8Array())
-            .unsafeCast<Uint8Array>()
-            .toByteArray()
+          privateKey.data.useAsUint8ArrayThenWipe { key ->
+            Ed25519Module.ed25519
+              .sign(message.toUint8Array(), key)
+              .unsafeCast<Uint8Array>()
+              .toByteArray()
+          }
         )
       else -> throw SignatureSchemeNotSupportedException()
     }
@@ -121,10 +125,7 @@ actual fun derivePrivateKeyFromMnemonic(
 ): ByteArray =
   when (scheme) {
     SignatureScheme.ED25519 ->
-      deriveEd25519PrivateKey(
-        Bip39Module.mnemonicToSeedSync(mnemonic.joinToString(" "), "").toByteArray(),
-        path,
-      )
+      deriveEd25519PrivateKey(validatedSeed(mnemonic.joinToString(" ")), path)
     else -> throw SignatureSchemeNotSupportedException()
   }
 
@@ -160,17 +161,34 @@ actual fun secureRandomBytes(size: Int): ByteArray {
 }
 
 private fun mnemonicKeyPair(phrase: String): KeyPair {
-  val privateKey =
-    deriveEd25519PrivateKey(
-      Bip39Module.mnemonicToSeedSync(phrase, "").toByteArray(),
-      DEFAULT_ED25519_DERIVATION_PATH,
-    )
+  val privateKey = deriveEd25519PrivateKey(validatedSeed(phrase), DEFAULT_ED25519_DERIVATION_PATH)
   val publicKey =
     Ed25519Module.ed25519
       .getPublicKey(privateKey.toUint8Array())
       .unsafeCast<Uint8Array>()
       .toByteArray()
   return KeyPair(privateKey, publicKey)
+}
+
+/**
+ * fastkrypto (JVM, Android, Apple) rejects a bad checksum or unknown word, but @scure/bip39's
+ * mnemonicToSeedSync does not, so a typo would silently open a different wallet on JS only.
+ */
+private fun validatedSeed(phrase: String): ByteArray {
+  require(Bip39Module.validateMnemonic(phrase, EnglishWordlistModule.wordlist)) {
+    "Invalid mnemonic phrase or derivation path"
+  }
+  return Bip39Module.mnemonicToSeedSync(phrase, "").toByteArray()
+}
+
+private inline fun <T> ByteArray.useAsUint8ArrayThenWipe(block: (Uint8Array) -> T): T {
+  val array = toUint8Array()
+  try {
+    return block(array)
+  } finally {
+    array.asDynamic().fill(0)
+    fill(0)
+  }
 }
 
 private fun deriveEd25519PrivateKey(seed: ByteArray, path: String): ByteArray {

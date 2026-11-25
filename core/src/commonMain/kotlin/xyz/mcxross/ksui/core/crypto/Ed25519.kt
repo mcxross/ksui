@@ -58,7 +58,7 @@ class Ed25519PrivateKey(privateKey: ByteArray) : PrivateKey {
       require(scheme == SignatureScheme.ED25519) {
         "Unsupported scheme for Ed25519PrivateKey: $scheme"
       }
-      return derivePrivateKeyFromMnemonic(generateMnemonic().split(" "), SignatureScheme.ED25519)
+      return randomEd25519SecretKey()
     }
 
     private fun decodeEd25519KeyBytes(encoded: String): ByteArray {

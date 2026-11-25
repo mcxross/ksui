@@ -16,7 +16,6 @@
 package xyz.mcxross.ksui.core.crypto
 
 import xyz.mcxross.ksui.core.Hex
-import xyz.mcxross.ksui.core.account.Secp256k1Account
 import xyz.mcxross.ksui.core.exception.E
 import xyz.mcxross.ksui.core.model.Result
 
@@ -59,11 +58,7 @@ class Secp256k1PrivateKey(privateKey: ByteArray) : PrivateKey {
       require(scheme == SignatureScheme.Secp256k1) {
         "Unsupported scheme for Secp256k1PrivateKey: $scheme"
       }
-      return derivePrivateKeyFromMnemonic(
-        generateMnemonic().split(" "),
-        SignatureScheme.Secp256k1,
-        Secp256k1Account.DERIVATION_PATH,
-      )
+      return randomEcdsaSecretKey(SECP256K1_ORDER)
     }
 
     private fun decodeSecp256k1KeyBytes(encoded: String): ByteArray {
