@@ -373,19 +373,15 @@ what was missed with the matching List scan, then continue live, with no gaps
 and no duplicates.
 
 ```kotlin
-// Every transaction that touches an address.
-val filter = TransactionFilter {
-    terms = listOf(
-        TransactionTerm {
-            literals = listOf(
-                TransactionLiteral {
-                    predicate = TransactionLiteral.Predicate.AffectedAddress(
-                        AffectedAddressFilter { address = "0x..." }
-                    )
-                }
-            )
+// Transactions that touch my address and call into 0x2::coin, or change my NFT.
+val filter = transactionFilter {
+    anyOf {
+        allOf {
+            affectedAddress(me)
+            moveCall("0x2::coin")
         }
-    )
+        affectedObject(nftId)
+    }
 }
 
 client.transactionStream(resumeFrom = savedPosition, filter = filter).collect { result ->
@@ -394,6 +390,23 @@ client.transactionStream(resumeFrom = savedPosition, filter = filter).collect { 
     savedPosition = frame.resumeFrom // persist it to continue here after a restart
 }
 ```
+
+Conditions in a filter block must all hold. `anyOf { }` adds alternatives
+(a condition or an `allOf { }` group), and `not { }` negates one condition.
+Transaction filters can use `sender`, `affectedAddress`, `affectedObject`,
+`moveCall`, `emitModule`, `eventType`, `eventStreamHead` and `packageWrite`.
+`eventFilter { }` takes the four that apply to events:
+
+```kotlin
+val stakes = eventFilter {
+    eventType("0x3::validator::StakingRequestEvent")
+    not { sender(myBot) }
+}
+```
+
+The builders check Move paths and types and write addresses in full when the
+filter is built. That matters for raw `TransactionFilter`s too: the server
+rejects short addresses such as `0x2::coin` with `INVALID_ARGUMENT`.
 
 `resumeFrom = null` starts at the live tip, and `StreamPosition.atCheckpoint(n)`
 starts at checkpoint `n`. Transient errors such as `UNAVAILABLE` reconnect
