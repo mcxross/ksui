@@ -357,6 +357,16 @@ val client = SuiGrpcClient.fromConfig(config)
 val balance = client.getBalance(AccountAddress("0x..."))
 ```
 
+Each unary gRPC call gets a deadline of `ClientConfig.requestTimeout` (10 seconds
+by default) and fails with `DEADLINE_EXCEEDED` when the node doesn't answer in
+time. Streaming calls such as checkpoint subscriptions have no deadline. To
+change it, set `requestTimeout` in `ClientConfig`, or pass `requestTimeout` to
+`SuiGrpcClient.connect` (`null` turns it off).
+
+The libraries don't ship a logging backend. Add an SLF4J provider, such as
+`ch.qos.logback:logback-classic`, to your application if you want Ktor and gRPC
+logs on the JVM.
+
 ## What's included
 
 | Path | Description |
