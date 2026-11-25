@@ -16,12 +16,16 @@
 package xyz.mcxross.ksui.grpc
 
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.flow.Flow
 import kotlinx.rpc.grpc.append
 import kotlinx.rpc.grpc.client.GrpcClient
 import kotlinx.rpc.grpc.client.GrpcClientCallScope
 import kotlinx.rpc.grpc.client.GrpcClientConfiguration
 import kotlinx.rpc.grpc.client.GrpcClientInterceptor
+import kotlinx.rpc.grpc.descriptor.GrpcMethodType
+import kotlinx.rpc.grpc.descriptor.methodType
+import xyz.mcxross.ksui.core.client.ClientConfig
 import xyz.mcxross.ksui.core.model.SuiApiType
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.grpc.internal.GrpcRuntime
@@ -69,15 +73,31 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
         port = endpoint.port,
         usePlaintext = endpoint.usePlaintext,
         headers = config.fullNodeConfig.headers,
+        requestTimeout = config.clientConfig.requestTimeout.toRequestTimeout(),
         configure = configure,
       )
     }
 
+    /** Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default). */
     fun connect(
       host: String,
       port: Int,
       usePlaintext: Boolean = false,
       headers: Map<String, Any>? = null,
+      configure: GrpcClientConfiguration.() -> Unit = {},
+    ): SuiGrpcClient = connect(host, port, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
+
+    /**
+     * @param requestTimeout deadline for each unary call. Streaming calls such as checkpoint
+     *   subscriptions get no deadline. Pass `null` to disable it; an interceptor added in [configure]
+     *   can still set its own `callOptions.timeout`.
+     */
+    fun connect(
+      host: String,
+      port: Int,
+      usePlaintext: Boolean = false,
+      headers: Map<String, Any>? = null,
+      requestTimeout: Duration?,
       configure: GrpcClientConfiguration.() -> Unit = {},
     ): SuiGrpcClient {
       require(host.isNotBlank()) { "gRPC host must not be blank" }
@@ -89,15 +109,26 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
             credentials = plaintext()
           }
           applyHeaders(validatedHeaders)
+          applyUnaryDeadline(requestTimeout)
           configure()
         }
       return SuiGrpcClient(GrpcRuntime(client))
     }
 
+    /** Connects with a unary-call deadline of [ClientConfig.requestTimeout] (10 seconds by default). */
     fun connectTarget(
       target: String,
       usePlaintext: Boolean = false,
       headers: Map<String, Any>? = null,
+      configure: GrpcClientConfiguration.() -> Unit = {},
+    ): SuiGrpcClient = connectTarget(target, usePlaintext, headers, DEFAULT_REQUEST_TIMEOUT, configure)
+
+    /** @param requestTimeout deadline for each unary call; see the [connect] overload. */
+    fun connectTarget(
+      target: String,
+      usePlaintext: Boolean = false,
+      headers: Map<String, Any>? = null,
+      requestTimeout: Duration?,
       configure: GrpcClientConfiguration.() -> Unit = {},
     ): SuiGrpcClient {
       require(target.isNotBlank()) { "gRPC target must not be blank" }
@@ -108,11 +139,33 @@ class SuiGrpcClient private constructor(private val runtime: GrpcRuntime) :
             credentials = plaintext()
           }
           applyHeaders(validatedHeaders)
+          applyUnaryDeadline(requestTimeout)
           configure()
         }
       return SuiGrpcClient(GrpcRuntime(client))
     }
+
+    private val DEFAULT_REQUEST_TIMEOUT: Duration? = ClientConfig().requestTimeout.toRequestTimeout()
   }
+}
+
+private fun Long.toRequestTimeout(): Duration? = takeIf { it > 0 }?.milliseconds
+
+// Without a deadline a stalled node hangs the calling coroutine forever.
+private fun GrpcClientConfiguration.applyUnaryDeadline(timeout: Duration?) {
+  if (timeout == null || !timeout.isPositive() || timeout.isInfinite()) return
+  intercept(
+    object : GrpcClientInterceptor {
+      override fun <Request, Response> GrpcClientCallScope<Request, Response>.intercept(
+        request: Flow<Request>
+      ): Flow<Response> {
+        if (method.methodType == GrpcMethodType.UNARY && callOptions.timeout == null) {
+          callOptions.timeout = timeout
+        }
+        return proceed(request)
+      }
+    }
+  )
 }
 
 data class GrpcEndpoint(val host: String, val port: Int, val usePlaintext: Boolean) {
