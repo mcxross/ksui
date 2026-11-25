@@ -1,5 +1,6 @@
 package xyz.mcxross.ksui.grpc.unit
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import xyz.mcxross.ksui.core.model.FullNodeConfig
@@ -8,6 +9,7 @@ import xyz.mcxross.ksui.core.model.SuiApiType
 import xyz.mcxross.ksui.core.model.SuiConfig
 import xyz.mcxross.ksui.core.model.SuiSettings
 import xyz.mcxross.ksui.grpc.GrpcEndpoint
+import xyz.mcxross.ksui.grpc.SuiGrpcClient
 
 class GrpcSuiConfigTest :
   StringSpec({
@@ -44,5 +46,27 @@ class GrpcSuiConfigTest :
       endpoint.host shouldBe "custom-fullnode.com"
       endpoint.port shouldBe 80
       endpoint.usePlaintext shouldBe true
+    }
+
+    "GrpcEndpoint and SuiGrpcClient reject invalid ports and CRLF headers" {
+      shouldThrow<IllegalArgumentException> { GrpcEndpoint.fromUrl("https://node.test:0") }
+      shouldThrow<IllegalArgumentException> { GrpcEndpoint.fromUrl("https://node.test:70000") }
+      shouldThrow<IllegalArgumentException> { GrpcEndpoint.fromUrl("https://node.test:abc") }
+      shouldThrow<IllegalArgumentException> {
+        SuiGrpcClient.connect(
+          "localhost",
+          9000,
+          usePlaintext = true,
+          headers = mapOf("x-api-key" to "bad\r\ninjected: 1"),
+        )
+      }
+      shouldThrow<IllegalArgumentException> {
+        SuiGrpcClient.connect(
+          "localhost",
+          9000,
+          usePlaintext = true,
+          headers = mapOf("bad header" to "val"),
+        )
+      }
     }
   })

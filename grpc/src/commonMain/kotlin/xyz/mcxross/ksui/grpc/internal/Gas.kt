@@ -17,8 +17,11 @@ import xyz.mcxross.ksui.core.model.ObjectDigest
 import xyz.mcxross.ksui.core.model.ObjectReference
 import xyz.mcxross.ksui.core.model.Reference
 import xyz.mcxross.ksui.core.model.TransactionData
+import xyz.mcxross.ksui.core.model.selectTopGasCoins
 import xyz.mcxross.ksui.core.util.MAX_GAS_PAYMENT_OBJECTS
 import xyz.mcxross.ksui.core.util.bcsEncode
+
+private const val MAX_GAS_COIN_PAGES = 20
 
 internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnvironment {
 
@@ -50,6 +53,7 @@ internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnviron
   override suspend fun coins(owner: AccountAddress): List<CoinObject> {
     val coins = mutableListOf<CoinObject>()
     var pageToken: ByteString? = null
+    var pages = 0
     do {
       val page =
         listOwnedObjects(
@@ -59,27 +63,37 @@ internal class GrpcGasEnvironment(private val runtime: GrpcRuntime) : GasEnviron
           readMask = readMask("object_id", "version", "digest", "balance"),
           objectType = "0x2::coin::Coin<$DEFAULT_SUI_COIN_TYPE>",
         )
-      page.objects.mapTo(coins) { coin ->
-        CoinObject(
-          ObjectReference(
-            Reference(AccountAddress.fromString(requireNotNull(coin.objectId))),
-            requireNotNull(coin.version).toLong(),
-            ObjectDigest(Digest(requireNotNull(coin.digest))),
-          ),
-          requireNotNull(coin.balance),
-        )
+      val pageCoins =
+        page.objects.map { coin ->
+          CoinObject(
+            ObjectReference(
+              Reference(AccountAddress.fromString(requireNotNull(coin.objectId))),
+              requireNotNull(coin.version).toLong(),
+              ObjectDigest(Digest(requireNotNull(coin.digest))),
+            ),
+            requireNotNull(coin.balance),
+          )
+        }
+      selectTopGasCoins(coins, pageCoins, MAX_GAS_PAYMENT_OBJECTS)
+      pages++
+      val next = page.nextPageToken?.takeIf { it.size > 0 }
+      if (next != null && next == pageToken) {
+        throw SuiException("gRPC gas coin pagination did not advance")
       }
-      pageToken = page.nextPageToken?.takeIf { it.size > 0 }
-    } while (pageToken != null && coins.size < MAX_GAS_PAYMENT_OBJECTS)
+      pageToken = next
+    } while (pageToken != null && pages < MAX_GAS_COIN_PAGES)
     return coins
   }
 
   override suspend fun simulate(transaction: TransactionData): GasCostSummary {
+    val needsServerGasSelection =
+      transaction is TransactionData.V1 && transaction.gasData.payment.isEmpty()
     val effects =
       simulateTransaction(
           runtime,
           bcsEncode(transaction),
           readMask("transaction.effects.status", "transaction.effects.gas_used"),
+          doGasSelection = if (needsServerGasSelection) true else null,
         )
         .transaction
         .effects
