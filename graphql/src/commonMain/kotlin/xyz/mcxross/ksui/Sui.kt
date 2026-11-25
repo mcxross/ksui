@@ -17,6 +17,7 @@
 
 package xyz.mcxross.ksui
 
+import kotlin.concurrent.Volatile
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import xyz.mcxross.ksui.client.withClientInitLock
@@ -33,11 +34,26 @@ import xyz.mcxross.ksui.protocol.Transaction
 
 @ObjCName(swiftName = "SuiKitDefaults")
 object SuiKit {
-  lateinit var client: Sui
-    private set
+  @Volatile private var default: Sui? = null
+
+  /**
+   * The client that `ptb {}`, `compose` and the sponsored-transaction helpers use when none is
+   * passed. Every `Sui(makeDefault = true)` replaces it, so code that talks to more than one network
+   * should pass its client explicitly. Closing the default client clears it.
+   */
+  val client: Sui
+    get() =
+      default
+        ?: throw IllegalStateException(
+          "No default Sui client: create Sui(config) with makeDefault = true, or pass a client"
+        )
 
   internal fun setDefault(client: Sui) {
-    withClientInitLock { this.client = client }
+    withClientInitLock { default = client }
+  }
+
+  internal fun clearDefault(client: Sui) {
+    withClientInitLock { if (default === client) default = null }
   }
 }
 
@@ -59,6 +75,8 @@ class Sui(config: SuiConfig = SuiConfig(), makeDefault: Boolean = true) :
   }
 
   override fun close() {
+    // A closed default would otherwise fail later, deep inside a request.
+    SuiKit.clearDefault(this)
     config.close()
   }
 }
