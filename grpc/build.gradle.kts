@@ -65,6 +65,7 @@ kotlin {
   sourceSets {
     commonMain {
       proto {
+        // sui/rpc/v2 is copied unchanged from MystenLabs/sui-apis@d1769c13 (2026-11-24).
         fileImports.from(fileTree("src/commonMain/proto") { include("google/protobuf/**/*.proto") })
         include("google/rpc/error_details.proto")
         include("google/rpc/status.proto")
