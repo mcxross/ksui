@@ -1,0 +1,5 @@
+# Formatting-only commits, skipped by git blame (git config blame.ignoreRevsFile .git-blame-ignore-revs)
+# and by GitHub blame.
+
+# style: format Kotlin sources with ktfmt --google-style
+3cb40392f732b4fe58f334b126259dd46fe961ef
